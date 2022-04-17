@@ -1,0 +1,216 @@
+<template>
+    <audio v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false' @play='data.player.playing=true'
+        @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr" @canplay="showLong"></audio>
+    <div class="toplab">
+        <div class="tl-title">BlurLyric</div>
+        <div class="linkbox">
+            <router-link id="link-musicLib-me" :to="{path:'/'}">我</router-link>
+            <router-link id="link-musicLib" :to="{path:'/'}">音乐库</router-link>
+            <router-link :to="{path:'/found'}">发现</router-link>
+        </div>
+        <input placeholder="搜索框" v-model="searchBox" type="none" id="searchInput">
+    </div>
+
+    <div class="viewBox" v-if="(data.player.uiDisplay.mainDisplay != 'top')">
+        <div class="opes" v-bind:class="this.$route.name" v-if="(!data.user.account)">
+            <h2>您似乎还 没有登录<br>点击登录来获取最佳体验</h2>
+            <div class="linkbox bigger">
+
+                <router-link @changetrack="changeTrack" :to="{path:'/loginUser'}">去登录</router-link>
+            </div>
+        </div>
+
+        <router-view :data="data" />
+    </div>
+    <div id="player">
+        <!--迷你控制器-->
+        <div class="player-Mini">
+            <div @click="mainDisplayChange()">
+                <img style="display:inline-block;user-select: none;border-radius: 13px;height: var(--minplayerHeight);width:var(--minplayerHeight);"
+                    v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+                <div class="player-Mini-Title">
+                    <h1>{{data.player.tracks[data.player.trackNum].name}} <a
+                            v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
+                            style="color: rgba(44,62,80,0.5)"> {{alia}}</a></h1>
+                    <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}} </a>
+                    </h2>
+                </div>
+            </div>
+            <div class="linkbox">
+                <!--播放按键-->
+                <!--喜欢按钮-->
+                <a @click="loveMusic()"
+                    v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
+                    style="color:red;user-select:none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                        class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /></svg>
+                </a>
+                <a @click="loveMusic()"
+                    v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
+                    style="user-select:none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                        class="bi bi-heart" viewBox="0 0 16 16">
+                        <path
+                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                        </svg>
+                </a>
+                <!--上一曲-->
+                <a class="minWidthUnneed" @click="upMusic()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-skip-start" viewBox="0 0 16 16">
+                        <path
+                            d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
+                        =</svg>
+                </a>
+
+                <!--播放按键-->
+                <a @click="plays()">
+                    <!--未播放样式-->
+                    <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path
+                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                        </svg>
+                    <!--正播放样式-->
+                    <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
+                        </svg>
+                </a>
+                <!--下一曲-->
+                <a @click="nextMusic()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-skip-end" viewBox="0 0 16 16">
+                        <path
+                            d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
+                        </svg>
+                </a>
+
+
+            </div>
+        </div>
+        <div v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
+            v-if="data.player.uiDisplay.mainDisplay != buttom" class="player-background"></div>
+        <!--
+        主UI界面
+      -->
+        <!--控制界面按钮-->
+        <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom')">
+            <div @click="mainDisplayChange()" class="playerUIControl-Buttom">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="bi bi-arrow-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+                </svg>
+            </div>
+        </div>
+        <!--display-->
+        <div>
+            <div class="playerDisplayOutBox" v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
+                <div class="left-side playerIndexSide">
+                    <div>
+                        <!--图像-->
+                        <div class="left-sideImage">
+                            <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl" alt="">
+                        </div>
+                        <!--标题条-->
+                        <div class="player-Title">
+                            <h1>{{data.player.tracks[data.player.trackNum].name}} <a
+                                    v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
+                                    style="color: rgba(44,62,80,0.5)"> {{alia}}</a></h1>
+                            <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar"
+                                    :key="item.id">{{item.name}} </a></h2>
+
+                            <div class="linkbox">                            <a @click="loveMusic()"
+                                v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
+                                style="padding: 8px 10px 6px 10px;color:red;user-select:none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                    </svg>
+                            </a>
+                            <a @click="loveMusic()"
+                                v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
+                                style="padding: 8px 10px 6px 10px;user-select:none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-heart" viewBox="0 0 16 16">
+                                    <path
+                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                    </svg>
+                            </a></div>
+                        </div>
+                        <!--进度条-->
+                        <div class="musicContorlCurrTime"
+                            style="flex-direction: row; margin-top: 15px; display: flex; gap: 10px;align-items: center; justify-content: space-between;">
+                            <div>{{formTime(data.player.uiDisplay.currTime)}}</div>
+                            <div class="mCside"></div>
+                            <div>{{formTime(data.player.uiDisplay.duration)}}</div>
+                        </div>
+                        <!--播放按键-->
+                        <div class="linkbox">
+
+                            <!--上一曲-->
+                            <a @click="upMusic()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    class="bi bi-skip-start" viewBox="0 0 16 16">
+                                    <path
+                                        d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
+                                    =</svg>
+                            </a>
+
+                            <!--播放按键-->
+                            <a @click="plays()">
+                                <!--未播放样式-->
+                                <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="currentColor" class="bi bi-play-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                                    </svg>
+                                <!--正播放样式-->
+                                <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" fill="currentColor" class="bi bi-pause-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
+                                    </svg>
+                            </a>
+                            <!--下一曲-->
+                            <a @click="nextMusic()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    class="bi bi-skip-end" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
+                                    </svg>
+                            </a>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="right-side playerIndexSide">
+
+                    <div id="lyric">
+                        <div id="lyricGunDong">
+                            <ul id="lyrics" v-if="(data.player.now.oLRC.tran == true)">
+                                <li class="lyricGunDong" v-for="item in data.player.now.oLRC.ms" v-bind:key="item.t">
+                                    <h1>{{item.c}}</h1>
+                                    <h2>{{item.tranC}}</h2>
+                                </li>
+                            </ul>
+                            <ul id="lyrics" v-if="(data.player.now.oLRC.tran == false)">
+                                <li v-for="item in data.player.now.oLRC.ms" v-bind:key="item.t">
+                                    <h1>{{item.c}}</h1>
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
