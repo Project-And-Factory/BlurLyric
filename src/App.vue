@@ -11,7 +11,7 @@
         <input placeholder="搜索框" v-on:keydown.enter="search" type="none" id="searchInput">
     </div>
 
-    <div class="viewBox" v-if="(data.player.uiDisplay.mainDisplay != 'top')">
+    <div class="viewBox">
         <div class="opes" v-bind:class="this.$route.name" v-if="(!data.user.account)">
             <h2>您似乎还 没有登录<br>点击登录来获取最佳体验</h2>
             <div class="linkbox bigger">
@@ -100,11 +100,9 @@
         <!--控制界面按钮-->
         <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom')">
             <div @click="mainDisplayChange()" class="playerUIControl-Buttom">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                    class="bi bi-arrow-down" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
-                </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
+              </svg>
             </div>
         </div>
         <!--display-->
@@ -115,6 +113,41 @@
                         <!--图像-->
                         <div class="left-sideImage">
                             <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl" alt="">
+                            <div v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + ')'" class="sideImageCard">
+                              <div class="sideImageCardDorpBlur">
+                                <a>
+                                  {{data.player.tracks[data.player.trackNum].al.name}}
+                                </a>
+                                <!--喜欢按钮-->
+                                <a @click="loveMusic()"
+                                    v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
+                                    style="padding: 8px 10px 6px 10px;color:red;user-select:none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                        </svg>
+                                </a>
+                                <a @click="loveMusic()"
+                                    v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
+                                    style="padding: 8px 10px 6px 10px;user-select:none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path
+                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                </a>
+                                <!--下载按钮-->
+                                <a v-bind:href="data.player.now.musicUrl" v-bind:download="data.player.tracks[data.player.trackNum].name"
+                                    style="padding: 8px 10px 6px 10px;user-select:none">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                  </svg>
+                                </a>
+
+                              </div>
+                            </div>
                         </div>
                         <!--标题条-->
                         <div class="player-Title">
@@ -123,26 +156,6 @@
                                     style="color: rgba(44,62,80,0.5)"> {{alia}}</a></h1>
                             <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar"
                                     :key="item.id">{{item.name}} </a></h2>
-                                                    <div class="linkbox">
-                            <!--喜欢按钮-->
-                            <a @click="loveMusic()"
-                                v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
-                                style="padding: 8px 10px 6px 10px;color:red;user-select:none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                    class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                    </svg>
-                            </a>
-                            <a @click="loveMusic()"
-                                v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
-                                style="padding: 8px 10px 6px 10px;user-select:none">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                    class="bi bi-heart" viewBox="0 0 16 16">
-                                    <path
-                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                                    </svg>
-                            </a></div>
                         </div>
                         <!--进度条-->
                         <div class="musicContorlCurrTime"
@@ -195,16 +208,18 @@
                 <div class="right-side playerIndexSide">
 
                     <div id="lyric">
-                        <div v-bind:style="  'transform: translateY('+data.player.uiDisplay.lyricTopPx+');'" id="lyricGunDong">
+                        <div id="lyricGunDong">
                             <ul id="lyrics" v-if="(data.player.now.oLRC.tran == true)">
-                                <li v-for="(item) in data.player.now.oLRC.ms" v-bind:key="item.t">
+                                <li @click="$refs.audio.currentTime = item.t" v-for="(item) in data.player.now.oLRC.ms" v-bind:key="item.t">
                                     <h1>{{item.c}}</h1>
                                     <h2>{{item.tranC}}</h2>
+                                    <div>{{formTime(parseInt(item.t))}}</div>
                                 </li>
                             </ul>
                             <ul id="lyrics" v-if="(data.player.now.oLRC.tran == false)">
-                                <li v-for="item in data.player.now.oLRC.ms" v-bind:key="item.t">
+                                <li @click="$refs.audio.currentTime = item.t" v-for="item in data.player.now.oLRC.ms" v-bind:key="item.t">
                                     <h1>{{item.c}}</h1>
+                                    <div>{{formTime(parseInt(item.t))}}</div>
                                 </li>
                             </ul>
                         </div>
@@ -219,10 +234,11 @@ import reTools from './network/getData'
 import './style.css'
 
 var bodyHeight = document.documentElement.clientHeight
-console.log(bodyHeight);
 window.addEventListener('resize', getWindowInfo)
 function getWindowInfo() {
   bodyHeight = document.documentElement.clientHeight
+console.log(bodyHeight);
+
 }
  
 export default {
@@ -242,7 +258,6 @@ export default {
               realCurrTime: 0,
               currTime:0,
               progress:0,
-              lyricTopPx: '0px',
               LineNum: 0
             },
           now:{
@@ -353,6 +368,7 @@ export default {
 
   created() {
     this.loginInfor();
+    this.lyricSet()
     bodyHeight = document.documentElement.clientHeight
   }
   ,
@@ -437,13 +453,34 @@ export default {
       let tranLRC
       if (tran) {
         tranLRC = this.Lrcsplit(tran)
-        for(let num in tranLRC){
-          let obj = norLRC.find(o=>o.t == tranLRC[num].t)
-          oLRC.ms.push({ //对象{t:时间,c:歌词}加入ms数组
-            t: obj.t,
-            c: obj.c,
-            tranC: tranLRC[num].c
-        })
+        for(let num in norLRC){
+          let obj = tranLRC.find(o=>o.t == norLRC[num].t)
+          if (obj) {
+            console.log(obj);
+          }
+          //如果能找到对应的翻译歌词
+          if (obj){
+            if (!obj.t) {
+              obj.t = 0
+            }
+            //插入tranContent
+            oLRC.ms.push({ //对象{t:时间,c:歌词}加入ms数组
+              t: norLRC[num].t,
+              c: norLRC[num].c,
+              tranC: obj.c
+            })
+          
+          } else {
+            //无法找到，原文照抄
+            oLRC.ms.push({ //对象{t:时间,c:歌词}加入ms数组
+              t: norLRC[num].t,
+              c: norLRC[num].c,
+              tranC: ''
+            })
+          }
+
+
+          
         }
         oLRC.tran = true
       } else {
@@ -458,6 +495,7 @@ export default {
       
     
     },
+    //格式化歌词文件
     Lrcsplit(lrc){
       let lrcs = lrc.split('\n');
 
@@ -504,42 +542,70 @@ export default {
       let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
       return min + ':' + s
     },
-    async getCurr(){//音频进度转换
-
-      let currTime =parseInt(this.$refs.audio.currentTime)
-      this.data.player.uiDisplay.realCurrTime =currTime
-      this.data.player.uiDisplay.currTime = currTime
-      this.data.player.uiDisplay.progress = this.curr / this.duration * 100
-      //开始设置歌词
+    async lyricSet(){
+      setTimeout(()=>{this.lyricSet()}, 50);
+      if (this.data.player.playing == true && this.data.player.uiDisplay.displayPlayBox != 'buttom') {
+        
       let lyrics = document.getElementById('lyrics')
 
       let lis = lyrics.getElementsByTagName("li")
+      let currTime
+      if (document.querySelector('#audio')) {
+         currTime = parseInt(document.querySelector('#audio').currentTime)
+      } else {
+        return 0
+      }
 
       if (lis.length == 0) {
         return
       }
-      let lyricNum = 0
+      let lyricNum = -1;
       for (let num in this.data.player.now.oLRC.ms) {
-        if (this.data.player.now.oLRC.ms[num].t>(currTime+0.35) && num - 1 >= 0) {
-          lyricNum = (num - 1)
-          break
+        if (this.data.player.now.oLRC.ms[num].t <= currTime+0.6 ) {
+          lyricNum ++
         }
       }
+      if (this.data.player.uiDisplay.LineNum != lyricNum){
+        this.data.player.uiDisplay.LineNum = lyricNum
 
-      lis[lyricNum].className = 'lineHeight'
-      for (let num = 0 ;num < lis.length; num++) {
-        if (num != lyricNum && lis[num]) {
-          lis[num].className = ''
+        if (lis[lyricNum]) {
+          lis[lyricNum].className = 'lineHeight'
         }
-      }
-      this.data.player.uiDisplay.LineNum = lyricNum
-      let lineNoTop = 0;
-      for (let i = 0; i <= lyricNum; i++) {
-        lineNoTop += lis[i].clientHeight + 15;
-      }
-      let lineNoTopPX = ((bodyHeight/2)-lineNoTop)
-      this.data.player.uiDisplay.lyricTopPx = lineNoTopPX + 'px'
+        for (let num = 0 ;num < lis.length; num++) {
+          if (num != lyricNum && lis[num]) {
+            lis[num].className = ''
+          }
+        }
+        this.data.player.uiDisplay.LineNum = lyricNum
+        let lineNoTop = 0;
+        for (let i = 0; i <= lyricNum; i++) {
+          lineNoTop += lis[i].clientHeight + 8;
+          if (i==lyricNum) {
+            lineNoTop += -0.5 * (lis[i].clientHeight + 8);
+          }
+        }
+        let lineNoTopPX = ((bodyHeight/2)-lineNoTop)
+        if (document.querySelector('#lyricGunDong')) {
+          document.querySelector('#lyricGunDong').style.transform= 'translateY(' + lineNoTopPX + 'px)'
+        }
+        this.data.player.uiDisplay.lyricTopPx = lineNoTopPX + 'px'
+        }
 
+      }
+    }
+    ,
+    async getCurr(){//音频进度转换
+
+      let currTime
+      if (document.querySelector('#audio')) {
+         currTime = parseInt(document.querySelector('#audio').currentTime)
+      } else {
+        return 0
+      }
+      this.data.player.uiDisplay.realCurrTime =currTime
+      this.data.player.uiDisplay.currTime = currTime
+      this.data.player.uiDisplay.progress = this.curr / this.duration * 100
+      //开始设置歌词
       //枚举获得歌词高度
 
       //for (let num = 0; num < lyrics.length; num++) {
@@ -650,7 +716,7 @@ export default {
       }
 
     },
-    loveMusic(id){
+    async loveMusic(id){
       let RealID
       if (id != undefined ) {
         RealID = id
@@ -661,12 +727,23 @@ export default {
         reTools.getData('/like',{
           id: RealID,
           like: false,timetamp: (Number(new Date()))
-        }).then(this.refuseMyLove())} else {
+        }).then(()=>{
+          for (const num in this.data.musicListInfor.myLove.aRtrackIds) {
+            if (this.data.musicListInfor.myLove.aRtrackIds[num] == RealID) {
+              this.data.musicListInfor.myLove.aRtrackIds.splice(num,1)
+              break
+            }
+          }
+          this.refuseMyLove()
+        })} else {
         reTools.getData('/like',{
           id: RealID,
           like: true,timetamp: (Number(new Date()))
           
-        }).then(this.refuseMyLove())
+        }).then(()=>{
+          this.data.musicListInfor.myLove.aRtrackIds.push(RealID)
+          this.refuseMyLove()
+        })
         }
       },
       
