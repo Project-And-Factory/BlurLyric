@@ -162,19 +162,9 @@ export default {
         position: relative;
         height: max-content;
         margin-bottom: 10px;
-        animation: spawnTracks 0.8s cubic-bezier(.3,.45,.2,.95);
 
     }
-    @keyframes spawnTracks {
-        from {
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-        to {
-            margin-top: 0px;
-            margin-bottom: 10px;
-        }
-    }
+
     .tracks{
         position: relative;
         

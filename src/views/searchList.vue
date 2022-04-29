@@ -167,12 +167,11 @@ export default {
             margin-bottom: 10px;
         }
     }
-    .tracks{
+    .row-two>div>.track>.tracks{
         position: relative;
         
     }
-    .track{}
-    .track-infor{
+    .row-two>div>.track>.tracks>.track-infor{
         display: flex;
         gap: 10px;
         position: relative;
@@ -185,10 +184,10 @@ export default {
         background-image: linear-gradient(to right,#d1d1d1,#e5e5e5);
         transition:all .2s cubic-bezier(.3,.45,.2,.95);
     }
-    .track-infor:active{
+    .row-two>div>.track>.tracks>.track-infor:active{
         transform: scale(0.98);
     }
-    .track-img{
+    .row-two>div>.track>.tracks>.track-infor>.track-img{
         height: 48px;
         width: 48px;
         min-height: 48px;
@@ -197,12 +196,12 @@ export default {
         background-position: 50% 50%;
         background-size: cover;
     }
-    .trackTitle{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle{
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .trackTitle>*{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle>*{
          margin: 3px 0;
          user-select: none;
         white-space: nowrap;
@@ -210,28 +209,28 @@ export default {
         text-overflow: ellipsis;
     
     }
-    .trackTitle>h1{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle>h1{
         font-size: 18px;
        
     }
-    .trackTitle>h2{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle>h2{
         font-size: 14px;
         color: rgba(44,62,80,0.8);
     }
-    .track-buttom{
+    .row-two>div>.track>.tracks>.track-buttom{
         position: absolute;
         left: 100%;
         top: 50%;
         transform: translate(calc(-100% - 20px),-50%);
     }
-    .track-buttom>.linkbox.bigger>a{
+    .row-two>div>.track>.tracks>.track-buttom>.linkbox.bigger>a{
         backdrop-filter: blur(8px);
     }
-        .track>div{
+        .row-two>div>.track>div{
         position: relative;
         border-radius: 11px;
     }
-    .track-img{
+    .row-two>div>.track>.tracks>.track-infor>.track-img{
         height:36px;
         width: 36px;
         min-height: 36px;
@@ -240,7 +239,7 @@ export default {
         background-position: 50% 50%;
         background-size: cover;
     }
-        .trackTitle>*{
+        .row-two>div>.track>.tracks>.track-infor>.trackTitle>*{
          margin: 2px 0;
          user-select: none;
         white-space: nowrap;
@@ -248,15 +247,15 @@ export default {
         text-overflow: ellipsis;
     
     }
-    .trackTitle>h1{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle>h1{
         font-size: 15px;
        
     }
-    .trackTitle>h2{
+    .row-two>div>.track>.tracks>.track-infor>.trackTitle>h2{
         font-size: 10px;
         
     }
-    .track-buttom>.linkbox.bigger>a{
+    .row-two>div>.track>.tracks>.track-buttom>.linkbox.bigger>a{
         backdrop-filter: blur(8px);
         padding: 8px 10px 5px 10px;
     }

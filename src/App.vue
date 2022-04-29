@@ -1,7 +1,7 @@
 <template>
-    <audio v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false' @play='data.player.playing=true'
+    <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false' @play='data.player.playing=true'
         @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr" @canplay="showLong"></audio>
-    <div class="toplab">
+    <div class="acrylicEffect toplab ">
         <div class="tl-title">BlurLyric</div>
         <div class="linkbox">
             <router-link id="link-musicLib-me" :to="{path:'/'}">我</router-link>
@@ -114,7 +114,7 @@
                         <div class="left-sideImage">
                             <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl" alt="">
                             <div v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + ')'" class="sideImageCard">
-                              <div class="sideImageCardDorpBlur">
+                              <div class="acrylicEffect sideImageCardDorpBlur">
                                 <a>
                                   {{data.player.tracks[data.player.trackNum].al.name}}
                                 </a>
@@ -237,7 +237,6 @@ var bodyHeight = document.documentElement.clientHeight
 window.addEventListener('resize', getWindowInfo)
 function getWindowInfo() {
   bodyHeight = document.documentElement.clientHeight
-console.log(bodyHeight);
 
 }
  
@@ -250,6 +249,7 @@ export default {
         
         
         player:{
+          loop: false,
           playing: false,
           uiDisplay: {
               displayPlayBox: 'grid',
@@ -272,20 +272,19 @@ export default {
           trackNum: 0,
           tracks:[
 {
-    "name": "群青",
-    "id": 1472480890,
+    "name": "",
+    "id": 0,
     "pst": 0,
     "t": 0,
     "ar": [
         {
-            "id": 33927412,
-            "name": "YOASOBI",
+            "id": 0,
+            "name": "",
             "tns": [],
             "alias": []
         }
     ],
     "alia": [
-        "BOURBON波路梦「帆船mini巧克力饼干」新CM曲"
     ],
     "pop": 100,
     "st": 0,
@@ -295,12 +294,12 @@ export default {
     "crbt": null,
     "cf": "",
     "al": {
-        "id": 94214994,
-        "name": "群青",
-        "picUrl": "https://p2.music.126.net/sF9I_mKMVNtsCD-ZXzfV_A==/109951165251958014.jpg",
+        "id": 0,
+        "name": "",
+        "picUrl": "/icon.svg",
         "tns": [],
-        "pic_str": "109951165251958014",
-        "pic": 109951165251958020
+        "pic_str": "0",
+        "pic": 0
     },
     "dt": 248444,
     "h": {
@@ -427,7 +426,7 @@ export default {
         */
         let randomID= this.data.musicListInfor.myLove.data.playlist.tracks[Math.round(Math.random()*this.data.musicListInfor.myLove.data.playlist.tracks.length)].id
         reTools.getData('/lyric',{id:randomID}).then(r=>{
-          let ms = this.setcreateLrcObj(r.lrc.lyric).ms
+          let ms = this.Lrcsplit(r.lrc.lyric)
           let content = '';
           let counts = 0
           getSomeLyric:for (const num in ms) {
@@ -456,7 +455,6 @@ export default {
         for(let num in norLRC){
           let obj = tranLRC.find(o=>o.t == norLRC[num].t)
           if (obj) {
-            console.log(obj);
           }
           //如果能找到对应的翻译歌词
           if (obj){
@@ -571,8 +569,17 @@ export default {
         if (lis[lyricNum]) {
           lis[lyricNum].className = 'lineHeight'
         }
+        if (lis[lyricNum-1]) {
+          lis[lyricNum-1].className = 'lineHeight-1'
+        }
+        if (lis[lyricNum+1]) {
+          lis[lyricNum+1].className = 'lineHeight--1'
+        }
+        if (lis[lyricNum+2]) {
+          lis[lyricNum+2].className = 'lineHeight--2'
+        }
         for (let num = 0 ;num < lis.length; num++) {
-          if (num != lyricNum && lis[num]) {
+          if (num != lyricNum && num != (lyricNum-1) && num != (lyricNum+1) && num != (lyricNum+2) && lis[num]) {
             lis[num].className = ''
           }
         }
@@ -580,9 +587,6 @@ export default {
         let lineNoTop = 0;
         for (let i = 0; i <= lyricNum; i++) {
           lineNoTop += lis[i].clientHeight + 8;
-          if (i==lyricNum) {
-            lineNoTop += -0.5 * (lis[i].clientHeight + 8);
-          }
         }
         let lineNoTopPX = ((bodyHeight/2)-lineNoTop)
         if (document.querySelector('#lyricGunDong')) {
@@ -671,10 +675,9 @@ export default {
       }
     },
     finishPlay(){
-      if (document.querySelector('#audio').loop != false) {
-         if (this.data.player.tracks.length > this.data.player.trackNum) {
+      console.log(11);
+      if (document.querySelector('#audio').loop == false) {
           this.nextMusic()
-         }
       }
     }
     ,
@@ -760,7 +763,6 @@ export default {
     },
     search(){
       let value = document.getElementById('searchInput').value
-      console.log(value);
       if (this.$route.name != 'search') {
         this.$router.push({name:'search',query:{q: value }})
       } else {
