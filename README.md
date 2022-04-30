@@ -1,6 +1,12 @@
-# blurlyric
+# Blurlyric
 
-## 如何安装此工具？
+快速体验：
+<a herf="https://alphamusic.pafworld.top/">咸鸽 - https://alphamusic.pafworld.top/</a>
+<a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a>
+感谢上方跑起并且提供在线服务的网友
+
+
+## 如何安装此原码？
 ```
 npm install
 ```
