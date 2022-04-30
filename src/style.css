@@ -273,6 +273,7 @@ input#searchInput {
 }
 div.player-Mini-Title > h1{font-size: 1em;margin-block-start: 0.5em;}
 div.player-Mini-Title > h2{color: rgba(44,62,80,0.8);font-size: 0.8em;margin-block-start: 0.60em;}
+div.player-Mini-Title > h2> a{margin: 0 0.4em 0 0;}
 
 
 .player-Mini >.linkbox{
@@ -281,6 +282,7 @@ div.player-Mini-Title > h2{color: rgba(44,62,80,0.8);font-size: 0.8em;margin-blo
   transform: translateX(calc(-100% - var(--paddingIndex))) translateY(calc(-100% - 13px));
   gap: 8px;
 }
+
 #player > div > div.linkbox > a{
   backdrop-filter: blur(8px);
 }
@@ -327,19 +329,40 @@ div.player-Mini-Title > h2{color: rgba(44,62,80,0.8);font-size: 0.8em;margin-blo
 
 .playerUIControl-Buttom {
   position: fixed;
-  padding: 6px;
-  left: calc(100% - 60px);
-  transform: translate(0px, 20px) scale(0.9);
-  background: rgba(0,0,0,0.08);
+  display: flex;
+  
+  left: 100%;
+  transform: translate(calc(-100% - 20px), 20px) scale(0.9);
   font-size: 0;
   z-index: 4;
-  color: rgba(255,255,255,0.7);
+  color: rgba(0,0,0,0.35);
   border-radius: 9px;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
   cursor: pointer;
+}
+.playerUIControl-Buttom>*{
+  padding: 6px;
+  transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
+
+}
+.playerUIControl-Buttom:hover{
+  background: rgba(0,0,0,0.08);
+  color: rgba(255,255,255,0.75);
+}
+.playerUIControl-Buttom>*:hover{
+  background: rgba(0,0,0,0.08);
+
+  
 }
 @media (max-width: 500px) {
   .playerUIControl-Buttom{
-    transform: translate(0px, 20px) scale(0.8);
+    left: 50%;
+    transform: translate(-50%, 20px) scale(0.9);
+    background: rgba(0,0,0,0.08);
+    color: rgba(255,255,255,0.6);
+    
+
   }
 }
 .playerDisplayOutBox {
@@ -362,16 +385,18 @@ div.player-Mini-Title > h2{color: rgba(44,62,80,0.8);font-size: 0.8em;margin-blo
   padding: 0px 0 20px 20px;
   --width: 52vh
 }
+
 .right-side{
   justify-content: flex-start;
   align-items: flex-start;
   padding: 00px 20px 20px 0;
   font-size: 0;
+  
 }
 .left-sideImage{
   position: relative;
   flex-direction: column;
-  border-radius: 2vh;
+  border-radius: 3vh;
   overflow: hidden;
   display: flex;
 }
@@ -379,55 +404,34 @@ div.player-Mini-Title > h2{color: rgba(44,62,80,0.8);font-size: 0.8em;margin-blo
   
   width: var(--width);
 }
-.sideImageCard{
-  position: relative;
-  background-position: center bottom;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  height: 40px;
-  width: var(--width);
+/*
+  分状态管理样式
+*/
+div.onlyLeft > div > div.right-side.playerIndexSide{
+  display: none;
 }
-.sideImageCardDorpBlur{
-  position: absolute;
-  width: calc(100% - 16px);
-  height: 100%;
-  display: flex;
-  z-index: 2;
-  gap: 8px;
+div.onlyLeft > div > div.left-side.playerIndexSide{
+  justify-content: center;
   align-items: center;
-  padding: 0 8px;
 }
-div.left-sideImage > div > div > a:nth-child(2){
-  margin-left: auto;
+div.onlyLeft > div.playerDisplayOutBox{
+  grid-template-columns: repeat(1, 1fr);
 }
-div.left-sideImage > div > div > a:nth-child(1){
-  font-size: 13px;
-  display: -webkit-box;
 
-  -webkit-box-orient: vertical;
+/*
+  分状态管理样式
+*/
+div.onlylyric > div > div.left-side.playerIndexSide{
+  display: none;
+}
+div.onlylyric > div > div.left-side.playerIndexSide{
+  justify-content: center;
+  align-items: center;
+}
+div.onlylyric > div.playerDisplayOutBox{
+  grid-template-columns: repeat(1, 1fr);
+}
 
-  -webkit-line-clamp: 2;
-
-  overflow: hidden;
-}
-div.left-sideImage > div > div > a:nth-child(1):hover{
-  transform: scale(1);
-  
-}
-.sideImageCardDorpBlur > a{
-  color: rgba(0,0,0,.7);
-  transition:0.3s cubic-bezier(.77,-0.25,.19,1.32);
-}
-.sideImageCardDorpBlur > a:hover{
-  transform: scale(1.2);
-}
-.left-sideImage>.linkbox{
-  position: absolute;
-  top: 100%;
-  left: 100%;
-  transform: translate(calc(-100% - 10px),calc(-100% - 12px));
-}
 .player-Title{
   white-space: nowrap;
   overflow: hidden;
@@ -444,14 +448,19 @@ div.left-sideImage > div > div > a:nth-child(1):hover{
 }
 .player-Title>h1{
   margin: .8em 0 .3em 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  color: rgba(0,0,0,.75);
 }
 .player-Title>h2{
   margin: .2em 0 .3em 0;
-  font-size: 1rem;
+  font-size: .9rem;
+  color: rgba(0,0,0,.5);
+
 }
 
-
+.player-Title>h2>a {
+  margin: 0 0.4em 0 0;
+}
 .musicContorlCurrTime{
   font-size: 0.8em;
 }
@@ -463,9 +472,10 @@ div.left-sideImage > div > div > a:nth-child(1):hover{
 }
 div.left-side.playerIndexSide > div > div.linkbox{
   justify-content: center;
+  margin-top: 20px;
+  gap: 0px;
 }
 div.left-side.playerIndexSide > div > div.linkbox>a{
-  margin-top: 20px;
   justify-content: center;
   background: rgba(0, 0, 0, 0);
 }
@@ -477,7 +487,7 @@ background: rgba(0, 0, 0, 0.08);
   height: 100vh;
   z-index: 1;
   overflow: hidden;
-  font-size: 15px;
+  font-size: 2.18vh;
 }
 ul li {
   list-style: none;
@@ -490,43 +500,48 @@ ul li {
 
 #lyric #lyricGunDong ul li{
   padding: 10px;
-  color: rgba(0,0,0,.5);
+  color: rgba(0,0,0,.2);
   border-radius: 13px;
   filter: blur(3px);
   width: fit-content;
-  transition: filter .8s cubic-bezier(.3,.45,.2,.95),transform .8s cubic-bezier(.3,.45,.2,.95);
-  margin-bottom: 8px;
+  transition: filter .8s cubic-bezier(.3,.45,.2,.95),transform 1.4s cubic-bezier(.3,.45,.2,.95);
 }
 #lyric #lyricGunDong ul li:active{
   transform: scale(0.9);
 }
 
 #lyric #lyricGunDong ul li>h1{
-  font-size: 1.1em;
+  font-size: 1.2em;
   margin: 0;
 
   
-  transition:all .6s cubic-bezier(.3,.45,.2,.95);
+  transition:all .5s cubic-bezier(.3,.45,.2,.95);
 
 }
-#lyric #lyricGunDong ul li>h2{
+
+#lyric #lyricGunDong ul#lyrics li>h2{
   margin: 10px 0 0 0;
-  font-size: 1rem;
+  font-size: 1.1em;
+}
+#lyric #lyricGunDong ul#lyrics li.lineHeight>h2{
+  font-size: 1.25em;
+  transition:all .5s cubic-bezier(.3,.45,.2,.95);
 }
 #lyric #lyricGunDong ul li>div{
-  font-size: 1rem;
+  font-size: 0.7em;
   margin-top: 2px;
   width: fit-content;
   padding: 5px;
   border-radius: 8px;
   color: rgba(0,0,0,.0);
   background-color: rgba(0,0,0,0);
-  transition:all .5s cubic-bezier(.3,.45,.2,.95);
+  transition:all 0.5s cubic-bezier(.3,.45,.2,.95);
 
 }
 #lyric #lyricGunDong ul li:hover>div{
   color: rgba(0,0,0,.5);
 }
+
 #lyric #lyricGunDong ul#lyrics li.lineHeight>h1{
   font-size: 1.9em;
 
@@ -535,27 +550,32 @@ ul li {
   color: rgba(0,0,0,.7);
   filter: blur(0px);
 }
+
 #lyric #lyricGunDong ul#lyrics li.lineHeight-1>h1{
   font-size: 1.35em;
 
 }
 #lyric #lyricGunDong ul#lyrics li.lineHeight-1{
+  color: rgba(0,0,0,.4);
   filter: blur(2px);
 }
 
 #lyric #lyricGunDong ul#lyrics li.lineHeight--1>h1{
-  font-size: 1.40em;
+  font-size: 1.42em;
 
 }
 #lyric #lyricGunDong ul#lyrics li.lineHeight--1{
+  color: rgba(0,0,0,.45);
   filter: blur(1px);
 }
 #lyric #lyricGunDong ul#lyrics li.lineHeight--2>h1{
-  font-size: 1.20em;
+  font-size: 1.30em;
 
 }
 #lyric #lyricGunDong ul#lyrics li.lineHeight--2{
   filter: blur(2px);
+  color: rgba(0,0,0,.28);
+
 }
 #lyric #lyricGunDong ul#lyrics li:hover{
   background-color: rgba(0,0,0,.05);
@@ -568,16 +588,37 @@ ul li {
   background-color: rgba(0,0,0,.05);
 
 }
-@media (max-width: 100vh) {
+.player-left-centerrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--width);
+}
+.player-left-centerrow>.linkbox>a{
+  background: none;
+}
+@media (max-width: 130vh) {
   .playerDisplayOutBox{
     grid-template-columns: repeat(1, 1fr);
   }
-  .right-side{
+  #player > div:nth-child(3) > div > svg.bi.bi-grid-1x2{
     display: none;
+  }
+  div > div > div.right-side{
+    display: none;
+  }
+  div.onlylyric > div > div.right-side{
+    display: block;
   }
   .left-side.playerIndexSide{
     padding: 20px 0 60px 0;
     align-items: center;
+  }
+  
+}
+@media (max-width: 75vh) {
+  .left-side.playerIndexSide{
     --width: 65vw;
   }
   

@@ -13,18 +13,18 @@
         </div>
     </div>
 <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-    <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" class="track" style="user-select:none">
+    <div  class="track" style="user-select:none">
         <div class="tracks"  v-for="(item,i) in page.track" :key="item.id">
             <!--显示样式-->
             <div class="track-infor" @click="playTheOnce(i)">
-                <div :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
-                <div class="trackTitle">
+                <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
+                <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)"> {{alia}} </a></h1>
                     <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
                 </div>
             </div>
 
-            <div class="track-buttom">
+            <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" class="track-buttom">
                 <div class="linkbox bigger">
                     <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)" style="color:red;user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
@@ -216,6 +216,10 @@ export default {
         font-size: 14px;
         color: rgba(44,62,80,0.8);
     }
+    .trackTitle>h2>a{
+        margin: 0 0.5em 0 0;
+    }
+    
     .track-buttom{
         position: absolute;
         left: 100%;
