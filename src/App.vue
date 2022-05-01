@@ -147,7 +147,6 @@
                                         :key="item.id">{{item.name}} </a><a>&nbsp;-&nbsp;
                                         {{data.player.tracks[data.player.trackNum].al.name}}
                                     </a></h2>
-
                             </div>
                             <!--div>
                             loop
@@ -191,7 +190,9 @@
                         <div class="musicContorlCurrTime"
                             style="flex-direction: row; margin-top: 15px; display: flex; gap: 10px;align-items: center; justify-content: space-between;">
                             <div>{{formTime(data.player.uiDisplay.currTime)}}</div>
-                            <div class="mCside"></div>
+                            <div class="mCside">
+                              <div v-bind:style="'--progress:' + data.player.uiDisplay.progress" class="continueBar"></div>
+                            </div>
                             <div>{{formTime(data.player.uiDisplay.duration)}}</div>
                         </div>
                         <!--播放按键-->
@@ -292,6 +293,7 @@ export default {
               duration:0,
               realCurrTime: 0,
               currTime:0,
+              maxProgressWidth: '0px',
               progress:0,
               LineNum: 0
             },
@@ -494,9 +496,8 @@ export default {
       if (tran) {
         tranLRC = this.Lrcsplit(tran)
         for(let num in norLRC){
+
           let obj = tranLRC.find(o=>o.t == norLRC[num].t)
-          if (obj) {
-          }
           //如果能找到对应的翻译歌词
           if (obj){
             if (!obj.t) {
@@ -559,6 +560,9 @@ export default {
           }
 
           var content = lrcs[i].substring(start); //获取歌词内容
+          if (content == '') {
+            continue
+          }
           for (let k in arr) {
             let t = arr[k].substring(1, arr[k].length - 1); //取[]间的内容
             let s = t.split(":"); //分离:前后文字
@@ -654,7 +658,8 @@ export default {
       }
       this.data.player.uiDisplay.realCurrTime =currTime
       this.data.player.uiDisplay.currTime = currTime
-      this.data.player.uiDisplay.progress = this.curr / this.duration * 100
+      console.log();
+      this.data.player.uiDisplay.progress = currTime / this.data.player.uiDisplay.duration
       //开始设置歌词
       //枚举获得歌词高度
 

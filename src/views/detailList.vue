@@ -13,29 +13,27 @@
         </div>
     </div>
 <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-    <div  class="track" style="user-select:none">
-        <div class="tracks"  v-for="(item,i) in page.track" :key="item.id">
-            <!--显示样式-->
-            <div class="track-infor" @click="playTheOnce(i)">
-                <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
-                <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" class="trackTitle">
-                    <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)"> {{alia}} </a></h1>
-                    <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
-                </div>
-            </div>
+        <div class="track playlist" style="user-select:none">
+                <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
+                    <!--显示样式-->
+                        <div v-if="this.$parent.$parent.data.player.uiDisplay.mainDisplay != top" @click="playTheOnce(i)">
+                            <div :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
+                            <div class="trackTitle">
+                                <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)"> {{alia}} </a></h1>
+                                <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                            </div>
+                        </div>
 
-            <div v-if="(this.$parent.$parent.data.player.uiDisplay.mainDisplay != 'top')" class="track-buttom">
-                <div class="linkbox bigger">
-                    <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)" style="color:red;user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
-                    </a>
-                    <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)" style="user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"><path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/></svg>  
-                    </a>
+                        <div class="linkbox bigger">
+                            <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)" style="color:red;user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
+                            </a>
+                            <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)" style="user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"><path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/></svg>  
+                            </a>
+                        </div>
                 </div>
             </div>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -158,110 +156,66 @@ export default {
         background-color: rgba(255, 255, 255, 0.8);
         
     }
-    .track>div{
-        position: relative;
-        height: max-content;
-        margin-bottom: 10px;
-
-    }
-
-    .tracks{
-        position: relative;
-        
-    }
-    
-    .track-infor{
+    .track.playlist{
         display: flex;
-        gap: 10px;
+        flex-direction: column;
+        gap: 8px;
+        overflow-y: auto;
+    }
+    .track.playlist>.tracks{
         position: relative;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 8px;
-        border-radius: 11px;
-        height: max-content;
         background-image: linear-gradient(to right,#d1d1d1,#e5e5e5);
-        transition:all .2s cubic-bezier(.3,.45,.2,.95);
-    }
-    .track-infor:active{
-        transform: scale(0.98);
-    }
-    .track-img{
-        height: 48px;
-        width: 48px;
-        min-height: 48px;
-        min-width: 48px;
         border-radius: 9px;
-        background-position: 50% 50%;
-        background-size: cover;
+        height: 42px;
+        display: flex;
+        max-width: calc(var(--paddingIndex-MaxWidth) / 1);
+        justify-content: space-between;
+        --thispadding: 8px;
+        padding: 8px;
+        flex-direction: row;
     }
-    .trackTitle{
+    div.track.playlist>.tracks.true{
+        background-image: linear-gradient(to right,#d1d1d1,#b8b5df);
+    }
+    .track.playlist>.tracks> div:nth-child(1){
+        display: flex;
+        width: 100%;
+        gap: 8px;
+        overflow: hidden;
+    }
+    .track.playlist>.tracks> div:nth-child(1)>.trackTitle{
+    }
+    .track.playlist>.tracks> div:nth-child(1)>.trackTitle>*{
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .trackTitle>*{
-         margin: 3px 0;
-         user-select: none;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    
+    .track.playlist>.tracks> div:nth-child(1)>.trackTitle>h1>a{
+        font-size: 0.8em;
     }
-    .trackTitle>h1{
-        font-size: 18px;
-       
+    .track.playlist>.tracks> div:nth-child(1)>.trackTitle>h2>a{
+        margin: 0 1em 0 0;
     }
-    .trackTitle>h2{
-        font-size: 14px;
-        color: rgba(44,62,80,0.8);
+    .track.playlist>.tracks> div:nth-child(1)>.track-img{
+    user-select: none;
+
+    height: 42px;
+    width:42px;
+    min-height:42px;
+    min-width: 42px;
+    border-radius: 9px;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-image: url("https://p1.music.126.net/P99uc1Hqzkj2QE1UMehuHQ==/109951167197634217.jpg?param=48y48");
     }
-    .trackTitle>h2>a{
-        margin: 0 0.5em 0 0;
-    }
-    
-    .track-buttom{
-        position: absolute;
-        left: 100%;
-        top: 50%;
-        transform: translate(calc(-100% - 20px),-50%);
-    }
-    .track-buttom>.linkbox.bigger>a{
-        backdrop-filter: blur(8px);
-    }
-    @media (max-width: 500px) {
-        .track>div{
-        position: relative;
-        border-radius: 11px;
-    }
-    .track-img{
-        height:36px;
-        width: 36px;
-        min-height: 36px;
-        min-width: 36px;
-        border-radius: 8px;
-        background-position: 50% 50%;
-        background-size: cover;
-    }
-        .trackTitle>*{
-         margin: 2px 0;
-         user-select: none;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    
-    }
-    .trackTitle>h1{
+        .track.playlist>.tracks> div:nth-child(1)>.trackTitle>h1{
         font-size: 15px;
+        margin: 5px 0 0 0;
        
     }
-    .trackTitle>h2{
+    .track.playlist>.tracks> div:nth-child(1)>.trackTitle>h2{
         font-size: 10px;
-        
+        margin: 2px 0 0 0;
     }
-    .track-buttom>.linkbox.bigger>a{
-        backdrop-filter: blur(8px);
-        padding: 8px 10px 5px 10px;
-    }
-    }
+
 </style>
