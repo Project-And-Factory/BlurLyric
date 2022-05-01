@@ -6,34 +6,52 @@
 <a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a>><br>
 感谢上方跑起并且提供在线服务的网友
 
-
-## 如何安装此原码？
+### 使用说明
+## 用于开发环境
+下载源码后，进入blurlyric工作目录
+首次使用需输入
 ```
 npm install
 ```
-## 如何修改其NeteaseMusicAPI地址？
-> 依次进入blurlyric/src/network/request.js内，修改第六行为
-```
-        baseURL: '你的',
-```
-如果您把构建放入NeteaseMusicAPI的public内，请留空，如下：
-```
-        baseURL: '',
-```
-
-### 将其启动
+运行开发服务则需要使用
 ```
 npm run dev
 ```
-
-### 构建它
+运行构建方法
 ```
-yarn build
+npm run build
+```
+构建后文件在dist内
+* 注意! 使用构建前请先确认您的NeteaseMusicAPI服务地址为 http://abc.abc/ 则需要进入blurlyric/src/network/request.js内，修改第六行为
+```
+        baseURL: 'http://abc.abc/',
+        //若您构建后是放入NeteaseMusicAPI的public文件夹内，请设置为空！
+        
+```
+## 用于项目实际
+首先搭建<a herf="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify-NeteaseCloudMusicApi</a>
+将NeteaseCloudMusicApi解压后，进入其工作目录，输入
+```
+npm install
+//这是第一次安装时安装模块使用的，后续不需要
+node app
+//默认将启动在http://localhost:3000/,您可以去NeteaseCloudMusicApi/server.js修改。
+```
+然后将blurlyric构建的文件放入NeteaseCloudMusicApi/public内即可
+
+> 注意：
+> 请正确填写blurlyric/src/network/request.js的baseURL地址：
+> 不要把blurlyric覆盖在NeteaseCloudMusicApi，内，他俩是分开运行的
+> 在运行blurlyric开发环境的同时，也要运行NeteaseCloudMusicApi，否则无法运行
+> 如果您将Blurlyric的构建运行在例如http://abc.abc/music/的目录，请前往blurlyric/vite.config.js中修改第九行
+```
+base: './'
+//为
+base: './music/'
 ```
 
-如何使用构建呢？
-放入<a herf="https://github.com/Binaryify/NeteaseCloudMusicApi">Binaryify-NeteaseCloudMusicApi</a>的public文件夹内即可使用。
-注意：请修改NeteaseMusicAPI地址为空再构建然后放入public，否自无法找到api服务器
+当然，如果你还是不行，我在有空的时候可以帮您搭建服务哦~
+我的qq: 2261129603
 
 ### 帮助我
 有什么用？ 您捐助的钱会部分用于<a herf="https://alphamusic.pafworld.top/">咸鸽 - https://alphamusic.pafworld.top/</a><br>在线服务的费用开销，当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
