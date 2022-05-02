@@ -213,7 +213,7 @@ input#searchInput {
   top:0;
   bottom: 0;
   overflow-y: auto;
-
+  overflow-x: hidden;
   padding: 80px var(--paddingIndex);
   width: var(--paddingIndex-MaxWidth);
   height: calc(100% - calc(var(--minplayerHeight) + 112px));
@@ -493,7 +493,9 @@ div.onlylyric >.playerDisplayOutBox>.right-side>.lyric>div>#lyrics{
   background-color: rgba(0, 0, 0, 0.5);
   height: 6px;
   --progress:0;
+  min-width: 6px;
   max-width: 100%;
+  transition: all 0.2s;
   width: calc(var(--progress) * 100%);
   border-radius: 3px;
 }

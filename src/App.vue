@@ -418,7 +418,6 @@ export default {
         }
         //同步音乐文件
         reTools.getData('/song/url',{id:newid}).then(r=>{
-          console.log(r);
           if (this.id == r.data[0].id) {
           this.data.player.now.musicUrl = r.data[0].url;
           }
@@ -651,15 +650,16 @@ export default {
     async getCurr(){//音频进度转换
 
       let currTime
+      let cur
       if (document.querySelector('#audio')) {
-         currTime = parseInt(document.querySelector('#audio').currentTime)
+          cur = document.querySelector('#audio').currentTime
+          currTime = parseInt(cur)
       } else {
         return 0
       }
-      this.data.player.uiDisplay.realCurrTime =currTime
+      this.data.player.uiDisplay.realCurrTime =cur
       this.data.player.uiDisplay.currTime = currTime
-      console.log();
-      this.data.player.uiDisplay.progress = currTime / this.data.player.uiDisplay.duration
+      this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
       //开始设置歌词
       //枚举获得歌词高度
 
@@ -726,7 +726,6 @@ export default {
       }
     },
     finishPlay(){
-      console.log(11);
       if (document.querySelector('#audio').loop == false) {
           this.nextMusic()
       }
