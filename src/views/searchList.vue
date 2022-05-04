@@ -3,12 +3,12 @@
 
     <div class="row-two">
         <div>
-            <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-            <div class="SearchTrack" style="user-select:none">
+            <h2 v-if="page.track[0]">歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
+            <div v-if="page.track[0]" class="SearchTrack" style="user-select:none">
                 <div v-bind:class="'SearchTracks ' + (item.id == this.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
                     <!--显示样式-->
                         <div @click="playTheOnce(i)">
-                            <div :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
+                            <div v-lazy="item.al.picUrl + '?param=84y84)'" class="track-img" alt="" srcset=""></div>
                             <div class="trackTitle">
                                 <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)"> {{alia}} </a></h1>
                                 <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
@@ -28,10 +28,10 @@
         </div>
 
         <div>
-            <h2>歌手<a style="font-size:0.7em;color: rgba(0,0,0,.5)" v-if="page.ar.result"> {{'  '+page.ar.result.artistCount}}</a></h2>
-            <div class="ARtrack">
+            <h2 v-if="page.ar.result">歌手<a style="font-size:0.7em;color: rgba(0,0,0,.5)" v-if="page.ar.result"> {{'  '+page.ar.result.artistCount}}</a></h2>
+            <div class="ARtrack" v-if="page.ar.result">
                 <div v-for="(item) in page.ar.result.artists" :key="item.id">
-                    <div class="ARImg" v-bind:style="'background-image: url(' + item.picUrl + '?param=500y500)'" v-bind:alt="item.name" ></div>
+                    <div class="ARImg" v-lazy="item.picUrl + '?param=500y500)'" v-bind:alt="item.name" ></div>
                     <div class="ARTrTitle">
                         {{item.name}}
                     </div>
@@ -44,10 +44,10 @@
                     </div>
                 </div-->
             </div>
-            <h2>歌单<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.playlist.result.playlistCount}}个</a></h2>
-            <div class="PLtrack">
+            <h2 v-if="page.PLtrack[0]">歌单<a v-if="page.PLtrack[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.playlist.result.playlistCount}}个</a></h2>
+            <div v-if="page.PLtrack[0]" class="PLtrack">
                 <div @click="this.$router.push({name:'detail',query:{id:item.id }})" v-for="(item) in page.PLtrack" :key="item.id">
-                    <img v-bind:src="item.coverImgUrl + '?param=500y500'" v-bind:alt="item.name" >
+                    <img v-lazy="item.coverImgUrl + '?param=500y500)'" v-bind:alt="item.name" >
                     <div class="PlTrTitle">
                         <h1>{{item.name}}</h1>
                         <h2>by {{item.creator.nickname}}</h2>
@@ -111,7 +111,7 @@ export default {
                     this.page.track =res.songs
                 })
             })
-            reTools.getData('/search',{type:1000,keywords:this.page.q,limit:25,timetamp: (Number(new Date()))}).then(r=>{
+            reTools.getData('/search',{type:1000,keywords:this.page.q,limit:100,timetamp: (Number(new Date()))}).then(r=>{
                 this.page.playlist = r
                 this.page.PLtrack = r.result.playlists
             })
@@ -135,30 +135,7 @@ export default {
 </script>
 
 <style>
-    .dlTopLab{
-        display: flex;
-        gap: 15px;
-        padding: 15px;
-        margin-bottom: 50px;
-        border-radius: 1.25em ;height: 7em;background-color:#5080ff;overflow:hidden; 
-    }
-    .dlTopLab-TitleLab{
-        position: relative;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .dlTopLab-TitleLab>*{
-        position: relative;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 4px 0;
-        color: white;
-    }
-        .dlTopLab-TitleLab>h3{
-        color: #ffffff9a;
-    }
+
 
     .SearchTrack{
         display: flex;
@@ -191,6 +168,7 @@ export default {
     .SearchTracks> div:nth-child(1)>.trackTitle>*{
         white-space: nowrap;
         overflow: hidden;
+        display: -webkit-box;
         text-overflow: ellipsis;
     }
     .SearchTracks> div:nth-child(1)>.trackTitle>h1>a{
@@ -287,7 +265,7 @@ export default {
         --repeat: 2;
         grid-template-columns: repeat(var(--repeat), 1fr);
         overflow: hidden;
-        --gapver: 30px;
+        --gapver: 20px;
         gap: var(--gapver);
         flex-direction: row;
         font-size: 16px;
@@ -314,8 +292,10 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-box-orient: vertical;
+        display: -webkit-box;
+
     }
-    .PlTrTitle>h1{
+    .PlTrTitle>h1 {
         -webkit-line-clamp: 2;
         font-size: 1em;
         color: rgba(50,50,50,1);
@@ -374,6 +354,11 @@ export default {
         margin-top: .8em;
         font-size: 1em;
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
     @media (max-width: 500px) {
     .ARtrack{

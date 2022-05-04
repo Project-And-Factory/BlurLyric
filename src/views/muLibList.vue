@@ -87,7 +87,7 @@ export default {
     text-align: right;
     margin-inline-start: auto;
   }
-  #app > div.viewBox > div > div > div > img{
+  #app > div.viewBox > div > div > div.topBlockPicture > img{
     height: 6em;
     border-radius: 2.5em;
   }

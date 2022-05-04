@@ -1,10 +1,10 @@
 <template>
         
     <div class="dlTopLab" style="user-select:none">
-        <img :src="page.pic" alt="" style="height:7em;border-radius:1em" srcset="">
+        <img :src="page.pic" alt=""  srcset="">
         <div class="dlTopLab-TitleLab">
             <h2>{{this.page.title}}</h2>
-            <h3>{{page.creater.nickname}}</h3>
+            <h3>by{{' '+page.creater.nickname}}</h3>
             <div class="linkbox bigger">
                 <a style="user-select:none" @click="playThisPage()">
                     <svg style="transform: scale(1.6) " xmlns="http://www.w3.org/2000/svg" width="24" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg>
@@ -13,11 +13,11 @@
         </div>
     </div>
 <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-        <div class="track playlist" style="user-select:none">
-                <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
+        <div v-if="this.$parent.$parent.data.player.uiDisplay.mainDisplay != top" class="track playlist" style="user-select:none">
+                <div  v-bind:class="'tracks ' + (item.id == this.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
                     <!--显示样式-->
-                        <div v-if="this.$parent.$parent.data.player.uiDisplay.mainDisplay != top" @click="playTheOnce(i)">
-                            <div :style="('background-image: url(' + item.al.picUrl + '?param=48y48)')" class="track-img" alt="" srcset=""></div>
+                        <div @click="playTheOnce(i)">
+                            <img class="track-img" alt="" v-lazy="item.al.picUrl + '?param=84y84)'" srcset="">
                             <div class="trackTitle">
                                 <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)"> {{alia}} </a></h1>
                                 <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
@@ -110,6 +110,43 @@ export default {
 </script>
 
 <style>
+
+    @media (min-width: 950px) {
+        .dlTopLab{
+            --height: 250px;
+            height: 250px;
+            border-radius: 2vw;
+            padding: 2vh 0 0 0;
+            background: none;
+            gap: 2vw;
+            color: black;
+        }
+        .dlTopLab>img{
+            height: var(--height);
+            border-radius: 2vw;
+        }
+        .dlTopLab-TitleLab{
+
+        }
+        .dlTopLab-TitleLab>h2{
+            font-size: 2.2em;
+            color: black;
+        }
+        .dlTopLab-TitleLab>h3{
+            font-size: 1em;
+            margin-top: 2em;
+            color: rgb(100,100,100);
+        }
+        .dlTopLab-TitleLab>.linkbox.bigger{
+            position: absolute;
+            top: 98%;
+            overflow: visible;
+            transform: translate(0,-100%);
+        }
+        .dlTopLab-TitleLab>.linkbox.bigger>a{
+            background: rgba(230,230,230);
+        }
+    }
     .dlTopLab{
         display: flex;
         gap: 15px;
@@ -151,6 +188,7 @@ export default {
             padding: 5px 10px;
         }
     }
+
     .dlTopLab-TitleLab>.linkbox.bigger>a{
         margin-top: 3px;
         background-color: rgba(255, 255, 255, 0.8);
@@ -165,8 +203,8 @@ export default {
     .track.playlist>.tracks{
         position: relative;
         background-image: linear-gradient(to right,#d1d1d1,#e5e5e5);
-        border-radius: 9px;
-        height: 42px;
+        border-radius: 11px;
+        height: 48px;
         display: flex;
         max-width: calc(var(--paddingIndex-MaxWidth) / 1);
         justify-content: space-between;
@@ -199,14 +237,12 @@ export default {
     .track.playlist>.tracks> div:nth-child(1)>.track-img{
     user-select: none;
 
-    height: 42px;
-    width:42px;
-    min-height:42px;
-    min-width: 42px;
+    height: 48px;
+    width:48px;
+    min-height:48px;
+    min-width: 48px;
     border-radius: 9px;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-image: url("https://p1.music.126.net/P99uc1Hqzkj2QE1UMehuHQ==/109951167197634217.jpg?param=48y48");
+
     }
         .track.playlist>.tracks> div:nth-child(1)>.trackTitle>h1{
         font-size: 15px;
@@ -217,5 +253,40 @@ export default {
         font-size: 10px;
         margin: 2px 0 0 0;
     }
+    @media (min-width: 950px) {
+        .dlTopLab{
+            --height: 250px;
+            height: 250px;
+            border-radius: 2vw;
+            padding: 2vh 0 0 0;
+            background: none;
+            gap: 2vw;
+            color: black;
+        }
+        .dlTopLab>img{
+            height: var(--height);
+            border-radius: 2vw;
+        }
+        .dlTopLab-TitleLab{
 
+        }
+        .dlTopLab-TitleLab>h2{
+            font-size: 2.2em;
+            color: black;
+        }
+        .dlTopLab-TitleLab>h3{
+            font-size: 1em;
+            margin-top: 2em;
+            color: rgb(100,100,100);
+        }
+        .dlTopLab-TitleLab>.linkbox.bigger{
+            position: absolute;
+            top: 98%;
+            overflow: visible;
+            transform: translate(0,-100%);
+        }
+        .dlTopLab-TitleLab>.linkbox.bigger>a{
+            background: rgba(230,230,230);
+        }
+    }
 </style>

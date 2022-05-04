@@ -62,7 +62,6 @@ export default {
             document.cookie = res.cookie
             setTimeout(() => {
               this.$router.push({name:'muLib'})
-              location.reload()
             }, 3000);
           } else if (res.code == 502) {
             this.message= res.msg

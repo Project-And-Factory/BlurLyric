@@ -28,7 +28,7 @@
         <div class="player-Mini">
             <div @click="mainDisplayChange()">
                 <img style="display:inline-block;user-select: none;border-radius: 13px;height: var(--minplayerHeight);width:var(--minplayerHeight);"
-                    v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+                    v-lazy="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
                 <div class="player-Mini-Title">
                     <h1>{{data.player.tracks[data.player.trackNum].name}} <a
                             v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
@@ -43,7 +43,7 @@
                 <a @click="loveMusic()"
                     v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
                     style="color:red;user-select:none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" fill="currentColor"
                         class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /></svg>
@@ -51,7 +51,7 @@
                 <a @click="loveMusic()"
                     v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
                     style="user-select:none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" fill="currentColor"
                         class="bi bi-heart" viewBox="0 0 16 16">
                         <path
                             d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
@@ -167,15 +167,15 @@
                             </div-->
                             <div class="linkbox">
                                 <!--喜欢按钮-->
-                                <a @click="loveMusic()" style="padding: 8px 10px 6px 10px;user-select:none">
-                                    <svg style="color:red;" v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
-                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                <a @click="loveMusic()" style="user-select:none">
+                                    <svg style="color:red; height: 2.8vh; height: 2.8vh;" v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                         class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
                                             d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                     </svg>
                                     <svg v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
-                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" style="height: 2.8vh; height: 2.8vh;" fill="currentColor"
                                         class="bi bi-heart" viewBox="0 0 16 16">
                                         <path
                                             d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
@@ -187,8 +187,7 @@
                         </div>
 
                         <!--进度条-->
-                        <div class="musicContorlCurrTime"
-                            style="flex-direction: row; margin-top: 15px; display: flex; gap: 10px;align-items: center; justify-content: space-between;">
+                        <div class="musicContorlCurrTime" >
                             <div>{{formTime(data.player.uiDisplay.currTime)}}</div>
                             <div class="mCside">
                               <div v-bind:style="'--progress:' + data.player.uiDisplay.progress" class="continueBar"></div>
@@ -199,7 +198,7 @@
                         <div class="linkbox">
                             <!--上一曲-->
                             <a @click="upMusic()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
                                     class="bi bi-skip-start" viewBox="0 0 16 16">
                                     <path
                                         d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
@@ -210,14 +209,14 @@
                             <a @click="plays()">
                                 <!--未播放样式-->
                                 <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg"
-                                    width="32" height="32" fill="currentColor" class="bi bi-play-fill"
+                                    style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-play-fill"
                                     viewBox="0 0 16 16">
                                     <path
                                         d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
                                 </svg>
                                 <!--正播放样式-->
                                 <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg"
-                                    width="32" height="32" fill="currentColor" class="bi bi-pause-fill"
+                                   style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-pause-fill"
                                     viewBox="0 0 16 16">
                                     <path
                                         d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
@@ -225,7 +224,7 @@
                             </a>
                             <!--下一曲-->
                             <a @click="nextMusic()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
                                     class="bi bi-skip-end" viewBox="0 0 16 16">
                                     <path
                                         d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
@@ -586,17 +585,12 @@ export default {
     },
     async lyricSet(){
       setTimeout(()=>{this.lyricSet()}, 50);
-      if (this.data.player.playing == true && this.data.player.uiDisplay.displayPlayBox != 'buttom') {
+      if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
         
       let lyrics = document.getElementById('lyrics')
 
       let lis = lyrics.getElementsByTagName("li")
-      let currTime
-      if (document.querySelector('#audio')) {
-         currTime = parseInt(document.querySelector('#audio').currentTime)
-      } else {
-        return 0
-      }
+      let currTime = parseInt(document.querySelector('#audio').currentTime)
 
       if (lis.length == 0) {
         return
@@ -610,24 +604,19 @@ export default {
       if (this.data.player.uiDisplay.LineNum != lyricNum){
         this.data.player.uiDisplay.LineNum = lyricNum
 
-        if (lis[lyricNum]) {
-          lis[lyricNum].className = 'lineHeight'
-        }
-        if (lis[lyricNum-1]) {
-          lis[lyricNum-1].className = 'lineHeight-1'
-        }
-        if (lis[lyricNum+1]) {
-          lis[lyricNum+1].className = 'lineHeight--1'
-        }
-        if (lis[lyricNum+2]) {
-          lis[lyricNum+2].className = 'lineHeight--2'
-        }
+        //歌词高亮设置
+        if (lis[lyricNum-1]) lis[lyricNum-1].className = 'lineHeight-1'
+
+        if (lis[lyricNum]) lis[lyricNum].className = 'lineHeight'
+
+        if (lis[lyricNum+1]) lis[lyricNum+1].className = 'lineHeight--1'
+        if (lis[lyricNum+2]) lis[lyricNum+2].className = 'lineHeight--2'
+
         for (let num = 0 ;num < lis.length; num++) {
           if (num != lyricNum && num != (lyricNum-1) && num != (lyricNum+1) && num != (lyricNum+2) && lis[num]) {
             lis[num].className = ''
           }
         }
-        this.data.player.uiDisplay.LineNum = lyricNum
         let lineNoTop = 0;
         for (let i = 0; i <= lyricNum; i++) {
           lineNoTop += lis[i].clientHeight;
