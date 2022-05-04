@@ -450,7 +450,7 @@ div.player-Mini-Title>h2>a {
   display: grid;
 
   grid-template-columns: repeat(2, 1fr);
-  gap: 74px;
+  gap: 5vw;
   width: 100vw;
   height: 100vh;
   justify-content: center;
@@ -542,7 +542,7 @@ div.onlylyric>.playerDisplayOutBox>.right-side>.lyric>div>#lyrics {
 }
 
 .player-Title>h1 {
-  margin: 1em 0 .3em 0;
+  margin: 0 0 .3em 0;
   font-size: 1.3em;
   color: rgba(0, 0, 0, .75);
 }
@@ -592,13 +592,14 @@ div.onlylyric>.playerDisplayOutBox>.right-side>.lyric>div>#lyrics {
 
 div.left-side.playerIndexSide>div>div.linkbox {
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 2vh;
   gap: 0px;
 }
 
 div.left-side.playerIndexSide>div>div.linkbox>a {
   justify-content: center;
   background: rgba(0, 0, 0, 0);
+  padding: 1vh 2vh;
 }
 
 div.left-side.playerIndexSide>div>div.linkbox>a:hover {
@@ -640,7 +641,7 @@ ul#lyrics {
   border-radius: 13px;
   filter: blur(3px);
   width: fit-content;
-  transition: filter .8s cubic-bezier(.3, .45, .2, .95), transform 1.4s cubic-bezier(.3, .45, .2, .95);
+  transition: color 0s,filter .8s cubic-bezier(.3, .45, .2, .95), transform 1.4s cubic-bezier(.3, .45, .2, .95);
 }
 
 #lyric #lyricGunDong ul li:active {
@@ -755,6 +756,8 @@ ul#lyrics {
   justify-content: space-between;
   align-items: center;
   max-width: var(--width);
+  margin-top: 2vh;
+
 }
 
 .player-left-centerrow>.linkbox>a {
