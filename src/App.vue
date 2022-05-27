@@ -2,27 +2,33 @@
     <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false'
         @play='data.player.playing=true' @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr"
         @canplay="showLong"></audio>
-    <div class="acrylicEffect toplab ">
-        <div class="tl-title">BlurLyric</div>
+    <div class="leftlab">
+        
+
         <div class="linkbox">
             <router-link id="link-musicLib-me" :to="{path:'/'}">我</router-link>
             <router-link id="link-musicLib" :to="{path:'/'}">音乐库</router-link>
             <router-link :to="{path:'/found'}">发现</router-link>
         </div>
+    </div>
+    <duv class="rightrow">
+      <div class="ROWTOPtitle">
+        <div class="tl-title">BlurLyric</div>
         <input placeholder="搜索框" v-on:keydown.enter="search" type="none" id="searchInput">
-    </div>
+      </div>
+      <div class="viewBox">
+          <div class="opes" v-bind:class="this.$route.name" v-if="(!data.user.account)">
+              <h2>您似乎还 没有登录<br>点击登录来获取最佳体验</h2>
+              <div class="linkbox bigger">
 
-    <div class="viewBox">
-        <div class="opes" v-bind:class="this.$route.name" v-if="(!data.user.account)">
-            <h2>您似乎还 没有登录<br>点击登录来获取最佳体验</h2>
-            <div class="linkbox bigger">
+                  <router-link @changetrack="changeTrack" :to="{path:'/loginUser'}">去登录</router-link>
+              </div>
+          </div>
 
-                <router-link @changetrack="changeTrack" :to="{path:'/loginUser'}">去登录</router-link>
-            </div>
-        </div>
+          <router-view :data="data" />
+      </div>
+    </duv>
 
-        <router-view :data="data" />
-    </div>
     <div id="player">
         <!--迷你控制器-->
         <div class="player-Mini">
@@ -94,7 +100,7 @@
             </div>
         </div>
         <div v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
-            v-if="data.player.uiDisplay.mainDisplay != buttom" class="player-background"></div>
+            v-if="data.player.uiDisplay.mainDisplay != buttom" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
         <!--
         主UI界面
       -->
@@ -121,7 +127,7 @@
 
         </div>
         <!--display-->
-        <div v-bind:class="data.player.uiDisplay.SideDisplaySet">
+        <div  v-bind:class="data.player.uiDisplay.SideDisplaySet">
             <div class="playerDisplayOutBox" v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
                 <div class="left-side playerIndexSide">
                     <div>
@@ -590,7 +596,7 @@ export default {
       let lyrics = document.getElementById('lyrics')
 
       let lis = lyrics.getElementsByTagName("li")
-      let currTime = parseInt(document.querySelector('#audio').currentTime)
+      let currTime =document.querySelector('#audio').currentTime
 
       if (lis.length == 0) {
         return

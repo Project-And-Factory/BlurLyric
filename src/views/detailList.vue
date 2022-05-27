@@ -152,7 +152,7 @@ export default {
         gap: 15px;
         padding: 15px;
         margin-bottom: 50px;
-        border-radius: 1.25em ;height: 7em;background-color:#5080ff;overflow:hidden; 
+        border-radius: 1.25em ;height: 7em; 
     }
     .dlTopLab-TitleLab{
         position: relative;
@@ -167,10 +167,10 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         margin: 4px 0;
-        color: white;
+        color: #000;
     }
         .dlTopLab-TitleLab>h3{
-        color: #ffffff9a;
+        color: #00000073;
     }
     @media (max-width: 500px) {
         .dlTopLab-TitleLab > h2 {
@@ -191,7 +191,7 @@ export default {
 
     .dlTopLab-TitleLab>.linkbox.bigger>a{
         margin-top: 3px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(0, 0, 0, 0.02);
         
     }
     .track.playlist{
@@ -202,7 +202,7 @@ export default {
     }
     .track.playlist>.tracks{
         position: relative;
-        background-image: linear-gradient(to right,#d1d1d1,#e5e5e5);
+        background-color: #00000008;
         border-radius: 11px;
         height: 48px;
         display: flex;
@@ -213,7 +213,7 @@ export default {
         flex-direction: row;
     }
     div.track.playlist>.tracks.true{
-        background-image: linear-gradient(to right,#d1d1d1,#b8b5df);
+        background-image: linear-gradient(to right,#00000008,#0000ff08);
     }
     .track.playlist>.tracks> div:nth-child(1){
         display: flex;

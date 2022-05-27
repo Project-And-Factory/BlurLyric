@@ -1,9 +1,11 @@
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  position: relative;
   padding: 0;
   margin: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1 {
@@ -44,7 +46,8 @@ body {
   --paddingIndex-MaxWidth: calc(100vw - calc(var(--paddingIndex) + var(--paddingIndex)));
   --paddingIndex: 12vw;
   --hsla-white: hsla(0, 0%, 95%, .4);
-  --minplayerHeight: 48px
+  --minplayerHeight: 48px;
+  --leftlab-width: 48px;
 }
 
 ::-webkit-scrollbar {
@@ -105,33 +108,29 @@ body {
   background-size: 40px;
 }
 
-.toplab {
-  position: fixed;
-  padding: 8px var(--paddingIndex);
-  width: var(--paddingIndex-MaxWidth);
-  height: 48px;
-  background: var(--hsla-white);
+.leftlab {
+  position:absolute;
+  width: calc(var(--leftlab-width) - 20px);
+  height: calc(100vh - 30px);
   display: flex;
   top: 0;
-
+  padding: 15px 10px;
+  float: left;
   color: black;
   font-size: 26px;
   align-content: center;
+  background: #fff;
   gap: 12px;
-  align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   z-index: 100;
 }
-
-.tl-title {
-  user-select: none;
+.leftlab>.linkbox{
+  flex-direction: column;
 }
 
-.tl-title::after {
-  content: '|';
-  padding: 0 0 0 15px;
+.leftlab>.linkbox>a{
+  background: rgba(0, 0, 0, 0);
 }
-
 nav {
   padding: 30px;
 }
@@ -149,11 +148,11 @@ nav {
 
   font-weight: bold;
   font-size: 18px;
-  color: #2c3e50;
   text-decoration: none;
   padding: 5px 10px;
   border-radius: 7px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  color: #444;
   transition: all .2s cubic-bezier(.3, .45, .2, .95);
 }
 
@@ -162,13 +161,13 @@ nav {
 
   font-weight: bold;
   font-size: 18px;
-  color: #2c3e50;
   text-decoration: none;
   padding: 10px 15px;
 }
 
 .linkbox>a:hover {
   cursor: pointer;
+  background: rgba(0, 0, 0, 0.05);
   transform: scale(1.05);
 }
 
@@ -184,7 +183,7 @@ nav {
 
 input#searchInput {
 
-  font-size: 18px;
+  font-size: 14px;
   text-decoration: none;
   padding: 5px 10px;
   border-radius: 7px;
@@ -192,7 +191,7 @@ input#searchInput {
   color: #2c3e50;
   border: none;
   margin: auto 0;
-  background: #00000014;
+  background: #00000008;
   outline: none;
   width: 200px;
 }
@@ -239,16 +238,43 @@ input#searchInput {
     width: 150px;
   }
 }
+.ROWTOPtitle{
+  position: relative;
+  display: flex;
+  gap: 12px;
+  background-color: #fff;
+  z-index: 2;
+  align-items: center;
+  padding: 10px 20px;
 
+}
+.tl-title {
+  user-select: none;
+  font-size: 22px;
+}
+
+.tl-title::after {
+  padding: 0 0 0 15px;
+}
+.rightrow{
+flex-direction: column;
+  position: relative;
+  
+  display: flex;
+  padding: 0px 00px 0px calc(var(--leftlab-width) + 00px);
+  width:  calc(100% - var(--leftlab-width));
+  height:100vh;
+}
 .viewBox {
-  position: fixed;
-  top: 0;
-  bottom: 0;
+  height: 100%;
+  
+  float: left;
+  border-radius: 12px;
+  background: var(--hsla-white);
+  
+  padding:20px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 80px var(--paddingIndex);
-  width: var(--paddingIndex-MaxWidth);
-  height: calc(100% - calc(var(--minplayerHeight) + 112px));
   z-index: 1;
 }
 
@@ -288,7 +314,7 @@ input#searchInput {
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   padding-bottom: 20px;
-  box-shadow: #00000042 0 0 20px 0px;
+  box-shadow: #00000010 0 0 20px 0px;
   height: calc(100% + var(--minplayerHeight));
   transform: translate(0, -18px);
   background: #ffffff;
@@ -300,7 +326,6 @@ input#searchInput {
   padding: 9px var(--paddingIndex);
   height: var(--minplayerHeight);
   white-space: nowrap;
-  background-color: hsla(0, 0%, 90%, .7);
 }
 
 .player-Mini-Title {
@@ -401,6 +426,9 @@ div.player-Mini-Title>h2>a {
   transform: scale(1.2);
   transition: all 0.5s cubic-bezier(0.000, 0.715, 0.445, 0.995);
   opacity: 1;
+}
+#player > div.player-background.buttom{
+  display: none;
 }
 
 .playerUIControl-Buttom {

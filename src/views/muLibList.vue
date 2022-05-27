@@ -2,7 +2,7 @@
   <div v-if="(data.user.account)">
       <div class="topBlock">
         <div class="topBlockPicture">
-          <img v-bind:src="data.user.profile.avatarUrl" alt="" srcset="">
+          <img height="100%" v-bind:src="data.user.profile.avatarUrl" alt="" srcset="">
         </div>
         <div class="topBlockText">
           <h2>{{data.user.profile.nickname}}</h2>
@@ -81,6 +81,11 @@ export default {
   }
   .topBlockPicture{
     height: 6em;
+  }
+  .topBlockPicture>img{
+    height: 6em;
+    border-radius: 50%;
+    
   }
   .topBlockRightButtom{
     display: flex;

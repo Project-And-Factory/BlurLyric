@@ -145,7 +145,7 @@ export default {
     }
     .SearchTracks{
         position: relative;
-        background-image: linear-gradient(to right,#d1d1d1,#e5e5e5);
+        background-color: #00000008;
         border-radius: 9px;
         display: flex;
         max-width: calc(var(--paddingIndex-MaxWidth) / 2);
@@ -155,7 +155,7 @@ export default {
         flex-direction: row;
     }
     div.SearchTracks.true{
-        background-image: linear-gradient(to right,#d1d1d1,#b8b5df);
+        background-image: linear-gradient(to right,#00000008,#0000ff08);
     }
     .SearchTracks> div:nth-child(1){
         display: flex;
