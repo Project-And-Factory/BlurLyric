@@ -47,7 +47,7 @@ body {
   --paddingIndex: 12vw;
   --hsla-white: hsla(0, 0%, 95%, .4);
   --minplayerHeight: 48px;
-  --leftlab-width: 48px;
+  --leftlab-width: 56px;
 }
 
 ::-webkit-scrollbar {
@@ -114,7 +114,7 @@ body {
   height: calc(100vh - 30px);
   display: flex;
   top: 0;
-  padding: 15px 10px;
+  padding: 10px 10px;
   float: left;
   color: black;
   font-size: 26px;
@@ -124,12 +124,43 @@ body {
   flex-direction: column;
   z-index: 100;
 }
+.leftlab.icon{
+  transition: width .2s cubic-bezier(.3, .45, .2, .95) 0.2s;
+
+}
+.leftlab.leftlab.iconWithText{
+  transition: width .2s cubic-bezier(.3, .45, .2, .95);
+
+}
 .leftlab>.linkbox{
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .leftlab>.linkbox>a{
   background: rgba(0, 0, 0, 0);
+  white-space: nowrap;
+  width: calc(100% - 20px);
+}
+
+.leftlab.icon>.linkbox>a>a{
+  color: #00000000;
+  margin-left: 0.3em;
+
+  position: absolute;
+  transition: all .2s cubic-bezier(.3, .45, .2, .95) ;
+
+}
+.leftlab.iconWithText>.linkbox>a>a{
+  margin-left: 0.3em;
+  position: absolute;
+
+  color: #444;
+  transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s;
+
+}
+.leftlab.iconWithText{
+  --leftlab-width: 200px;
 }
 nav {
   padding: 30px;

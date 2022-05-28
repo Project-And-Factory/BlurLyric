@@ -4,7 +4,10 @@ const routes = [
   {
     path: '/',
     name: 'muLib',
-    component: () => import('../views/muLibList.vue')
+    component: () => import('../views/muLibList.vue'),
+    meta:{
+      keepAlive: true
+    }
 
   },
   {
@@ -23,18 +26,28 @@ const routes = [
     path: '/playlist/detail',
     name: 'detail',
 
-    component: () => import('../views/detailList.vue')
+    component: () => import('../views/detailList.vue'),
+    meta:{
+      keepAlive: true
+    }
+    
   },
   {
     path: '/search',
     name: 'search',
 
-    component: () => import('../views/searchList.vue')
+    component: () => import('../views/searchList.vue'),
+    meta:{
+      keepAlive: true
+    }
   },
   {
     path:'/dailySongs',
     name: 'dailySongs',
-    component: () => import('../views/dailySongs.vue')
+    component: () => import('../views/dailySongs.vue'),
+    meta:{
+      keepAlive: true
+    }
 
   }
 ]

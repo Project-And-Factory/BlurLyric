@@ -3,8 +3,8 @@
   <h2 style="display:flex;gap: 10px">今日日推 <a @click="setTracks(data.recommendSongs,0)" class="linkbox"><a>播放</a></a></h2>
   <div class="dailySongsSongsFall-row">
     <div class="dailySongsSongsFall-Sco">
-      <div v-bind:class="'dailySongsSongsFall-gird ' + this.$parent.$parent.data.player.uiDisplay.mainDisplay">
-                <div  v-bind:class="'tracks ' + (item.id == this.$parent.$parent.id )"  v-for="(item,i) in data.recommendSongs" :key="item.id">
+      <div v-bind:class="'dailySongsSongsFall-gird ' + this.$parent.$parent.$parent.data.player.uiDisplay.mainDisplay">
+                <div  v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )"  v-for="(item,i) in data.recommendSongs" :key="item.id">
                     <!--显示样式-->
                         <div @click="setTracks(data.recommendSongs,i)">
                             <img class="track-img" alt="" v-lazy="item.al.picUrl + '?param=84y84)'" srcset="">
@@ -15,10 +15,10 @@
                         </div>
 
                         <div class="linkbox bigger">
-                            <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)" style="color:red;user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
+                            <a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)" style="color:red;user-select:none" @click="this.$parent.$parent.$parent.loveMusic(item.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
                             </a>
-                            <a v-if="(this.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)" style="user-select:none" @click="this.$parent.$parent.loveMusic(item.id)">
+                            <a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)" style="user-select:none" @click="this.$parent.$parent.$parent.loveMusic(item.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"><path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/></svg>  
                             </a>
                         </div>
@@ -47,7 +47,7 @@
     },
     methods: {
         setTracks(track,num){
-            this.$parent.$parent.changeTrack({tracks: track,num : num})
+            this.$parent.$parent.$parent.changeTrack({tracks: track,num : num})
         },
     },
   }
