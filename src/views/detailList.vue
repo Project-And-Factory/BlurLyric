@@ -44,10 +44,10 @@ export default {
         return {
             page:{
                 id: this.$route.query.id ,
-                pic: '',
-                title: '稍等',
+                pic: '../icon/icon.svg',
+                title: 'BLurlyric Loding',
                 content: '',
-                creater: '',
+                creater: 'Loding',
                 trackIds:'',
                 aRtrackIds:[],
                 track:[]

@@ -58,7 +58,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: hsla(0, 0%, 50.2%, .38);
+  background: hsla(0, 0%, 50.2%, .15);
 }
 
 @media (max-width: 1500px) {
@@ -167,7 +167,7 @@ nav {
 
 .linkbox>a:hover {
   cursor: pointer;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.03);
   transform: scale(1.05);
 }
 
@@ -314,7 +314,7 @@ flex-direction: column;
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   padding-bottom: 20px;
-  box-shadow: #00000010 0 0 20px 0px;
+  box-shadow: #00000005 0 0 40px 0px;
   height: calc(100% + var(--minplayerHeight));
   transform: translate(0, -18px);
   background: #ffffff;
@@ -323,6 +323,7 @@ flex-direction: column;
 .player-Mini {
   position: relative;
   gap: 8px;
+  background-color: #fff;
   padding: 9px var(--paddingIndex);
   height: var(--minplayerHeight);
   white-space: nowrap;
@@ -631,7 +632,7 @@ div.left-side.playerIndexSide>div>div.linkbox>a {
 }
 
 div.left-side.playerIndexSide>div>div.linkbox>a:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 div.left-side.playerIndexSide>div>div.linkbox>a {
