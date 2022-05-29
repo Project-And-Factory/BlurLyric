@@ -92,20 +92,18 @@ body {
   }
 }
 
-.acrylicEffect {
+.acrylicEffect,.leftlab.leftlab.iconWithText {
   backdrop-filter:
     /* 负责背景模糊 */
     blur(3vw)
     /* 负责亮度，100 以下会变暗，以上会提亮 */
-    brightness(120%)
+    brightness(100%)
     /* 负责颜色饱和度，可以减小来衬托前景，避免背景太鲜艳 */
-    saturate(200%);
+    saturate(140%);
   /* 负责颜色叠加，一半白色、黑色或主题色，衬托前景 */
   background-color: #ffffff88;
   /* 负责在效果上添加噪点，可以营造出磨砂效果 */
-  background-image: url(data:image/png;base64,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);
   /* 磨砂大小 */
-  background-size: 40px;
 }
 
 .leftlab {
@@ -116,13 +114,25 @@ body {
   top: 0;
   padding: 10px 10px;
   float: left;
-  color: black;
+  color: #444;
   font-size: 26px;
   align-content: center;
-  background: #fff;
+  background-color: #fff;
   gap: 12px;
   flex-direction: column;
   z-index: 100;
+  backdrop-filter:
+  /* 负责背景模糊 */
+  blur(0vw)
+  /* 负责亮度，100 以下会变暗，以上会提亮 */
+  brightness(100%)
+  /* 负责颜色饱和度，可以减小来衬托前景，避免背景太鲜艳 */
+  saturate(140%);
+  transition: all .2s cubic-bezier(.3, .45, .2, .95);
+
+}
+.leftlab.top{
+  display: none;
 }
 .leftlab.icon{
   transition: width .2s cubic-bezier(.3, .45, .2, .95) 0.2s;
@@ -141,22 +151,29 @@ body {
   background: rgba(0, 0, 0, 0);
   white-space: nowrap;
   width: calc(100% - 20px);
+  user-select: none;
+  align-items:center
+
 }
-
+.leftlab>.linkbox>a>a{
+  pointer-events: none;
+  font-size: 16px;
+}
 .leftlab.icon>.linkbox>a>a{
-  color: #00000000;
+  opacity: 0;
   margin-left: 0.3em;
-
+  
   position: absolute;
-  transition: all .2s cubic-bezier(.3, .45, .2, .95) ;
+  transition: all .2s cubic-bezier(.3, .45, .2, .95),color 0s;
 
 }
 .leftlab.iconWithText>.linkbox>a>a{
   margin-left: 0.3em;
   position: absolute;
+  opacity: 1;
 
-  color: #444;
-  transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s;
+  
+  transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s,color 0s;
 
 }
 .leftlab.iconWithText{
@@ -276,7 +293,7 @@ input#searchInput {
   background-color: #fff;
   z-index: 2;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 8px;
 
 }
 .tl-title {
@@ -295,6 +312,9 @@ flex-direction: column;
   padding: 0px 00px 0px calc(var(--leftlab-width) + 00px);
   width:  calc(100% - var(--leftlab-width));
   height:100vh;
+}
+.rightrow.top{
+  display: none;
 }
 .viewBox {
   height: 100%;
@@ -355,11 +375,16 @@ flex-direction: column;
   position: relative;
   gap: 8px;
   background-color: #fff;
-  padding: 9px var(--paddingIndex);
+  padding: 9px 15px;
   height: var(--minplayerHeight);
   white-space: nowrap;
+  display: flex;
+  flex-direction: row;
 }
-
+div.player-Mini > div:nth-child(1){
+  width: 100%;
+  display: flex;
+}
 .player-Mini-Title {
   font-size: 15px;
   margin: 0 8px;
@@ -368,10 +393,10 @@ flex-direction: column;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
 }
 
 .player-Mini-Title>* {
-  margin: 6px 0 0 0;
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
@@ -381,13 +406,13 @@ flex-direction: column;
 
 div.player-Mini-Title>h1 {
   font-size: 1em;
-  margin-block-start: 0.5em;
+  margin: 0.42em 0 0 0;
 }
 
 div.player-Mini-Title>h2 {
   color: rgba(44, 62, 80, 0.8);
   font-size: 0.8em;
-  margin-block-start: 0.60em;
+  margin: 0.20em 0 0 0;
 }
 
 div.player-Mini-Title>h2>a {
@@ -396,14 +421,9 @@ div.player-Mini-Title>h2>a {
 
 
 .player-Mini>.linkbox {
-  position: absolute;
-  left: 100%;
-  transform: translateX(calc(-100% - var(--paddingIndex))) translateY(calc(-100% - 13px));
-  gap: 8px;
 }
 
 #player>div>div.linkbox>a {
-  backdrop-filter: blur(8px);
 }
 
 @media (max-width: 600px) {
@@ -412,9 +432,6 @@ div.player-Mini-Title>h2>a {
   }
 
   .player-Mini>.linkbox {
-    position: absolute;
-    left: 100%;
-    transform: translateX(calc(-100% - var(--paddingIndex))) translateY(calc(-100% - 8px));
     gap: 8px;
   }
 

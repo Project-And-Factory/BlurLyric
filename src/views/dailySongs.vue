@@ -71,14 +71,16 @@
       width:calc(100% -20px);
       top: 10px;
       left: 10px;
-      right: 10px;
       border-radius: 13px;
+
+      right: 10px;
       bottom: 10px;
 
   }
   .dailySongsSongsFall-gird{
     grid-template-columns: repeat(auto-fill, [col-start] 300px [col-end]);
     display:grid;
+    border-radius: 13px;
     width: calc(7 * 400px);
     gap: 12px;
   }

@@ -2,8 +2,12 @@
   <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false'
     @play='data.player.playing=true' @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr"
     @canplay="showLong"></audio>
-  <div v-bind:class="'leftlab ' + data.ui.leftSideWidth">
-
+  <div v-bind:class="'leftlab ' + data.ui.leftSideWidth + ' ' + data.player.uiDisplay.mainDisplay">
+    <div v-if="data.player.tracks[data.player.trackNum + 1] && data.player.tracks[data.player.trackNum - 1]" style="display: none;">
+      <img v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl" alt="" srcset="">
+      <img v-bind:src="data.player.tracks[data.player.trackNum - 1].al.picUrl" alt="" srcset="">
+    
+    </div>
 
     <div class="linkbox">
       <!--返回按钮-->
@@ -44,7 +48,7 @@
 </svg><a>发现</a></router-link>
     </div>
   </div>
-  <duv class="rightrow">
+  <div v-bind:class="'rightrow ' + data.player.uiDisplay.mainDisplay">
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
       <input placeholder="搜索框" v-on:keydown.enter="search" type="none" id="searchInput">
@@ -62,7 +66,7 @@
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" :data="data" />
     </div>
-  </duv>
+  </div>
 
   <div id="player">
     <!--迷你控制器-->
@@ -136,7 +140,7 @@
       </div>
     </div>
     <div v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
-      v-if="data.player.uiDisplay.mainDisplay != buttom"
+      v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
