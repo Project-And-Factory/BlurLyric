@@ -161,12 +161,11 @@
       height: 4em;
       padding: 3px 0;
       gap: 5px;
-
+    
     }
 
     .topBlockPicture>img {
       height: 4em;
-      border-radius: 50%;
 
     }
 
@@ -174,10 +173,7 @@
       height: 4em;
     }
 
-    #app>div.viewBox>div>div>div>img {
-      height: 4em;
-      border-radius: 1.5em;
-    }
+
 
     .topBlockText h2 {
       margin: 5px 0;

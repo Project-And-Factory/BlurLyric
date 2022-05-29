@@ -6,6 +6,7 @@
   margin: 0;
   width: 100vw;
   height: 100vh;
+  background-color: #fff;
 }
 
 h1 {
@@ -16,6 +17,9 @@ h2 {
   font-weight: normal;
 }
 
+h3 {
+  font-weight: normal;
+}
 @font-face {
   font-family: harmony;
 
@@ -36,10 +40,11 @@ h2 {
   font-family: harmonyLite;
 
 }
-
+html,
 body {
   padding: 0;
   margin: 0;
+  background-color: #fff;
 }
 
 :root {
@@ -419,12 +424,6 @@ div.player-Mini-Title>h2>a {
   margin: 0 0.4em 0 0;
 }
 
-
-.player-Mini>.linkbox {
-}
-
-#player>div>div.linkbox>a {
-}
 
 @media (max-width: 600px) {
   .minWidthUnneed {
