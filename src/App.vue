@@ -52,6 +52,8 @@
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
       <input placeholder="搜索框" v-on:keydown.enter="search" type="none" id="searchInput">
+      <div class="dragBar"></div>
+
     </div>
     <div class="viewBox">
       <div class="opes" v-bind:class="this.$route.name" v-if="(!data.user.account)">
@@ -147,7 +149,8 @@
       -->
     <!--控制界面按钮-->
     <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom')">
-      <div class="playerUIControl-Buttom">
+      <div class="playerUIControl">
+        <div class="dragBar"></div>
         <svg @click="mainDisplayChange()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
           class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
           <path fill-rule="evenodd"
@@ -317,6 +320,7 @@
 <script>
   import reTools from './network/getData'
   import './style.css'
+  
 
   var bodyHeight = document.documentElement.clientHeight
   var bodyWidth = document.documentElement.clientWidth
@@ -661,9 +665,7 @@
           let lis = lyrics.getElementsByTagName("li")
           let currTime = document.querySelector('#audio').currentTime
 
-          if (lis.length == 0) {
-            return
-          }
+          if (lis.length == 0) return
           let lyricNum = -1;
           for (let num in this.data.player.now.oLRC.ms) {
             if (this.data.player.now.oLRC.ms[num].t <= currTime + 0.6) {
@@ -689,7 +691,7 @@
             }
             let lineNoTop = 0;
             for (let i = 0; i <= lyricNum; i++) {
-              lineNoTop += lis[i].offsetHeight;
+              lineNoTop += lis[i].offsetHeight - 0.3;
             }
             let lineNoTopPX
             if (bodyHeight >= bodyWidth) {

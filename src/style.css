@@ -8,7 +8,9 @@
   height: 100vh;
   background-color: #fff;
 }
-
+body > div.app-loading-wrap{
+  display: none-;
+}
 h1 {
   font-weight: normal;
 }
@@ -247,6 +249,7 @@ input#searchInput {
   background: #00000008;
   outline: none;
   width: 200px;
+  margin: 10px 0;
 }
 
 #link-musicLib-me {
@@ -298,12 +301,26 @@ input#searchInput {
   background-color: #fff;
   z-index: 2;
   align-items: center;
-  padding: 10px 8px;
-
+  
+}
+.ROWTOPtitle>*{
+  z-index: 4
+}
+.ROWTOPtitle>div.dragBar{
+  width: calc(100%);
+  height: 100%;
+  z-index: 2;
+  
+  
+}
+.dragBar{
+  -webkit-app-region: drag
 }
 .tl-title {
   user-select: none;
   font-size: 22px;
+  padding: 10px 0;
+  margin-left: 8px;
 }
 
 .tl-title::after {
@@ -479,47 +496,30 @@ div.player-Mini-Title>h2>a {
   display: none;
 }
 
-.playerUIControl-Buttom {
+.playerUIControl {
   position: fixed;
   display: flex;
-
-  left: 100%;
-  transform: translate(calc(-100% - 20px), 20px) scale(0.9);
+  width: 100%;
   font-size: 0;
   z-index: 4;
-  color: rgba(0, 0, 0, 0.35);
-  border-radius: 9px;
+  color: rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
-  cursor: pointer;
 }
+.playerUIControl>.dragBar{
+  width: calc(100% - var(--this_paddingWidth));
+}
+body:hover .playerUIControl{
+  background-color: #ffffff30;
 
-.playerUIControl-Buttom>* {
-  padding: 6px;
+}
+.playerUIControl>* {
+  --this_paddingWidth: 6px;
+  padding: var(--this_paddingWidth);
   transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
-
-}
-
-.playerUIControl-Buttom:hover {
-  background: rgba(0, 0, 0, 0.2);
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.playerUIControl-Buttom>*:hover {
-  background: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 
 
-}
-
-@media (max-width: 500px) {
-  .playerUIControl-Buttom {
-    left: 50%;
-    transform: translate(-50%, 20px) scale(0.9);
-    background: rgba(0, 0, 0, 0.08);
-    color: rgba(255, 255, 255, 0.6);
-
-
-  }
 }
 
 .playerDisplayOutBox {
