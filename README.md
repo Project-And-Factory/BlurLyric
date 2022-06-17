@@ -19,7 +19,19 @@ npm run el:serve
 
 
 ## 服务器端口映射提示：
-在main.js中，修改第四行config.onWebServer改为true, 然后映射 http://localhost:18776/ 即可
+
+在main.js中，修改第四行config.onWebServer改为true即,
+```
+var config = {
+  onWebServer: false
+}
+//改成
+var config = {
+  onWebServer: true
+}
+
+```
+ 然后映射 http://localhost:18776/ 即可
 
 
 当然，如果你还是不行，我在有空的时候可以帮您搭建服务哦~
