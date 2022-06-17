@@ -8,7 +8,15 @@ export default defineConfig({
   plugins: [vue()],
   base: './',
   server:{
-    host: '0.0.0.0'
+    port: '18776',
+    http: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:18775/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite
+      }
+    }
   },
   resolve: {
     alias: {

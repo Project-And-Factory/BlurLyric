@@ -3,10 +3,28 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
-const NeteaseCloudMusicApi = require('./app.js')
+
+app.commandLine.appendSwitch('force_high_performance_gpu')
+
+
+// 加载vite
+const { createServer } = require('vite')
+
+;(async () => {
+  const server = await createServer({
+    // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
+    configFile: path.join(__dirname, 'vite.config.js'),
+    root: __dirname,
+  })
+  await server.listen()
+
+  server.printUrls()
+})()
 
 
 // 加载NeteaseCloudMusicAPI
+const NeteaseCloudMusicApi = require('./app.js')
+
 NeteaseCloudMusicApi.start()
 
 const createWindow = () => {
@@ -22,10 +40,10 @@ const createWindow = () => {
   })
 
   // 加载 index.html
-  mainWindow.webContents.loadURL('http://localhost:18775/')
+  mainWindow.webContents.loadURL('http://localhost:18776/')
 
   // 打开开发工具
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 

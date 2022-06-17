@@ -10,6 +10,16 @@
 ## 使用说明
 ### 小提示：Releases中的server.zip中的blurlyric/src/network/request.js>[7]baseURL: '*URL*' *URL*为localhost:3000, 而build.zip是留空构建的，也就是说，您直接在开发环境中，运行server和NeteaseCloudMusicApi即可快速使用，不需要特别设置，并且您可以把build.zip解压后，与NeteaseCloudMusicApi/public文件夹替换，就可以通过NeteaseCloudMusicApi的服务进入BlurLyric服务
 
+### 普通用户
+首次安装： 进入文件夹，使用命令行输入
+```
+npm install
+```
+正常使用
+```
+npm run el:serve
+```
+
 ### 用于开发环境
 下载源码后，进入blurlyric工作目录
 首次使用需输入

@@ -6,7 +6,6 @@ async function start() {
     checkVersion: false,
   })
 }
-start()
 
 module.exports = {
   start
