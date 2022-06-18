@@ -30,12 +30,22 @@
     <div class="track playlist" style="user-select:none">
         <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
             <!--显示样式-->
-            <div @click="playTheOnce(i)">
-                <img class="track-img" alt="" v-lazy="item.al.picUrl + '?param=192y192)'" srcset="">
+            <div>
+                <div @click="playTheOnce(i)" class="trackIMG">
+            
+                    <img
+                    v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                    <img
+                    v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                        <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+                    </svg>
+                </div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                             {{alia}} </a></h1>
                     <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+
                 </div>
             </div>
 
@@ -235,71 +245,5 @@
         div.dlTopLab > div > p:nth-child(4){
             display: none;
         }
-    }
-    .track.playlist {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        overflow-y: auto;
-    }
-
-    .track.playlist>.tracks {
-        position: relative;
-        background-color: #00000003;
-        border-radius: 11px;
-        height: 48px;
-        display: flex;
-        max-width: 100%;
-        justify-content: space-between;
-        --thispadding: 8px;
-        padding: 8px;
-        flex-direction: row;
-    }
-
-    div.track.playlist>.tracks.true {
-        background-image: linear-gradient(to right, #00000008, #0000ff08);
-    }
-
-    .track.playlist>.tracks>div:nth-child(1) {
-        display: flex;
-        width: 100%;
-        gap: 8px;
-        overflow: hidden;
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.trackTitle>* {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.trackTitle>h1>a {
-        font-size: 0.8em;
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.trackTitle>h2>a {
-        margin: 0 1em 0 0;
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.track-img {
-        user-select: none;
-
-        height: 48px;
-        width: 48px;
-        min-height: 48px;
-        min-width: 48px;
-        border-radius: 9px;
-
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.trackTitle>h1 {
-        font-size: 15px;
-        margin: 5px 0 0 0;
-
-    }
-
-    .track.playlist>.tracks>div:nth-child(1)>.trackTitle>h2 {
-        font-size: 10px;
-        margin: 2px 0 0 0;
     }
 </style>

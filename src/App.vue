@@ -73,10 +73,18 @@
   <div id="player">
     <!--迷你控制器-->
     <div class="player-Mini">
-      <div @click="mainDisplayChange()">
-        <img
-          style="display:inline-block;user-select: none;border-radius: 13px;height: var(--minplayerHeight);width:var(--minplayerHeight);"
-          v-lazy="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+      <div>
+        <div @click="mainDisplayChange()" class="player-Mini-img">
+          
+          <img
+          v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+          <img
+          v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+          </svg>
+        </div>
+
         <div class="player-Mini-Title">
           <h1>{{data.player.tracks[data.player.trackNum].name}} <a
               v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
@@ -85,13 +93,13 @@
           </h2>
         </div>
       </div>
-      <div class="linkbox">
+      <div class="player-Mini-Contorl">
         <!--播放按键-->
         <!--喜欢按钮-->
         <a @click="loveMusic()"
           v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) != -1)"
           style="color:red;user-select:none">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" fill="currentColor" class="bi bi-heart-fill"
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="15" fill="currentColor" class="bi bi-heart-fill"
             viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
           </svg>
@@ -99,15 +107,15 @@
         <a @click="loveMusic()"
           v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(data.player.tracks[data.player.trackNum].id) == -1)"
           style="user-select:none">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="13" fill="currentColor" class="bi bi-heart"
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-heart"
             viewBox="0 0 16 16">
             <path
               d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
           </svg>
         </a>
         <!--上一曲-->
-        <a class="minWidthUnneed" @click="upMusic()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-start"
+        <a class="minWidthUnneed player-Mini-Contorl-normal" @click="upMusic()">
+          <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-skip-start"
             viewBox="0 0 16 16">
             <path
               d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
@@ -115,22 +123,22 @@
         </a>
 
         <!--播放按键-->
-        <a @click="plays()">
+        <a class="player-Mini-Contorl-normal elm-play" @click="plays()">
           <!--未播放样式-->
-          <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg" 
             fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
             <path
               d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
           </svg>
           <!--正播放样式-->
-          <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg" 
             fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
             <path
               d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
           </svg>
         </a>
         <!--下一曲-->
-        <a @click="nextMusic()">
+        <a class="player-Mini-Contorl-normal" @click="nextMusic()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-end"
             viewBox="0 0 16 16">
             <path
@@ -506,6 +514,7 @@
           timetamp: (Number(new Date()))
         }).then(r => {
           this.data.user = r.data
+          console.log(this.data.user.account);
           if (this.data.user.account) {
             this.myPlayList()
             reTools.getData('/recommend/songs').then(r => {
@@ -517,7 +526,7 @@
       },
       myPlayList() {
         reTools.getData('/user/playlist', {
-          uid: this.data.user.profile.userId
+          uid: this.data.user.account.id
         }).then(r => {
           this.data.myMusicList = r.playlist
 
