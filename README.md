@@ -17,6 +17,11 @@ npm install
 npm run el:serve
 ```
 
+## 服务器运行
+```
+node onlyOnWeb
+```
+即可，地址 http://localhost:18776/ ，可以在vite.config.js修改
 
 ## 服务器反向代理配置：
 
@@ -35,7 +40,7 @@ var config = {
 ```
 # 反向代理相关配置开始
 location / {
-    proxy_pass http://127.0.0.1:3005;
+    proxy_pass http://127.0.0.1:18776;
     proxy_set_header Host $host:$server_port;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
