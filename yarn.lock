@@ -1699,7 +1699,7 @@
     "anymatch" "^2.0.0"
     "async-each" "^1.0.1"
     "braces" "^2.3.2"
-    "glob-parent" "^5.1.2
+    "glob-parent" "^3.1.0"
     "inherits" "^2.0.3"
     "is-binary-path" "^1.0.0"
     "is-glob" "^4.0.0"
@@ -1732,7 +1732,7 @@
   dependencies:
     "anymatch" "~3.1.1"
     "braces" "~3.0.2"
-    "glob-parent" "~5.1.2"
+    "glob-parent" "~5.1.0"
     "is-binary-path" "~2.1.0"
     "is-glob" "~4.0.1"
     "normalize-path" "~3.0.0"
@@ -3797,9 +3797,9 @@
   dependencies:
     "assert-plus" "^1.0.0"
 
-"glob-parent@^5.1.2":
+"glob-parent@^3.1.0":
   "integrity" "sha512-E8Ak/2+dZY6fnzlR7+ueWvhsH1SjHr4jjss4YS/h4py44jY9MhK/VFdaZJAWDz6BbL21KeteKxFSFpq8OS5gVA=="
-  "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
+  "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-3.1.0.tgz"
   "version" "3.1.0"
   dependencies:
     "is-glob" "^3.1.0"
@@ -3819,7 +3819,7 @@
   dependencies:
     "is-glob" "^4.0.3"
 
-"glob-parent@~5.1.2":
+"glob-parent@~5.1.0":
   "integrity" "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="
   "resolved" "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
   "version" "5.1.2"
@@ -5299,7 +5299,7 @@
     "log-symbols" "4.0.0"
     "minimatch" "3.0.4"
     "ms" "2.1.3"
-    "nanoid" "3.1.31"
+    "nanoid" "3.1.20"
     "serialize-javascript" "5.0.1"
     "strip-json-comments" "3.1.1"
     "supports-color" "8.1.1"

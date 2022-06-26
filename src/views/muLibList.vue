@@ -1,5 +1,5 @@
 <template>
-  <div v-if="(data.user.account)">
+  <div v-if="data.user.account && data.user.profile">
     <div class="topBlock">
       <div class="topBlockPicture">
         <img height="100%" v-bind:src="data.user.profile.avatarUrl" alt="" srcset="">

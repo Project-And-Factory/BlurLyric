@@ -24,13 +24,13 @@ h3 {
 }
 @font-face {
   font-family: harmony;
-
+  font-display: swap;
   src: url(./font/HarmonyOS_Sans_SC_Medium.ttf);
 }
 
 @font-face {
   font-family: harmonyLite;
-
+  font-display: swap;
   src: url(./font/HarmonyOS_Sans_Light.ttf);
 }
 
@@ -283,7 +283,11 @@ input#searchInput {
   .linkbox>a {
     font-size: 14px;
   }
-
+  div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
+    width: 100%;
+    display: flex;
+    max-width: calc(100% - 60px);
+  }
   .toplab {
     font-size: 23px;
   }
@@ -383,6 +387,7 @@ flex-direction: column;
   position: fixed;
   overflow: hidden;
   top: calc(100% + 20px);
+  
   z-index: 200;
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
@@ -400,7 +405,8 @@ flex-direction: column;
   display: flex;
   gap: 8px;
   flex-direction: row;
-  justify-content: space-between;
+  text-overflow: ellipsis
+
 }
 .player-Mini {
   position: relative;
@@ -490,8 +496,10 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg,.tracks:hov
   display: block;
 
 }
-div.player-Mini > div:nth-child(1){
+div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
+  width: 100%;
   display: flex;
+  max-width: calc(100% - 60px);
 }
 .player-Mini-Title,.trackTitle {
   font-size: 15px;
@@ -560,12 +568,11 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
     gap: 8px;
   }
 
-  div.player-Mini-Title>h1 {
-    font-size: 1em;
+  div.player-Mini-Title>h1,.trackTitle>h1 {
     margin-block-start: 0em;
   }
 
-  div.player-Mini-Title>h2 {
+  div.player-Mini-Title>h2,.trackTitle>h2 {
     color: rgba(44, 62, 80, 0.8);
     font-size: 0.8em;
     margin-block-start: 0.2em;
@@ -604,136 +611,150 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 #player > div.player-background.buttom{
   display: none;
 }
-
-.playerUIControl {
-  position: fixed;
+.electron-control{
+  height: 32px;
   display: flex;
+}
+.electron-control>.dragBar{
   width: 100%;
-  font-size: 0;
-  z-index: 4;
-  color: rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
+  height: 32px;
 }
-.playerUIControl>.dragBar{
-  width: calc(100% - var(--this_paddingWidth));
-}
-body:hover .playerUIControl{
-  background-color: #ffffff30;
-
-}
-.playerUIControl>* {
-  --this_paddingWidth: 6px;
-  padding: var(--this_paddingWidth);
-  transition: all 0.2s cubic-bezier(0.000, 0.715, 0.445, 0.995);
-  cursor: pointer;
-
-
+.playertopbar{
+  height: 72px;
+  max-height: 72px;
 }
 
 .playerDisplayOutBox {
-  display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5vw;
+  position: relative;
   width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
+gap: 3vw;
+  height: calc(100vh - 72px);
+  max-height: calc(100vh - 72px);
+
 }
 
 .playerIndexSide {
-  align-items: flex-end;
   flex-direction: column;
-  display: flex;
+  height: calc(100vh - 72px);
+  max-height: calc(100vh - 132px);
 }
 
 .left-side {
-  justify-content: flex-end;
-  padding: 0px 0 20px 20px;
-  --width: 52vh
+  position: relative;
+  width: calc(calc(50vw - 40px) - 2vw);
+  max-width: 56vh;
+  left: 0;
+  top: 0;
+  display: flex;
+  gap: 3vh;
+  padding: 0px 0 40px 40px;
+  justify-content: space-between;
 }
 
 .right-side {
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 00px 20px 20px 0;
   font-size: 0;
+  position: relative;
+  width: calc(calc(50vw) - 2vw);
+  height: 100vh;
+  overflow: hidden;
+  padding: 0px 40px 40px  0px;
 
 }
 
 .left-sideImage {
-  position: relative;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
   flex-direction: column;
   border-radius: 3vh;
   overflow: hidden;
-  display: flex;
+  border-radius: 5%;
+
+
 }
 
 .left-sideImage>img {
-
-  width: var(--width);
+  border-radius: 5%;
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
 }
 
 /*
   分状态管理样式
-*/
-div.onlyLeft>div>div.right-side.playerIndexSide {
+
+div.onlyLeft.right-side.playerIndexSide {
   display: none;
 }
 
-div.onlyLeft>div>div.left-side.playerIndexSide {
+div.onlyLeft.left-side.playerIndexSide {
   justify-content: center;
   align-items: center;
 }
 
-div.onlyLeft>div.playerDisplayOutBox {
+div.onlyLeft.playerDisplayOutBox {
   grid-template-columns: repeat(1, 1fr);
 }
 
 /*
   分状态管理样式
-*/
-div.onlylyric>div>div.left-side.playerIndexSide {
+
+div.onlylyric>div.left-side.playerIndexSide {
   display: none;
 }
 
-div.onlylyric>div>div.left-side.playerIndexSide {
+div.onlylyric>div.left-side.playerIndexSide {
   justify-content: center;
   align-items: center;
 }
 
-div.onlylyric>div.playerDisplayOutBox {
+div.onlylyric.playerDisplayOutBox {
   grid-template-columns: repeat(1, 1fr);
 }
 
-div.onlylyric>.playerDisplayOutBox>.right-side>.lyric>div>#lyrics {
+div.onlylyric>.right-side>.lyric>div>#lyrics {
   padding-left: var(--paddingIndex);
 }
-
+*/
+.contorlPlayerButtom{
+  height: 24px;
+  width: 24px;
+  padding: 6px;
+  border-radius: 11px;
+  position: absolute;
+  z-index: 1;
+  transform: translate(8px, -16px);
+}
+.contorlPlayerButtom:hover{
+  background-color: #00000005;
+}
 .player-Title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  position: relative;
-  max-width: var(--width);
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  z-index: 0;
+  transform: translate(0, -16px);
 }
 
 .player-Title>* {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: var(--width);
 }
 
 .player-Title>h1 {
-  margin: 0 0 .3em 0;
+  margin: 0 0 .1em 0;
   font-size: 1.3em;
   color: rgba(0, 0, 0, .75);
+  font-weight: 600;
 }
 
 .player-Title>h2 {
-  margin: .2em 0 .3em 0;
+  margin: .0em 0 .3em 0;
   font-size: .9em;
   color: rgba(0, 0, 0, .5);
 
@@ -747,9 +768,9 @@ div.onlylyric>.playerDisplayOutBox>.right-side>.lyric>div>#lyrics {
   font-size: 1.8vh;
   --height: 0.8vh;
   flex-direction: row;
-  margin-top: 2vh;
   display: flex;
-  gap: 10px;
+  gap: 1vw;
+  padding: 1.2vh 0;
   align-items: center;
   justify-content: space-between;
 }
@@ -775,31 +796,49 @@ div.onlylyric>.playerDisplayOutBox>.right-side>.lyric>div>#lyrics {
   border-radius: calc(var(--height) / 2);
 }
 
-div.left-side.playerIndexSide>div>div.linkbox {
-  justify-content: center;
-  margin-top: 2vh;
-  gap: 0px;
+.playerLeftLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-content: center;
+}
+.playerLeftLink>a{
+  padding: 1vh
 }
 
-div.left-side.playerIndexSide>div>div.linkbox>a {
+.playerLeftLink>a:hover{
+  background-color: #00000008;
+  border-radius: 1vh;
+}
+ div.left-side > div.linkbox{
+  display: flex;
+  align-content: center;
+  gap: 3vw;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+ div.left-side >div.linkbox>a {
   justify-content: center;
   background: rgba(0, 0, 0, 0);
-  padding: 1vh 2vh;
+  padding: 1vh 1vh;
 }
 
-div.left-side.playerIndexSide>div>div.linkbox>a:hover {
+ div.left-side >div.linkbox>a:hover {
   background: rgba(0, 0, 0, 0.02);
 }
 
-div.left-side.playerIndexSide>div>div.linkbox>a {
+ div.left-side >div.linkbox>a {
   color: rgba(0, 0, 0, .7);
 }
 
 #lyric {
-  height: 100vh;
+  height: 100%;
   z-index: 1;
   overflow: hidden;
   font-size: 2.3vh;
+  position: absolute;
+  top: -36px;
 }
 
 ul li {
@@ -823,7 +862,7 @@ ul#lyrics {
 #lyric #lyricGunDong ul li {
   padding: 10px;
   color: rgba(0, 0, 0, .2);
-  border-radius: 13px;
+  border-radius: 2vh;
   filter: blur(3px);
   width: fit-content;
   transition: color 0s,filter .8s cubic-bezier(.3, .45, .2, .95), transform 1.4s cubic-bezier(.3, .45, .2, .95);
@@ -917,8 +956,8 @@ ul#lyrics {
   background-color: rgba(0, 0, 0, .05);
 
 }
-
-/*==仅歌词==*/
+/*
+/*==仅歌词==
 .onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight>h1 {
   font-size: 2.4em;
 }
@@ -949,9 +988,6 @@ ul#lyrics {
   background: none;
 }
 
-.player-Title {
-  font-size: 2vh;
-}
 
 @media (min-width: 1200px) {
   #lyric #lyricGunDong ul li {
@@ -992,7 +1028,7 @@ ul#lyrics {
     display: none;
   }
 
-  div.onlylyric>div>div.right-side {
+  div.onlylyric>div.right-side {
     display: block;
   }
 
@@ -1027,3 +1063,4 @@ ul#lyrics {
   }
 
 }
+*/

@@ -3,8 +3,8 @@
 
     <div class="row-two">
         <div>
-            <h2 v-if="page.track[0]">歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-            <div v-if="page.track[0]" class="SearchTrack" style="user-select:none">
+            <h2 v-if="page.track != []">歌曲列表<a v-if="page.track != []" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
+            <div v-if="page.track != []" class="SearchTrack" style="user-select:none">
                         <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
             <!--显示样式-->
             <div>
@@ -26,22 +26,27 @@
                 </div>
             </div>
 
-            <div v-if="this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds" class="linkbox bigger">
-                <a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"
+            <div class="linkbox bigger">
+                <a @click="musicListMore(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                    </svg>
+                </a>
+                <!--a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"
                     style="color:red;user-select:none" @click="this.$parent.$parent.$parent.loveMusic(item.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" /></svg>
-                </a>
-                <a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)"
+                </!--a>
+                <a-- v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)"
                     style="user-select:none" @click="this.$parent.$parent.$parent.loveMusic(item.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-heart" viewBox="0 0 16 16">
                         <path
                             d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                         </svg>
-                </a>
+                </a-->
             </div>
         </div>
             </div>
@@ -114,8 +119,9 @@ export default {
             this.setTracks(i)
         },
         requestData(){
-            reTools.getData('/search',{type:1,keywords:this.page.q,limit:100,timetamp: (Number(new Date()))}).then(
+            reTools.getData('/search',{keywords:this.page.q,limit:100}).then(
             r=>{
+                console.log(r.result);
                 this.page.trackIds = r.result.songs
                 let trackIDList = ''
 
@@ -125,17 +131,19 @@ export default {
                     if (num < this.page.trackIds.length - 1) {
                     trackIDList += ','
                     
-                    }
+                    } 
                 }
-                reTools.getData('/song/detail',{ids:trackIDList,timetamp: (Number(new Date()))}).then(res=>{
-                    this.page.track =res.songs
+                console.log(trackIDList);
+                reTools.getData('/song/detail',{ids:trackIDList}).then(res=>{
+                    this.page.track = res.songs
+                    console.log(res);
                 })
             })
-            reTools.getData('/search',{type:1000,keywords:this.page.q,limit:100,timetamp: (Number(new Date()))}).then(r=>{
+            reTools.getData('/search',{type:1000,keywords:this.page.q,limit:100}).then(r=>{
                 this.page.playlist = r
                 this.page.PLtrack = r.result.playlists
             })
-            reTools.getData('/search',{type:100,keywords:this.page.q,timetamp: (Number(new Date()))}).then(r=>{
+            reTools.getData('/search',{type:100,keywords:this.page.q}).then(r=>{
                 this.page.ar = r
                 console.log(r);
             })

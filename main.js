@@ -1,9 +1,27 @@
 // main.js
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 app.commandLine.appendSwitch('force_high_performance_gpu')
+const ipc = ipcMain
+
+
+//登录窗口最小化
+ipc.on('min',function(){
+  mainWindow.minimize();
+})
+//登录窗口最大化
+ipc.on('max',function(){
+  if(mainWindow.isMaximized()){
+      mainWindow.restore();  
+  }else{
+      mainWindow.maximize(); 
+  }
+})
+ipc.on('close',function(){
+  mainWindow.close();
+})
 
 
 // 加载vite

@@ -1,0 +1,25 @@
+#fixedButtom>div{
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 8px 0;
+    border-radius: 7px;
+  box-shadow: #00000010 0 0 40px 0px;
+    background-color: #ffffff20;
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#fixedButtom>div>a{
+    padding: 6px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+#fixedButtom>div>a:hover{
+    background-color: #00000008;
+    
+}
