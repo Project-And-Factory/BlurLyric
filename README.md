@@ -1,7 +1,7 @@
 # Blurlyric
 
 快速体验：<br>
-<a herf="https://alphamusic.pafworld.top/">(推荐)咸鸽 - https://alphamusic.pafworld.top/</a><br>
+<a herf="https://web.blurlyric.app/">(推荐)咸鸽 - https://web.blurlyric.app/</a><br>
 <br>
 <a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a>><br>
 感谢上方跑起并且提供在线服务的网友
@@ -24,19 +24,6 @@ node onlyOnWeb
 即可，地址 http://localhost:18776/ ，可以在vite.config.js修改
 
 ## 服务器反向代理配置：
-
-在main.js中，修改第四行config.onWebServer改为true即,
-```
-var config = {
-  onWebServer: false
-}
-//改成
-var config = {
-  onWebServer: true
-}
-
-```
- 然后通过Nginx配置反向代理即可
 ```
 # 反向代理相关配置开始
 location / {
