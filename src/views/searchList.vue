@@ -119,9 +119,9 @@ export default {
             this.setTracks(i)
         },
         requestData(){
-            reTools.getData('/search',{keywords:this.page.q,limit:100}).then(
+            reTools.getData('/search',{realIP:'211.161.244.701',keywords:this.page.q,type:1,limit:100}).then(
             r=>{
-                console.log(r.result);
+                console.log(r,this.page.q);
                 this.page.trackIds = r.result.songs
                 let trackIDList = ''
 
@@ -246,6 +246,7 @@ export default {
             display: flex;
             max-width: calc(var(--paddingIndex-MaxWidth) - calc(var(--thispadding) * 2));
         }
+
     }
     .dlTopLab-TitleLab>.linkbox.bigger>a{
         margin-top: 3px;
@@ -261,7 +262,9 @@ export default {
         max-width: var(--paddingIndex-MaxWidth);
     }
     @media (max-width:650px) {
-
+            .SearchTrack>.tracks{
+          max-width: calc(var(--paddingIndex-MaxWidth) - 20px) ;            
+        }
     .row-two>div>.track>div{
         max-width: calc(var(--paddingIndex-MaxWidth));
     }

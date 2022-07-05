@@ -121,7 +121,7 @@
           </svg>
         </a>
         <!--上一曲-->
-        <a class="minWidthUnneed player-Mini-Contorl-normal" @click="upMusic()">
+        <a v-if="data.player.random != true" class="minWidthUnneed player-Mini-Contorl-normal" @click="upMusic()">
           <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-skip-start"
             viewBox="0 0 16 16">
             <path
@@ -223,16 +223,16 @@
 
             <!--进度条-->
             <div class="musicContorlCurrTime">
-              <div>{{formTime(data.player.uiDisplay.currTime)}}</div>
               <div class="mCside">
                 <div v-bind:style="'--progress:' + data.player.uiDisplay.progress" class="continueBar"></div>
               </div>
-              <div>{{formTime(data.player.uiDisplay.duration)}}</div>
+              <div style="display:flex;justify-content: space-between "><div>{{formTime(data.player.uiDisplay.currTime)}}</div>
+              <div>{{formTime(data.player.uiDisplay.duration)}}</div></div>
             </div>
             <!--播放按键-->
             <div class="linkbox">
               <!--上一曲-->
-              <a @click="upMusic()">
+              <a v-if="data.player.random != true" @click="upMusic()">
                 <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
                   class="bi bi-skip-start" viewBox="0 0 16 16">
                   <path
@@ -255,9 +255,10 @@
                     d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
                 </svg>
               </a>
-              <!--下一曲-->
+              <!--下一曲/随机-->
               <a @click="nextMusic()">
-                <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
+                <svg style="height: 3vh; width: 3vh" v-if="data.player.random == true" t="1657019671848" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2140" width="1024" height="1024"><path d="M336 73.6l406.4 412.8c12.8 12.8 12.8 38.4 0 51.2L336 950.4c-12.8 12.8-35.2 12.8-51.2 0l-3.2-3.2c-12.8-12.8-12.8-38.4 0-51.2l377.6-384L281.6 131.2c-12.8-12.8-12.8-38.4 0-51.2l3.2-3.2c16-16 38.4-16 51.2-3.2z" p-id="2141"></path></svg>
+                <svg v-if="data.player.random != true" xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
                   class="bi bi-skip-end" viewBox="0 0 16 16">
                   <path
                     d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
@@ -281,22 +282,11 @@
 
               
             </a>
-
-              <!--播放按键-->
-              <a @click="plays()">
-                <!--未播放样式-->
-                <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg"
-                  style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                  <path
-                    d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
-                </svg>
-                <!--正播放样式-->
-                <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg"
-                  style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
-                  <path
-                    d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
-                </svg>
-              </a>
+            <a @click="nextMusicEventControl()">
+              <svg style="height: 3vh; width: 3vh" v-if="data.player.random == true" t="1657018045660" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1704" width="1024" height="1024"><path d="M844.8 665.6c-6.4-6.4-16-12.8-25.6-9.6-19.2 0-35.2 16-35.2 35.2 0 9.6 6.4 19.2 12.8 25.6l41.6 41.6c-44.8-6.4-86.4-22.4-121.6-51.2-3.2 0-3.2-3.2-6.4-6.4L332.8 304C268.8 233.6 192 195.2 99.2 195.2c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32c73.6 0 134.4 32 182.4 86.4l384 400 6.4 6.4c48 38.4 108.8 64 172.8 70.4l-48 44.8c-9.6 6.4-16 19.2-16 28.8 0 19.2 19.2 35.2 38.4 32 9.6 0 19.2-6.4 25.6-12.8l99.2-92.8c16-16 16-41.6 0-57.6l-99.2-102.4z m-3.2-556.8c-12.8-16-32-19.2-48-6.4-9.6 6.4-12.8 16-12.8 25.6 0 12.8 3.2 22.4 16 28.8l41.6 41.6c-73.6 9.6-140.8 38.4-192 89.6l-115.2 118.4c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 16 9.6 25.6 9.6s19.2-3.2 25.6-9.6l112-118.4c41.6-38.4 92.8-64 147.2-70.4l-44.8 44.8c-6.4 6.4-12.8 16-12.8 25.6 0 19.2 16 35.2 32 35.2 9.6 0 19.2-3.2 28.8-9.6L950.4 256c12.8-12.8 12.8-35.2 0-48l-108.8-99.2m-438.4 448c-9.6 0-19.2 3.2-25.6 9.6l-118.4 121.6c-48 44.8-96 67.2-160 67.2H96c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32h3.2c83.2 0 147.2-32 211.2-86.4l121.6-124.8c6.4-6.4 9.6-12.8 9.6-22.4 0-9.6-3.2-16-9.6-22.4-9.6-6.4-19.2-9.6-28.8-9.6z" p-id="1705"></path></svg>
+              <svg style="height: 3vh; width: 3vh" v-if="data.player.loop == true" t="1657018656868" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1849" width="1024" height="1024"><path d="M928 476.8c-19.2 0-32 12.8-32 32v86.4c0 108.8-86.4 198.4-198.4 198.4H201.6l41.6-38.4c6.4-6.4 12.8-16 12.8-25.6 0-19.2-16-35.2-35.2-35.2-9.6 0-22.4 3.2-28.8 9.6l-108.8 99.2c-16 12.8-12.8 35.2 0 48l108.8 96c6.4 6.4 19.2 12.8 28.8 12.8 19.2 0 35.2-12.8 38.4-32 0-12.8-6.4-22.4-16-28.8l-48-44.8h499.2c147.2 0 265.6-118.4 265.6-259.2v-86.4c0-19.2-12.8-32-32-32zM96 556.8c19.2 0 32-12.8 32-32v-89.6c0-112 89.6-201.6 198.4-204.8h496l-41.6 38.4c-6.4 6.4-12.8 16-12.8 25.6 0 19.2 16 35.2 35.2 35.2 9.6 0 22.4-3.2 28.8-9.6l105.6-99.2c16-12.8 12.8-35.2 0-48l-108.8-96c-6.4-6.4-19.2-12.8-28.8-12.8-19.2 0-35.2 12.8-38.4 32 0 12.8 6.4 22.4 16 28.8l48 44.8H329.6C182.4 169.6 64 288 64 438.4v86.4c0 19.2 12.8 32 32 32z" p-id="1850"></path><path d="M544 672V352h-48L416 409.6l16 41.6 60.8-41.6V672z" p-id="1851"></path></svg>
+              <svg style="height: 3vh; width: 3vh" v-if="data.player.loop == false && data.player.random == false" t="1657018716268" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1995" width="1024" height="1024"><path d="M694.4 854.4H195.2l48 44.8c9.6 6.4 16 16 16 28.8-3.2 19.2-19.2 32-38.4 32-9.6 0-22.4-6.4-28.8-12.8l-108.8-96c-12.8-12.8-16-35.2 0-48L192 704c6.4-6.4 19.2-9.6 28.8-9.6 19.2 0 35.2 16 35.2 35.2 0 9.6-6.4 19.2-12.8 25.6l-41.6 38.4h496c112 0 198.4-89.6 198.4-198.4v-86.4c0-19.2 12.8-32 32-32s32 12.8 32 32v86.4c0 140.8-118.4 259.2-265.6 259.2zM329.6 169.6h496l-48-44.8c-9.6-6.4-16-16-16-28.8 3.2-19.2 19.2-32 38.4-32 9.6 0 22.4 6.4 28.8 12.8l108.8 96c12.8 12.8 16 35.2 0 48L832 320c-6.4 6.4-19.2 9.6-28.8 9.6-19.2 0-35.2-16-35.2-35.2 0-9.6 6.4-19.2 12.8-25.6l41.6-38.4H326.4C217.6 233.6 128 323.2 128 435.2v89.6c0 19.2-12.8 32-32 32s-32-12.8-32-32v-86.4C64 288 182.4 169.6 329.6 169.6z" p-id="1996"></path></svg>
+            </a>
               <!--下一曲-->
               <a @click="nextMusic()">
                 <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
@@ -381,7 +371,6 @@
     document.querySelector('#fixedButtom').innerHTML = ''
   }
 
-
   export default {
     data() {
       return {
@@ -392,6 +381,7 @@
 
           player: {
             loop: false,
+            random: false,
             playing: false,
             uiDisplay: {
               SideDisplaySet: '',
@@ -728,8 +718,9 @@
       async lyricSet() {
         setTimeout(() => {
           this.lyricSet()
-        }, 50);
+        }, 60);
         if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
+
 
           let lyrics = document.getElementById('lyrics')
 
@@ -737,15 +728,18 @@
           let currTime = document.querySelector('#audio').currentTime
 
           if (lis.length == 0) return
-          let lyricNum = -1;
-          for (let num in this.data.player.now.oLRC.ms) {
-            if (this.data.player.now.oLRC.ms[num].t <= currTime + 0.6) {
-              lyricNum++
-            }
+          let lyricNum;
+          for(let i = 0; (this.data.player.now.oLRC.ms.length > i && this.data.player.now.oLRC.ms[i].t <= (currTime + 0.6)); i++){
+            lyricNum = i
           }
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
+
             this.data.player.uiDisplay.LineNum = lyricNum
 
+            for (let num = 0; num < lis.length; num++) {
+
+                lis[num].className = ''
+            }
             //歌词高亮设置
             if (lis[lyricNum - 1]) lis[lyricNum - 1].className = 'lineHeight-1'
 
@@ -754,26 +748,16 @@
             if (lis[lyricNum + 1]) lis[lyricNum + 1].className = 'lineHeight--1'
             if (lis[lyricNum + 2]) lis[lyricNum + 2].className = 'lineHeight--2'
 
-            for (let num = 0; num < lis.length; num++) {
-              if (num != lyricNum && num != (lyricNum - 1) && num != (lyricNum + 1) && num != (lyricNum + 2) && lis[
-                  num]) {
-                lis[num].className = ''
-              }
-            }
+
             let lineNoTop = 0;
             for (let i = 0; i <= lyricNum; i++) {
               lineNoTop += lis[i].offsetHeight - 0.3;
             }
-            let lineNoTopPX
-            if (bodyHeight >= bodyWidth) {
-              lineNoTopPX = ((bodyHeight / 2.25) - lineNoTop)
-            } else {
-              lineNoTopPX = ((bodyHeight / 2) - lineNoTop)
-            }
+
             if (document.querySelector('#lyricGunDong')) {
-              document.querySelector('#lyricGunDong').style.transform = 'translateY(' + lineNoTopPX + 'px)'
+              document.querySelector('#lyricGunDong').style.transform = 'translateY(' + ((bodyHeight / 2.25) - lineNoTop) + 'px)'
             }
-            this.data.player.uiDisplay.lyricTopPx = lineNoTopPX + 'px'
+
           }
 
         }
@@ -833,12 +817,15 @@
 
       },
       nextMusic() {
-
         if (this.data.player.tracks.length != this.data.player.trackNum + 1) {
-          document.querySelector('#audio').pause();
-          this.data.player.playing = false;
-          this.data.player.trackNum++
-          this.id = this.data.player.tracks[this.data.player.trackNum].id
+          if (this.data.player.random == false) {
+            this.data.player.trackNum++
+            this.id = this.data.player.tracks[this.data.player.trackNum].id
+          }
+          if (this.data.player.random == true) {
+            this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
+            this.id = this.data.player.tracks[this.data.player.trackNum].id
+          }
           setTimeout(() => {
             this.plays()
           }, 150);
@@ -858,6 +845,8 @@
       },
       finishPlay() {
         if (document.querySelector('#audio').loop == false) {
+          this.data.player.playing = false;
+          document.querySelector('#audio').pause();
           this.nextMusic()
         }
       },
@@ -912,6 +901,36 @@
 
           }
         }
+      },
+      nextMusicEventControl(type){
+        switch (type) {
+          case 'loop':
+            this.data.player.loop = true
+              this.data.player.random = false
+
+            break;
+          case 'list':
+              this.data.player.random = false
+              this.data.player.loop = false
+            break;
+          case 'random':
+            this.data.player.random = true
+              this.data.player.loop = false
+            break;
+        
+          default:
+            if (this.data.player.loop == false && this.data.player.random == false) {
+              this.data.player.loop = true
+            } else if (this.data.player.loop == true) {
+              this.data.player.random = true
+              this.data.player.loop = false
+            } else if (this.data.player.random == true) {
+              this.data.player.random = false
+              this.data.player.loop = false
+            }
+            break;
+        }
+        console.log(this.data.player.loop == true,this.data.player.random == true);
       }
       ,
       async loveMusic(id) {

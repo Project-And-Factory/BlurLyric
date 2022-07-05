@@ -178,7 +178,7 @@ async function consturctServer(moduleDefs) {
   /**
    * Serving static files
    */
-  app.use(express.static(path.join(__dirname, 'dist')))
+  app.use(express.static(path.join(__dirname, 'public')))
 
   /**
    * Cache
@@ -219,7 +219,21 @@ async function consturctServer(moduleDefs) {
       )
 
       try {
-        const moduleResponse = await moduleDef.module(query, request)
+        const moduleResponse = await moduleDef.module(query, (...params) => {
+          // 参数注入客户端IP
+          const obj = [...params]
+          let ip = req.ip
+
+          if (ip.substr(0, 7) == '::ffff:') {
+            ip = ip.substr(7)
+          }
+          // console.log(ip)
+          obj[3] = {
+            ...obj[3],
+            ip,
+          }
+          return request(...obj)
+        })
         console.log('[OK]', decode(req.originalUrl))
 
         const cookies = moduleResponse.cookie
@@ -267,7 +281,7 @@ async function consturctServer(moduleDefs) {
  * @returns {Promise<import('express').Express & ExpressExtension>}
  */
 async function serveNcmApi(options) {
-  const port = Number(options.port || process.env.PORT || '18775')
+  const port = Number(options.port || process.env.PORT || '3000')
   const host = options.host || process.env.HOST || ''
 
   const checkVersionSubmission =
@@ -289,7 +303,7 @@ async function serveNcmApi(options) {
   /** @type {import('express').Express & ExpressExtension} */
   const appExt = app
   appExt.server = app.listen(port, host, () => {
-    console.log(`server running @ http://localhost:${port}`)
+    console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)
   })
 
   return appExt

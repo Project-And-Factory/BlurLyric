@@ -491,6 +491,9 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > img:nth-child(2
   filter: brightness(0.6) blur(5px);
   display: block;
 }
+.trackIMG>img:nth-child(2){
+  display: block;
+}
 div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg,.tracks:hover>div>.trackIMG>svg{
   color: hsla(0, 0%, 100%, .8);
   display: block;
@@ -767,12 +770,11 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
 .musicContorlCurrTime {
   font-size: 1.8vh;
   --height: 0.8vh;
-  flex-direction: row;
+  flex-direction: column;
   display: flex;
-  gap: 1vw;
+  gap: 0.5vw;
   padding: 1.2vh 0;
-  align-items: center;
-  justify-content: space-between;
+  align-content: space-between;
 }
 
 .mCside {
@@ -890,11 +892,11 @@ ul#lyrics {
 }
 
 #lyric #lyricGunDong ul li>div {
-  font-size: 1em;
-  margin-top: 2px;
+  font-size: .7em;
   width: fit-content;
-  padding: 0.5em;
-  border-radius: 8px;
+  margin-top: 0.15em;
+  padding: 0.3em 0.5em;
+  border-radius: 0.8em;
   color: rgba(0, 0, 0, .0);
   background-color: rgba(0, 0, 0, 0);
   transition: all 0.5s cubic-bezier(.3, .45, .2, .95);
@@ -906,7 +908,7 @@ ul#lyrics {
 }
 
 #lyric #lyricGunDong ul#lyrics li.lineHeight>h1 {
-  font-size: 1.9em;
+  font-size: 2em;
 
 }
 
