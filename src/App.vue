@@ -303,7 +303,6 @@
         <div class="right-side playerIndexSide">
 
           <div id="lyric">
-            <div id="lyricGunDong">
               <ul id="lyrics" v-if="(data.player.now.oLRC.tran == true)">
                 <li @click="$refs.audio.currentTime = item.t" v-for="(item) in data.player.now.oLRC.ms"
                   v-bind:key="item.t">
@@ -319,7 +318,6 @@
                   <div>{{formTime(parseInt(item.t))}}</div>
                 </li>
               </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -559,12 +557,10 @@
           timetamp: (Number(new Date()))
         }).then(r => {
           this.data.user = r.data
-          console.log(this.data.user);
           if (this.data.user.account) {
             this.myPlayList()
             reTools.getData('/recommend/songs').then(r => {
               this.data.recommendSongs = r.data.dailySongs
-              console.log(this.data.recommendSongs);
             })
           }
         })
@@ -734,6 +730,7 @@
           }
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
 
+
             this.data.player.uiDisplay.LineNum = lyricNum
 
             for (let num = 0; num < lis.length; num++) {
@@ -754,9 +751,12 @@
               lineNoTop += lis[i].offsetHeight - 0.3;
             }
 
-            if (document.querySelector('#lyricGunDong')) {
-              document.querySelector('#lyricGunDong').style.transform = 'translateY(' + ((bodyHeight / 2.25) - lineNoTop) + 'px)'
+            if (document.querySelector('#lyrics')) {
+              document.querySelector('#lyrics').style.transform = 'translateY(' + ((bodyHeight / 2.25) - lineNoTop) + 'px)'
             }
+
+            //LazyLoad 歌词条懒加载
+
 
           }
 
@@ -890,7 +890,6 @@
       },
       refuseTrack(){
         if (this.data.player.tracks[0].name == '') {
-          console.log(this.data.player.tracks)
         } else {
           if (this.id == 0 && this.data.player.trackNum == 0 ) {
             this.id = this.data.player.tracks[0].id
@@ -930,7 +929,6 @@
             }
             break;
         }
-        console.log(this.data.player.loop == true,this.data.player.random == true);
       }
       ,
       async loveMusic(id) {
@@ -1009,4 +1007,24 @@
       }
     }
   }
+function lyricLazyLoad() {
+  let selector = 'ul#lyrics>li'
+  let elms = document.querySelectorAll(selector)
+  for(let i = 0,len = elms.length; i < len; i++){
+      elms[i].style.display = 'block'
+      if(!_isShow(elms[i])){
+        elms[i].style.display = 'none'
+      }
+  }
+  setTimeout(() => {
+    lyricLazyLoad()
+  }, 1000);
+}
+lyricLazyLoad()
+
+function _isShow(el){//判断img是否出现在可视窗口
+    let coords = el.getBoundingClientRect();
+    return (coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(bodyHeight * 0.6);
+};
+
 </script>

@@ -111,6 +111,7 @@ body {
   background-color: #ffffff88;
   /* 负责在效果上添加噪点，可以营造出磨砂效果 */
   /* 磨砂大小 */
+  transform: translateZ(0);
 }
 
 .leftlab {
@@ -136,6 +137,7 @@ body {
   /* 负责颜色饱和度，可以减小来衬托前景，避免背景太鲜艳 */
   saturate(140%);
   transition: all .2s cubic-bezier(.3, .45, .2, .95);
+  transform: translateZ(0);
 
 }
 .leftlab.top{
@@ -359,6 +361,7 @@ flex-direction: column;
   padding: 20px 0;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   filter: blur(0px);
+
 }
 
 .playButtom {
@@ -846,52 +849,55 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
 ul li {
   list-style: none;
   padding: 0;
+  z-index: -1;
   margin: 0;
 }
 
 #lyricGunDong {
-  transition: all .6s cubic-bezier(.3, .45, .2, .95);
+  transition: all .6s /*cubic-bezier(.3, .45, .2, .95);*/
 }
 
 ul#lyrics {
   padding-left: 0;
+  position: relative;
+  z-index: -1;
+  transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
-.onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics {
-  padding-left: var(--paddingIndex);
-}
 
-#lyric #lyricGunDong ul li {
-  padding: 10px;
-  color: rgba(0, 0, 0, .2);
+
+#lyric ul li {
+  padding: 0.9vh;
+  color: rgba(0, 0, 0, .15);
   border-radius: 2vh;
   filter: blur(3px);
+
   width: fit-content;
-  transition: color 0s,filter .8s cubic-bezier(.3, .45, .2, .95), transform 1.4s cubic-bezier(.3, .45, .2, .95);
+  transition: color 0s,filter .8s;
 }
 
-#lyric #lyricGunDong ul li:active {
+#lyric  ul li:active {
   transform: scale(0.9);
 }
 
-#lyric #lyricGunDong ul li>h1 {
+#lyric  ul li>h1 {
   font-size: 1.2em;
   margin: 0;
-  transition: all .5s cubic-bezier(.3, .45, .2, .95);
+  transition: all .5s ;
 
 }
 
-#lyric #lyricGunDong ul#lyrics li>h2 {
+#lyric  ul#lyrics li>h2 {
   margin: 10px 0 0 0;
   font-size: 1.1em;
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight>h2 {
+#lyric  ul#lyrics li.lineHeight>h2 {
   font-size: 1.25em;
-  transition: all .5s cubic-bezier(.3, .45, .2, .95);
+  transition: all .5s;
 }
 
-#lyric #lyricGunDong ul li>div {
+#lyric  ul li>div {
   font-size: .7em;
   width: fit-content;
   margin-top: 0.15em;
@@ -899,80 +905,80 @@ ul#lyrics {
   border-radius: 0.8em;
   color: rgba(0, 0, 0, .0);
   background-color: rgba(0, 0, 0, 0);
-  transition: all 0.5s cubic-bezier(.3, .45, .2, .95);
+  transition: all 0.5s;
 
 }
 
-#lyric #lyricGunDong ul li:hover>div {
+#lyric  ul li:hover>div {
   color: rgba(0, 0, 0, .5);
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight>h1 {
+#lyric  ul#lyrics li.lineHeight>h1 {
   font-size: 2em;
 
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight {
+#lyric  ul#lyrics li.lineHeight {
   color: rgba(0, 0, 0, .7);
   filter: blur(0px);
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight-1>h1 {
+#lyric  ul#lyrics li.lineHeight-1>h1 {
   font-size: 1.35em;
 
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight-1 {
+#lyric  ul#lyrics li.lineHeight-1 {
   color: rgba(0, 0, 0, .35);
   filter: blur(2px);
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight--1>h1 {
+#lyric  ul#lyrics li.lineHeight--1>h1 {
   font-size: 1.42em;
 
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight--1 {
+#lyric  ul#lyrics li.lineHeight--1 {
   color: rgba(0, 0, 0, .4);
   filter: blur(1px);
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight--2>h1 {
+#lyric  ul#lyrics li.lineHeight--2>h1 {
   font-size: 1.30em;
 }
 
-#lyric #lyricGunDong ul#lyrics li.lineHeight--2 {
+#lyric  ul#lyrics li.lineHeight--2 {
   filter: blur(2px);
   color: rgba(0, 0, 0, .28);
 }
 
-#lyric #lyricGunDong ul#lyrics li:hover {
+#lyric  ul#lyrics li:hover {
   background-color: rgba(0, 0, 0, .05);
   filter: blur(0px);
-  transition: all .2s cubic-bezier(.3, .45, .2, .95);
+  transition: all .2s ;
 
 
 }
 
-#lyric #lyricGunDong ul#lyrics li:hover>div {
+#lyric  ul#lyrics li:hover>div {
   background-color: rgba(0, 0, 0, .05);
 
 }
 /*
 /*==仅歌词==
-.onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight>h1 {
+.onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight>h1 {
   font-size: 2.4em;
 }
 
-.onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight-1>h1 {
+.onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight-1>h1 {
   font-size: 1.45em;
 }
 
-.onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight--1>h1 {
+.onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight--1>h1 {
   font-size: 1.6em;
 }
 
-.onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight--2>h1 {
+.onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight--2>h1 {
   font-size: 1.4em;
 }
 
@@ -992,26 +998,26 @@ ul#lyrics {
 
 
 @media (min-width: 1200px) {
-  #lyric #lyricGunDong ul li {
+  #lyric  ul li {
     filter: blur(0.15vw);
   }
 
-  #lyric #lyricGunDong ul#lyrics li.lineHeight {
+  #lyric  ul#lyrics li.lineHeight {
     color: rgba(0, 0, 0, .7);
     filter: blur(0px);
   }
 
-  #lyric #lyricGunDong ul#lyrics li.lineHeight-1 {
+  #lyric  ul#lyrics li.lineHeight-1 {
     color: rgba(0, 0, 0, .35);
     filter: blur(0.1vw);
   }
 
-  #lyric #lyricGunDong ul#lyrics li.lineHeight--1 {
+  #lyric  ul#lyrics li.lineHeight--1 {
     color: rgba(0, 0, 0, .4);
     filter: blur(0.08vw);
   }
 
-  #lyric #lyricGunDong ul#lyrics li.lineHeight--2 {
+  #lyric  ul#lyrics li.lineHeight--2 {
     filter: blur(0.12vw);
     color: rgba(0, 0, 0, .28);
   }
@@ -1045,22 +1051,22 @@ ul#lyrics {
     --width: 75vw;
   }
 
-  .onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight-1>h1 {
+  .onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight-1>h1 {
     font-size: 1.2em;
 
   }
 
-  .onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight>h1 {
+  .onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight>h1 {
     font-size: 1.8em;
 
   }
 
-  .onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight--1>h1 {
+  .onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight--1>h1 {
     font-size: 1.42em;
 
   }
 
-  .onlylyric .playerDisplayOutBox .right-side #lyric #lyricGunDong ul#lyrics li.lineHeight--2>h1 {
+  .onlylyric .playerDisplayOutBox .right-side #lyric  ul#lyrics li.lineHeight--2>h1 {
     font-size: 1.30em;
   }
 
