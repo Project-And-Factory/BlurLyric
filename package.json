@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "electron .",
     "start": "node server.js"
   },
   "dependencies": {
@@ -27,7 +26,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "electron": "^20.0.0-alpha.7",
     "vite": "^2.9.9"
   },
   "description": "高颜值的网易云第三方播放器",
