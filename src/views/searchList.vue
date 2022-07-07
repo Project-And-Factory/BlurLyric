@@ -119,7 +119,7 @@ export default {
             this.setTracks(i)
         },
         requestData(){
-            reTools.getData('/search',{realIP:'211.161.244.701',keywords:this.page.q,type:1,limit:100}).then(
+            reTools.getData('/search',{keywords:this.$route.query.q,type:1,limit:50}).then(
             r=>{
                 console.log(r,this.page.q);
                 this.page.trackIds = r.result.songs

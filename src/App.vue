@@ -732,10 +732,21 @@
 
 
             this.data.player.uiDisplay.LineNum = lyricNum
-
             for (let num = 0; num < lis.length; num++) {
-
+			
                 lis[num].className = ''
+				let zt = _isShow(lis[num])
+				switch (zt){
+					case 'visibilityHidden':
+						lis[num].style.visibility = 'hidden'
+						break;
+					case 'visibilityVisible':
+						lis[num].style.visibility = 'visible'
+						break;
+					default:
+						lis[num].style.display = 'none'
+						break;
+				}
             }
             //歌词高亮设置
             if (lis[lyricNum - 1]) lis[lyricNum - 1].className = 'lineHeight-1'
@@ -756,7 +767,6 @@
             }
 
             //LazyLoad 歌词条懒加载
-
 
           }
 
@@ -1007,24 +1017,15 @@
       }
     }
   }
-function lyricLazyLoad() {
-  let selector = 'ul#lyrics>li'
-  let elms = document.querySelectorAll(selector)
-  for(let i = 0,len = elms.length; i < len; i++){
-      elms[i].style.display = 'block'
-      if(!_isShow(elms[i])){
-        elms[i].style.display = 'none'
-      }
-  }
-  setTimeout(() => {
-    lyricLazyLoad()
-  }, 1000);
-}
-lyricLazyLoad()
+
 
 function _isShow(el){//判断img是否出现在可视窗口
-    let coords = el.getBoundingClientRect();
-    return (coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(bodyHeight * 0.6);
+    let coords = el.getBoundingClientRect(),text;
+
+	if (coords.top >= 0 - parseInt(bodyHeight * 0.2)) text = 'visibilityHidden';
+	if ((coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
+	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
+    return text;
 };
 
 </script>
