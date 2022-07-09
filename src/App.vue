@@ -390,7 +390,8 @@
               currTime: 0,
               maxProgressWidth: '0px',
               progress: 0,
-              LineNum: 0
+              LineNum: 0,
+			  lineNoTop: 0,
             },
             now: {
               musicUrl: '',
@@ -518,9 +519,18 @@
           reTools.getData('/song/url', {
             id: newid
           }).then(r => {
-            if (this.id == r.data[0].id) {
-              this.data.player.now.musicUrl = r.data[0].url;
-            }
+			if (r.data[0].url == null) {
+				reTools.getData('/unblockmusic', {
+            id: newid
+          }).then(res =>{
+					this.data.player.now.musicUrl = res.url;
+				})
+			} else {
+				if (this.id == r.data[0].id) {
+				  this.data.player.now.musicUrl = r.data[0].url;
+				}
+			}
+
 
           })
           //同步音乐歌词
@@ -618,13 +628,6 @@
           for (let num in norLRC) {
 
             let obj = tranLRC.find(o => o.t == norLRC[num].t)
-
-
-
-
-
-
-            
             //如果能找到对应的翻译歌词
             if (obj) {
               if (!obj.t) {
@@ -712,10 +715,11 @@
         return min + ':' + s
       },
       async lyricSet() {
+		  
         setTimeout(() => {
           this.lyricSet()
         }, 60);
-        if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
+		if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
 
 
           let lyrics = document.getElementById('lyrics')
@@ -729,7 +733,6 @@
             lyricNum = i
           }
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
-
 
             this.data.player.uiDisplay.LineNum = lyricNum
             for (let num = 0; num < lis.length; num++) {
@@ -751,27 +754,28 @@
             //歌词高亮设置
             if (lis[lyricNum - 1]) lis[lyricNum - 1].className = 'lineHeight-1'
 
-            if (lis[lyricNum]) lis[lyricNum].className = 'lineHeight'
 
             if (lis[lyricNum + 1]) lis[lyricNum + 1].className = 'lineHeight--1'
             if (lis[lyricNum + 2]) lis[lyricNum + 2].className = 'lineHeight--2'
+			let coords ;
+			
+			
+			if (lis[lyricNum]) {
+				coords = lis[lyricNum].getBoundingClientRect()
+				lis[lyricNum].className = 'lineHeight'
+				this.data.player.uiDisplay.lineNoTop += - coords.top + document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 );
+			} else {
+				this.data.player.uiDisplay.lineNoTop = document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 )
+			}
 
-
-            let lineNoTop = 0;
-            for (let i = 0; i <= lyricNum; i++) {
-              lineNoTop += lis[i].offsetHeight - 0.3;
-            }
-
-            if (document.querySelector('#lyrics')) {
-              document.querySelector('#lyrics').style.transform = 'translateY(' + ((bodyHeight / 2.25) - lineNoTop) + 'px)'
-            }
-
+            if (document.querySelector('#lyrics')) document.querySelector('#lyrics').style.transform = 'translateY(' + (this.data.player.uiDisplay.lineNoTop) + 'px)'
+            
             //LazyLoad 歌词条懒加载
 
           }
 
         }
-      },
+	  },
       async getCurr() { //音频进度转换
 
         let currTime
@@ -877,12 +881,6 @@
         }
 
       },
-      /**
-       * data: {
-       *    tracks: []
-       *    num: 0
-       * }
-       */
       changeTrack(data) { //接受router的数据
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
           return '重复请求'
@@ -1017,13 +1015,20 @@
       }
     }
   }
-
-
+/*
 function _isShow(el){//判断img是否出现在可视窗口
     let coords = el.getBoundingClientRect(),text;
 
-	if (coords.top >= 0 - parseInt(bodyHeight * 0.2)) text = 'visibilityHidden';
-	if ((coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
+	if (coords.top >= 0) text = 'visibilityHidden';
+	if ( coords.top <= (window.innerHeight + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
+	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
+    return text;
+};*/
+function _isShow(el){//判断img是否出现在可视窗口
+    let coords = el.getBoundingClientRect(),text;
+
+	if (coords.top >= 0) text = 'visibilityHidden';
+	if (coords.top <= bodyHeight * 1.2) text = 'visibilityVisible';
 	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
     return text;
 };

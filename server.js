@@ -8,7 +8,7 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
-
+const match = require('@nondanee/unblockneteasemusic')
 /**
  * The version check result.
  * @readonly
@@ -178,13 +178,13 @@ async function consturctServer(moduleDefs) {
   /**
    * Serving static files
    */
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.static(path.join(__dirname, 'dist')))
 
   /**
    * Cache
    */
   app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
-
+	
   /**
    * Special Routers
    */
@@ -271,7 +271,14 @@ async function consturctServer(moduleDefs) {
       }
     })
   }
+	//魔改 （doge）
+	app.get('/unblockmusic',(req,res)=>{
+		let query = req.query
+		match(query.id, ['migu', 'kuwo', 'qq']).then(r=>{
 
+			res.json(r)
+		})
+	})
   return app
 }
 
