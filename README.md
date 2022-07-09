@@ -1,4 +1,11 @@
 # Blurlyric
+## 项目仅供学习
+
+## 特色
+使用unblock netease music多音源播放，高颜值的音乐播放器
+
+## 官网
+https://gozaoo.github.io/blurlyric/
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)咸鸽 - https://web.blurlyric.app/</a><br>

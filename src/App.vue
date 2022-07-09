@@ -519,11 +519,21 @@
           reTools.getData('/song/url', {
             id: newid
           }).then(r => {
-			if (r.data[0].url == null) {
+			  console.log(r)
+			  
+			if (r.data[0].url == null || r.data[0].freeTrialInfo != null) {
 				reTools.getData('/unblockmusic', {
             id: newid
           }).then(res =>{
 					this.data.player.now.musicUrl = res.url;
+					document.querySelector('#audio').addEventListener('canplay', function () {
+					  document.querySelector('#audio').play();
+					})
+					document.querySelector('#audio').addEventListener('loadeddata', function () {
+					  if (document.querySelector('#audio').readyState >= 2) {
+					    document.querySelector('#audio').play();
+					  }
+					})
 				})
 			} else {
 				if (this.id == r.data[0].id) {

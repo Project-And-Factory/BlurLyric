@@ -274,7 +274,7 @@ async function consturctServer(moduleDefs) {
 	//魔改 （doge）
 	app.get('/unblockmusic',(req,res)=>{
 		let query = req.query
-		match(query.id, ['migu', 'kuwo', 'qq']).then(r=>{
+		match(query.id, ['migu', 'kuwo', 'qq','xiami','baidu']).then(r=>{
 
 			res.json(r)
 		})
