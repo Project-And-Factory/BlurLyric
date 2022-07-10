@@ -113,6 +113,13 @@
     margin-inline-start: auto;
   }
 
+.topBlockText>*{
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 1;
+}
   .topBlockText h2 {
     margin: 5px 0;
     font-size: 1.6em;

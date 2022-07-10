@@ -579,6 +579,13 @@
           this.data.user = r.data
           if (this.data.user.account) {
             this.myPlayList()
+			//自动签到
+			reTools.getData('/daily_signin',{
+				type:0
+			});
+			reTools.getData('/daily_signin',{
+				type:1
+			})
             reTools.getData('/recommend/songs').then(r => {
               this.data.recommendSongs = r.data.dailySongs
             })
@@ -841,6 +848,11 @@
 
       },
       nextMusic() {
+		  reTools.getData('/scrobble',{
+		  	id: this.id,
+		  	sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+			time: Math.floor(document.querySelector('audio').currentTime)
+		  })
         if (this.data.player.tracks.length != this.data.player.trackNum + 1) {
           if (this.data.player.random == false) {
             this.data.player.trackNum++
@@ -856,7 +868,11 @@
         }
       },
       upMusic() {
-
+		  reTools.getData('/scrobble',{
+		  	id: this.id,
+		  	sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+			time: Math.floor(document.querySelector('audio').currentTime)
+		  })
         if (this.data.player.trackNum != 0) {
           document.querySelector('#audio').pause();
           this.data.player.playing = false;
@@ -868,6 +884,10 @@
         }
       },
       finishPlay() {
+		reTools.getData('/scrobble',{
+			id: this.id,
+			sourceid: this.data.player.tracks[this.data.player.trackNum].al.id
+		})
         if (document.querySelector('#audio').loop == false) {
           this.data.player.playing = false;
           document.querySelector('#audio').pause();

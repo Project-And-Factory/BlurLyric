@@ -419,6 +419,7 @@ flex-direction: column;
   height: var(--minplayerHeight);
   white-space: nowrap;
   display: flex;
+  overflow: hidden;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -523,7 +524,7 @@ div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+	display: -webkit-box;
 }
 
 div.player-Mini-Title>h1,.trackTitle>h1 {
@@ -543,7 +544,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 .player-Mini-Contorl{
   display: flex;
   align-items: center;
-
+  min-width: max-content;
 }
 .player-Mini-Contorl>a{
   padding: 13px;
