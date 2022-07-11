@@ -8,7 +8,7 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
-const match = require('@nondanee/unblockneteasemusic')
+const match = require('@unblockneteasemusic/server')
 /**
  * The version check result.
  * @readonly
@@ -274,7 +274,7 @@ async function consturctServer(moduleDefs) {
 	//魔改 （doge）
 	app.get('/unblockmusic',(req,res)=>{
 		let query = req.query
-		match(query.id, ['migu', 'kuwo', 'qq','xiami','baidu']).then(r=>{
+		match(query.id, ['migu', 'kugou','pyncmd','kuwo','bilibili','qq']).then(r=>{
 
 			res.json(r)
 		})

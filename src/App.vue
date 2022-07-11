@@ -1,5 +1,5 @@
 <template>
-  <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false'
+  <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl.use.url" @pause='data.player.playing=false'
     @play='data.player.playing=true' @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr"
     @canplay="showLong"></audio>
     
@@ -175,7 +175,7 @@
         <div class="player-Title">
                 <h1>{{data.player.tracks[data.player.trackNum].name}} <a
                     v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
-                    style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a></h1>
+                    style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;" v-if="(data.player.now.musicUrl.use.br >= 900000)">FLAC</a></h1>
                 <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
                   </a><a>&nbsp;-&nbsp;
                     {{data.player.tracks[data.player.trackNum].al.name}}
@@ -394,7 +394,15 @@
 			  lineNoTop: 0,
             },
             now: {
-              musicUrl: '',
+              musicUrl: {
+				  netea: {},
+				  unblock: {},
+				  use: {
+					  br: 0,
+					  url:''
+				  }
+			  },
+			  br: '',
               oLRC: {
                 offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
                 ms: [], //歌词数组{t:时间,c:歌词}
@@ -515,34 +523,28 @@
           if (oldId == undefined) {
             return 0
           }
-          //同步音乐文件
-          reTools.getData('/song/url', {
-            id: newid
-          }).then(r => {
-			  console.log(r)
-			  
-			if (r.data[0].url == null || r.data[0].freeTrialInfo != null) {
-				reTools.getData('/unblockmusic', {
-            id: newid
-          }).then(res =>{
-					this.data.player.now.musicUrl = res.url;
-					document.querySelector('#audio').addEventListener('canplay', function () {
-					  document.querySelector('#audio').play();
-					})
-					document.querySelector('#audio').addEventListener('loadeddata', function () {
-					  if (document.querySelector('#audio').readyState >= 2) {
-					    document.querySelector('#audio').play();
-					  }
-					})
-				})
+		  //同步音乐文件
+		  let data = {
+		  			  netea: {},
+		  			  unblock: {},
+					  use: this.netea
+		  }
+		  await reTools.getData('/song/url', {
+		    id: newid
+		  }).then(r => {			  
+		  				data.netea = r.data[0]
+		  })
+		  await reTools.getData('/unblockmusic', {
+		    id: newid
+		  }).then(res =>{
+		  				data.unblock = res
+		  			})
+			if(data.netea.br>= data.unblock.br){
+				data.use = data.netea
 			} else {
-				if (this.id == r.data[0].id) {
-				  this.data.player.now.musicUrl = r.data[0].url;
-				}
+				data.use = data.unblock
 			}
-
-
-          })
+			this.data.player.now.musicUrl = data
           //同步音乐歌词
           reTools.getData('/lyric', {
             id: newid

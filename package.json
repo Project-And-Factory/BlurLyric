@@ -12,6 +12,7 @@
     "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1"
   },
   "dependencies": {
+    "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "axios": "^0.27.2",
     "electron": "^20.0.0-alpha.7",
     "express": "^4.18.1",
@@ -30,8 +31,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "electron-packager": "^15.5.1",
     "electron": "^20.0.0-alpha.7",
+    "electron-packager": "^15.5.1",
     "vite": "^2.9.9"
   },
   "description": "高颜值的网易云第三方播放器",
