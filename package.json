@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "start": "node server.js",
     "test": "electron .",
-    "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1"
+    "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite"
+    
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
