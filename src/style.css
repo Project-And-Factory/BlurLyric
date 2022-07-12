@@ -600,14 +600,14 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 
 }
 
-.player-background {
-  position: absolute;
-  width: 100vw;
-  height: 100.3vh;
+.player-background::before {
+  position: fixed;
+  content: '';
+  width: 100%;
+  height: 100%;
   bottom: 0;
-  background-attachment: fixed;
+  will-change:movement,animation;
   z-index: -2;
-  transform: translate(0);
     background-color: #ffffff;
     background-image: 
       radial-gradient(closest-side, var(--color1), rgba(0,0,0, 0)),
@@ -906,8 +906,8 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   z-index: 1;
   overflow: hidden;
   font-size: 2.3vh;
-  position: absolute;
-  top: -36px;
+  position: relative;
+  transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
 ul li {
@@ -923,8 +923,8 @@ ul li {
 
 ul#lyrics {
   padding-left: 0;
-  position: relative;
   z-index: -1;
+  will-change: transform;
   transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
@@ -935,9 +935,9 @@ ul#lyrics {
   color: rgba(0, 0, 0, .15);
   border-radius: 2vh;
   filter: blur(3px);
-
   width: fit-content;
   transition: color 0s,filter .8s;
+
 }
 
 #lyric  ul li:active {
