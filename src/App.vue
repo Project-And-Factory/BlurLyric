@@ -566,13 +566,12 @@ import { average,prominent } from 'color.js'
 
           })
 		  //更新主题色
-		  
-		  this.data.player.uiDisplay.color = await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl), {
+		  console.time()
+		  this.data.player.uiDisplay.color = await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=500y500"), {
 			  format: 'hex',
 			  amount: 5,
-			  group: 120,
-			  sample: 30})
-		console.log(this.data.player.uiDisplay.color)
+			  group: 100})
+		console.timeEnd()
         }
       }
     },

@@ -607,7 +607,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   bottom: 0;
   background-attachment: fixed;
   z-index: -2;
-  
+  transform: translate(0);
     background-color: #ffffff;
     background-image: 
       radial-gradient(closest-side, var(--color1), rgba(0,0,0, 0)),
