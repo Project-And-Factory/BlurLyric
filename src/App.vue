@@ -155,9 +155,13 @@
 
 
       </div>
+	<!--
+	v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
+	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
+	-->
     </div>
-    <div v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
-      v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
+    <div
+      v-if="data.player.uiDisplay.mainDisplay != 'buttom'" v-bind:style="'--color1:' + 	data.player.uiDisplay.color[0]+ '80;' + '--color2:' + 	data.player.uiDisplay.color[1]+ '80;--color3:' + 	data.player.uiDisplay.color[2]+ '80;--color4:' + data.player.uiDisplay.color[3]+ '80;--color5:' + data.player.uiDisplay.color[4] + '80;'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -356,7 +360,7 @@
   import reTools from './network/getData'
   import './style.css'
   import './fixelButtom.css'
-
+import { average,prominent } from 'color.js'
   
 
   var bodyHeight = document.documentElement.clientHeight
@@ -392,6 +396,7 @@
               progress: 0,
               LineNum: 0,
 			  lineNoTop: 0,
+			  color:[]
             },
             now: {
               musicUrl: {
@@ -539,7 +544,7 @@
 		  }).then(res =>{
 		  				data.unblock = res
 		  			})
-			if(data.netea.br>= data.unblock.br){
+			if(data.netea.br>= data.unblock.br && data.netea.freeTrialInfo!=null){
 				data.use = data.netea
 			} else {
 				data.use = data.unblock
@@ -560,6 +565,14 @@
             }
 
           })
+		  //更新主题色
+		  
+		  this.data.player.uiDisplay.color = await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl), {
+			  format: 'hex',
+			  amount: 5,
+			  group: 120,
+			  sample: 30})
+		console.log(this.data.player.uiDisplay.color)
         }
       }
     },

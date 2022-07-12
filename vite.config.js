@@ -18,7 +18,8 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite
       }
-    }
+    },
+	cors: true
   },
   resolve: {
     alias: {

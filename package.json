@@ -14,6 +14,7 @@
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "axios": "^0.27.2",
+    "color.js": "^1.2.0",
     "electron": "^20.0.0-alpha.7",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
