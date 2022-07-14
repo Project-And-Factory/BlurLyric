@@ -528,6 +528,12 @@ import { average,prominent } from 'color.js'
           if (oldId == undefined) {
             return 0
           }
+		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=48y48"), {
+		  			  format: 'hex',
+		  			  amount: 5,
+		  			  group: 150}).then(r=>{
+		  				  this.data.player.uiDisplay.color = r
+		  			  })
 		  //同步音乐文件
 		  let data = {
 		  			  netea: {},
@@ -565,13 +571,7 @@ import { average,prominent } from 'color.js'
             }
 
           })
-		  //更新主题色
-		  console.time()
-		  this.data.player.uiDisplay.color = await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=500y500"), {
-			  format: 'hex',
-			  amount: 5,
-			  group: 100})
-		console.timeEnd()
+
         }
       }
     },
