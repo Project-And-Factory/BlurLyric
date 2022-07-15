@@ -33,8 +33,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "electron": "^20.0.0-alpha.7",
-    "electron-packager": "^15.5.1",
     "vite": "^2.9.9"
   },
   "description": "高颜值的网易云第三方播放器",
