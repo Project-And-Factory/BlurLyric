@@ -1,5 +1,5 @@
 <template>
-  <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl" @pause='data.player.playing=false'
+  <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl.use.url" @pause='data.player.playing=false'
     @play='data.player.playing=true' @ended="finishPlay" ref="audio" id="audio" @timeupdate="getCurr"
     @canplay="showLong"></audio>
     
@@ -155,9 +155,13 @@
 
 
       </div>
+	<!--
+	v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
+	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
+	-->
     </div>
-    <div v-bind:style="'background-image:url('+ data.player.tracks[data.player.trackNum].al.picUrl +')'"
-      v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
+    <div
+      v-if="data.player.uiDisplay.mainDisplay != 'buttom'" v-bind:style="'--color1:' + 	data.player.uiDisplay.color[0]+ '80;' + '--color2:' + 	data.player.uiDisplay.color[1]+ '80;--color3:' + 	data.player.uiDisplay.color[2]+ '80;--color4:' + data.player.uiDisplay.color[3]+ '80;--color5:' + data.player.uiDisplay.color[4] + '80;'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -175,7 +179,7 @@
         <div class="player-Title">
                 <h1>{{data.player.tracks[data.player.trackNum].name}} <a
                     v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
-                    style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a></h1>
+                    style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;" v-if="(data.player.now.musicUrl.use.br >= 900000)">FLAC</a></h1>
                 <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
                   </a><a>&nbsp;-&nbsp;
                     {{data.player.tracks[data.player.trackNum].al.name}}
@@ -356,7 +360,7 @@
   import reTools from './network/getData'
   import './style.css'
   import './fixelButtom.css'
-
+import { average,prominent } from 'color.js'
   
 
   var bodyHeight = document.documentElement.clientHeight
@@ -390,10 +394,20 @@
               currTime: 0,
               maxProgressWidth: '0px',
               progress: 0,
-              LineNum: 0
+              LineNum: 0,
+			  lineNoTop: 0,
+			  color:[]
             },
             now: {
-              musicUrl: '',
+              musicUrl: {
+				  netea: {},
+				  unblock: {},
+				  use: {
+					  br: 0,
+					  url:''
+				  }
+			  },
+			  br: '',
               oLRC: {
                 offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
                 ms: [], //歌词数组{t:时间,c:歌词}
@@ -514,15 +528,34 @@
           if (oldId == undefined) {
             return 0
           }
-          //同步音乐文件
-          reTools.getData('/song/url', {
-            id: newid
-          }).then(r => {
-            if (this.id == r.data[0].id) {
-              this.data.player.now.musicUrl = r.data[0].url;
-            }
-
-          })
+		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=48y48"), {
+		  			  format: 'hex',
+		  			  amount: 5,
+		  			  group: 150}).then(r=>{
+		  				  this.data.player.uiDisplay.color = r
+		  			  })
+		  //同步音乐文件
+		  let data = {
+		  			  netea: {},
+		  			  unblock: {},
+					  use: this.netea
+		  }
+		  await reTools.getData('/song/url', {
+		    id: newid
+		  }).then(r => {			  
+		  				data.netea = r.data[0]
+		  })
+		  await reTools.getData('/unblockmusic', {
+		    id: newid
+		  }).then(res =>{
+		  				data.unblock = res
+		  			})
+			if(data.netea.br>= data.unblock.br && data.netea.freeTrialInfo!=null){
+				data.use = data.netea
+			} else {
+				data.use = data.unblock
+			}
+			this.data.player.now.musicUrl = data
           //同步音乐歌词
           reTools.getData('/lyric', {
             id: newid
@@ -538,6 +571,7 @@
             }
 
           })
+
         }
       }
     },
@@ -559,6 +593,13 @@
           this.data.user = r.data
           if (this.data.user.account) {
             this.myPlayList()
+			//自动签到
+			reTools.getData('/daily_signin',{
+				type:0
+			});
+			reTools.getData('/daily_signin',{
+				type:1
+			})
             reTools.getData('/recommend/songs').then(r => {
               this.data.recommendSongs = r.data.dailySongs
             })
@@ -618,13 +659,6 @@
           for (let num in norLRC) {
 
             let obj = tranLRC.find(o => o.t == norLRC[num].t)
-
-
-
-
-
-
-            
             //如果能找到对应的翻译歌词
             if (obj) {
               if (!obj.t) {
@@ -712,10 +746,11 @@
         return min + ':' + s
       },
       async lyricSet() {
+		  
         setTimeout(() => {
           this.lyricSet()
         }, 60);
-        if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
+		if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
 
 
           let lyrics = document.getElementById('lyrics')
@@ -729,7 +764,6 @@
             lyricNum = i
           }
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
-
 
             this.data.player.uiDisplay.LineNum = lyricNum
             for (let num = 0; num < lis.length; num++) {
@@ -751,27 +785,28 @@
             //歌词高亮设置
             if (lis[lyricNum - 1]) lis[lyricNum - 1].className = 'lineHeight-1'
 
-            if (lis[lyricNum]) lis[lyricNum].className = 'lineHeight'
 
             if (lis[lyricNum + 1]) lis[lyricNum + 1].className = 'lineHeight--1'
             if (lis[lyricNum + 2]) lis[lyricNum + 2].className = 'lineHeight--2'
+			let coords ;
+			
+			
+			if (lis[lyricNum]) {
+				coords = lis[lyricNum].getBoundingClientRect()
+				lis[lyricNum].className = 'lineHeight'
+				this.data.player.uiDisplay.lineNoTop += - coords.top + document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 );
+			} else {
+				this.data.player.uiDisplay.lineNoTop = document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 )
+			}
 
-
-            let lineNoTop = 0;
-            for (let i = 0; i <= lyricNum; i++) {
-              lineNoTop += lis[i].offsetHeight - 0.3;
-            }
-
-            if (document.querySelector('#lyrics')) {
-              document.querySelector('#lyrics').style.transform = 'translateY(' + ((bodyHeight / 2.25) - lineNoTop) + 'px)'
-            }
-
+            if (document.querySelector('#lyrics')) document.querySelector('#lyrics').style.transform = 'translateY(' + (this.data.player.uiDisplay.lineNoTop) + 'px)'
+            
             //LazyLoad 歌词条懒加载
 
           }
 
         }
-      },
+	  },
       async getCurr() { //音频进度转换
 
         let currTime
@@ -827,6 +862,11 @@
 
       },
       nextMusic() {
+		  reTools.getData('/scrobble',{
+		  	id: this.id,
+		  	sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+			time: Math.floor(document.querySelector('audio').currentTime)
+		  })
         if (this.data.player.tracks.length != this.data.player.trackNum + 1) {
           if (this.data.player.random == false) {
             this.data.player.trackNum++
@@ -842,7 +882,11 @@
         }
       },
       upMusic() {
-
+		  reTools.getData('/scrobble',{
+		  	id: this.id,
+		  	sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+			time: Math.floor(document.querySelector('audio').currentTime)
+		  })
         if (this.data.player.trackNum != 0) {
           document.querySelector('#audio').pause();
           this.data.player.playing = false;
@@ -854,6 +898,10 @@
         }
       },
       finishPlay() {
+		reTools.getData('/scrobble',{
+			id: this.id,
+			sourceid: this.data.player.tracks[this.data.player.trackNum].al.id
+		})
         if (document.querySelector('#audio').loop == false) {
           this.data.player.playing = false;
           document.querySelector('#audio').pause();
@@ -877,12 +925,6 @@
         }
 
       },
-      /**
-       * data: {
-       *    tracks: []
-       *    num: 0
-       * }
-       */
       changeTrack(data) { //接受router的数据
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
           return '重复请求'
@@ -1017,13 +1059,20 @@
       }
     }
   }
-
-
+/*
 function _isShow(el){//判断img是否出现在可视窗口
     let coords = el.getBoundingClientRect(),text;
 
-	if (coords.top >= 0 - parseInt(bodyHeight * 0.2)) text = 'visibilityHidden';
-	if ((coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
+	if (coords.top >= 0) text = 'visibilityHidden';
+	if ( coords.top <= (window.innerHeight + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
+	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
+    return text;
+};*/
+function _isShow(el){//判断img是否出现在可视窗口
+    let coords = el.getBoundingClientRect(),text;
+
+	if (coords.top >= 0) text = 'visibilityHidden';
+	if (coords.top <= bodyHeight * 1.2) text = 'visibilityVisible';
 	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
     return text;
 };

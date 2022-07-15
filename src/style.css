@@ -419,6 +419,7 @@ flex-direction: column;
   height: var(--minplayerHeight);
   white-space: nowrap;
   display: flex;
+  overflow: hidden;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -523,7 +524,7 @@ div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+	display: -webkit-box;
 }
 
 div.player-Mini-Title>h1,.trackTitle>h1 {
@@ -543,7 +544,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 .player-Mini-Contorl{
   display: flex;
   align-items: center;
-
+  min-width: max-content;
 }
 .player-Mini-Contorl>a{
   padding: 13px;
@@ -599,20 +600,83 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 
 }
 
-.player-background {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
+.player-background::before {
+  position: fixed;
+  content: '';
+  width: 100%;
+  height: 100%;
   bottom: 0;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  will-change:movement,animation;
   z-index: -2;
-  filter: blur(10vw) saturate(2) brightness(1.3) opacity(0.5);
-  transform: scale(1.2);
-  transition: all 0.5s cubic-bezier(0.000, 0.715, 0.445, 0.995);
-  opacity: 1;
+    background-color: #ffffff;
+    background-image: 
+      radial-gradient(closest-side, var(--color1), rgba(0,0,0, 0)),
+      radial-gradient(closest-side, var(--color2), rgba(0,0,0, 0)),
+      radial-gradient(closest-side, var(--color3), rgba(0,0,0, 0)),
+      radial-gradient(closest-side, var(--color4), rgba(0,0,0, 0));
+    background-size: 
+      130vmax 130vmax,
+      80vmax 80vmax,
+      90vmax 90vmax,
+      90vmax 90vmax;
+    background-position:
+      -70vmax -70vmax,
+      60vmax -30vmax,
+      10vmax 10vmax,
+      50vmax 50vmax;
+    background-repeat: no-repeat;
+    animation: 3.334s movement infinite;
+  }
+
+@keyframes movement {
+  0%, 100% {
+    background-size: 
+      130vmax 130vmax,
+      80vmax 80vmax,
+      90vmax 90vmax,
+      90vmax 90vmax;
+    background-position:
+      -30vmax -30vmax,
+      60vmax -30vmax,
+      10vmax 10vmax,
+      50vmax 50vmax;
+  }
+  25% {
+    background-size: 
+      100vmax 100vmax,
+      90vmax 90vmax,
+      100vmax 100vmax,
+      160vmax 160vmax;
+    background-position:
+      -40vmax -40vmax,
+      50vmax -40vmax,
+      0vmax -20vmax,
+      -40vmax 20vmax;
+  }
+  50% {
+    background-size: 
+      160vmax 160vmax,
+      110vmax 110vmax,
+      150vmax 150vmax,
+      80vmax 80vmax;
+    background-position:
+      -40vmax -20vmax,
+      40vmax -30vmax,
+      10vmax 0vmax,
+      30vmax 20vmax;
+  }
+  75% {
+    background-size: 
+      150vmax 150vmax,
+      90vmax 90vmax,
+      100vmax 100vmax,
+      70vmax 70vmax;
+    background-position:
+      -50vmax -40vmax,
+      50vmax -30vmax,
+      20vmax 0vmax,
+      20vmax 40vmax;
+  }
 }
 #player > div.player-background.buttom{
   display: none;
@@ -842,8 +906,8 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   z-index: 1;
   overflow: hidden;
   font-size: 2.3vh;
-  position: absolute;
-  top: -36px;
+  position: relative;
+  transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
 ul li {
@@ -859,8 +923,8 @@ ul li {
 
 ul#lyrics {
   padding-left: 0;
-  position: relative;
   z-index: -1;
+  will-change: transform;
   transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
@@ -871,9 +935,9 @@ ul#lyrics {
   color: rgba(0, 0, 0, .15);
   border-radius: 2vh;
   filter: blur(3px);
-
   width: fit-content;
   transition: color 0s,filter .8s;
+
 }
 
 #lyric  ul li:active {

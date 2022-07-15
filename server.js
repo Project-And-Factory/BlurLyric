@@ -8,7 +8,7 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
-
+const match = require('@unblockneteasemusic/server')
 /**
  * The version check result.
  * @readonly
@@ -134,7 +134,14 @@ async function checkVersion() {
 async function consturctServer(moduleDefs) {
   const app = express()
   app.set('trust proxy', true)
-
+	//允许跨域
+	app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    next();
+  });
   /**
    * CORS & Preflight request
    */
@@ -178,13 +185,13 @@ async function consturctServer(moduleDefs) {
   /**
    * Serving static files
    */
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.static(path.join(__dirname, 'dist')))
 
   /**
    * Cache
    */
   app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
-
+	
   /**
    * Special Routers
    */
@@ -271,7 +278,14 @@ async function consturctServer(moduleDefs) {
       }
     })
   }
+	//魔改 （doge）
+	app.get('/unblockmusic',(req,res)=>{
+		let query = req.query
+		match(query.id, ['migu', 'kugou','pyncmd','kuwo','qq']).then(r=>{
 
+			res.json(r)
+		})
+	})
   return app
 }
 
