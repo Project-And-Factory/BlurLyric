@@ -767,7 +767,7 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
 }
 
 .mCside {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(0, 0, 0, 0.2);
   width: 100%;
   height: var(--height);
   border-radius: calc(var(--height) / 2);
@@ -777,12 +777,11 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
 
 .continueBar {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(0, 0, 0, 0.5);
   height: var(--height);
   --progress: var(--height);
   min-width: 6px;
   max-width: 100%;
-  transition: all 0.2s;
   width: calc(var(--progress) * 100%);
   border-radius: calc(var(--height) / 2);
 }

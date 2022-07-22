@@ -539,10 +539,10 @@ import { average,prominent } from 'color.js'
           if (oldId == undefined) {
             return 0
           }
-		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=20y20"), {
+		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=10y10"), {
 		  			  format: 'hex',
 		  			  amount: 2,
-		  			  group: 80}).then(r=>{
+		  			  group: 20}).then(r=>{
 		  				  this.data.player.uiDisplay.color = r
 		  			  })
 		  //同步音乐文件
