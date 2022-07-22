@@ -111,7 +111,6 @@ body {
   background-color: #ffffff88;
   /* 负责在效果上添加噪点，可以营造出磨砂效果 */
   /* 磨砂大小 */
-  transform: translateZ(0);
 }
 
 .leftlab {
@@ -128,7 +127,7 @@ body {
   background-color: #fff;
   gap: 12px;
   flex-direction: column;
-  z-index: 100;
+  z-index: 1;
   backdrop-filter:
   /* 负责背景模糊 */
   blur(0vw)
@@ -137,7 +136,6 @@ body {
   /* 负责颜色饱和度，可以减小来衬托前景，避免背景太鲜艳 */
   saturate(140%);
   transition: all .2s cubic-bezier(.3, .45, .2, .95);
-  transform: translateZ(0);
 
 }
 .leftlab.top{
@@ -305,17 +303,15 @@ input#searchInput {
   display: flex;
   gap: 12px;
   background-color: #fff;
-  z-index: 2;
+  z-index: 1;
   align-items: center;
   
 }
 .ROWTOPtitle>*{
-  z-index: 4
 }
 .ROWTOPtitle>div.dragBar{
   width: calc(100%);
   height: 100%;
-  z-index: 2;
   
   
 }
@@ -354,7 +350,6 @@ flex-direction: column;
   padding:20px;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 1;
 }
 
 .opes {
@@ -370,7 +365,6 @@ flex-direction: column;
   left: 100%;
   height: 48px;
   border: solid 2px rgba(255, 255, 255, .35);
-  z-index: 101;
   border-radius: 50%;
   transform: translate(calc(-100% - 24px), calc(-100% - 24px)) scale(1);
   width: 48px;
@@ -391,13 +385,13 @@ flex-direction: column;
   overflow: hidden;
   top: calc(100% + 20px);
   
-  z-index: 200;
+  z-index: 3;
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   padding-bottom: 20px;
   box-shadow: #00000005 0 0 40px 0px;
   height: calc(100% + var(--minplayerHeight));
-  transform: translate(0, -18px);
+  margin-top: -18px;
   background: #ffffff;
 }
 
@@ -477,7 +471,6 @@ flex-direction: column;
   padding: calc(var(--minplayerHeight) / 4 );
   z-index: 2;
   transition: 0.2s;
-  transform: scale(1);
 
 
 }
@@ -600,84 +593,19 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 
 }
 
-.player-background::before {
-  position: fixed;
+.player-background{
+  position: absolute;
   content: '';
-  width: 100%;
-  height: 100%;
-  bottom: 0;
-  will-change:movement,animation;
+  width: 120vw;
+  height: 120vh;
+  margin: -10vh 0 0 -10vw;
   z-index: -2;
-    background-color: #ffffff;
-    background-image: 
-      radial-gradient(closest-side, var(--color1), rgba(0,0,0, 0)),
-      radial-gradient(closest-side, var(--color2), rgba(0,0,0, 0)),
-      radial-gradient(closest-side, var(--color3), rgba(0,0,0, 0)),
-      radial-gradient(closest-side, var(--color4), rgba(0,0,0, 0));
-    background-size: 
-      130vmax 130vmax,
-      80vmax 80vmax,
-      90vmax 90vmax,
-      90vmax 90vmax;
-    background-position:
-      -70vmax -70vmax,
-      60vmax -30vmax,
-      10vmax 10vmax,
-      50vmax 50vmax;
+    background-color: var(--color1);
     background-repeat: no-repeat;
-    animation: 3.334s movement infinite;
+	background-size: cover;
+	filter: blur(10vmax) contrast(0.3) brightness(1.5) saturate(2);
+	transition: 0.3s;
   }
-
-@keyframes movement {
-  0%, 100% {
-    background-size: 
-      130vmax 130vmax,
-      80vmax 80vmax,
-      90vmax 90vmax,
-      90vmax 90vmax;
-    background-position:
-      -30vmax -30vmax,
-      60vmax -30vmax,
-      10vmax 10vmax,
-      50vmax 50vmax;
-  }
-  25% {
-    background-size: 
-      100vmax 100vmax,
-      90vmax 90vmax,
-      100vmax 100vmax,
-      160vmax 160vmax;
-    background-position:
-      -40vmax -40vmax,
-      50vmax -40vmax,
-      0vmax -20vmax,
-      -40vmax 20vmax;
-  }
-  50% {
-    background-size: 
-      160vmax 160vmax,
-      110vmax 110vmax,
-      150vmax 150vmax,
-      80vmax 80vmax;
-    background-position:
-      -40vmax -20vmax,
-      40vmax -30vmax,
-      10vmax 0vmax,
-      30vmax 20vmax;
-  }
-  75% {
-    background-size: 
-      150vmax 150vmax,
-      90vmax 90vmax,
-      100vmax 100vmax,
-      70vmax 70vmax;
-    background-position:
-      -50vmax -40vmax,
-      50vmax -30vmax,
-      20vmax 0vmax,
-      20vmax 40vmax;
-  }
-}
 #player > div.player-background.buttom{
   display: none;
 }
@@ -722,12 +650,7 @@ gap: 3vw;
 }
 
 .right-side {
-  font-size: 0;
-  position: relative;
-  width: calc(calc(50vw) - 2vw);
-  height: 100vh;
-  overflow: hidden;
-  padding: 0px 40px 40px  0px;
+	max-width: calc(100% - 80px - 59vh);
 
 }
 
@@ -793,7 +716,7 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   border-radius: 11px;
   position: absolute;
   z-index: 1;
-  transform: translate(8px, -16px);
+  margin: -16px 0 0 8px;
 }
 .contorlPlayerButtom:hover{
   background-color: #00000005;
@@ -806,8 +729,7 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   width: 100%;
   text-align: center;
   font-size: 0.8rem;
-  z-index: 0;
-  transform: translate(0, -16px);
+  margin-top: -16px;
 }
 
 .player-Title>* {
@@ -902,41 +824,32 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
 }
 
 #lyric {
-  height: 100%;
-  z-index: 1;
+  
   overflow: hidden;
   font-size: 2.3vh;
-  position: relative;
   transition: all .6s cubic-bezier(.3, .45, .2, .95);
 }
 
 ul li {
   list-style: none;
   padding: 0;
-  z-index: -1;
   margin: 0;
-}
-
-#lyricGunDong {
-  transition: all .6s /*cubic-bezier(.3, .45, .2, .95);*/
 }
 
 ul#lyrics {
   padding-left: 0;
-  z-index: -1;
-  will-change: transform;
-  transition: all .6s cubic-bezier(.3, .45, .2, .95);
+  transition: all .5s cubic-bezier(.3, .45, .2, .95);
 }
 
 
 
 #lyric ul li {
-  padding: 0.9vh;
+  padding: 1vh;
   color: rgba(0, 0, 0, .15);
   border-radius: 2vh;
-  filter: blur(3px);
+  filter: blur(0.2vh);
   width: fit-content;
-  transition: color 0s,filter .8s;
+  transition: filter .8s;
 
 }
 
@@ -952,7 +865,7 @@ ul#lyrics {
 }
 
 #lyric  ul#lyrics li>h2 {
-  margin: 10px 0 0 0;
+  margin: 1vh 0 0 0;
   font-size: 1.1em;
 }
 
@@ -962,19 +875,19 @@ ul#lyrics {
 }
 
 #lyric  ul li>div {
-  font-size: .7em;
+  font-size: .5em;
   width: fit-content;
-  margin-top: 0.15em;
+  margin-top: 0.2em;
   padding: 0.3em 0.5em;
   border-radius: 0.8em;
-  color: rgba(0, 0, 0, .0);
-  background-color: rgba(0, 0, 0, 0);
-  transition: all 0.5s;
+  visibility: hidden;
+  background-color: none;
 
 }
 
 #lyric  ul li:hover>div {
-  color: rgba(0, 0, 0, .5);
+  visibility: visible;
+  background-color: rgb(0, 0, 0, .05)
 }
 
 #lyric  ul#lyrics li.lineHeight>h1 {
@@ -983,8 +896,8 @@ ul#lyrics {
 }
 
 #lyric  ul#lyrics li.lineHeight {
-  color: rgba(0, 0, 0, .7);
-  filter: blur(0px);
+  color: rgb(0, 0, 0, .7);
+  filter: none;
 }
 
 #lyric  ul#lyrics li.lineHeight-1>h1 {
@@ -993,18 +906,18 @@ ul#lyrics {
 }
 
 #lyric  ul#lyrics li.lineHeight-1 {
-  color: rgba(0, 0, 0, .35);
-  filter: blur(2px);
+  color: rgb(0, 0, 0, .35);
+  filter: blur(0.12vh);
 }
 
 #lyric  ul#lyrics li.lineHeight--1>h1 {
-  font-size: 1.42em;
+  font-size: 1.4em;
 
 }
 
 #lyric  ul#lyrics li.lineHeight--1 {
-  color: rgba(0, 0, 0, .4);
-  filter: blur(1px);
+  color: rgb(0, 0, 0, .4);
+  filter: blur(0.08vh);
 }
 
 #lyric  ul#lyrics li.lineHeight--2>h1 {
@@ -1012,21 +925,70 @@ ul#lyrics {
 }
 
 #lyric  ul#lyrics li.lineHeight--2 {
-  filter: blur(2px);
-  color: rgba(0, 0, 0, .28);
+  filter: blur(0.15vh);
+  color: rgb(0, 0, 0, .28);
 }
 
 #lyric  ul#lyrics li:hover {
-  background-color: rgba(0, 0, 0, .05);
-  filter: blur(0px);
+  filter: none;
+  cursor: pointer;
   transition: all .2s ;
 
 
 }
 
-#lyric  ul#lyrics li:hover>div {
-  background-color: rgba(0, 0, 0, .05);
-
+.visibilityHidden{
+	visibility: hidden;
+}
+.visibilityVisible{
+	visibility: visible;
+}
+.displayNone{
+	display: none;
+}
+@media (max-width:110vh) {
+	#lyric{
+		font-size: 2.2vh;
+	}
+	.left-side{
+		position: absolute;
+		z-index: 1;
+		flex-direction: row;
+		align-items:center;
+		height: 36px;
+		backdrop-filter: blur(8px);
+		background-color: rgb(0,0,0,0.03);
+		width: fit-content;
+		padding: 10px;border-radius: 8px;
+		top: 100%;
+		gap: 2.9vw;
+		margin: -76px 0 0 0;
+		left: 50%;
+		transform: translate(-50%,0);box-shadow: 0 0 20px hsla(0,0%,39%,.05);
+	}
+	.left-side>.musicContorlCurrTime{
+		display: none;
+	}
+	.right-side{
+		max-width: none;
+		padding: 0 var(--paddingIndex);
+	}
+	.left-sideImage{display:none}
+	#player > div.playerDisplayOutBox > div.left-side.playerIndexSide > div.playerLeftLink > a:nth-child(1) > svg{
+		width: 3vh;
+		height: 3vh;
+	}
+	.playerLeftLink{
+		display: flex;
+		align-content: center;
+		gap: 3vw;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.playerLeftLink>a{
+		padding: 0.5em;
+	}
 }
 /*
 /*==仅歌词==

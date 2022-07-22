@@ -161,7 +161,7 @@
 	-->
     </div>
     <div
-      v-if="data.player.uiDisplay.mainDisplay != 'buttom'" v-bind:style="'--color1:' + 	data.player.uiDisplay.color[0]+ '80;' + '--color2:' + 	data.player.uiDisplay.color[1]+ '80;--color3:' + 	data.player.uiDisplay.color[2]+ '80;--color4:' + data.player.uiDisplay.color[3]+ '80;--color5:' + data.player.uiDisplay.color[4] + '80;'"
+      v-if="data.player.uiDisplay.mainDisplay != 'buttom'" v-bind:style="'--color1:' + 	data.player.uiDisplay.color[0]+ ';--color2:' + data.player.uiDisplay.color[1]+ ';background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl+')'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -358,19 +358,29 @@
 </template>
 <script>
   import reTools from './network/getData'
+  import lyric from './lyric.js'
   import './style.css'
   import './fixelButtom.css'
 import { average,prominent } from 'color.js'
   
 
-  var bodyHeight = document.documentElement.clientHeight
-  var bodyWidth = document.documentElement.clientWidth
+  var bodyHeight,lineTopAir,bodyWidth
   window.addEventListener('resize', getWindowInfo)
-
+  getWindowInfo()
   function getWindowInfo() {
-    bodyHeight = document.documentElement.clientHeight
-    bodyWidth = document.documentElement.clientWidth
-    document.querySelector('#fixedButtom').innerHTML = ''
+	  let CachebodyHeight = document.documentElement.clientHeight
+	  let CachebodyWidth = document.documentElement.clientWidth
+	setTimeout(()=>{
+		let CbodyHeight = document.documentElement.clientHeight
+		let CbodyWidth = document.documentElement.clientWidth
+		if(CachebodyHeight == CbodyHeight&&CachebodyWidth==CbodyWidth){
+			bodyHeight = document.documentElement.clientHeight
+			bodyWidth = document.documentElement.clientWidth
+			if(document.querySelector('#fixedButtom'))document.querySelector('#fixedButtom').innerHTML = ''
+			if(document.querySelector('#player > div.playertopbar')){lineTopAir = Math.floor(document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 ))
+}			
+		}
+	},800)
   }
 
   export default {
@@ -396,6 +406,7 @@ import { average,prominent } from 'color.js'
               progress: 0,
               LineNum: 0,
 			  lineNoTop: 0,
+			  lineLazyLoaddelay:0,
 			  color:[]
             },
             now: {
@@ -520,7 +531,7 @@ import { average,prominent } from 'color.js'
       this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
-
+     lineTopAir = Math.floor((72 || document.querySelector("#player > div.playertopbar").clientHeight) + ( bodyHeight * 0.2 ))
     },
     watch: {
       id: {
@@ -528,10 +539,10 @@ import { average,prominent } from 'color.js'
           if (oldId == undefined) {
             return 0
           }
-		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=48y48"), {
+		  prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl+"?param=20y20"), {
 		  			  format: 'hex',
-		  			  amount: 5,
-		  			  group: 150}).then(r=>{
+		  			  amount: 2,
+		  			  group: 80}).then(r=>{
 		  				  this.data.player.uiDisplay.color = r
 		  			  })
 		  //同步音乐文件
@@ -544,30 +555,26 @@ import { average,prominent } from 'color.js'
 		    id: newid
 		  }).then(r => {			  
 		  				data.netea = r.data[0]
+						data.use = data.netea
 		  })
 		  await reTools.getData('/unblockmusic', {
 		    id: newid
 		  }).then(res =>{
+			  if(data.netea.br<= data.unblock.br && data.netea.freeTrialInfo==null){
 		  				data.unblock = res
-		  			})
-			if(data.netea.br>= data.unblock.br && data.netea.freeTrialInfo!=null){
-				data.use = data.netea
-			} else {
-				data.use = data.unblock
-			}
+						data.use = data.unblock
+		  			}})
+			
+
 			this.data.player.now.musicUrl = data
           //同步音乐歌词
           reTools.getData('/lyric', {
             id: newid
           }).then(r => {
             if (r.lrc.lyric && r.tlyric) {
-              this.setcreateLrcObj(r.lrc.lyric, r.tlyric.lyric).then(r => {
-                this.data.player.now.oLRC = r
-              })
+              this.data.player.now.oLRC = lyric.makeLrcObj(r.lrc.lyric, r.tlyric.lyric)
             } else {
-              this.setcreateLrcObj(r.lrc.lyric).then(r => {
-                this.data.player.now.oLRC = r
-              })
+              this.data.player.now.oLRC = lyric.makeLrcObj(r.lrc.lyric)
             }
 
           })
@@ -630,7 +637,7 @@ import { average,prominent } from 'color.js'
             reTools.getData('/lyric', {
               id: randomID
             }).then(r => {
-              let ms = this.Lrcsplit(r.lrc.lyric)
+              let ms = lyric.Lrcsplit(r.lrc.lyric)
               let content = '';
               let counts = 0
               getSomeLyric: for (const num in ms) {
@@ -644,101 +651,6 @@ import { average,prominent } from 'color.js'
             })
           })
         })
-      },
-      async setcreateLrcObj(lrc, tran) {
-
-        let oLRC = {
-          offset: -200, //时间补偿值，单位毫秒，用于调整歌词整体位置
-          ms: [], //歌词数组{t:时间,c:歌词}
-          tran: false
-        }
-        let norLRC = this.Lrcsplit(lrc);
-        let tranLRC
-        if (tran) {
-          tranLRC = this.Lrcsplit(tran)
-          for (let num in norLRC) {
-
-            let obj = tranLRC.find(o => o.t == norLRC[num].t)
-            //如果能找到对应的翻译歌词
-            if (obj) {
-              if (!obj.t) {
-                obj.t = 0
-              }
-              //插入tranContent
-              oLRC.ms.push({ //对象{t:时间,c:歌词}加入ms数组
-                t: norLRC[num].t,
-                c: norLRC[num].c,
-                tranC: obj.c
-              })
-
-            } else {
-              //无法找到，原文照抄
-              oLRC.ms.push({ //对象{t:时间,c:歌词}加入ms数组
-                t: norLRC[num].t,
-                c: norLRC[num].c,
-                tranC: ''
-              })
-            }
-
-
-
-          }
-          oLRC.tran = true
-        } else {
-          oLRC.ms = this.Lrcsplit(lrc)
-        }
-
-
-        oLRC.ms.sort(function (a, b) { //按时间顺序排序
-          return a.t - b.t;
-        });
-        return oLRC;
-
-
-      },
-      //格式化歌词文件
-      Lrcsplit(lrc) {
-        let lrcs = lrc.split('\n');
-
-
-        let olrcms = [];
-        for (let i in lrcs) { //遍历歌词数组
-          lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前后空格
-          let t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]")); //取[]间的内容
-          let s = t.split(":"); //分离:前后文字
-          if (isNaN(parseInt(s[0]))) { //不是数值
-            for (let i in lrcs) {
-              if (i != "ms" && i == s[0].toLowerCase()) {
-                lrcs[i] = s[1];
-              }
-            }
-          } else { //是数值
-            let arr = lrcs[i].match(/\[(\d+:.+?)\]/g); //提取时间字段，可能有多个
-
-            let start = 0;
-            for (let k in arr) {
-              start += arr[k].length; //计算歌词位置
-            }
-
-            var content = lrcs[i].substring(start); //获取歌词内容
-            if (content == '') {
-              continue
-            }
-            for (let k in arr) {
-              let t = arr[k].substring(1, arr[k].length - 1); //取[]间的内容
-              let s = t.split(":"); //分离:前后文字
-              if ((parseFloat(s[0]) * 60 + parseFloat(s[1])).toFixed(3) == 0) {
-                continue
-              }
-              olrcms.push({ //对象{t:时间,c:歌词}加入ms数组
-                t: (parseFloat(s[0]) * 60 + parseFloat(s[1])).toFixed(3),
-                c: content
-              });
-
-            }
-          }
-        }
-        return olrcms
       },
       formTime(sec) { //秒数转化为mm:ss
         let s = sec % 60 < 10 ? ('0' + sec % 60) : sec % 60
@@ -757,50 +669,39 @@ import { average,prominent } from 'color.js'
 
           let lis = lyrics.getElementsByTagName("li")
           let currTime = document.querySelector('#audio').currentTime
-
           if (lis.length == 0) return
-          let lyricNum;
+          let lyricNum = this.data.player.now.oLRC.ms.findIndex(obj=>obj.t >= (currTime+0.6)) - 1
+		  if (lyricNum == -2) lyricNum = this.data.player.now.oLRC.ms.length -1
+		  /*console.time('寻找歌词2')
           for(let i = 0; (this.data.player.now.oLRC.ms.length > i && this.data.player.now.oLRC.ms[i].t <= (currTime + 0.6)); i++){
             lyricNum = i
           }
+		  console.timeEnd('寻找歌词2')*/
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
-
             this.data.player.uiDisplay.LineNum = lyricNum
-            for (let num = 0; num < lis.length; num++) {
-			
-                lis[num].className = ''
-				let zt = _isShow(lis[num])
-				switch (zt){
-					case 'visibilityHidden':
-						lis[num].style.visibility = 'hidden'
-						break;
-					case 'visibilityVisible':
-						lis[num].style.visibility = 'visible'
-						break;
-					default:
-						lis[num].style.display = 'none'
-						break;
+			let date = new Date()
+			if (this.data.player.uiDisplay.lineLazyLoaddelay - Date.now()<=500) {
+				this.data.player.uiDisplay.lineLazyLoaddelay = Date.now()
+				for (let num = 0; num < lis.length; num++) {
+					lis[num].className= _isShow(lis[num])
 				}
-            }
-            //歌词高亮设置
-            if (lis[lyricNum - 1]) lis[lyricNum - 1].className = 'lineHeight-1'
-
-
-            if (lis[lyricNum + 1]) lis[lyricNum + 1].className = 'lineHeight--1'
-            if (lis[lyricNum + 2]) lis[lyricNum + 2].className = 'lineHeight--2'
-			let coords ;
-			
-			
-			if (lis[lyricNum]) {
-				coords = lis[lyricNum].getBoundingClientRect()
-				lis[lyricNum].className = 'lineHeight'
-				this.data.player.uiDisplay.lineNoTop += - coords.top + document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 );
-			} else {
-				this.data.player.uiDisplay.lineNoTop = document.querySelector("#player > div.playertopbar").clientHeight + ( bodyHeight * 0.2 )
 			}
 
-            if (document.querySelector('#lyrics')) document.querySelector('#lyrics').style.transform = 'translateY(' + (this.data.player.uiDisplay.lineNoTop) + 'px)'
-            
+            //歌词高亮设置
+            if (lis[lyricNum - 1]) lis[lyricNum - 1].classList.add('lineHeight-1')
+
+
+            if (lis[lyricNum + 1]) lis[lyricNum + 1].classList.add('lineHeight--1')
+            if (lis[lyricNum + 2]) lis[lyricNum + 2].classList.add('lineHeight--2')
+
+			
+			this.data.player.uiDisplay.lineNoTop += lineTopAir
+			if (lis[lyricNum]) {
+				lis[lyricNum].classList.add('lineHeight')
+				this.data.player.uiDisplay.lineNoTop += Math.floor(- lis[lyricNum].getBoundingClientRect().top)
+			}
+
+            lyrics.style = 'transform: translateY(' + (this.data.player.uiDisplay.lineNoTop) + 'px)'
             //LazyLoad 歌词条懒加载
 
           }
@@ -809,10 +710,9 @@ import { average,prominent } from 'color.js'
 	  },
       async getCurr() { //音频进度转换
 
-        let currTime
-        let cur
-        if (document.querySelector('#audio')) {
-          cur = document.querySelector('#audio').currentTime
+        let currTime,cur,audio = this.$refs.audio
+        if (audio) {
+          cur = audio.currentTime
           currTime = parseInt(cur)
         } else {
           return 0
@@ -1071,9 +971,9 @@ function _isShow(el){//判断img是否出现在可视窗口
 function _isShow(el){//判断img是否出现在可视窗口
     let coords = el.getBoundingClientRect(),text;
 
-	if (coords.top >= 0) text = 'visibilityHidden';
-	if (coords.top <= bodyHeight * 1.2) text = 'visibilityVisible';
-	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
+	if (coords.bottom <= 0) {text = 'visibilityHidden'} 
+	else if (coords.bottom <= bodyHeight * 1.5 && coords.bottom >= 0) text = 'visibilityVisible' 
+	else {text = 'displayNone'};
     return text;
 };
 
