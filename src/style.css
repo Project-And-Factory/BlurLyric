@@ -321,8 +321,6 @@ input#searchInput {
   align-items: center;
   
 }
-.ROWTOPtitle>*{
-}
 .ROWTOPtitle>div.dragBar{
   width: calc(100%);
   height: 100%;
@@ -823,22 +821,24 @@ ul li {
 }
 
 ul#lyrics {
+  
   display: flex;
   padding-left: 0;
   height: fit-content;
   min-height: 100vh;
-  transition: all .5s cubic-bezier(.3, .45, .2, .95),font 0s;
+  transition: all .5s cubic-bezier(.3, .5, .2, 1),font 0s;
   flex-direction: column;
-  --animationMarginTop: 0vh;
-  margin-top: calc(var(--animationMarginTop) + var(--marginTop));
+  margin-top: var(--marginTop)
 }
 @keyframes lyricsSpawn {
   from{
-    --animationMarginTop: 100vh;
-    gap: 5vh;
+    transform: scale(0.8);
+
+    gap: 10vh;
+    opacity: .5;
   }
   to{
-    --animationMarginTop: 0vh;
+    opacity:1;
     gap: 0px;
   }
 }

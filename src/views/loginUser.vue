@@ -80,12 +80,15 @@ export default {
           document.cookie = res.cookie
             setTimeout(() => {
               this.$router.go(-1)
-              location.reload()
+              this.$parent.loginInfor()
             }, 3000);
           } else if (res.code == 502) {
             this.message= res.msg
           } else if (res.code == 400) {
             this.message= '账号错误'
+          } else if (res.code == "ERR_BAD_REQUEST"){
+            this.message = JSON.parse(res.request.response).message
+
           }
         })
       }

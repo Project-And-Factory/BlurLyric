@@ -621,12 +621,15 @@ if (document.querySelector('div.left-sideImage > img'))document.querySelector("i
               data.netea = r.data[0]
               data.use = data.netea
             })
-            await reTools.getData('/unblockmusic', {
+            reTools.getData('/unblockmusic', {
               id: newid
             }).then(res => {
               if (data.netea.br <= data.unblock.br && data.netea.freeTrialInfo == null) {
                 data.unblock = res
                 data.use = data.unblock
+                Data.song = data
+                this.data.player.musicCache[newid] = Data
+
               }
             })
 
@@ -652,9 +655,9 @@ if (document.querySelector('div.left-sideImage > img'))document.querySelector("i
     methods: {
       lyricsLoadAnimation(){
         if (document.querySelector('style#temp'))document.querySelector('style#temp').remove()
-        let styleNode = document.createElement('style'),aniTime=800;
+        let styleNode = document.createElement('style'),aniTime=700;
         styleNode.id = 'temp'
-        styleNode.innerHTML = '#lyrics{animation:lyricsSpawn '+aniTime+'ms cubic-bezier(.3, .5, .2,1)}'
+        styleNode.innerHTML = '#lyrics{animation:lyricsSpawn '+aniTime+'ms cubic-bezier(.2,1.5,.5,1)}'
         document.head.appendChild(styleNode);
         setTimeout(()=>{document.querySelector('style#temp').remove()},aniTime);
           
@@ -773,8 +776,10 @@ if (document.querySelector('div.left-sideImage > img'))document.querySelector("i
 
             if (lis[lyricNum]) {
               lis[lyricNum].classList.add('lineHeight')
-              this.data.player.uiDisplay.lineNoTop = Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum]
-                .offsetTop) + lineTopAir
+              if (currTime > 0.7){ this.data.player.uiDisplay.lineNoTop = Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum]
+                .offsetTop) + lineTopAir} else {
+                  this.data.player.uiDisplay.lineNoTop = lineTopAir
+                }
             } else {
               this.data.player.uiDisplay.lineNoTop = lineTopAir
             }

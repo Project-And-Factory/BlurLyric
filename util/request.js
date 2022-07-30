@@ -52,7 +52,7 @@ const createRequest = (method, url, data = {}, options) => {
     let ip = options.realIP || options.ip || ''
     // console.log(ip)
     if (ip) {
-      headers['X-Real-IP'] = ip
+      //headers['X-Real-IP'] = ip
       headers['X-Forwarded-For'] = ip
     }
     // headers['X-Real-IP'] = '118.88.88.88'
