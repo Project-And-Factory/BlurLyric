@@ -1,20 +1,32 @@
+<p align="center">
+<img src="https://s3.bmp.ovh/imgs/2022/07/23/69ca188a3b20cbf0.png"/>
+</p>
+
+<div align="center">
+
 # Blurlyric
-## 项目仅供学习
+一款简单、高颜值、高性能的  
+第三方网易云音乐播放器
+
+</div>
+<div align="center">
+
+**官方网站**  
+[blurlyric.app](https://blurlyric.app)
+
+</div>
 
 ## 特色
-使用unblock netease music多音源播放，高颜值的音乐播放器
-
-## 官网
-https://gozaoo.github.io/blurlyric/
+使用unblock netease music从其他音源播放，简单、高颜值、注重性能。
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)咸鸽 - https://web.blurlyric.app/</a><br>
 <br>
-<a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a>><br>
-感谢上方跑起并且提供在线服务的网友
+<a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a><br>
+感谢上方运行并且提供在线服务的网友
 
 # 使用说明
-## 正常用户
+## 正常用户(GUI界面运行)
 首次安装： 进入文件夹，使用命令行输入
 ```
 npm install
@@ -25,10 +37,11 @@ npm run el:serve
 ```
 
 ## 服务器运行
+> Tips:服务器运行可以使用server分支中无electron模块的版本。
 ```
 node onlyOnWeb
 ```
-即可，地址 http://localhost:18776/ ，可以在vite.config.js修改
+即可，地址 http://localhost:18776/ ，可在vite.config.js修改端口
 
 ## 服务器反向代理配置：
 ```
@@ -56,7 +69,7 @@ location / {
 我的qq: 2261129603
 
 ## 帮助我
-有什么用？ 您捐助的钱会部分用于<a herf="https://alphamusic.pafworld.top/">咸鸽 - https://alphamusic.pafworld.top/</a><br>在线服务的费用开销，当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
+有什么用？ 您捐助的钱会部分用于<a herf="https://web.blurlyric.app/">咸鸽 - https://web.blurlyric.app/</a><br>在线服务的费用开销，当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
 <img style="width: 200px" src="https://gozaoo.github.io/image/zfbSK.jpg">
 <img style="width: 200px" src="https://gozaoo.github.io/image/wxSK.png"><br>
 
@@ -66,7 +79,7 @@ location / {
 ### 什么？你有很好的点子？！！
 UI改进，代码效率提高等等，都可以提交至Pull requests! 如果您是有棒的UI设计，但是不会写代码，您可以发送您的想法/设计至我的邮箱 2261129603@qq.com!
 
-### 灵感/用于核心部分的开源代码来源
+### 提供灵感、参考设计、用于核心部分的开源代码来源
 https://github.com/Binaryify/NeteaseCloudMusicApi<br>
 https://github.com/qier222/YesPlayMusic<br>
 LyricEase（https://apps.microsoft.com/store/detail/lyricease/9N1MKDF0F4GT?hl=zh-cn&gl=CN）<br>
