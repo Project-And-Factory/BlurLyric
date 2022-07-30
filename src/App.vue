@@ -166,7 +166,7 @@
 	-->
     </div>
     <div v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
-      v-bind:style="'--color1:' + 	data.player.uiDisplay.color[0]+ ';--color2:' + data.player.uiDisplay.color[1]+ ';background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl+')'"
+      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl+')'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -177,7 +177,7 @@
         <div class="dragBar"></div>
       </div>
       <svg @click="mainDisplayChange()" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        class="bi bi-chevron-down contorlPlayerButtom" viewBox="0 0 16 16">
+        class="na-bottonBiggerHover bi bi-chevron-down contorlPlayerButtom" viewBox="0 0 16 16">
         <path fill-rule="evenodd"
           d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
       </svg>
@@ -224,10 +224,12 @@
       v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
       <div class="left-side playerIndexSide">
 
+          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl"
+            class="ImageBlurBackground"
+            >
         <!--图像-->
         <div class="left-sideImage">
-          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl"
-            class="ImageBlurBackground">
+
           <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl">
 
         </div>
@@ -287,7 +289,7 @@
 
 
         </div>
-        <div class="playerLeftLink">
+        <div class="linkbox playerLeftLink">
           <a @click="loveMusic()">
             <svg style="color:red;user-select:none;height: 2.8vh; width: 2.8vh"
               v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(id) != -1)" xmlns="http://www.w3.org/2000/svg"
@@ -343,16 +345,10 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" v-if="(data.player.now.oLRC.tran == true)">
+          <ul id="lyrics" >
             <li @click="$refs.audio.currentTime = item.t" v-for="(item) in data.player.now.oLRC.ms" v-bind:key="item.t">
               <h1>{{item.c}}</h1>
-              <h2>{{item.tranC}}</h2>
-              <div>{{formTime(parseInt(item.t))}}</div>
-            </li>
-          </ul>
-          <ul id="lyrics" v-if="(data.player.now.oLRC.tran == false)">
-            <li @click="$refs.audio.currentTime = item.t" v-for="item in data.player.now.oLRC.ms" v-bind:key="item.t">
-              <h1>{{item.c}}</h1>
+              <h2 v-if="(data.player.now.oLRC.tran == true)">{{item.tranC}}</h2>
               <div>{{formTime(parseInt(item.t))}}</div>
             </li>
           </ul>
@@ -398,6 +394,8 @@
   import lyric from './lyric.js'
   import './style.css'
   import './fixelButtom.css'
+  import './naturalUI.css'
+
   import {
     average,
     prominent
@@ -406,17 +404,20 @@
 
   var bodyHeight, lineTopAir, bodyWidth
   window.addEventListener('resize', getWindowInfo)
-  getWindowInfo()
 
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
+    
+if (document.querySelector('div.left-sideImage > img'))document.querySelector("img.ImageBlurBackground").style = '--height:'+document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     setTimeout(() => {
+
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
         bodyHeight = document.documentElement.clientHeight
         bodyWidth = document.documentElement.clientWidth
+
         if (document.querySelector('#fixedButtom')) document.querySelector('#fixedButtom').innerHTML = ''
         lineTopAir = Math.floor(bodyHeight * 0.2)
       }
@@ -574,10 +575,13 @@
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
       lineTopAir = Math.floor(bodyHeight * 0.2)
+ 
     },
     watch: {
       id: {
         async handler(newid, oldId) {
+    getWindowInfo()
+
           if (oldId == undefined) return false
           var Data = {
             song: {},
@@ -598,13 +602,13 @@
                 console.log(Data.lyric)
 
             })
-            await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl + "?param=8y8"), {
+            /*await prominent((this.data.player.tracks[this.data.player.trackNum].al.picUrl + "?param=8y8"), {
               format: 'hex',
               amount: 2,
               group: 10
             }).then(r => {
               Data.hex = r
-            })
+            })*/
             //同步音乐文件
             let data = {
               netea: {},
@@ -635,15 +639,27 @@
           {
             Data = this.data.player.musicCache[newid]
           }
-          this.data.player.uiDisplay.color = Data.hex
+          if (this.id == newid) {/*
+          this.data.player.uiDisplay.color = Data.hex*/
           this.data.player.now.musicUrl = Data.song
           this.data.player.now.oLRC = Data.lyric
-          console.log(Data.lyric)
+          }
+          this.lyricsLoadAnimation()
+
         }
       }
     },
     methods: {
+      lyricsLoadAnimation(){
+        if (document.querySelector('style#temp'))document.querySelector('style#temp').remove()
+        let styleNode = document.createElement('style'),aniTime=800;
+        styleNode.id = 'temp'
+        styleNode.innerHTML = '#lyrics{animation:lyricsSpawn '+aniTime+'ms cubic-bezier(.3, .5, .2,1)}'
+        document.head.appendChild(styleNode);
+        setTimeout(()=>{document.querySelector('style#temp').remove()},aniTime);
+          
 
+      },
       musicListMore(item) {
 
         this.data.ui.fixedButtom.push({
@@ -743,7 +759,7 @@
             if (this.data.player.uiDisplay.lineLazyLoaddelay - Date.now() <= 2000 || lyricNum <= 2) {
               this.data.player.uiDisplay.lineLazyLoaddelay = Date.now()
               for (let num = 0; num < lis.length; num++) {
-                lis[num].className = _isShow(lis[num])
+                lis[num].className = -3 < (num - lyricNum) && (num - lyricNum) < 8
               }
             }
 
@@ -759,9 +775,11 @@
               lis[lyricNum].classList.add('lineHeight')
               this.data.player.uiDisplay.lineNoTop = Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum]
                 .offsetTop) + lineTopAir
+            } else {
+              this.data.player.uiDisplay.lineNoTop = lineTopAir
             }
 
-            lyrics.style = 'margin-top:' + (this.data.player.uiDisplay.lineNoTop) + 'px;'
+            lyrics.style = '--marginTop:' + (this.data.player.uiDisplay.lineNoTop) + 'px;'
             //LazyLoad 歌词条懒加载
 
           }
@@ -828,17 +846,16 @@
           sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
           time: Math.floor(document.querySelector('audio').currentTime)
         })
+		this.data.player.uiDisplay.LineNum =0
         if (this.data.player.random == true) {
           this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
           this.id = this.data.player.tracks[this.data.player.trackNum].id
           this.play()
-        }
-        if (this.data.player.tracks.length != this.data.player.trackNum + 1) {//保证不是最后一首
-          if (this.data.player.random == false) {
+        } else if (this.data.player.tracks.length != this.data.player.trackNum + 1) {//保证不是最后一首
             this.data.player.trackNum++
             this.id = this.data.player.tracks[this.data.player.trackNum].id
             this.play()
-          }
+          
         }
       },
       upMusic() {
@@ -848,13 +865,10 @@
           time: Math.floor(document.querySelector('audio').currentTime)
         })
         if (this.data.player.trackNum != 0) {
-          document.querySelector('#audio').pause();
-          this.data.player.playing = false;
           this.data.player.trackNum--
+		  this.data.player.uiDisplay.LineNum =0
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          setTimeout(() => {
-            this.plays()
-          }, 150);
+		  this.play()
         }
       },
       finishPlay() {
@@ -870,6 +884,7 @@
       },
       mainDisplayChange() {
         //settimeout为动画之后的事件，方便优化
+		getWindowInfo()
         if (this.data.player.uiDisplay.mainDisplay == 'buttom') {
           document.getElementById('player').style.top = 'calc(0px - var(--minplayerHeight))';
           this.data.player.uiDisplay.mainDisplay = 'watting'

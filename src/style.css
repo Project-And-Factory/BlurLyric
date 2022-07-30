@@ -134,7 +134,7 @@ body {
   background-color: #fff;
   gap: 12px;
   flex-direction: column;
-  z-index: 1;
+  z-index: 100;
   backdrop-filter:
   /* 负责背景模糊 */
   blur(0vw)
@@ -232,7 +232,6 @@ nav {
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
-  padding: 10px 15px;
 }
 
 .linkbox>a:hover {
@@ -401,7 +400,7 @@ flex-direction: column;
   overflow: hidden;
   top: calc(100% + 20px);
   
-  z-index: 3;
+  z-index: 101;
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   padding-bottom: 20px;
@@ -661,7 +660,7 @@ gap: 3vw;
   top: 0;
   display: flex;
   gap: 3vh;
-  padding: 0px 0 40px 40px;
+  margin: 0px 0 40px 40px;
   justify-content: space-between;
 }
 
@@ -674,74 +673,39 @@ gap: 3vw;
   align-items: center;
   text-align: center;
   justify-items: center;
-  flex-direction: column;
   border-radius: 3vh;
   position: relative;
-
-
+  overflow: hidden;
 }
 
 .left-sideImage>img {
   border-radius: 5%;
   max-width: 100%;
   max-height: 100%;
-  height: 100%;
+  height: auto;
 }
-.left-sideImage>img.ImageBlurBackground{
+img.ImageBlurBackground{
   position: absolute;
   border-radius: 5%;
-  --marginValue: 8%;
-  max-width: calc(100% - var(--marginValue));
-  max-height: calc(100% - var(--marginValue));
-  height: calc(100% - var(--marginValue));
-  margin: var(--marginValue) calc(var(--marginValue) * 0.5) 0 calc(var(--marginValue) * 0.5);
+  --height: 0px;
+  --marginValue: calc(var(--height) * 0.09);
+
+  max-width: calc(var(--height) - var(--marginValue));
+  max-height: calc(var(--height) - var(--marginValue));
+  height: var(--height);
+  margin: var(--marginValue) 0 0 0;
+  left: 50%;
+  transform: translate(-50% ,0);
   z-index: -1;
-  filter: blur(2.5vmax) contrast(2);
+  filter: blur(2.8vmax) contrast(2);
   background-repeat: no-repeat;
 	background-size: cover;
 }
-/*
-  分状态管理样式
-
-div.onlyLeft.right-side.playerIndexSide {
-  display: none;
-}
-
-div.onlyLeft.left-side.playerIndexSide {
-  justify-content: center;
-  align-items: center;
-}
-
-div.onlyLeft.playerDisplayOutBox {
-  grid-template-columns: repeat(1, 1fr);
-}
-
-/*
-  分状态管理样式
-
-div.onlylyric>div.left-side.playerIndexSide {
-  display: none;
-}
-
-div.onlylyric>div.left-side.playerIndexSide {
-  justify-content: center;
-  align-items: center;
-}
-
-div.onlylyric.playerDisplayOutBox {
-  grid-template-columns: repeat(1, 1fr);
-}
-
-div.onlylyric>.right-side>.lyric>div>#lyrics {
-  padding-left: var(--paddingIndex);
-}
-*/
 .contorlPlayerButtom{
   height: 24px;
   width: 24px;
-  padding: 6px;
-  border-radius: 11px;
   position: absolute;
+  font-size: 14px;
   z-index: 1;
   margin: -16px 0 0 8px;
 }
@@ -813,7 +777,25 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   border-radius: calc(var(--height) / 2);
 }
 
-.playerLeftLink {
+ div.left-side > div.linkbox{
+  display: flex;
+  align-content: center;
+  gap: 3vw;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
+ div.left-side >div.linkbox>a {
+  display: flex;
+  justify-content: center;
+  background: rgb(0, 0, 0, 0);
+  padding: 1vh 1vh;
+  color: rgb(0, 0, 0, .7);
+  font-size: 1rem;
+
+}
+
+*>div.left-side>div.playerLeftLink {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -827,33 +809,11 @@ div.onlylyric>.right-side>.lyric>div>#lyrics {
   background-color: #00000008;
   border-radius: 1vh;
 }
- div.left-side > div.linkbox{
-  display: flex;
-  align-content: center;
-  gap: 3vw;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-}
- div.left-side >div.linkbox>a {
-  justify-content: center;
-  background: rgb(0, 0, 0, 0);
-  padding: 1vh 1vh;
-}
-
- div.left-side >div.linkbox>a:hover {
-  background: rgb(0, 0, 0, 0.02);
-}
-
- div.left-side >div.linkbox>a {
-  color: rgb(0, 0, 0, .7);
-}
 
 #lyric {
   
   overflow: hidden;
-  font-size:1.7vmax;
-  transition: font 0s;
+  font-size:2.4vmin;
 }
 
 ul li {
@@ -863,27 +823,42 @@ ul li {
 }
 
 ul#lyrics {
+  display: flex;
   padding-left: 0;
   height: fit-content;
   min-height: 100vh;
   transition: all .5s cubic-bezier(.3, .45, .2, .95),font 0s;
+  flex-direction: column;
+  --animationMarginTop: 0vh;
+  margin-top: calc(var(--animationMarginTop) + var(--marginTop));
+}
+@keyframes lyricsSpawn {
+  from{
+    --animationMarginTop: 100vh;
+    gap: 5vh;
+  }
+  to{
+    --animationMarginTop: 0vh;
+    gap: 0px;
+  }
 }
 
 
-
 #lyric ul li {
-  padding: 0.3em;
   color: rgb(0, 0, 0, .15);
-  border-radius: 2em;
-  filter: blur(0.2em);
+  filter: blur(0.16em);
   width: fit-content;
   width: -moz-fit-content;
-  transition: filter .8s;
+  transition: filter .8s,color .3s;
 
 }
 
 #lyric  ul li:active {
   transform: scale(0.9);
+}
+
+#lyric  ul li {
+  padding: 0.2em 0.4em;
 }
 
 #lyric  ul li>h1 {
@@ -928,6 +903,7 @@ ul#lyrics {
 #lyric  ul#lyrics li.lineHeight {
   color: rgb(0, 0, 0, .7);
   filter: none;
+  transition: filter .8s,color 0s;
 }
 
 #lyric  ul#lyrics li.lineHeight-1>h1 {
@@ -938,6 +914,7 @@ ul#lyrics {
 #lyric  ul#lyrics li.lineHeight-1 {
   color: rgb(0, 0, 0, .35);
   filter: blur(0.12vh);
+    transition: filter .8s,color .2s;
 }
 
 #lyric  ul#lyrics li.lineHeight--1>h1 {
@@ -967,16 +944,16 @@ ul#lyrics {
 
 }
 
-.visibilityHidden{
+#lyric  ul#lyrics li.false{
 	visibility: hidden;
 	filter: none;
 }
-.visibilityVisible{
+#lyric  ul#lyrics li.true{
 	visibility: visible;
 }
 @media (max-width:110vh) {
 	#lyric{
-		font-size: 2.2vh;
+		font-size: 2.5vmax;
 	}
 	.left-side{
 		position: absolute;
