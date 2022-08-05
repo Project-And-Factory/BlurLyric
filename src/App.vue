@@ -397,6 +397,7 @@
   import audioNetease from './js/audioNetease.js'
   import audio from './js/audio.js'
   import progress from './js/progress.js'
+import anime from 'animejs/lib/anime.es.js';
 
   import './style.css'
   import './fixelButtom.css'
@@ -643,7 +644,7 @@
 
         setTimeout(() => {
           this.lyricSet()
-        }, 60);
+        }, 33);
         if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
 
 
@@ -665,34 +666,36 @@
             if (this.data.player.uiDisplay.lineLazyLoaddelay - Date.now() <= 2000 || lyricNum <= 2) {
               this.data.player.uiDisplay.lineLazyLoaddelay = Date.now()
               for (let num = 0; num < lis.length; num++) {
-                lis[num].className = -3 < (num - lyricNum) && (num - lyricNum) < 8
+                lis[num].className = -2 < (num - lyricNum) && (num - lyricNum) < 12
               }
             }
 
             //歌词高亮设置
-            if (lis[lyricNum - 1]) lis[lyricNum - 1].classList.add('lineHeight-1')
 
 
-            if (lis[lyricNum + 1]) lis[lyricNum + 1].classList.add('lineHeight--1')
-            if (lis[lyricNum + 2]) lis[lyricNum + 2].classList.add('lineHeight--2')
 
 
-            if (lis[lyricNum]) {
-              lis[lyricNum].classList.add('lineHeight')
-              if (currTime > 0.7) {
-                this.data.player.uiDisplay.lineNoTop = Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum]
-                  .offsetTop) + lineTopAir
-              } else {
-                this.data.player.uiDisplay.lineNoTop = lineTopAir
-              }
-            } else {
-              this.data.player.uiDisplay.lineNoTop = lineTopAir
-            }
-
-            lyrics.style = '--marginTop:' + (this.data.player.uiDisplay.lineNoTop) + 'px;'
-            //LazyLoad 歌词条懒加载
-
+            anime({
+              targets: '#lyrics li.true',
+                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop),
+                duration: 500,
+                easing: 'cubicBezier(.3, .5, .2, 1)',
+                delay: function(el, i, l) {
+                  return Math.floor(120 * i  * (0.90 ** i));
+                },
+                color: function(el, i, l) {
+                  return 'rgb(0,0,0,'+(0.7 ** i)+')'
+                },
+                filter: function(el, i, l) {  
+                  return 'blur('+ 0.3 * (1 - 0.6 ** (i-1)) +'vh)'
+                },
+                fontSize: function(el, i, l) { 
+                  if (i == 0) return 1 * (0.9 ** (i)) + 'em'
+                  return  1 * (0.9 ** (i - 1)) + 'em'
+                  } 
+              })
           }
+
 
         }
       },

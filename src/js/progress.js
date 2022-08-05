@@ -7,24 +7,23 @@
             progress: document.querySelector('.box-progressbar'),
             canChange: false
         }
-
-        data.progress.onmousedown = function () {
-            data.canChange = true;
-            console.log('can change');
-        }
-        document.onmouseup = function () {
-            data.canChange = false;
-            console.log('not can change');
-        }
-        document.onmousemove = function (event) {
+        data.progress.onclick = function(event){changeProgress(event)}
+        data.progress.onmousedown =function (event) {
             changeProgress(event)
+            data.canChange = true;
+        }
+        document.querySelector('#player').onmouseup = function () {
+            data.canChange = false;
+        }
+        document.querySelector('#player').onmousemove = function (event) {
+            if(data.canChange == true) changeProgress(event)
         }
 
         function changeProgress(event) {
             let box = data.progress,
                 boxPosition = box.getBoundingClientRect();
 
-            if (box && data.canChange == true) {
+
                 let tempData = {
                     percent: (event.x - boxPosition.x) / boxPosition.width
                 }
@@ -32,14 +31,13 @@
 
                 document.querySelector('.box-progressbar').style = '--musicProgressPercent:' + (tempData.percent)
                 changeMusicTimeOfProgress(tempData.percent)
-            }
+
         }
     }
 
 
     function changeMusicTimeOfProgress(percent) {
         data.audio.currentTime = data.audio.duration * percent
-        data.audio.play()
     }
     export default {
         data,

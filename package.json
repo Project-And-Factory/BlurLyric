@@ -10,10 +10,10 @@
     "start": "node server.js",
     "test": "electron .",
     "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite"
-    
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
+    "animejs": "^3.2.1",
     "axios": "^0.27.2",
     "color.js": "^1.2.0",
     "electron": "^20.0.0-alpha.7",
