@@ -455,7 +455,8 @@ import anime from 'animejs/lib/anime.es.js';
               LineNum: 0,
               lineNoTop: 0,
               lineLazyLoaddelay: 0,
-              color: []
+              color: [],
+              beautifuller: false,
             },
             now: {
               musicUrl: {
@@ -545,25 +546,10 @@ import anime from 'animejs/lib/anime.es.js';
             this.data.player.now.musicUrl = Data.song
             this.data.player.now.oLRC = Data.lyric
           }
-          this.lyricsLoadAnimation()
-
         }
       }
     },
     methods: {
-      lyricsLoadAnimation() {
-        if (document.querySelector('style#temp')) document.querySelector('style#temp').remove()
-        let styleNode = document.createElement('style'),
-          aniTime = 700;
-        styleNode.id = 'temp'
-        styleNode.innerHTML = '#lyrics{animation:lyricsSpawn ' + aniTime + 'ms cubic-bezier(.2,1.6,.5,1.08)}'
-        document.head.appendChild(styleNode);
-        setTimeout(() => {
-          document.querySelector('style#temp').remove()
-        }, aniTime);
-
-
-      },
       musicListMore(item) {
 
         this.data.ui.fixedButtom.push({
@@ -645,54 +631,53 @@ import anime from 'animejs/lib/anime.es.js';
         setTimeout(() => {
           this.lyricSet()
         }, 33);
-        if (this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
-
-
-          let lyrics = document.getElementById('lyrics')
-
-          let lis = lyrics.getElementsByTagName("li")
-          let currTime = document.querySelector('#audio').currentTime
-          if (lis.length == 0) return
-          let lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+        if (document.getElementById('lyrics').getElementsByTagName("li").length !=0&&this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
+          let lyrics = document.getElementById('lyrics'),
+          lis = lyrics.getElementsByTagName("li"),
+          currTime = document.querySelector('#audio').currentTime,
+          lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+          
+          
           if (lyricNum == -2) lyricNum = this.data.player.now.oLRC.ms.length - 1
-          /*console.time('寻找歌词2')
-          for(let i = 0; (this.data.player.now.oLRC.ms.length > i && this.data.player.now.oLRC.ms[i].t <= (currTime + 0.6)); i++){
-            lyricNum = i
-          }
-		  console.timeEnd('寻找歌词2')*/
+
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
             this.data.player.uiDisplay.LineNum = lyricNum
-            let date = new Date()
+
             if (this.data.player.uiDisplay.lineLazyLoaddelay - Date.now() <= 2000 || lyricNum <= 2) {
               this.data.player.uiDisplay.lineLazyLoaddelay = Date.now()
               for (let num = 0; num < lis.length; num++) {
-                lis[num].className = -2 < (num - lyricNum) && (num - lyricNum) < 12
+                let offset = num - lyricNum
+                lis[num].className = -2 < offset && offset < 8
               }
             }
 
             //歌词高亮设置
-
-
-
-
+  
             anime({
-              targets: '#lyrics li.true',
-                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop),
-                duration: 500,
+              targets: '#lyrics li',
+                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (bodyHeight*0.15 ),
+                duration: 600,     
                 easing: 'cubicBezier(.3, .5, .2, 1)',
-                delay: function(el, i, l) {
-                  return Math.floor(120 * i  * (0.90 ** i));
+                delay: (el, i, l)=> {
+                  let offset = i - lyricNum
+                  return Math.floor(50 * offset * (0.90 ** Math.abs(offset)));
+                }, 
+                color: (el, i, l)=> {
+                  if(i == lyricNum -1) return 'rgb(0, 0, 0,0)';
+                  return 'rgb(0,0,0,'+(0.8 * (0.6 ** Math.abs(i - lyricNum)))+')'
                 },
-                color: function(el, i, l) {
-                  return 'rgb(0,0,0,'+(0.7 ** i)+')'
+                filter: (el, i, l)=> {  
+                  if(i == lyricNum -1) return 'blur(0)';
+                  return 'blur('+ 0.4 * (1 - 0.6 ** Math.abs(i - lyricNum)) +'vh)'
                 },
-                filter: function(el, i, l) {  
-                  return 'blur('+ 0.3 * (1 - 0.6 ** (i-1)) +'vh)'
-                },
-                fontSize: function(el, i, l) { 
-                  if (i == 0) return 1 * (0.9 ** (i)) + 'em'
-                  return  1 * (0.9 ** (i - 1)) + 'em'
-                  } 
+                fontSize: 
+                (el, i, l)=>{     
+                  if(this.data.player.uiDisplay.beautifuller == false) {
+                    return '1em'
+                  };
+                  if(i < 1) return 1 +'em'  
+                  return  1 * (0.9 ** (i - 1 )) + 'em'
+                  }
               })
           }
 

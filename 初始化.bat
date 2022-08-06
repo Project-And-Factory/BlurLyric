@@ -1,4 +1,4 @@
 @echo off
 npm install
-echo åˆå§‹åŒ–å®Œæ¯•
+echo ³õÊ¼»¯Íê±Ï
 pause

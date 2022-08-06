@@ -8,6 +8,7 @@
   height: 100vh;
   background-color: #fff;
 }
+
 body > div.app-loading-wrap{
   display: none-;
 }
@@ -841,34 +842,17 @@ ul li {
 
 ul#lyrics {
   
-  display: flex;
   padding-left: 0;
   height: fit-content;
   min-height: 100vh;
-  transition: all .5s cubic-bezier(.3, .5, .2, 1),font 0s;
-  flex-direction: column;
   margin-top: var(--marginTop)
 }
-@keyframes lyricsSpawn {
-  from{
-    transform: translate(0,10vh) scale(0.9);
-
-    gap: 4vh;
-    opacity: .5;
-  }
-  to{
-    opacity:1;
-    gap: 0vh;
-  }
-}
-
 
 #lyric ul li {
   color: rgb(0, 0, 0, .15);
-  filter: blur(0.16em);
   width: fit-content;
   width: -moz-fit-content;
-
+  will-change: transform,filter,color;
 }
 
 #lyric  ul li:active {
