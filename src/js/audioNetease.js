@@ -37,15 +37,15 @@ async function requireId(id) {
         id: id
       }).then(r => {
         Data.song.netea = r.data[0]
-        reTools.getData('/unblockmusic', {
-            id: id
-          }).then(res => {
-            if (Data.song.netea.br < Data.song.unblock.br) {
-              Data.song.unblock = res
-              Data.song.use = 'unblock'
-            }
-          })
+
       })
-    
+  await reTools.getData('/unblockmusic', {
+        id: id
+      }).then(res => {
+        if (Data.song.netea.br < Data.song.unblock.br || Data.song.netea.freeTrialInfo !=null) {
+          Data.song.unblock = res
+          Data.song.use = 'unblock'
+        }
+      })
     return Data
 }

@@ -121,7 +121,6 @@ export default {
         requestData(){
             reTools.getData('/search',{keywords:this.$route.query.q,type:1,limit:50}).then(
             r=>{
-                console.log(r,this.page.q);
                 this.page.trackIds = r.result.songs
                 let trackIDList = ''
 
@@ -133,10 +132,8 @@ export default {
                     
                     } 
                 }
-                console.log(trackIDList);
                 reTools.getData('/song/detail',{ids:trackIDList}).then(res=>{
                     this.page.track = res.songs
-                    console.log(res);
                 })
             })
             reTools.getData('/search',{type:1000,keywords:this.page.q,limit:100}).then(r=>{
@@ -145,7 +142,6 @@ export default {
             })
             reTools.getData('/search',{type:100,keywords:this.page.q}).then(r=>{
                 this.page.ar = r
-                console.log(r);
             })
         }
     },

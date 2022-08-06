@@ -664,6 +664,7 @@ gap: 3vw;
 }
 
 .right-side {
+  padding-left: 10px;
 	max-width: calc(100% - 80px - 59vh);
 
 }
@@ -830,7 +831,6 @@ img.ImageBlurBackground{
 
 #lyric {
   overflow: hidden;
-  padding-left: 10px;
   font-size:2.4vmin;
 }
 
@@ -893,7 +893,6 @@ ul#lyrics {
 #lyric  ul#lyrics li:hover {
   filter: none;
   cursor: pointer;
-  transition: all .2s ;
 
 
 }
@@ -933,6 +932,7 @@ ul#lyrics {
 	}
 	.right-side{
 		max-width: none;
+    
 		padding: 0 var(--paddingIndex);
 	}
 	.left-sideImage{display:none}

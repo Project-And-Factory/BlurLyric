@@ -535,9 +535,11 @@ import anime from 'animejs/lib/anime.es.js';
             song: {},
             lyric: {},
           }
+
           //如果无法找到缓存最终的信息
           if (this.data.player.musicCache[newid] == undefined) {
             Data = await audioNetease.requireId(newid);
+            this.data.player.musicCache[newid] = Data
           } else //找到了缓存好的信息
           {
             Data = this.data.player.musicCache[newid]
@@ -545,6 +547,16 @@ import anime from 'animejs/lib/anime.es.js';
           if (this.id == newid) {
             this.data.player.now.musicUrl = Data.song
             this.data.player.now.oLRC = Data.lyric
+          }
+
+          //预缓存
+          let witchIs = [-1,1,2]
+          for (let index = 0; index <= witchIs.length; index++) {
+            console.log(witchIs.length);
+            let thisMusic = this.data.player.tracks[(this.data.player.trackNum+witchIs[index])]
+            if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
+              this.data.player.musicCache[thisMusic.id]=await audioNetease.requireId(thisMusic.id)
+            }
           }
         }
       }
@@ -643,32 +655,24 @@ import anime from 'animejs/lib/anime.es.js';
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
             this.data.player.uiDisplay.LineNum = lyricNum
 
-            if (this.data.player.uiDisplay.lineLazyLoaddelay - Date.now() <= 2000 || lyricNum <= 2) {
-              this.data.player.uiDisplay.lineLazyLoaddelay = Date.now()
-              for (let num = 0; num < lis.length; num++) {
-                let offset = num - lyricNum
-                lis[num].className = -2 < offset && offset < 8
-              }
-            }
-
             //歌词高亮设置
   
             anime({
-              targets: '#lyrics li',
+              targets: lis, 
                 translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (bodyHeight*0.15 ),
-                duration: 600,     
+                duration: 618,     
                 easing: 'cubicBezier(.3, .5, .2, 1)',
                 delay: (el, i, l)=> {
                   let offset = i - lyricNum
-                  return Math.floor(50 * offset * (0.90 ** Math.abs(offset)));
+                  return Math.floor( 35 * offset * (0.90 ** Math.abs(offset)));
                 }, 
                 color: (el, i, l)=> {
-                  if(i == lyricNum -1) return 'rgb(0, 0, 0,0)';
+                  if(i == lyricNum -2) return 'rgb(0, 0, 0,0)';
                   return 'rgb(0,0,0,'+(0.8 * (0.6 ** Math.abs(i - lyricNum)))+')'
                 },
                 filter: (el, i, l)=> {  
-                  if(i == lyricNum -1) return 'blur(0)';
-                  return 'blur('+ 0.4 * (1 - 0.6 ** Math.abs(i - lyricNum)) +'vh)'
+                  if(i == lyricNum -2) return 'blur(0)';
+                  return 'blur('+ 0.6 * (1 - 0.5 ** Math.abs(i - lyricNum)) +'vmin )'
                 },
                 fontSize: 
                 (el, i, l)=>{     
