@@ -16,7 +16,7 @@
             data.canChange = false;
         }
         document.querySelector('#player').onmousemove = function (event) {
-            if(data.canChange == true) changeProgress(event)
+            if(data.canChange == true && event.buttons == 1) changeProgress(event)
         }
 
         function changeProgress(event) {

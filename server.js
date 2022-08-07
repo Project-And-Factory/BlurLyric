@@ -9,6 +9,8 @@ const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const match = require('@unblockneteasemusic/server')
+const router_blurlyric = require('./serverRouter.js')
+
 /**
  * The version check result.
  * @readonly
@@ -132,7 +134,9 @@ async function checkVersion() {
  * @returns {Promise<import("express").Express>} The server instance.
  */
 async function consturctServer(moduleDefs) {
+  
   const app = express()
+  app.use('/blurlyric',router_blurlyric)
   app.set('trust proxy', true)
 	//允许跨域
 	app.all('*', function (req, res, next) {
@@ -279,13 +283,8 @@ async function consturctServer(moduleDefs) {
     })
   }
 	//魔改 （doge）
-	app.get('/unblockmusic',(req,res)=>{
-		let query = req.query
-		match(query.id, ['migu', 'kugou','pyncmd','kuwo','qq']).then(r=>{
+  
 
-			res.json(r)
-		})
-	})
   return app
 }
 
