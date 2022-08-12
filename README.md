@@ -1,21 +1,17 @@
-<p align="center">
-<img src="https://s3.bmp.ovh/imgs/2022/07/23/69ca188a3b20cbf0.png"/>
-</p>
+<div>
 
-<div align="center">
+## <img style="width: 64px;float: left;padding-right: 0.5em" src="https://gozaoo.github.io/blurlyric/favicon.svg"> <a style="font-size: 2em">Blurlyric</a>
 
-# Blurlyric
+
+
 一款简单、高颜值、高性能的  
 第三方网易云音乐播放器
 
-</div>
-<div align="center">
 
 **官方网站**  
 [blurlyric.app](https://blurlyric.app)
 
-</div>
-
+#
 ## 特色
 使用unblock netease music从其他音源播放，简单、高颜值、注重性能。
 

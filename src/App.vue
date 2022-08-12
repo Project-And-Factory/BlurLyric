@@ -65,7 +65,7 @@
     <!--顶部logo及导航（viewBox）-->
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
-      <input placeholder="搜索框" v-on:keydown.enter="search" type="none" id="searchInput">
+      <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">  
       <div class="dragBar"></div>
 
     </div>

@@ -22,7 +22,26 @@
    </div>
 
     <h1>About | 关于</h1>
+    <h2>隐私政策</h2>
+    <p>正在写</p>
+    <h2>Staff | 参与人员</h2>
+    <p>作者: Doge(ss15278205751@foxmail.com)<br>
+      其他维护者：咸鸽(网络服务器，master@pafworld.top) (非实时更新)
+    </p>
+    <h2>此软件</h2>
+    <p>官网：blurlyric.app  |  https://gozaoo.github.io/blurlyric/<br>
+      仓库地址: https://github.com/gozaoo/BlurLyric2.0 <br>
+      灵感来源/学习项目：Binaryify/NeteaseCloudMusicApi；qier222/YesPlayMusic；LyricEase；Apple Music
+    </p>
+    <h2>
+      帮助此项目
+    </h2>
+    方法1：帮助开发，如果您有能力解决或有新功能，可以在GitHub上将您的代码pull上来，或者是加入开发组，联系作者即可 <br>
+    方法2：动力的来源是快乐，如果您有经济能力的话可以赞助我们一下，我们将会拿来升级服务器<a style="text-decoration: line-through">，也有可能被我们拿去花掉啦！</a>
+    <img src="https://gozaoo.github.io/img/z.jpg" alt="" srcset="">
+  <img src="https://gozaoo.github.io/img/w.jpg" alt="" srcset="">
   </div>
+
 </template>
 
 <script>
@@ -41,13 +60,8 @@
           bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.animeFontSize,
           func: this.lyricFontSize
         }, {
-          text: '编辑',
-          type: 'line',
-          bolean: [],
-          func(bolean) {
-            console.log('hello'); 
-
-          }
+          text: '暂无其他，请等待更新',
+          type: 'text'
         }] 
       }
     },
@@ -92,7 +106,7 @@
     display: inline-block;
   }
 
-  input {
+  .setting input {
     display: none;
   }
 
@@ -125,16 +139,16 @@
     transition: all .3s;
   }
 
-  input:checked+.slider {
+  .setting input:checked+.slider {
     background: rgb(220, 235, 255);
   }
 
-  input:checked+.slider:after {
+  .setting input:checked+.slider:after {
     background-color: rgb(0, 128, 255);
 
   }
 
-  input:checked+.slider:after {
+  .setting input:checked+.slider:after {
     left: calc(var(--width) - var(--space));
     transform: translateX(-100%);
   }

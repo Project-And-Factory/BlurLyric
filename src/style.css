@@ -361,6 +361,7 @@ flex-direction: column;
   background: var(--hsla-white);
   
   padding:20px;
+  padding-bottom: 84px;
   overflow-y: auto;
   overflow-x: hidden;
 }
