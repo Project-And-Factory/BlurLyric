@@ -57,6 +57,7 @@
 
 </template>
 <script>
+  import cookies from 'js-cookie'
   import reTools from '../network/getData'
   export default {
     name: 'muLib',
@@ -79,7 +80,7 @@
       loginOut() {
         reTools.getData('/logout', {})
         location.reload()
-
+        document.cookie = ''
       }
     },
   }

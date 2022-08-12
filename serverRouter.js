@@ -21,20 +21,23 @@ router.get('/getUser',(req,res)=>{
     }
       
     user.getUser(req.query.id,(data)=>{
-        jsonTool('200',data.str,req,res)
+        jsonTool('200',data,req,res)
     })
 })
 
 router.get('/writeUser',(req,res)=>{
-    if (!req.query.id) {
-        jsonTool('405',{
-            "msg": '请填入ID',
-        },req,res)
+    console.log(req.query)
+    if (!req.query.id||!req.query.res) {
+        jsonTool('405',null,req,res)
         return
     }
-      
-    user.getUser(req.query.id,(data)=>{
-        jsonTool('200',data.str.safeData,req,res)
+    let dataSize = strSize(req.query.res)
+    if(strSize(dataSize,'utf8')>8000000){
+        jsonTool('405',{msg: '文件过大 (>8mb)'},req,res)
+        return
+    }
+    user.upsetConfig(req.query,(data)=>{
+        jsonTool('200',data,req,res)
     })
 })
 
@@ -46,4 +49,26 @@ function jsonTool(code,data,req,res) {
         "ip": req.ip
     })
 }
+function strSize(str, charset) {
+    let total = 0;
+    charset = charset?.toLowerCase() || '';
+    for (i = 0; i < str.length; i++) {
+        let charCode = str.charCodeAt(i);
+        if (charset === 'utf-16' || charset === 'utf16') {
+            total += charCode <= 0xffff ? 2 : 4;
+        } else {
+            if (charCode <= 0x007f) {
+                total += 1;
+            } else if (charCode <= 0x07ff) {
+                total += 2;
+            } else if (charCode <= 0xffff) {
+                total += 3;
+            } else {
+                total += 4;
+            }
+        }
+    }
+    return total;
+}
+
 module.exports = router

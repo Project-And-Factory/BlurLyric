@@ -33,7 +33,7 @@ npm install
 ```
 正常使用
 ```
-npm run el:serve
+npm run test
 ```
 
 ## 服务器运行

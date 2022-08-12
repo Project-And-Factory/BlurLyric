@@ -53,11 +53,11 @@
           <path fill-rule="evenodd"
             d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
         </svg><a>音乐库</a></router-link>
-      <router-link :to="{path:'/found'}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-          fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-        </svg><a>发现</a></router-link>
+      <router-link :to="{path:'/setting'}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
+          <path
+            d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
+        </svg><a>设置&关于</a></router-link>
     </div>
   </div>
   <!--右侧导航栏-->
@@ -236,10 +236,10 @@
         <!--进度条-->
         <div class="musicContorlCurrTime">
 
-        <div v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress" class="box-progressbar">
-            <div  id="progress"></div>
+          <div v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress" class="box-progressbar">
+            <div id="progress"></div>
             <div id="pointer"></div>
-        </div>
+          </div>
           <div style="display:flex;justify-content: space-between ">
             <div>{{formTime(data.player.uiDisplay.currTime)}}</div>
             <div>{{formTime(data.player.uiDisplay.duration)}}</div>
@@ -397,12 +397,12 @@
   import audioNetease from './js/audioNetease.js'
   import audio from './js/audio.js'
   import progress from './js/progress.js'
-import anime from 'animejs/lib/anime.es.js';
+  import anime from 'animejs/lib/anime.es.js';
+  import cookies from 'js-cookie'
 
   import './style.css'
   import './fixelButtom.css'
   import './naturalUI.css'
-
 
 
   var bodyHeight, lineTopAir, bodyWidth
@@ -427,8 +427,7 @@ import anime from 'animejs/lib/anime.es.js';
       }
     }, 800)
   }
-
-  export default {
+  var vueApp = {
     data() {
       return {
         id: 0,
@@ -460,7 +459,9 @@ import anime from 'animejs/lib/anime.es.js';
             },
             now: {
               musicUrl: {
-                netea: {url: "http://localhost:8080/"},
+                netea: {
+                  url: "http://localhost:8080/"
+                },
                 unblock: {},
                 use: 'netea'
               },
@@ -514,17 +515,49 @@ import anime from 'animejs/lib/anime.es.js';
 
               }
             }
+          },
+          settingTemperture: {
+            lyricSet: {
+              funcBlur: {
+                heigh:function(i, lyricNum){
+                  if (i == lyricNum - 2) return 'blur(0)';
+                  return 'blur(' + 0.6 * (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
+                }
+              },
+              funcDelay: {
+                use:function(offset){
+                  return Math.floor(35 * offset * (0.90 ** Math.abs(offset)));
+                }
+              }
+            }
+          },
+          setting: {
+            id: '0',
+            config: {
+              configVersion: '1.0',
+              lyricSet: {
+                text: '最高',
+                funcBlur: 'heigh',
+                funcDelay: 'use',
+                animeFontSize: false
+              }
+
+            }
           }
         }
       }
     },
 
     created() {
+
+
       this.loginInfor();
       this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
       lineTopAir = Math.floor(bodyHeight * 0.2)
+
+
     },
     watch: {
       id: {
@@ -550,18 +583,22 @@ import anime from 'animejs/lib/anime.es.js';
           }
 
           //预缓存
-          let witchIs = [-1,1,2]
+          let witchIs = [-1, 1, 2]
           for (let index = 0; index <= witchIs.length; index++) {
             console.log(witchIs.length);
-            let thisMusic = this.data.player.tracks[(this.data.player.trackNum+witchIs[index])]
+            let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
-              this.data.player.musicCache[thisMusic.id]=await audioNetease.requireId(thisMusic.id)
+              this.data.player.musicCache[thisMusic.id] = await audioNetease.requireId(thisMusic.id)
             }
           }
         }
       }
     },
     methods: {
+      editconfig(func) {
+        this.data.setting.config = func(this.data.setting.config)
+        this.pushingconfig()
+      },
       musicListMore(item) {
 
         this.data.ui.fixedButtom.push({
@@ -577,7 +614,7 @@ import anime from 'animejs/lib/anime.es.js';
           timetamp: (Number(new Date()))
         }).then(r => {
           this.data.user = r.data
-        progress.load()
+          progress.load()
 
           if (this.data.user.account) {
             this.myPlayList()
@@ -593,7 +630,36 @@ import anime from 'animejs/lib/anime.es.js';
             })
           }
         })
+        /**
+         * 创建获取BlurLyric账号
+         */
+        //cookies.remove('blurlyricid')
+        console.log(cookies.get('blurlyricid'))
+        if (cookies.get('blurlyricid') == undefined) {
+          reTools.getData('/blurlyric/createUser').then(res => {
+            cookies.set('blurlyricid', res.data.id)
+            this.data.setting.id = res.data.id
+            this.pushingconfig()
+          })
+        } else if (cookies.get('blurlyricid') != undefined) {
+          this.refuseConfig()
+        }
       },
+      pushingconfig() {
+        reTools.getData('/blurlyric/writeUser', {
+          id: cookies.get('blurlyricid'),
+          res: this.data.setting.config
+        })
+      },
+      refuseConfig() {
+        reTools.getData('/blurlyric/getUser', {
+          id: cookies.get('blurlyricid')
+        }).then(r => {
+          console.log(r, this.data.setting)
+          this.data.setting = r.data
+        })
+      },
+
       myPlayList() {
         reTools.getData('/user/playlist', {
           uid: this.data.user.account.id
@@ -613,7 +679,8 @@ import anime from 'animejs/lib/anime.es.js';
              * 数据同步完成
              * 开始随机歌词语句
              */
-            let randomID = this.data.musicListInfor.myLove.data.playlist.tracks[Math.round(Math.random() * this
+            let randomID = this.data.musicListInfor.myLove.data.playlist.tracks[Math.round(Math.random() *
+              this
               .data.musicListInfor.myLove.data.playlist.tracks.length)].id
             reTools.getData('/lyric', {
               id: randomID
@@ -643,46 +710,50 @@ import anime from 'animejs/lib/anime.es.js';
         setTimeout(() => {
           this.lyricSet()
         }, 33);
-        if (document.getElementById('lyrics').getElementsByTagName("li").length !=0&&this.data.player.playing == true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
+        if (document.getElementById('lyrics').getElementsByTagName("li").length != 0 && this.data.player.playing ==
+          true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
-          lis = lyrics.getElementsByTagName("li"),
-          currTime = document.querySelector('#audio').currentTime,
-          lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
-          
-          
+            lis = lyrics.getElementsByTagName("li"),
+            currTime = document.querySelector('#audio').currentTime,
+            lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+
+
           if (lyricNum == -2) lyricNum = this.data.player.now.oLRC.ms.length - 1
 
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
             this.data.player.uiDisplay.LineNum = lyricNum
 
             //歌词高亮设置
-  
+
             anime({
-              targets: lis, 
-                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (bodyHeight*0.15 ),
-                duration: 618,     
-                easing: 'cubicBezier(.3, .5, .2, 1)',
-                delay: (el, i, l)=> {
-                  let offset = i - lyricNum
-                  return Math.floor( 35 * offset * (0.90 ** Math.abs(offset)));
-                }, 
-                color: (el, i, l)=> {
-                  if(i == lyricNum -2) return 'rgb(0, 0, 0,0)';
-                  return 'rgb(0,0,0,'+(0.8 * (0.6 ** Math.abs(i - lyricNum)))+')'
-                },
-                filter: (el, i, l)=> {  
-                  if(i == lyricNum -2) return 'blur(0)';
-                  return 'blur('+ 0.6 * (1 - 0.5 ** Math.abs(i - lyricNum)) +'vmin )'
-                },
-                fontSize: 
-                (el, i, l)=>{     
-                  if(this.data.player.uiDisplay.beautifuller == false) {
-                    return '1em'
-                  };
-                  if(i < 1) return 1 +'em'  
-                  return  1 * (0.9 ** (i - 1 )) + 'em'
-                  }
-              })
+              targets: lis,
+              translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (
+                bodyHeight *
+                0.15),
+              duration: 618,
+              easing: 'cubicBezier(.3, .5, .2, 1)',
+              delay: (el, i, l) => {
+                let offset = i - lyricNum
+                return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet.funcDelay](offset)
+              },
+              color: (el, i, l) => {
+                if (i == lyricNum - 2) return 'rgb(0, 0, 0,0)';
+                return 'rgb(0,0,0,' + (0.8 * (0.6 ** Math.abs(i - lyricNum))) + ')'
+              },
+              filter: (el, i, l) => {
+                return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet.funcBlur](i, lyricNum)
+              },
+              fontSize: (el, i, l) => {
+                if (this.data.setting.config.lyricSet.animeFontSize == false) {
+                  return '1em'
+                };
+                let offset = Math.abs(i - lyricNum )
+                if(i - lyricNum < -2 || i - lyricNum > 10){
+                  return '1em'
+                }
+                return 1 * (0.9 ** offset) + 'em'
+              }
+            })
           }
 
 
@@ -784,8 +855,7 @@ import anime from 'animejs/lib/anime.es.js';
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
           return '重复请求'
         } else {
-          document.querySelector('#audio').pause();
-          this.data.player.playing = false;
+
           this.id = data.tracks[data.num].id
           this.data.player.tracks = data.tracks
           this.data.player.trackNum = data.num
@@ -912,6 +982,7 @@ import anime from 'animejs/lib/anime.es.js';
       }
     }
   }
+  export default vueApp
   /*
   function _isShow(el){//判断img是否出现在可视窗口
       let coords = el.getBoundingClientRect(),text;

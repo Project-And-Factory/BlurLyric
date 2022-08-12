@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-var lastTime = +new Date()
+var lastTime = +new Date(),createNum = 0;
 
 module.exports = {
     getUser,
@@ -15,17 +15,15 @@ async function getUser(id, fun) {
                 code: 'error',
                 message: '无法找到用户'
             })
+            return
         }
-        fun({
-            code: 'success',
-            str: dataStr
-        })
+        fun(dataStr)
     })
 }
 
 async function createUser(callback) {
 
-            if ((Date.now() - lastTime) < 5000) {
+            if ((Date.now() - lastTime) < 5000 && createNum != 0) {
                 callback({
                     code: '405',
                     message: '请求太频繁'
@@ -41,13 +39,26 @@ async function createUser(callback) {
                 id: id,
                 config: {}
             }
-            fs.writeFileSync(path.join(__dirname, './data/user/' + id + '.json'),file.toString())
+            fs.writeFileSync(path.join(__dirname, './data/user/' + id + '.json'),JSON.stringify(file))
 
             callback(file)
 }}
 
-async function upsetConfig(config, callback) {
+async function upsetConfig(query, callback) {
+    let file = {
+        id: query.id,
+        config: dataJson(query.res)
+    }
 
+    superTool.writeJson('./data/user/' + file.id + '.json', file, (err, dataStr)=>{
+        if (err) {
+            callback(err);
+        } else {
+
+            callback(dataStr);
+        }
+        console.log(err,dataStr);
+    })
 }
 function randomID() {
     return (30*(Math.random() * Math.random())).toString(16).substring(2);
@@ -62,15 +73,13 @@ var superTool = {
             callback(null, dataJson(dataStr))
         })
     },
-    writeJson: async function (text, callback) {
-        let buffer = new Buffer(text.toString())
-        await fs.writeFile(path.join(__dirname, file), buffer, {
-            flag: 'a'
-        }, (err, dataStr) => {
+    writeJson: async function (file,text, callback) {
+        let buffer = JSON.stringify(text)
+        await fs.writeFile(path.join(__dirname, file), buffer, (err, dataStr) => {
             if (err) {
-                callback(err)
+                callback(err,{})
             }
-            callback({
+            callback(undefined,{
                 code: 'ok',
             })
         })

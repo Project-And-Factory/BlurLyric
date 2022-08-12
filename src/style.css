@@ -124,7 +124,7 @@ body {
 .leftlab {
   position:absolute;
   width: calc(var(--leftlab-width) - 20px);
-  height: calc(100vh - 30px);
+  height: calc(100vh - 20px);
   display: flex;
   top: 0;
   padding: 10px 10px;
@@ -162,8 +162,8 @@ body {
 
 }
 .leftlab.leftlab.iconWithText{
-  transition: width .2s cubic-bezier(.3, .45, .2, .95);
-
+  transition: width .2s cubic-bezier(.3, .45, .2, .95),box-shadow .2s cubic-bezier(.3, .45, .2, .95);
+  box-shadow: 4px 0px 50px #00000005;
 }
 .leftlab>.linkbox{
   flex-direction: column;
@@ -173,29 +173,29 @@ body {
 .leftlab>.linkbox>a{
   background: rgb(0, 0, 0, 0);
   white-space: nowrap;
-  width: calc(100% - 20px);
+  padding: 8px;
+  width: calc(100% - 19px);
   user-select: none;
-  align-items:center
-
+  display: flex;
+  align-items:center;
+  position: relative;
 }
+
 .leftlab>.linkbox>a>a{
   pointer-events: none;
+  transform: translate(0%,-50%);
+  margin-left: 1.3em;
   font-size: 16px;
+  position: absolute;
+  top: 50%;
 }
 .leftlab.icon>.linkbox>a>a{
   opacity: 0;
-  margin-left: 0.3em;
-  
-  position: absolute;
   transition: all .2s cubic-bezier(.3, .45, .2, .95),color 0s;
 
 }
 .leftlab.iconWithText>.linkbox>a>a{
-  margin-left: 0.3em;
-  position: absolute;
   opacity: 1;
-
-  
   transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s,color 0s;
 
 }

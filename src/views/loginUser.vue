@@ -33,7 +33,9 @@
 </style>
 <script>
 import reTools from '../network/getData'
-export default {
+  import cookies from 'js-cookie'
+
+export default { 
   name: 'loginUser',
   data() {
     return {
@@ -58,11 +60,11 @@ export default {
         }).then(res => {
           console.log(res);
           if (res.code == 200) {
-            this.message= '登录成功, 即将刷新页面'
             document.cookie = res.cookie
+            this.$router.push({name:'muLib'})
             setTimeout(() => {
-              this.$router.push({name:'muLib'})
-            }, 3000);
+              location.reload()  
+            }, 1000); 
           } else if (res.code == 502) {
             this.message= res.msg
           } else if (res.code == 400) {
@@ -77,7 +79,7 @@ export default {
           console.log(res);
           if (res.code == 200) {
             this.message= '登录成功, 即将刷新页面'
-          document.cookie = res.cookie
+          document.cookie += res.cookie
             setTimeout(() => {
               this.$router.go(-1)
               this.$parent.loginInfor()

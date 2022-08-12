@@ -20,8 +20,8 @@
     transition: background-color .2s,border .2s,border-radius 0s;
 }
 div.linkbox a{
-    border: solid 0.15em #ffffff00
-
+    border: solid 0.15em #ffffff00;
+    display: flex;
 }
 div.linkbox a:hover{
     background-color: var(--botton-color-background);
