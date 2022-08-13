@@ -682,6 +682,7 @@ gap: 3vw;
 .left-sideImage>img {
   border-radius: 5%;
   max-width: 100%;
+  transition: all 1s;
   max-height: 100%;
   height: auto;
 }
@@ -701,6 +702,7 @@ img.ImageBlurBackground{
   filter: blur(2.8vmax) contrast(2);
   background-repeat: no-repeat;
 	background-size: cover;
+  transition: all 1s;
 }
 .contorlPlayerButtom{
   height: 24px;

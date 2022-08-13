@@ -402,10 +402,10 @@
 
   import './style.css'
   import './fixelButtom.css'
-  import './naturalUI.css'
+  import './naturalUI.css' 
 
 
-  var bodyHeight, lineTopAir, bodyWidth
+  var bodyHeight, lineTopAir, bodyWidth,newAudio = document.createElement("audio")
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -442,6 +442,7 @@
             loop: false,
             random: false,
             playing: false,
+            transition: false,
             uiDisplay: {
               SideDisplaySet: '',
               displayPlayBox: 'flex',
@@ -710,14 +711,14 @@
         setTimeout(() => {
           this.lyricSet()
         }, 33);
-        if (document.getElementById('lyrics').getElementsByTagName("li").length != 0 && this.data.player.playing ==
+        if (document.getElementById('lyrics')&&this.data.player.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
             lis = lyrics.getElementsByTagName("li"),
-            currTime = document.querySelector('#audio').currentTime,
+            currTime = document.querySelector('audio').currentTime,
             lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
 
-
+          if (lis.length > 0) {
           if (lyricNum == -2) lyricNum = this.data.player.now.oLRC.ms.length - 1
 
           if (this.data.player.uiDisplay.LineNum != lyricNum) {
@@ -756,11 +757,12 @@
             })
           }
 
-
+          }
         }
       },
-      async getCurr() { //音频进度转换
+      async getCurr() { 
 
+        //音频进度转换
         let currTime, cur, audio = this.$refs.audio
         if (audio) {
           cur = audio.currentTime
@@ -771,18 +773,91 @@
         this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = currTime
         this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
+
+        //音频过度事件触发
+        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15) this.transitionNextMusic()
+      },
+      async transitionNextMusic() {
+        if(this.data.player.transition == false){
+          this.data.player.transition = true
+        let oldAudio = this.$refs.audio
+
+        let numb,id,NextMusicCache 
+
+        if (this.data.player.random == true) {
+          numb = Math.floor(Math.random() * this.data.player.tracks.length)
+        } else {
+          if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.data.player.loop == true) {
+        return
+         }
+          numb = this.data.player.trackNum + 1
+        }
+          id = this.data.player.tracks[numb].id
+
+
+        //设置音频
+        NextMusicCache =this.data.player.musicCache[id]
+        newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
+        newAudio.volume = 0
+        
+        //播放新的音频
+        newAudio.addEventListener('canplay', function () {
+            newAudio.play();
+        })
+        newAudio.addEventListener('loadeddata', function () {
+            if (newAudio.readyState >= 2) {
+                newAudio.play();
+            }
+        })
+        if (newAudio.readyState >= 2) {
+            newAudio.play();
+        }
+
+        anime({
+          targets: newAudio,
+          duration: 10000,
+          volume: 1,
+          easing: 'linear'
+        },{
+          targets: oldAudio,
+          duration: 10000,
+          volume: 0,
+          easing: 'linear'
+        })
+        setTimeout(() => {
+          //上传听歌记录
+          reTools.getData('/scrobble', {
+            id: this.id,
+            sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+            time: Math.floor(document.querySelector('audio').currentTime)
+          })
+
+          oldAudio.src = newAudio.src;
+          oldAudio.addEventListener('loadeddata', ()=>{ 
+            let  oldAudio = document.querySelector('#audio')
+              if (oldAudio.readyState >= 2) {
+            oldAudio.currentTime = newAudio.currentTime;
+              oldAudio.play();
+              newAudio.pause()
+
+              } 
+          })
+          if (oldAudio.readyState >= 2) {
+            oldAudio.currentTime = newAudio.currentTime;
+              oldAudio.play();
+              newAudio.pause()
+
+          } 
+          this.id = id,
+          this.data.player.trackNum = numb
+          this.data.player.uiDisplay.LineNum = 0
+          this.data.player.transition = false
+        }, 10000);
+        }
       },
       showLong() { //音频加载成功后改变进度
         this.data.player.uiDisplay.duration = parseInt(this.$refs.audio.duration)
       },
-      changeLong() {
-        let ct = this.progress * this.duration / 100
-        if (!isNaN(ct)) {
-          this.$refs.audio.currentTime = ct
-        }
-
-      },
-
       plays() { //播放暂停控制
 
         if (this.data.player.playing == true) {
@@ -820,17 +895,6 @@
           this.data.player.uiDisplay.LineNum = 0
           this.id = this.data.player.tracks[this.data.player.trackNum].id
           audio.play()
-        }
-      },
-      finishPlay() {
-        reTools.getData('/scrobble', {
-          id: this.id,
-          sourceid: this.data.player.tracks[this.data.player.trackNum].al.id
-        })
-        if (document.querySelector('#audio').loop == false) {
-          this.data.player.playing = false;
-          document.querySelector('#audio').pause();
-          this.nextMusic()
         }
       },
       mainDisplayChange() {

@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router()
 const axios = require('axios')
 const user = require('./user.js');
-
+const unblockmusic = require('@unblockneteasemusic/server');
+const match = require('@unblockneteasemusic/server');
 
 router.get('/createUser',(req,res)=>{
 
@@ -10,6 +11,10 @@ router.get('/createUser',(req,res)=>{
         jsonTool('200',data,req,res)
     })
     
+})
+
+router.get('/unblockmusic',(req,res)=>{
+    res.json(await match(req.query.id, ['kuwo', 'migu', 'kugou']))
 })
 
 router.get('/getUser',(req,res)=>{
