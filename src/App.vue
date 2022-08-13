@@ -405,7 +405,7 @@
   import './naturalUI.css' 
 
 
-  var bodyHeight, lineTopAir, bodyWidth,newAudio = document.createElement("audio")
+  var bodyHeight, lineTopAir, bodyWidth,newAudio = document.createElement("audio"),transitionning = false
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -442,7 +442,6 @@
             loop: false,
             random: false,
             playing: false,
-            transition: false,
             uiDisplay: {
               SideDisplaySet: '',
               displayPlayBox: 'flex',
@@ -778,8 +777,8 @@
         if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15) this.transitionNextMusic()
       },
       async transitionNextMusic() {
-        if(this.data.player.transition == false){
-          this.data.player.transition = true
+        if(transitionning == false){
+          transitionning = true
         let oldAudio = this.$refs.audio
 
         let numb,id,NextMusicCache 
@@ -836,22 +835,24 @@
           oldAudio.src = newAudio.src;
           oldAudio.addEventListener('loadeddata', ()=>{ 
             let  oldAudio = document.querySelector('#audio')
-              if (oldAudio.readyState >= 2) {
-            oldAudio.currentTime = newAudio.currentTime;
+              if (oldAudio.readyState >= 2 && transitionning == true) {
+              oldAudio.currentTime = newAudio.currentTime+0.15;
               oldAudio.play();
               newAudio.pause()
+          transitionning = false
+
               }  
           })
-          if (oldAudio.readyState >= 2) {
-            oldAudio.currentTime = newAudio.currentTime;
+          if (oldAudio.readyState >= 2 && transitionning == true) {
+            oldAudio.currentTime = time;
               oldAudio.play();
-              newAudio.pause()
+              newAudio.pause() 
+          transitionning = false
 
           } 
           this.id = id,
           this.data.player.trackNum = numb
           this.data.player.uiDisplay.LineNum = 0
-          this.data.player.transition = false
         }, time);
         }
       },
@@ -873,6 +874,7 @@
           time: Math.floor(document.querySelector('audio').currentTime)
         })
         this.data.player.uiDisplay.LineNum = 0
+        document.querySelector('audio').currentTime = 0
         if (this.data.player.random == true) {
           this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
           this.id = this.data.player.tracks[this.data.player.trackNum].id
