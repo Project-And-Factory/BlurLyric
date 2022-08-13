@@ -799,6 +799,7 @@
         NextMusicCache =this.data.player.musicCache[id]
         newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
         newAudio.volume = 0
+        newAudio.currentTime = 0
         
         //播放新的音频
         newAudio.addEventListener('canplay', function () {
@@ -812,15 +813,15 @@
         if (newAudio.readyState >= 2) {
             newAudio.play();
         }
-
+        let time = 1000 * (oldAudio.duration - oldAudio.currentTime);
         anime({
           targets: newAudio,
-          duration: 10000,
+          duration: time,
           volume: 1,
           easing: 'linear'
         },{
           targets: oldAudio,
-          duration: 10000,
+          duration: time,
           volume: 0,
           easing: 'linear'
         })
@@ -839,8 +840,7 @@
             oldAudio.currentTime = newAudio.currentTime;
               oldAudio.play();
               newAudio.pause()
-
-              } 
+              }  
           })
           if (oldAudio.readyState >= 2) {
             oldAudio.currentTime = newAudio.currentTime;
@@ -852,7 +852,7 @@
           this.data.player.trackNum = numb
           this.data.player.uiDisplay.LineNum = 0
           this.data.player.transition = false
-        }, 10000);
+        }, time);
         }
       },
       showLong() { //音频加载成功后改变进度

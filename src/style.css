@@ -619,7 +619,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
     background-repeat: no-repeat;
 	background-size: cover;
 	filter: blur(10vmax) contrast(0.3) brightness(1.5) saturate(2);
-	transition: 0.3s;
+	transition: 1s;
   }
 #player > div.player-background.buttom{
   display: none;
