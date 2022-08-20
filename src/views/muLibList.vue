@@ -12,7 +12,7 @@
       <div class="topBlockRightButtom">
         <div class="linkbox bigger">
           <a style="user-select:none" @click="loginOut()"><svg xmlns="http://www.w3.org/2000/svg"
-              style="position: absolute;height: calc(1em + 3px);width:height: calc(1em + 3px)" fill="currentColor"
+              style="position: absolute;height: calc(100% - 16px);top: 50%;transform: translate(0%,-50%);" fill="currentColor"
               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
                 d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
@@ -28,7 +28,6 @@
       <!--我喜欢的Block-->
       <div @click="this.$router.push({name:'detail',query:{id:data.myMusicList[0].id }})"
         style="height: 7em;background-color:#5080ff;overflow:hidden; ">
-        <div class="playButtom"></div>
         <p style="user-select:none ;position: relative;box-shadow: rgb(80 128 255) 0px 9px 14px 7px;z-index: 5;">我喜欢的
         </p>
         <div style="position: relative;font-size: 14px;top: 13em;box-shadow: rgb(80 128 255) -4px -20px 20px 15px;">
@@ -51,8 +50,29 @@
         <p style="user-select:none ;position: absolute;right: -1vw;bottom: -1vw;color:#00000005;font-size: 12vw;;z-index: 1;">Daily
         </p>
       </div>
+
+    <!--
+
+        私人FM
+
+    -->
+    <div class="personalFMCard" v-if="futherData.musicListInfor" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
+        <div class="thisImg">
+          <img v-bind:src="futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
+          <img v-bind:src="futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
+        </div>
+          <div class="personalbackground" v-bind:style="'background-image:url(' + futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].album.picUrl  +'?param=512y512)'" alt="" srcset="">
+          </div>
+          <div class="Text">
+          <p style="margin-top: 0;"><div style="color: #eee;font-size: 0.75em">为您推荐 <a style="font-size: 0.8em;height: inherit;justify-items: center;">- 私人FM</a></div>
+          {{ futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].name}}</p>
+            <div @click="this.$parent.$parent.$parent.usePersonalFM()" class="playButtom"></div>
+          </div>
+          
     </div>
 
+
+    </div>
   </div>
 
 </template>
@@ -64,9 +84,7 @@
     props: ['data'],
     data() {
       return {
-        futherData: {
-
-        },
+        futherData: this.$props['data'],
         myData: {}
       }
     },
@@ -247,5 +265,50 @@
 
 
     }
+  }
+  .muLib-MainBox>div.personalFMCard{
+    z-index: 0;
+    height: 20vmin;
+    position: relative;
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+    padding: 20px;
+    overflow: hidden;
+    
+  }
+  .personalFMCard>.thisImg>img{
+    height: 100%;
+    border-radius: 17px;
+}
+  .personalFMCard>.thisImg{
+    height: inherit;
+    position: relative;
+}
+  .personalFMCard>.thisImg>img:nth-child(1){
+    position: absolute;
+    z-index: -1;
+    left: 1.0vmax;
+    top: 2vmax;
+    aspect-ratio: 1/1;
+    height: calc(100% - 2vmax);
+    filter: blur(1.4vmax);
+}
+  div.personalFMCard > div.personalbackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    filter:saturate(0%);
+    opacity: 0.05;
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    
+  }
+  .personalFMCard>.Text{
+    font-size: 4vmin;
   }
 </style>

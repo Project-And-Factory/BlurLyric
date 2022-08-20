@@ -65,7 +65,7 @@
     <!--顶部logo及导航（viewBox）-->
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
-      <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">  
+      <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">
       <div class="dragBar"></div>
 
     </div>
@@ -330,7 +330,7 @@
             </svg>
           </a>
           <!--下一曲-->
-          <a @click="nextMusic()">
+          <a @click="transitionNextMusic(2000)">
             <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
               class="bi bi-skip-end" viewBox="0 0 16 16">
               <path
@@ -346,9 +346,10 @@
 
         <div id="lyric">
           <ul id="lyrics">
-            <li @click="$refs.audio.currentTime = item.t" v-for="(item) in data.player.now.oLRC.ms" v-bind:key="item.t">
+            <li @click="$refs.audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
+              v-bind:key="item.t">
               <h1>{{item.c}}</h1>
-              <h2 v-if="(data.player.now.oLRC.tran == true)">{{item.tranC}}</h2>
+              <h2 v-if="(this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
               <div>{{formTime(parseInt(item.t))}}</div>
             </li>
           </ul>
@@ -402,10 +403,11 @@
 
   import './style.css'
   import './fixelButtom.css'
-  import './naturalUI.css' 
+  import './naturalUI.css'
 
 
-  var bodyHeight, lineTopAir, bodyWidth,newAudio = document.createElement("audio"),transitionning = false
+  var bodyHeight, lineTopAir, bodyWidth, newAudio = document.createElement("audio"),
+    transitionning = false
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -435,9 +437,13 @@
           user: {},
           player: {
             musicCache: {
-              song: {},
-              lyric: {},
-              hex: {}
+              '0': {
+                song: {},
+                lyric: {
+                  ms: []
+                },
+                hex: {}
+              }
             },
             loop: false,
             random: false,
@@ -514,18 +520,23 @@
                 lyric: '',
 
               }
+            },
+            personalFM: {
+              use: false,
+              trackNum: 0,
+              tracks: [],
             }
           },
           settingTemperture: {
             lyricSet: {
               funcBlur: {
-                heigh:function(i, lyricNum){
-                  if (i == lyricNum - 2) return 'blur(0)';
-                  return 'blur(' + 0.6 * (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
+                heigh: function (i, lyricNum) {
+                  if (i - lyricNum <-2 && i- lyricNum > 7) return 'blur(0)';
+                  return 'blur(' +  (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
                 }
               },
               funcDelay: {
-                use:function(offset){
+                use: function (offset) {
                   return Math.floor(35 * offset * (0.90 ** Math.abs(offset)));
                 }
               }
@@ -549,14 +560,15 @@
     },
 
     created() {
-
+      audioNetease.requirePersonalFM().then(r => {
+        this.data.musicListInfor.personalFM.tracks = r
+      })
 
       this.loginInfor();
       this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
       lineTopAir = Math.floor(bodyHeight * 0.2)
-
 
     },
     watch: {
@@ -579,13 +591,11 @@
           }
           if (this.id == newid) {
             this.data.player.now.musicUrl = Data.song
-            this.data.player.now.oLRC = Data.lyric
           }
 
           //预缓存
           let witchIs = [-1, 1, 2]
           for (let index = 0; index <= witchIs.length; index++) {
-            console.log(witchIs.length);
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
               this.data.player.musicCache[thisMusic.id] = await audioNetease.requireId(thisMusic.id)
@@ -595,6 +605,32 @@
       }
     },
     methods: {
+      usePersonalFM() {
+        progress.load()
+
+        let personalFMData = this.data.musicListInfor.personalFM
+
+        this.data.musicListInfor.personalFM.use = true
+        this.refusePersonalFM()
+        this.id = personalFMData.tracks[personalFMData.trackNum].id
+        this.plays()
+        document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight))'
+      },
+      getPersonalFM() {
+        this.data.musicListInfor.personalFM.use = true
+        audioNetease.requirePersonalFM().then(r => {
+          for(let i = 0; i < r.length; i++) {
+          this.data.musicListInfor.personalFM.tracks.push(r[i])}
+          this.data.player.tracks = this.data.musicListInfor.personalFM.tracks
+        })
+
+
+      },
+      refusePersonalFM() {
+        let personalFMData = this.data.musicListInfor.personalFM
+        this.data.player.trackNum = personalFMData.trackNum;
+        this.data.player.tracks = personalFMData.tracks
+      },
       editconfig(func) {
         this.data.setting.config = func(this.data.setting.config)
         this.pushingconfig()
@@ -614,8 +650,6 @@
           timetamp: (Number(new Date()))
         }).then(r => {
           this.data.user = r.data
-          progress.load()
-
           if (this.data.user.account) {
             this.myPlayList()
             //自动签到
@@ -625,6 +659,7 @@
             reTools.getData('/daily_signin', {
               type: 1
             })
+
             reTools.getData('/recommend/songs').then(r => {
               this.data.recommendSongs = r.data.dailySongs
             })
@@ -634,7 +669,6 @@
          * 创建获取BlurLyric账号
          */
         //cookies.remove('blurlyricid')
-        console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
           reTools.getData('/blurlyric/createUser').then(res => {
             cookies.set('blurlyricid', res.data.id)
@@ -655,7 +689,6 @@
         reTools.getData('/blurlyric/getUser', {
           id: cookies.get('blurlyricid')
         }).then(r => {
-          console.log(r, this.data.setting)
           this.data.setting = r.data
         })
       },
@@ -710,56 +743,59 @@
         setTimeout(() => {
           this.lyricSet()
         }, 33);
-        if (document.getElementById('lyrics')&&this.data.player.playing ==
+        if (document.getElementById('lyrics') && this.data.player.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
             lis = lyrics.getElementsByTagName("li"),
             currTime = document.querySelector('audio').currentTime,
-            lyricNum = this.data.player.now.oLRC.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+            lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
 
           if (lis.length > 0) {
-          if (lyricNum == -2) lyricNum = this.data.player.now.oLRC.ms.length - 1
+            if (lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
 
-          if (this.data.player.uiDisplay.LineNum != lyricNum) {
-            this.data.player.uiDisplay.LineNum = lyricNum
+            if (this.data.player.uiDisplay.LineNum != lyricNum) {
+              this.data.player.uiDisplay.LineNum = lyricNum
 
-            //歌词高亮设置
+              //歌词高亮设置
 
-            anime({
-              targets: lis,
-              translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (
-                bodyHeight *
-                0.15),
-              duration: 618,
-              easing: 'cubicBezier(.3, .5, .2, 1)',
-              delay: (el, i, l) => {
-                let offset = i - lyricNum
-                return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet.funcDelay](offset)
-              },
-              color: (el, i, l) => {
-                if (i == lyricNum - 2) return 'rgb(0, 0, 0,0)';
-                return 'rgb(0,0,0,' + (0.8 * (0.6 ** Math.abs(i - lyricNum))) + ')'
-              },
-              filter: (el, i, l) => {
-                return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet.funcBlur](i, lyricNum)
-              },
-              fontSize: (el, i, l) => {
-                if (this.data.setting.config.lyricSet.animeFontSize == false) {
-                  return '1em'
-                };
-                let offset = Math.abs(i - lyricNum )
-                if(i - lyricNum < -2 || i - lyricNum > 10){
-                  return '1em'
+              anime({
+                targets: lis,
+                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (
+                  bodyHeight *
+                  0.15),
+                duration: 650,
+                easing: 'cubicBezier(.3, .5, .2, 1)',
+                delay: (el, i, l) => {
+                  let offset = i - lyricNum
+                  return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                    .funcDelay](offset)
+                },
+                color: (el, i, l) => {
+                  if (i - lyricNum <-2 && i- lyricNum > 7) return 'rgb(0,0,0,0)'
+
+                  return 'rgb(0,0,0,' + (0.8 * (0.6 ** Math.abs(i - lyricNum))) + ')'
+                },
+                filter: (el, i, l) => {
+                  return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
+                    .funcBlur](i, lyricNum)
+                },
+                fontSize: (el, i, l) => {
+                  if (this.data.setting.config.lyricSet.animeFontSize == false) {
+                    return '1em'
+                  };
+                  let offset = Math.abs(i - lyricNum)
+                  if (i - lyricNum < -2 || i - lyricNum > 10) {
+                    return '1em'
+                  }
+                  return 1 * (0.9 ** offset) + 'em'
                 }
-                return 1 * (0.9 ** offset) + 'em'
-              }
-            })
-          }
+              })
+            }
 
           }
         }
       },
-      async getCurr() { 
+      async getCurr() {
 
         //音频进度转换
         let currTime, cur, audio = this.$refs.audio
@@ -774,86 +810,94 @@
         this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15) this.transitionNextMusic()
+        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15)
+          this.transitionNextMusic()
       },
-      async transitionNextMusic() {
-        if(transitionning == false){
+      async transitionNextMusic(times) {
+        if (transitionning == false) {
           transitionning = true
-        let oldAudio = this.$refs.audio
+          let oldAudio = this.$refs.audio
 
-        let numb,id,NextMusicCache 
+          let numb, id, NextMusicCache
 
-        if (this.data.player.random == true) {
-          numb = Math.floor(Math.random() * this.data.player.tracks.length)
-        } else {
-          if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.data.player.loop == true) {
-        return
-         }
-          numb = this.data.player.trackNum + 1
-        }
-          id = this.data.player.tracks[numb].id
-
-
-        //设置音频
-        NextMusicCache =this.data.player.musicCache[id]
-        newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
-        newAudio.volume = 0
-        newAudio.currentTime = 0
-        
-        //播放新的音频
-        newAudio.addEventListener('canplay', function () {
-            newAudio.play();
-        })
-        newAudio.addEventListener('loadeddata', function () {
-            if (newAudio.readyState >= 2) {
-                newAudio.play();
+          if (this.data.player.random == true) {
+            numb = Math.floor(Math.random() * this.data.player.tracks.length)
+          } else {
+            if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.data.player.loop == true) {
+              return
             }
-        })
-        if (newAudio.readyState >= 2) {
+            numb = this.data.player.trackNum + 1
+          }
+          id = this.data.player.tracks[numb].id
+          
+          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
+              .trackNum < 3)) {
+
+            this.getPersonalFM()
+          }
+          //设置音频
+          NextMusicCache = this.data.player.musicCache[id]
+          newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
+          newAudio.volume = 0
+          newAudio.currentTime = 0
+
+          //播放新的音频
+          newAudio.addEventListener('canplay', function () {
             newAudio.play();
-        }
-        let time = 1000 * (oldAudio.duration - oldAudio.currentTime);
-        anime({
-          targets: newAudio,
-          duration: time,
-          volume: 1,
-          easing: 'linear'
-        },{
-          targets: oldAudio,
-          duration: time,
-          volume: 0,
-          easing: 'linear'
-        })
-        setTimeout(() => {
-          //上传听歌记录
-          reTools.getData('/scrobble', {
-            id: this.id,
-            sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-            time: Math.floor(document.querySelector('audio').currentTime)
           })
+          newAudio.addEventListener('loadeddata', function () {
+            if (newAudio.readyState >= 2) {
+              newAudio.play();
+            }
+          })
+          if (newAudio.readyState >= 2) {
+            newAudio.play();
+          }
+          let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
+          anime({
+            targets: newAudio,
+            duration: time,
+            volume: 1,
+            easing: 'linear'
+          }, {
+            targets: oldAudio,
+            duration: time,
+            volume: 0,
+            easing: 'linear'
+          })
+          setTimeout(() => {
+            document.querySelector('audio').src = newAudio.src
+            this.data.player.trackNum = numb
+            
+            if(this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = numb
 
-          oldAudio.src = newAudio.src;
-          oldAudio.addEventListener('loadeddata', ()=>{ 
-            let  oldAudio = document.querySelector('#audio')
+            this.id = id,
+
+              //上传听歌记录
+              reTools.getData('/scrobble', {
+                id: this.id,
+                sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+                time: Math.floor(document.querySelector('audio').currentTime)
+              })
+            document.querySelector('audio').currentTime = newAudio.currentTime
+
+            oldAudio.addEventListener('loadeddata', () => {
+              let oldAudio = document.querySelector('#audio')
               if (oldAudio.readyState >= 2 && transitionning == true) {
-              oldAudio.currentTime = newAudio.currentTime+0.15;
-              oldAudio.play();
+                oldAudio.currentTime = newAudio.currentTime + 0.2;
+                newAudio.pause()
+                transitionning = false
+
+              }
+            })
+            if (oldAudio.readyState >= 2 && transitionning == true) {
+              oldAudio.currentTime = newAudio.currentTime + 0.2;
               newAudio.pause()
-          transitionning = false
+              transitionning = false
 
-              }  
-          })
-          if (oldAudio.readyState >= 2 && transitionning == true) {
-            oldAudio.currentTime = time;
-              oldAudio.play();
-              newAudio.pause() 
-          transitionning = false
-
-          } 
-          this.id = id,
-          this.data.player.trackNum = numb
-          this.data.player.uiDisplay.LineNum = 0
-        }, time);
+            }
+            this.data.player.uiDisplay.LineNum = 0
+          }, time);
         }
       },
       showLong() { //音频加载成功后改变进度
@@ -867,12 +911,18 @@
       },
 
       nextMusic() {
+        if(transitionning == true) return
+          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
+              .trackNum < 3)) {
+          this.getPersonalFM()
+        }
         //上传听歌记录
         reTools.getData('/scrobble', {
           id: this.id,
           sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
           time: Math.floor(document.querySelector('audio').currentTime)
         })
+        
         this.data.player.uiDisplay.LineNum = 0
         document.querySelector('audio').currentTime = 0
         if (this.data.player.random == true) {
@@ -885,6 +935,7 @@
           audio.play()
 
         }
+        if(this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = numb
       },
       upMusic() {
         reTools.getData('/scrobble', {
@@ -918,6 +969,9 @@
 
       },
       changeTrack(data) { //接受router的数据
+        progress.load()
+        this.data.musicListInfor.personalFM.use = false
+
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
           return '重复请求'
         } else {

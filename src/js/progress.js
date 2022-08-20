@@ -1,44 +1,67 @@
-    var data
+import app from "../App.vue";
 
-    function load() {
+var data
 
-        data = {
-            audio: document.querySelector('audio'),
-            progress: document.querySelector('.box-progressbar'),
-            canChange: false
-        }
-        data.progress.onclick = function(event){changeProgress(event)}
-        data.progress.onmousedown =function (event) {
-            changeProgress(event)
-            data.canChange = true;
-        }
-        document.querySelector('#player').onmouseup = function () {
-            data.canChange = false;
-        }
-        document.querySelector('#player').onmousemove = function (event) {
-            if(data.canChange == true && event.buttons == 1) changeProgress(event)
-        }
+    function setProgressBar(){
+        let elems = document.querySelectorAll('.box-progressbar')
 
-        function changeProgress(event) {
-            let box = data.progress,
-                boxPosition = box.getBoundingClientRect();
+        for(let i = 0; i < elems.length; i++) {
 
+            let element = elems[i]
+            
+            elems[i].onclick = (event)=>{changeProgress(event,element)}
+            elems[i].onmousedown =(event)=>{
+                changeProgress(event,element)
+                data.canChange = true;
+            }
+            document.querySelector('#player').onmouseup = ()=>{
+                data.canChange = false;
+            }
+            document.querySelector('#player').onmousemove = (event)=>{
+                if(data.canChange == true && event.buttons == 1) changeProgress(event,element)
+            }
 
-                let tempData = {
-                    percent: (event.x - boxPosition.x) / boxPosition.width
-                }
-                if (tempData.percent < 0) tempData.percent = 0
-
-                document.querySelector('.box-progressbar').style = '--musicProgressPercent:' + (tempData.percent)
-                changeMusicTimeOfProgress(tempData.percent)
 
         }
     }
+    function load() {
 
+        data = {
+            audio: document.querySelector('#audio'),
+            elms: [],
+            canChange: false
+        }
+        
+        loopProgressElement()
+    }
+    function loopProgressElement() {
+        if (document.querySelectorAll('.box-progressbar').length != data.elms.length) {
+            setProgressBar()
+        }
+        data.elms = document.querySelectorAll('.box-progressbar')
+        setTimeout(() => {
+            loopProgressElement()
+        }, 1000);
+    }
+    function changeProgress(event,box) {
+        let    boxPosition = box.getBoundingClientRect();
+
+
+            let tempData = {
+                percent: (event.x - boxPosition.x) / boxPosition.width
+            }
+            if (tempData.percent < 0) tempData.percent = 0
+
+            box.style = '--musicProgressPercent:' + (tempData.percent)
+            changeMusicTimeOfProgress(tempData.percent)
+
+    }
 
     function changeMusicTimeOfProgress(percent) {
         data.audio.currentTime = data.audio.duration * percent
     }
+
+    
     export default {
         data,
         load

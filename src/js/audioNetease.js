@@ -1,5 +1,6 @@
 export default {
-    requireId
+    requireId,
+    requirePersonalFM
 }
 
 
@@ -7,6 +8,18 @@ export default {
 import reTools from '../network/getData'
 import lyric from './lyric.js'
 
+async function requirePersonalFM() {
+  let res
+  await reTools.getData('/personal_fm',{
+    timetamp: (Number(new Date()))
+  }).then(r=>{res=r.data})
+  for (let num = 0; num < res.length; num++) {
+    res[num]['al'] = res[num].album
+    res[num]['ar'] = res[num].artists
+  }
+
+  return res
+}
 
 /**
  * 请求网易云ID的音乐
@@ -39,7 +52,7 @@ async function requireId(id) {
         Data.song.netea = r.data[0]
 
       })
-  await reTools.getData('/unblockmusic', {
+  await reTools.getData('/blurlyric/unblockmusic', {
         id: id
       }).then(res => {
         if (Data.song.netea.br < Data.song.unblock.br || Data.song.netea.freeTrialInfo !=null) {

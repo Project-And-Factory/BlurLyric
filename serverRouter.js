@@ -14,7 +14,7 @@ router.get('/createUser',(req,res)=>{
 })
 
 router.get('/unblockmusic',(req,res)=>{
-    res.json(await match(req.query.id, ['kuwo', 'migu', 'kugou']))
+    res.json(unblockmusic(req.query.id, ['kuwo', 'migu', 'kugou']))
 })
 
 router.get('/getUser',(req,res)=>{

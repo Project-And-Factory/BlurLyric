@@ -229,7 +229,7 @@ nav {
 
 .linkbox.bigger>a {
 
-
+  position: relative;
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;
@@ -384,12 +384,20 @@ flex-direction: column;
   width: 48px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background-image: radial-gradient(closest-side, rgb(255, 255, 255, 0.65), rgb(255, 255, 255, .20)), url(./icon/24gf-play.svg);
+  background-image: radial-gradient(closest-side, rgb(255, 255, 255, 0.65), rgb(255, 255, 255, .20)),
+   url(./icon/24gf-play.svg);
   background-size: 100% 100%, 25px, 25px;
   background-repeat: no-repeat;
   background-position: 50% 50%, 54% 52%;
+  transition: all .5s cubic-bezier(.3, .45, .2, .95);
 }
 
+.playButtom:hover{
+  transform: translate(calc(-100% - 24px), calc(-100% - 24px)) scale(1.1);
+}
+.playButtom:active{
+  transform: translate(calc(-100% - 24px), calc(-100% - 24px)) scale(0.9);
+}
 /**.
 
   主播放器UI
