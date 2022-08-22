@@ -31,7 +31,7 @@ async function requireId(id) {
         song: {
             netea: {},
             unblock: {},
-            use: 'netea'
+            use: 'netea',
         },
         lyric: {},
     }
@@ -60,5 +60,6 @@ async function requireId(id) {
           Data.song.use = 'unblock'
         }
       })
+      Data.song['src']=  Data.song[Data.song.use].url
     return Data
 }

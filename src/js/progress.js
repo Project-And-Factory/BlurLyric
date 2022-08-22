@@ -24,10 +24,10 @@ var data
 
         }
     }
-    function load() {
+    function load(audioELement) {
 
         data = {
-            audio: document.querySelector('#audio'),
+            audio: audioELement || document.querySelector('audio'),
             elms: [],
             canChange: false
         }
@@ -44,6 +44,7 @@ var data
         }, 1000);
     }
     function changeProgress(event,box) {
+
         let    boxPosition = box.getBoundingClientRect();
 
 
@@ -58,6 +59,9 @@ var data
     }
 
     function changeMusicTimeOfProgress(percent) {
+        if (!data.audio) {
+            return
+        }
         data.audio.currentTime = data.audio.duration * percent
     }
 

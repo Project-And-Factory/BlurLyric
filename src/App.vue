@@ -1,7 +1,7 @@
 <template>
-  <audio v-bind:loop="data.player.loop" v-bind:src="data.player.now.musicUrl[data.player.now.musicUrl.use].url"
-    @pause='data.player.playing=false' @play='data.player.playing=true' @ended="finishPlay" ref="audio" id="audio"
-    @timeupdate="getCurr" @canplay="showLong"></audio>
+  <!--audio v-bind:src="data.player.now.musicUrl[data.player.musicCache[id].song].url"
+    @pause='state.playing=false' @play='state.playing=true' @ended="finishPlay" ref="audio" id="audio"
+    @timeupdate="getCurr" @canplay="showLong"></audio-->
 
   <!--图片预缓存
     
@@ -127,7 +127,7 @@
           </svg>
         </a>
         <!--上一曲-->
-        <a v-if="data.player.random != true" class="minWidthUnneed player-Mini-Contorl-normal" @click="upMusic()">
+        <a v-if="state.random != true" class="minWidthUnneed player-Mini-Contorl-normal" @click="upMusic()">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-skip-start" viewBox="0 0 16 16">
             <path
               d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
@@ -137,13 +137,13 @@
         <!--播放按键-->
         <a class="player-Mini-Contorl-normal elm-play" @click="plays()">
           <!--未播放样式-->
-          <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          <svg v-if="( state.playing == false )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             class="bi bi-play-fill" viewBox="0 0 16 16">
             <path
               d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
           </svg>
           <!--正播放样式-->
-          <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          <svg v-if="( state.playing != false )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             class="bi bi-pause-fill" viewBox="0 0 16 16">
             <path
               d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
@@ -188,7 +188,7 @@
             v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
-            v-if="(data.player.now.musicUrl.use.br >= 900000)">FLAC</a></h1>
+            v-if="(data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
         <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
           </a><a>&nbsp;-&nbsp;
             {{data.player.tracks[data.player.trackNum].al.name}}
@@ -248,7 +248,7 @@
         <!--播放按键-->
         <div class="linkbox">
           <!--上一曲-->
-          <a v-if="data.player.random != true" @click="upMusic()">
+          <a v-if="state.random != true" @click="upMusic()">
             <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
               class="bi bi-skip-start" viewBox="0 0 16 16">
               <path
@@ -259,13 +259,13 @@
           <!--播放按键-->
           <a @click="plays()">
             <!--未播放样式-->
-            <svg v-if="( data.player.playing == false )" xmlns="http://www.w3.org/2000/svg"
+            <svg v-if="( state.playing == false )" xmlns="http://www.w3.org/2000/svg"
               style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
               <path
                 d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
             </svg>
             <!--正播放样式-->
-            <svg v-if="( data.player.playing != false )" xmlns="http://www.w3.org/2000/svg"
+            <svg v-if="( state.playing != false )" xmlns="http://www.w3.org/2000/svg"
               style="height: 4.5vh; width: 4.5vh" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
               <path
                 d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
@@ -273,15 +273,15 @@
           </a>
           <!--下一曲/随机-->
           <a @click="nextMusic()">
-            <svg style="height: 3vh; width: 3vh" v-if="data.player.random == true" t="1657019671848" class="icon"
+            <svg style="height: 3vh; width: 3vh" v-if="state.random == true" t="1657019671848" class="icon"
               viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2140" width="1024"
               height="1024">
               <path
                 d="M336 73.6l406.4 412.8c12.8 12.8 12.8 38.4 0 51.2L336 950.4c-12.8 12.8-35.2 12.8-51.2 0l-3.2-3.2c-12.8-12.8-12.8-38.4 0-51.2l377.6-384L281.6 131.2c-12.8-12.8-12.8-38.4 0-51.2l3.2-3.2c16-16 38.4-16 51.2-3.2z"
                 p-id="2141"></path>
             </svg>
-            <svg v-if="data.player.random != true" xmlns="http://www.w3.org/2000/svg"
-              style="height: 3.2vh; width: 3.2vh" fill="currentColor" class="bi bi-skip-end" viewBox="0 0 16 16">
+            <svg v-if="state.random != true" xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh"
+              fill="currentColor" class="bi bi-skip-end" viewBox="0 0 16 16">
               <path
                 d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
             </svg>
@@ -306,14 +306,14 @@
 
           </a>
           <a @click="nextMusicEventControl()">
-            <svg style="height: 3vh; width: 3vh" v-if="data.player.random == true" t="1657018045660" class="icon"
+            <svg style="height: 3vh; width: 3vh" v-if="state.random == true" t="1657018045660" class="icon"
               viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1704" width="1024"
               height="1024">
               <path
                 d="M844.8 665.6c-6.4-6.4-16-12.8-25.6-9.6-19.2 0-35.2 16-35.2 35.2 0 9.6 6.4 19.2 12.8 25.6l41.6 41.6c-44.8-6.4-86.4-22.4-121.6-51.2-3.2 0-3.2-3.2-6.4-6.4L332.8 304C268.8 233.6 192 195.2 99.2 195.2c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32c73.6 0 134.4 32 182.4 86.4l384 400 6.4 6.4c48 38.4 108.8 64 172.8 70.4l-48 44.8c-9.6 6.4-16 19.2-16 28.8 0 19.2 19.2 35.2 38.4 32 9.6 0 19.2-6.4 25.6-12.8l99.2-92.8c16-16 16-41.6 0-57.6l-99.2-102.4z m-3.2-556.8c-12.8-16-32-19.2-48-6.4-9.6 6.4-12.8 16-12.8 25.6 0 12.8 3.2 22.4 16 28.8l41.6 41.6c-73.6 9.6-140.8 38.4-192 89.6l-115.2 118.4c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 16 9.6 25.6 9.6s19.2-3.2 25.6-9.6l112-118.4c41.6-38.4 92.8-64 147.2-70.4l-44.8 44.8c-6.4 6.4-12.8 16-12.8 25.6 0 19.2 16 35.2 32 35.2 9.6 0 19.2-3.2 28.8-9.6L950.4 256c12.8-12.8 12.8-35.2 0-48l-108.8-99.2m-438.4 448c-9.6 0-19.2 3.2-25.6 9.6l-118.4 121.6c-48 44.8-96 67.2-160 67.2H96c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32h3.2c83.2 0 147.2-32 211.2-86.4l121.6-124.8c6.4-6.4 9.6-12.8 9.6-22.4 0-9.6-3.2-16-9.6-22.4-9.6-6.4-19.2-9.6-28.8-9.6z"
                 p-id="1705"></path>
             </svg>
-            <svg style="height: 3vh; width: 3vh" v-if="data.player.loop == true" t="1657018656868" class="icon"
+            <svg style="height: 3vh; width: 3vh" v-if="audio.loop == true" t="1657018656868" class="icon"
               viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1849" width="1024"
               height="1024">
               <path
@@ -321,7 +321,7 @@
                 p-id="1850"></path>
               <path d="M544 672V352h-48L416 409.6l16 41.6 60.8-41.6V672z" p-id="1851"></path>
             </svg>
-            <svg style="height: 3vh; width: 3vh" v-if="data.player.loop == false && data.player.random == false"
+            <svg style="height: 3vh; width: 3vh" v-if="audio.loop == false && state.random == false"
               t="1657018716268" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
               p-id="1995" width="1024" height="1024">
               <path
@@ -345,8 +345,8 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics">
-            <li @click="$refs.audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
+          <ul id="lyrics" v-if="data.player.musicCache[id]">
+            <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
               <h2 v-if="(this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
@@ -396,7 +396,6 @@
 
   import lyric from './js/lyric.js'
   import audioNetease from './js/audioNetease.js'
-  import audio from './js/audio.js'
   import progress from './js/progress.js'
   import anime from 'animejs/lib/anime.es.js';
   import cookies from 'js-cookie'
@@ -406,7 +405,7 @@
   import './naturalUI.css'
 
 
-  var bodyHeight, lineTopAir, bodyWidth, newAudio = document.createElement("audio"),
+  var bodyHeight, lineTopAir, bodyWidth,
     transitionning = false
   window.addEventListener('resize', getWindowInfo)
 
@@ -429,9 +428,15 @@
       }
     }, 800)
   }
+
   var vueApp = {
     data() {
       return {
+        audio: document.createElement('audio'),
+        state: {
+          playing: false,
+          random: false,
+        },
         id: 0,
         data: {
           user: {},
@@ -445,9 +450,6 @@
                 hex: {}
               }
             },
-            loop: false,
-            random: false,
-            playing: false,
             uiDisplay: {
               SideDisplaySet: '',
               displayPlayBox: 'flex',
@@ -462,22 +464,6 @@
               lineLazyLoaddelay: 0,
               color: [],
               beautifuller: false,
-            },
-            now: {
-              musicUrl: {
-                netea: {
-                  url: "http://localhost:8080/"
-                },
-                unblock: {},
-                use: 'netea'
-              },
-              br: '',
-              oLRC: {
-                offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
-                ms: [], //歌词数组{t:时间,c:歌词}
-                tran: false
-              },
-
             },
             trackNum: 0,
             tracks: [{
@@ -531,8 +517,8 @@
             lyricSet: {
               funcBlur: {
                 heigh: function (i, lyricNum) {
-                  if (i - lyricNum <-2 && i- lyricNum > 7) return 'blur(0)';
-                  return 'blur(' +  (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
+                  if (i - lyricNum < -2 && i - lyricNum > 7) return 'blur(0)';
+                  return 'blur(' + (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
                 }
               },
               funcDelay: {
@@ -566,10 +552,22 @@
 
       this.loginInfor();
       this.lyricSet()
+      this.getCurr()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
       lineTopAir = Math.floor(bodyHeight * 0.2)
 
+      this.audio.addEventListener("playing", () => {
+        this.state.playing = true;
+      });
+      this.audio.addEventListener("pause", () => {
+        this.state.playing = false;
+      });
+      this.audio.addEventListener('loadeddata', () => {
+        if (this.audio.readyState >= 2) {
+          this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
+        }
+      })
     },
     watch: {
       id: {
@@ -589,24 +587,26 @@
           {
             Data = this.data.player.musicCache[newid]
           }
-          if (this.id == newid) {
-            this.data.player.now.musicUrl = Data.song
+          if (this.id == newid && this.audio.src != Data.song.src) {
+            this.audio.pause()
+            this.audio.src = Data.song.src
+            this.play()
           }
 
           //预缓存
-          let witchIs = [-1, 1, 2]
-          for (let index = 0; index <= witchIs.length; index++) {
+          let witchIs = [-1, 0, 1, 2]
+          for (let index = 0; index < witchIs.length; index++) {
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
               this.data.player.musicCache[thisMusic.id] = await audioNetease.requireId(thisMusic.id)
             }
           }
         }
-      }
+      },
     },
     methods: {
       usePersonalFM() {
-        progress.load()
+        progress.load(this.audio)
 
         let personalFMData = this.data.musicListInfor.personalFM
 
@@ -619,8 +619,9 @@
       getPersonalFM() {
         this.data.musicListInfor.personalFM.use = true
         audioNetease.requirePersonalFM().then(r => {
-          for(let i = 0; i < r.length; i++) {
-          this.data.musicListInfor.personalFM.tracks.push(r[i])}
+          for (let i = 0; i < r.length; i++) {
+            this.data.musicListInfor.personalFM.tracks.push(r[i])
+          }
           this.data.player.tracks = this.data.musicListInfor.personalFM.tracks
         })
 
@@ -743,17 +744,17 @@
         setTimeout(() => {
           this.lyricSet()
         }, 33);
-        if (document.getElementById('lyrics') && this.data.player.playing ==
+        if (document.getElementById('lyrics') && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
             lis = lyrics.getElementsByTagName("li"),
-            currTime = document.querySelector('audio').currentTime,
+            currTime = this.audio.currentTime,
             lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
 
           if (lis.length > 0) {
             if (lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
 
-            if (this.data.player.uiDisplay.LineNum != lyricNum) {
+            if (this.data.player.uiDisplay.LineNum != lyricNum && lis[lyricNum]) {
               this.data.player.uiDisplay.LineNum = lyricNum
 
               //歌词高亮设置
@@ -771,7 +772,7 @@
                     .funcDelay](offset)
                 },
                 color: (el, i, l) => {
-                  if (i - lyricNum <-2 && i- lyricNum > 7) return 'rgb(0,0,0,0)'
+                  if (i - lyricNum < -2 && i - lyricNum > 7) return 'rgb(0,0,0,0)'
 
                   return 'rgb(0,0,0,' + (0.8 * (0.6 ** Math.abs(i - lyricNum))) + ')'
                 },
@@ -798,39 +799,45 @@
       async getCurr() {
 
         //音频进度转换
-        let currTime, cur, audio = this.$refs.audio
+        let currTime, cur, audio = this.audio
         if (audio) {
           cur = audio.currentTime
           currTime = parseInt(cur)
         } else {
           return 0
         }
-        this.data.player.uiDisplay.realCurrTime = cur
-        this.data.player.uiDisplay.currTime = currTime
-        this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
-        //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15)
-          this.transitionNextMusic()
+        if (this.state.playing == true) {
+          this.data.player.uiDisplay.realCurrTime = cur
+          this.data.player.uiDisplay.currTime = currTime
+          this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
+
+          //音频过度事件触发
+          if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15)
+            this.transitionNextMusic()
+        }
+        setTimeout(() => this.getCurr(), 100)
       },
       async transitionNextMusic(times) {
         if (transitionning == false) {
           transitionning = true
-          let oldAudio = this.$refs.audio
+          let oldAudio = this.audio,
+          newAudio = document.createElement("audio")
 
           let numb, id, NextMusicCache
 
-          if (this.data.player.random == true) {
+          if (this.state.random == true) {
             numb = Math.floor(Math.random() * this.data.player.tracks.length)
           } else {
-            if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.data.player.loop == true) {
+            if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.audio == true) {
               return
             }
             numb = this.data.player.trackNum + 1
           }
           id = this.data.player.tracks[numb].id
-          
-          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
+
+          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
+              .player
               .trackNum < 3)) {
 
             this.getPersonalFM()
@@ -842,15 +849,18 @@
           newAudio.currentTime = 0
 
           //播放新的音频
-          newAudio.addEventListener('canplay', function () {
+          newAudio.addEventListener('canplay', () => {
             newAudio.play();
           })
-          newAudio.addEventListener('loadeddata', function () {
+          newAudio.addEventListener('loadeddata', () => {
             if (newAudio.readyState >= 2) {
               newAudio.play();
+              this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
+
             }
           })
           if (newAudio.readyState >= 2) {
+            this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
           }
           let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
@@ -865,89 +875,107 @@
             volume: 0,
             easing: 'linear'
           })
-          setTimeout(() => {
-            document.querySelector('audio').src = newAudio.src
+          setTimeout(
+            () => {
             this.data.player.trackNum = numb
-            
-            if(this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = numb
 
+            if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
+              numb
+            if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
+                .trackNum < 3)) {
+              this.getPersonalFM()
+            }
             this.id = id,
 
               //上传听歌记录
               reTools.getData('/scrobble', {
                 id: this.id,
                 sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-                time: Math.floor(document.querySelector('audio').currentTime)
+                time: Math.floor(this.audio.currentTime)
               })
-            document.querySelector('audio').currentTime = newAudio.currentTime
 
-            oldAudio.addEventListener('loadeddata', () => {
-              let oldAudio = document.querySelector('#audio')
-              if (oldAudio.readyState >= 2 && transitionning == true) {
-                oldAudio.currentTime = newAudio.currentTime + 0.2;
-                newAudio.pause()
-                transitionning = false
+            this.audio.remove()
+            this['audio'] = newAudio
+            newAudio.addEventListener("playing", () => {
+              this.state.playing = true;
+            });
+            newAudio.addEventListener("pause", () => {
+              this.state.playing = false;
+            });
+            progress.load(this.audio)
 
-              }
-            })
-            if (oldAudio.readyState >= 2 && transitionning == true) {
-              oldAudio.currentTime = newAudio.currentTime + 0.2;
-              newAudio.pause()
-              transitionning = false
 
-            }
             this.data.player.uiDisplay.LineNum = 0
+            this.state.playing = true;
+            transitionning = false
+          
           }, time);
         }
       },
       showLong() { //音频加载成功后改变进度
-        this.data.player.uiDisplay.duration = parseInt(this.$refs.audio.duration)
+        this.data.player.uiDisplay.duration = parseInt(this.audio.duration)
       },
       plays() { //播放暂停控制
 
-        if (this.data.player.playing == true) {
-          audio.pause()
-        } else audio.play()
+        if (this.state.playing == true) {
+          this.audio.pause()
+        } else this.play()
       },
+      play() {
 
+        this.audio.addEventListener('canplay', () => {
+          this.audio.play();
+        })
+        this.audio.addEventListener('loadeddata', () => {
+
+          if (this.audio.readyState >= 2) {
+            this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
+            this.audio.play();
+          }
+        })
+        if (this.audio.readyState >= 2) {
+          this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
+          this.audio.play();
+        }
+      },
       nextMusic() {
-        if(transitionning == true) return
-          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
-              .trackNum < 3)) {
+        if (transitionning == true) return
+        if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
+            .trackNum < 3)) {
           this.getPersonalFM()
         }
         //上传听歌记录
         reTools.getData('/scrobble', {
           id: this.id,
           sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-          time: Math.floor(document.querySelector('audio').currentTime)
+          time: Math.floor(this.audio.currentTime)
         })
-        
+
         this.data.player.uiDisplay.LineNum = 0
-        document.querySelector('audio').currentTime = 0
-        if (this.data.player.random == true) {
+        this.audio.currentTime = 0
+        if (this.state.random == true) {
           this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          audio.play()
+          this.audio.play()
         } else if (this.data.player.tracks.length != this.data.player.trackNum + 1) { //保证不是最后一首
           this.data.player.trackNum++
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          audio.play()
+          this.audio.play()
 
         }
-        if(this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = numb
+        if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data.player.trackNum
       },
       upMusic() {
         reTools.getData('/scrobble', {
           id: this.id,
           sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-          time: Math.floor(document.querySelector('audio').currentTime)
+          time: Math.floor(this.audio.currentTime)
         })
         if (this.data.player.trackNum != 0) {
           this.data.player.trackNum--
           this.data.player.uiDisplay.LineNum = 0
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          audio.play()
+          this.audio.play()
         }
       },
       mainDisplayChange() {
@@ -969,7 +997,7 @@
 
       },
       changeTrack(data) { //接受router的数据
-        progress.load()
+        progress.load(this.audio)
         this.data.musicListInfor.personalFM.use = false
 
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
@@ -1000,28 +1028,28 @@
       nextMusicEventControl(type) {
         switch (type) {
           case 'loop':
-            this.data.player.loop = true
-            this.data.player.random = false
+            this.audio.loop = true
+            this.state.random = false
 
             break;
           case 'list':
-            this.data.player.random = false
-            this.data.player.loop = false
+            this.state.random = false
+            this.audio.loop = false
             break;
           case 'random':
-            this.data.player.random = true
-            this.data.player.loop = false
+            this.state.random = true
+            this.audio.loop = false
             break;
 
           default:
-            if (this.data.player.loop == false && this.data.player.random == false) {
-              this.data.player.loop = true
-            } else if (this.data.player.loop == true) {
-              this.data.player.random = true
-              this.data.player.loop = false
-            } else if (this.data.player.random == true) {
-              this.data.player.random = false
-              this.data.player.loop = false
+            if (this.audio.loop == false && this.state.random == false) {
+              this.audio.loop = true
+            } else if (this.audio.loop == true) {
+              this.state.random = true
+              this.audio.loop = false
+            } else if (this.state.random == true) {
+              this.state.random = false
+              this.audio.loop = false
             }
             break;
         }

@@ -56,16 +56,16 @@
         私人FM
 
     -->
-    <div class="personalFMCard" v-if="futherData.musicListInfor" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
+    <div class="personalFMCard" v-if="data.musicListInfor" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
         <div class="thisImg">
-          <img v-bind:src="futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
-          <img v-bind:src="futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
+          <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
+          <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
         </div>
-          <div class="personalbackground" v-bind:style="'background-image:url(' + futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].album.picUrl  +'?param=512y512)'" alt="" srcset="">
+          <div class="personalbackground" v-bind:style="'background-image:url(' + data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].album.picUrl  +'?param=512y512)'" alt="" srcset="">
           </div>
           <div class="Text">
           <p style="margin-top: 0;"><div style="color: #eee;font-size: 0.75em">为您推荐 <a style="font-size: 0.8em;height: inherit;justify-items: center;">- 私人FM</a></div>
-          {{ futherData.musicListInfor.personalFM.tracks[futherData.musicListInfor.personalFM.trackNum].name}}</p>
+          {{ data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].name}}</p>
             <div @click="this.$parent.$parent.$parent.usePersonalFM()" class="playButtom"></div>
           </div>
           
@@ -84,14 +84,14 @@
     props: ['data'],
     data() {
       return {
-        futherData: this.$props['data'],
+        data: this.$props['data'],
         myData: {}
       }
     },
 
     watch: {
       data: function (val) {
-        this.futherData = val
+        this.data = val
       }
     },
     methods: {
