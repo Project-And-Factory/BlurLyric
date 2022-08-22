@@ -30,10 +30,7 @@
         style="height: 7em;background-color:#5080ff;overflow:hidden; ">
         <p style="user-select:none ;position: relative;box-shadow: rgb(80 128 255) 0px 9px 14px 7px;z-index: 5;">我喜欢的
         </p>
-        <div style="position: relative;font-size: 14px;top: 13em;box-shadow: rgb(80 128 255) -4px -20px 20px 15px;">
-        </div>
-        <p style="user-select:none;font-size:14px;color:#ffffff90;z-index: 3"
-          v-html="data.musicListInfor.myLove.display.lyric"></p>
+
       </div>
 
       <!--

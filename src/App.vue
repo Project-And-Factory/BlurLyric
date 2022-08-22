@@ -699,39 +699,6 @@
           uid: this.data.user.account.id
         }).then(r => {
           this.data.myMusicList = r.playlist
-
-          reTools.getData('/playlist/detail', {
-            id: this.data.myMusicList[0].id
-          }).then(r => {
-            this.data.musicListInfor.myLove.data = r
-            let aRtrackIds = []
-            for (let number in r.privileges) {
-              aRtrackIds.push(r.privileges[number].id)
-            }
-            this.data.musicListInfor.myLove.aRtrackIds = aRtrackIds;
-            /**
-             * 数据同步完成
-             * 开始随机歌词语句
-             */
-            let randomID = this.data.musicListInfor.myLove.data.playlist.tracks[Math.round(Math.random() *
-              this
-              .data.musicListInfor.myLove.data.playlist.tracks.length)].id
-            reTools.getData('/lyric', {
-              id: randomID
-            }).then(r => {
-              let ms = lyric.Lrcsplit(r.lrc.lyric)
-              let content = '';
-              let counts = 0
-              getSomeLyric: for (const num in ms) {
-                if (ms[num].t > 30) {
-                  content += ms[num].c + '<br>';
-                }
-                counts++
-                if (counts == 12) break getSomeLyric
-              }
-              this.data.musicListInfor.myLove.display.lyric = content;
-            })
-          })
         })
       },
       formTime(sec) { //秒数转化为mm:ss
