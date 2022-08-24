@@ -53,7 +53,7 @@
         私人FM
 
     -->
-    <div class="personalFMCard" v-if="data.musicListInfor" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
+    <div class="personalFMCard" v-if="data.musicListInfor&&data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum]" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
         <div class="thisImg">
           <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
           <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">

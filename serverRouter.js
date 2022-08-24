@@ -48,10 +48,10 @@ router.get('/writeUser',(req,res)=>{
 
 function jsonTool(code,data,req,res) {
     res.json({
-        "code": code,
+        "code": 400 || code,
         "date": new Date(),
-        "data": data,
-        "ip": req.ip
+        "data": '' ||data,
+        "ip": '' ||req.ip
     })
 }
 function strSize(str, charset) {

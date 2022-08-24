@@ -183,19 +183,28 @@
       </svg>
 
 
-      <div class="player-Title">
+      <div class="player-Title displayTop">
         <h1>{{data.player.tracks[data.player.trackNum].name}} <a
             v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
-            v-if="(data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
+            v-if="(data.player.musicCache[id]&&data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
         <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
           </a><a>&nbsp;-&nbsp;
             {{data.player.tracks[data.player.trackNum].al.name}}
           </a></h2>
       </div>
-      <!--
-      <div class="musicTitle">
+      <div class="contorlPage lowWidthDisplay">
+        <a style="color: black;" v-if="data.player.uiDisplay.playerSelec == 'song'">歌曲</a><a
+          @click="data.player.uiDisplay.playerSelec = 'song'" v-if="data.player.uiDisplay.playerSelec != 'song'">歌曲</a>
+
+        <a style="color: black;" v-if="data.player.uiDisplay.playerSelec == 'lyric'">歌词</a><a
+          @click="data.player.uiDisplay.playerSelec = 'lyric'"
+          v-if="data.player.uiDisplay.playerSelec != 'lyric'">歌词</a>
+
+      </div>
+      <!-- 
+      <div class="musicTitle"> 
         
         <svg @click="data.player.uiDisplay.SideDisplaySet = 'onlyLeft'" xmlns="http://www.w3.org/2000/svg" width="28"
           height="32" fill="currentColor" class="bi bi-file-richtext" viewBox="0 0 16 16">
@@ -220,7 +229,7 @@
 
     </div>
     <!--display-->
-    <div v-bind:class="data.player.uiDisplay.SideDisplaySet + ' playerDisplayOutBox'"
+    <div v-bind:class="data.player.uiDisplay.playerSelec + ' playerDisplayOutBox'"
       v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
       <div class="left-side playerIndexSide">
 
@@ -232,7 +241,23 @@
 
         </div>
 
-
+        <div class="player-Title lowWidthDisplay">
+          <h1>{{data.player.tracks[data.player.trackNum].name}} <a
+              v-for="(alia,i) in data.player.tracks[data.player.trackNum].alia" :key="i"
+              style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
+              style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
+              v-if="data.player.musicCache[id]&&(data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
+          <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
+            </a><a>&nbsp;-&nbsp;
+              {{data.player.tracks[data.player.trackNum].al.name}}
+            </a></h2>
+          <div style="display: block;"
+            v-if="this.data.player.musicCache[this.id]&&this.data.player.musicCache[this.id].lyric.ms[this.data.player.uiDisplay.LineNum]&&data.player.uiDisplay.playerSelec == 'song'">
+            {{this.data.player.musicCache[this.id].lyric.ms[this.data.player.uiDisplay.LineNum].c}}
+            <div v-if="(this.data.player.musicCache[id].lyric.tran == true)">
+              {{this.data.player.musicCache[this.id].lyric.ms[this.data.player.uiDisplay.LineNum].tranC}}</div>
+          </div>
+        </div>
         <!--进度条-->
         <div class="musicContorlCurrTime">
 
@@ -246,7 +271,10 @@
           </div>
         </div>
         <!--播放按键-->
-        <div class="linkbox">
+        <!--
+        电脑版
+      -->
+        <div class="linkbox heightWidthDisplay">
           <!--上一曲-->
           <a v-if="state.random != true" @click="upMusic()">
             <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.2vh; width: 3.2vh" fill="currentColor"
@@ -289,7 +317,7 @@
 
 
         </div>
-        <div class="linkbox playerLeftLink">
+        <div class="linkbox playerLeftLink heightWidthDisplay">
           <a @click="loveMusic()">
             <svg style="color:red;user-select:none;height: 2.8vh; width: 2.8vh"
               v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(id) != -1)" xmlns="http://www.w3.org/2000/svg"
@@ -321,9 +349,9 @@
                 p-id="1850"></path>
               <path d="M544 672V352h-48L416 409.6l16 41.6 60.8-41.6V672z" p-id="1851"></path>
             </svg>
-            <svg style="height: 3vh; width: 3vh" v-if="audio.loop == false && state.random == false"
-              t="1657018716268" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-              p-id="1995" width="1024" height="1024">
+            <svg style="height: 3vh; width: 3vh" v-if="audio.loop == false && state.random == false" t="1657018716268"
+              class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1995"
+              width="1024" height="1024">
               <path
                 d="M694.4 854.4H195.2l48 44.8c9.6 6.4 16 16 16 28.8-3.2 19.2-19.2 32-38.4 32-9.6 0-22.4-6.4-28.8-12.8l-108.8-96c-12.8-12.8-16-35.2 0-48L192 704c6.4-6.4 19.2-9.6 28.8-9.6 19.2 0 35.2 16 35.2 35.2 0 9.6-6.4 19.2-12.8 25.6l-41.6 38.4h496c112 0 198.4-89.6 198.4-198.4v-86.4c0-19.2 12.8-32 32-32s32 12.8 32 32v86.4c0 140.8-118.4 259.2-265.6 259.2zM329.6 169.6h496l-48-44.8c-9.6-6.4-16-16-16-28.8 3.2-19.2 19.2-32 38.4-32 9.6 0 22.4 6.4 28.8 12.8l108.8 96c12.8 12.8 16 35.2 0 48L832 320c-6.4 6.4-19.2 9.6-28.8 9.6-19.2 0-35.2-16-35.2-35.2 0-9.6 6.4-19.2 12.8-25.6l41.6-38.4H326.4C217.6 233.6 128 323.2 128 435.2v89.6c0 19.2-12.8 32-32 32s-32-12.8-32-32v-86.4C64 288 182.4 169.6 329.6 169.6z"
                 p-id="1996"></path>
@@ -339,6 +367,91 @@
           </a>
 
 
+        </div>
+        <!--
+        手机版按键
+      -->
+        <div class="lowWidthDisplay playerButton">
+          <div style="height: 54px;" class="buttonline">
+            <a @click="loveMusic()">
+              <svg style="height: 2.3vh;aspect-ratio: 1/1;color:red;user-select:none"
+                v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(id) != -1)" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+              </svg>
+              <svg v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(id) == -1)"
+                style="height: 2.3vh;aspect-ratio: 1/1;user-select:none;" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                <path
+                  d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+              </svg>
+
+
+            </a>
+            <!--上一曲-->
+            <a v-if="state.random != true" @click="upMusic()">
+              <svg xmlns="http://www.w3.org/2000/svg" style="height: 3.8vh;aspect-ratio: 1/1" fill="currentColor"
+                class="bi bi-skip-start" viewBox="0 0 16 16">
+                <path
+                  d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z" />
+                =</svg>
+            </a>
+            <!--播放键-->
+            <a style="color: black;height: inherit;;aspect-ratio: 1/1" @click="plays()">
+              <svg v-if="( state.playing == false )" style="height: inherit;aspect-ratio: 1/1;"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-circle-fill"
+                viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+              </svg>
+              <svg v-if="( state.playing == true )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z" />
+              </svg>
+            </a>
+            <!--下一曲/随机-->
+            <a @click="nextMusic()">
+              <svg style="height: 3.8vh;aspect-ratio: 1/1" v-if="state.random == true" t="1657019671848" class="icon"
+                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M336 73.6l406.4 412.8c12.8 12.8 12.8 38.4 0 51.2L336 950.4c-12.8 12.8-35.2 12.8-51.2 0l-3.2-3.2c-12.8-12.8-12.8-38.4 0-51.2l377.6-384L281.6 131.2c-12.8-12.8-12.8-38.4 0-51.2l3.2-3.2c16-16 38.4-16 51.2-3.2z"
+                  p-id="2141"></path>
+              </svg>
+              <svg v-if="state.random != true" xmlns="http://www.w3.org/2000/svg"
+                style="height: 3.8vh;aspect-ratio: 1/1" fill="currentColor" class="bi bi-skip-end" viewBox="0 0 16 16">
+                <path
+                  d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z" />
+              </svg>
+            </a>
+
+            <!--调整音乐播放方法-->
+            <a style="color: black;height: fit-content;aspect-ratio: 1/1" @click="nextMusicEventControl()">
+              <svg style="height: 2.5vh; width: 2.5vh" v-if="state.random == true" t="1657018045660" class="icon"
+                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1704" width="1024"
+                height="1024">
+                <path
+                  d="M844.8 665.6c-6.4-6.4-16-12.8-25.6-9.6-19.2 0-35.2 16-35.2 35.2 0 9.6 6.4 19.2 12.8 25.6l41.6 41.6c-44.8-6.4-86.4-22.4-121.6-51.2-3.2 0-3.2-3.2-6.4-6.4L332.8 304C268.8 233.6 192 195.2 99.2 195.2c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32c73.6 0 134.4 32 182.4 86.4l384 400 6.4 6.4c48 38.4 108.8 64 172.8 70.4l-48 44.8c-9.6 6.4-16 19.2-16 28.8 0 19.2 19.2 35.2 38.4 32 9.6 0 19.2-6.4 25.6-12.8l99.2-92.8c16-16 16-41.6 0-57.6l-99.2-102.4z m-3.2-556.8c-12.8-16-32-19.2-48-6.4-9.6 6.4-12.8 16-12.8 25.6 0 12.8 3.2 22.4 16 28.8l41.6 41.6c-73.6 9.6-140.8 38.4-192 89.6l-115.2 118.4c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 16 9.6 25.6 9.6s19.2-3.2 25.6-9.6l112-118.4c41.6-38.4 92.8-64 147.2-70.4l-44.8 44.8c-6.4 6.4-12.8 16-12.8 25.6 0 19.2 16 35.2 32 35.2 9.6 0 19.2-3.2 28.8-9.6L950.4 256c12.8-12.8 12.8-35.2 0-48l-108.8-99.2m-438.4 448c-9.6 0-19.2 3.2-25.6 9.6l-118.4 121.6c-48 44.8-96 67.2-160 67.2H96c-19.2 0-35.2 16-35.2 35.2s16 32 35.2 32h3.2c83.2 0 147.2-32 211.2-86.4l121.6-124.8c6.4-6.4 9.6-12.8 9.6-22.4 0-9.6-3.2-16-9.6-22.4-9.6-6.4-19.2-9.6-28.8-9.6z"
+                  p-id="1705"></path>
+              </svg>
+              <svg style="height: 2.5vh; width: 2.5vh" v-if="audio.loop == true" t="1657018656868" class="icon"
+                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1849" width="1024"
+                height="1024">
+                <path
+                  d="M928 476.8c-19.2 0-32 12.8-32 32v86.4c0 108.8-86.4 198.4-198.4 198.4H201.6l41.6-38.4c6.4-6.4 12.8-16 12.8-25.6 0-19.2-16-35.2-35.2-35.2-9.6 0-22.4 3.2-28.8 9.6l-108.8 99.2c-16 12.8-12.8 35.2 0 48l108.8 96c6.4 6.4 19.2 12.8 28.8 12.8 19.2 0 35.2-12.8 38.4-32 0-12.8-6.4-22.4-16-28.8l-48-44.8h499.2c147.2 0 265.6-118.4 265.6-259.2v-86.4c0-19.2-12.8-32-32-32zM96 556.8c19.2 0 32-12.8 32-32v-89.6c0-112 89.6-201.6 198.4-204.8h496l-41.6 38.4c-6.4 6.4-12.8 16-12.8 25.6 0 19.2 16 35.2 35.2 35.2 9.6 0 22.4-3.2 28.8-9.6l105.6-99.2c16-12.8 12.8-35.2 0-48l-108.8-96c-6.4-6.4-19.2-12.8-28.8-12.8-19.2 0-35.2 12.8-38.4 32 0 12.8 6.4 22.4 16 28.8l48 44.8H329.6C182.4 169.6 64 288 64 438.4v86.4c0 19.2 12.8 32 32 32z"
+                  p-id="1850"></path>
+                <path d="M544 672V352h-48L416 409.6l16 41.6 60.8-41.6V672z" p-id="1851"></path>
+              </svg>
+              <svg style="height: 2.5vh; width: 2.5vh" v-if="audio.loop == false && state.random == false"
+                t="1657018716268" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="1995" width="1024" height="1024">
+                <path
+                  d="M694.4 854.4H195.2l48 44.8c9.6 6.4 16 16 16 28.8-3.2 19.2-19.2 32-38.4 32-9.6 0-22.4-6.4-28.8-12.8l-108.8-96c-12.8-12.8-16-35.2 0-48L192 704c6.4-6.4 19.2-9.6 28.8-9.6 19.2 0 35.2 16 35.2 35.2 0 9.6-6.4 19.2-12.8 25.6l-41.6 38.4h496c112 0 198.4-89.6 198.4-198.4v-86.4c0-19.2 12.8-32 32-32s32 12.8 32 32v86.4c0 140.8-118.4 259.2-265.6 259.2zM329.6 169.6h496l-48-44.8c-9.6-6.4-16-16-16-28.8 3.2-19.2 19.2-32 38.4-32 9.6 0 22.4 6.4 28.8 12.8l108.8 96c12.8 12.8 16 35.2 0 48L832 320c-6.4 6.4-19.2 9.6-28.8 9.6-19.2 0-35.2-16-35.2-35.2 0-9.6 6.4-19.2 12.8-25.6l41.6-38.4H326.4C217.6 233.6 128 323.2 128 435.2v89.6c0 19.2-12.8 32-32 32s-32-12.8-32-32v-86.4C64 288 182.4 169.6 329.6 169.6z"
+                  p-id="1996"></path>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -412,11 +525,9 @@
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
-
     if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     setTimeout(() => {
-
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
@@ -426,9 +537,14 @@
         if (document.querySelector('#fixedButtom')) document.querySelector('#fixedButtom').innerHTML = ''
         lineTopAir = Math.floor(bodyHeight * 0.2)
       }
-    }, 800)
-  }
+    let player = document.querySelector('#player'), playertopbar = document.querySelector('.playertopbar')
 
+      if (player && playertopbar) {
+        document.querySelector('.playerDisplayOutBox').setAttribute('style', '--playertopbarHeight:' + playertopbar.getBoundingClientRect().height + 'px');
+      }
+    }, 300)
+  }
+ getWindowInfo()
   var vueApp = {
     data() {
       return {
@@ -464,6 +580,7 @@
               lineLazyLoaddelay: 0,
               color: [],
               beautifuller: false,
+              playerSelec: 'song'
             },
             trackNum: 0,
             tracks: [{
@@ -710,7 +827,7 @@
 
         setTimeout(() => {
           this.lyricSet()
-        }, 33);
+        }, 24);
         if (document.getElementById('lyrics') && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
@@ -728,9 +845,9 @@
 
               anime({
                 targets: lis,
-                translateY: Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop) + (
-                  bodyHeight *
-                  0.15),
+                translateY: 
+                      Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (bodyHeight *0.15))
+                 ,
                 duration: 650,
                 easing: 'cubicBezier(.3, .5, .2, 1)',
                 delay: (el, i, l) => {
@@ -774,22 +891,20 @@
           return 0
         }
 
-        if (this.state.playing == true) {
           this.data.player.uiDisplay.realCurrTime = cur
           this.data.player.uiDisplay.currTime = currTime
           this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
           //音频过度事件触发
-          if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 15)
+          if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
             this.transitionNextMusic()
-        }
         setTimeout(() => this.getCurr(), 100)
       },
       async transitionNextMusic(times) {
         if (transitionning == false) {
           transitionning = true
           let oldAudio = this.audio,
-          newAudio = document.createElement("audio")
+            newAudio = document.createElement("audio")
 
           let numb, id, NextMusicCache
 
@@ -844,39 +959,42 @@
           })
           setTimeout(
             () => {
-            this.data.player.trackNum = numb
+              this.data.player.trackNum = numb
 
-            if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
-              numb
-            if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
-                .trackNum < 3)) {
-              this.getPersonalFM()
-            }
-            this.id = id,
+              if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
+                numb
+              if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
+                  .player
+                  .trackNum < 3)) {
+                this.getPersonalFM()
+              }
+              this.id = id,
 
-              //上传听歌记录
-              reTools.getData('/scrobble', {
-                id: this.id,
-                sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-                time: Math.floor(this.audio.currentTime)
-              })
+                //上传听歌记录
+                reTools.getData('/scrobble', {
+                  id: this.id,
+                  sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+                  time: Math.floor(this.audio.currentTime)
+                })
 
-            this.audio.remove()
-            this['audio'] = newAudio
-            newAudio.addEventListener("playing", () => {
-              this.state.playing = true;
-            });
-            newAudio.addEventListener("pause", () => {
-              this.state.playing = false;
-            });
-            progress.load(this.audio)
+              this.audio.remove()
+              this['audio'] = newAudio
+              newAudio.addEventListener("playing", () => {
+                this.state.playing = true;
+              });
+              newAudio.addEventListener("pause", () => {
+                this.state.playing = false;
+              });
+              progress.load(this.audio)
 
 
-            this.data.player.uiDisplay.LineNum = 0
-            this.state.playing = true;
-            transitionning = false
-          
-          }, time);
+              this.data.player.uiDisplay.LineNum = 0
+              setTimeout(() => {
+                this.state.playing = true
+              }, 100);
+              transitionning = false
+
+            }, time);
         }
       },
       showLong() { //音频加载成功后改变进度
@@ -891,18 +1009,18 @@
       play() {
 
         this.audio.addEventListener('canplay', () => {
-          this.audio.play();
+          this.audio.play()
         })
         this.audio.addEventListener('loadeddata', () => {
 
           if (this.audio.readyState >= 2) {
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
-            this.audio.play();
+            this.audio.play()
           }
         })
         if (this.audio.readyState >= 2) {
           this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
-          this.audio.play();
+          this.audio.play()
         }
       },
       nextMusic() {
@@ -923,14 +1041,15 @@
         if (this.state.random == true) {
           this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          this.audio.play()
+          this.play()
         } else if (this.data.player.tracks.length != this.data.player.trackNum + 1) { //保证不是最后一首
           this.data.player.trackNum++
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          this.audio.play()
+          this.play()
 
         }
-        if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data.player.trackNum
+        if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data
+          .player.trackNum
       },
       upMusic() {
         reTools.getData('/scrobble', {
@@ -942,7 +1061,7 @@
           this.data.player.trackNum--
           this.data.player.uiDisplay.LineNum = 0
           this.id = this.data.player.tracks[this.data.player.trackNum].id
-          this.audio.play()
+          this.play()
         }
       },
       mainDisplayChange() {

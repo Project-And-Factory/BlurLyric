@@ -50,9 +50,9 @@ const createRequest = (method, url, data = {}, options) => {
     if (url.includes('music.163.com'))
       headers['Referer'] = 'https://music.163.com'
     let ip = options.realIP || options.ip || ''
-    // console.log(ip)
+    console.log(ip)
     if (ip) {
-      //headers['X-Real-IP'] = ip
+      headers['X-Real-IP'] = ip
       headers['X-Forwarded-For'] = ip
     }
     // headers['X-Real-IP'] = '118.88.88.88'
