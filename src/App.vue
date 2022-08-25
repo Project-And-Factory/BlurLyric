@@ -537,14 +537,16 @@
         if (document.querySelector('#fixedButtom')) document.querySelector('#fixedButtom').innerHTML = ''
         lineTopAir = Math.floor(bodyHeight * 0.2)
       }
-    let player = document.querySelector('#player'), playertopbar = document.querySelector('.playertopbar')
+      let player = document.querySelector('#player'),
+        playertopbar = document.querySelector('.playertopbar')
 
       if (player && playertopbar) {
-        document.querySelector('.playerDisplayOutBox').setAttribute('style', '--playertopbarHeight:' + playertopbar.getBoundingClientRect().height + 'px');
+        document.querySelector('.playerDisplayOutBox').setAttribute('style', '--playertopbarHeight:' + playertopbar
+          .getBoundingClientRect().height + 'px');
       }
     }, 300)
   }
- getWindowInfo()
+  getWindowInfo()
   var vueApp = {
     data() {
       return {
@@ -634,12 +636,15 @@
             lyricSet: {
               funcBlur: {
                 heigh: function (i, lyricNum) {
-                  if (i - lyricNum < -2 && i - lyricNum > 7) return 'blur(0)';
-                  return 'blur(' + (1 - 0.5 ** Math.abs(i - lyricNum)) + 'vmin )'
+                  //return ''
+                  let offset = i - lyricNum
+                  if (offset < -2 || offset > 7) return 'blur(0)';
+                  return 'blur(' + (0.8 - 0.5 ** Math.abs(offset)) + 'vh)'
                 }
               },
               funcDelay: {
                 use: function (offset) {
+                  if (offset < -2 || offset > 7) return 0 
                   return Math.floor(35 * offset * (0.90 ** Math.abs(offset)));
                 }
               }
@@ -669,7 +674,6 @@
 
       this.loginInfor();
       this.lyricSet()
-      this.getCurr()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
       lineTopAir = Math.floor(bodyHeight * 0.2)
@@ -686,7 +690,7 @@
         }
       })
     },
-    watch: {
+    watch: { 
       id: {
         async handler(newid, oldId) {
           getWindowInfo()
@@ -704,7 +708,7 @@
           {
             Data = this.data.player.musicCache[newid]
           }
-          if (this.id == newid && this.audio.src != Data.song.src) {
+          if (this.id == newid && this.audio.src != Data.song.src ) {
             this.audio.pause()
             this.audio.src = Data.song.src
             this.play()
@@ -723,6 +727,7 @@
     },
     methods: {
       usePersonalFM() {
+        this.getCurr()
         progress.load(this.audio)
 
         let personalFMData = this.data.musicListInfor.personalFM
@@ -823,10 +828,13 @@
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       },
-      async lyricSet() {
+      async lyricSet(force) {
 
         setTimeout(() => {
+          if (force != true) {
           this.lyricSet()
+          } 
+
         }, 24);
         if (document.getElementById('lyrics') && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
@@ -838,28 +846,40 @@
           if (lis.length > 0) {
             if (lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
 
-            if (this.data.player.uiDisplay.LineNum != lyricNum && lis[lyricNum]) {
+            if ((this.data.player.uiDisplay.LineNum != lyricNum  || force == true )&& lis[lyricNum]) {
               this.data.player.uiDisplay.LineNum = lyricNum
 
               //歌词高亮设置
 
               anime({
                 targets: lis,
-                translateY: 
-                      Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (bodyHeight *0.15))
-                 ,
-                duration: 650,
+                translateY: (el,i,l)=>{
+                  let offset = i - lyricNum
+  
+                  if (offset < -2) return -(el.offsetTop + el.offsetHeight) ;
+                  if (offset > 7) return el.offsetTop;
+                   return Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (
+                  bodyHeight * 0.15))
+                },
+                duration: (el,i,l)=>{
+                  let offset = i - lyricNum
+
+                  if (offset < -2 || offset > 7) return 0 
+                   return 600
+
+                },
                 easing: 'cubicBezier(.3, .5, .2, 1)',
                 delay: (el, i, l) => {
-                  let offset = i - lyricNum
                   return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                    .funcDelay](offset)
+                    .funcDelay](i - lyricNum)
                 },
                 color: (el, i, l) => {
-                  if (i - lyricNum < -2 && i - lyricNum > 7) return 'rgb(0,0,0,0)'
+                  let offset = i - lyricNum
+                  if (offset< -2 || offset> 7) return 'rgb(0,0,0,0)'
+                  if (i == lyricNum) return 'rgb(0,0,0,0.8)'
 
-                  return 'rgb(0,0,0,' + (0.8 * (0.6 ** Math.abs(i - lyricNum))) + ')'
-                },
+                  return 'rgb(0,0,0,' + (0.7 * (0.5 ** Math.abs(offset))) + ')'
+                },  
                 filter: (el, i, l) => {
                   return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
                     .funcBlur](i, lyricNum)
@@ -869,7 +889,7 @@
                     return '1em'
                   };
                   let offset = Math.abs(i - lyricNum)
-                  if (i - lyricNum < -2 || i - lyricNum > 10) {
+                  if (i - lyricNum < -2 || i - lyricNum > 7) {
                     return '1em'
                   }
                   return 1 * (0.9 ** offset) + 'em'
@@ -891,13 +911,13 @@
           return 0
         }
 
-          this.data.player.uiDisplay.realCurrTime = cur
-          this.data.player.uiDisplay.currTime = currTime
-          this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
+        this.data.player.uiDisplay.realCurrTime = cur
+        this.data.player.uiDisplay.currTime = currTime
+        this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
-          //音频过度事件触发
-          if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
-            this.transitionNextMusic()
+        //音频过度事件触发
+        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
+          this.transitionNextMusic()
         setTimeout(() => this.getCurr(), 100)
       },
       async transitionNextMusic(times) {
@@ -945,7 +965,24 @@
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
           }
+
+          reTools.getData('/scrobble', {
+            id: this.id,
+            sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+            time: Math.floor(this.audio.currentTime)
+          })
+          this.id = id,
+
+            this.data.player.trackNum = numb
+          this['audio'] = newAudio
           let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
+
+          newAudio.addEventListener("playing", () => {
+            this.state.playing = true;
+          });
+          newAudio.addEventListener("pause", () => {
+            this.state.playing = false;
+          });
           anime({
             targets: newAudio,
             duration: time,
@@ -956,10 +993,14 @@
             duration: time,
             volume: 0,
             easing: 'linear'
+          }, {
+            targets: this.data.player.uiDisplay,
+            duration: time,
+            progress: 0,
           })
+
           setTimeout(
             () => {
-              this.data.player.trackNum = numb
 
               if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
                 numb
@@ -968,23 +1009,15 @@
                   .trackNum < 3)) {
                 this.getPersonalFM()
               }
-              this.id = id,
 
-                //上传听歌记录
-                reTools.getData('/scrobble', {
-                  id: this.id,
-                  sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-                  time: Math.floor(this.audio.currentTime)
-                })
-
-              this.audio.remove()
-              this['audio'] = newAudio
-              newAudio.addEventListener("playing", () => {
+              //上传听歌记录
+              oldAudio.addEventListener("pause", () => {
                 this.state.playing = true;
               });
-              newAudio.addEventListener("pause", () => {
-                this.state.playing = false;
-              });
+              oldAudio.pause()
+              oldAudio.remove()
+
+
               progress.load(this.audio)
 
 
@@ -1048,6 +1081,7 @@
           this.play()
 
         }
+        this.lyricSet(true)
         if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data
           .player.trackNum
       },
@@ -1084,6 +1118,7 @@
       },
       changeTrack(data) { //接受router的数据
         progress.load(this.audio)
+        this.getCurr()
         this.data.musicListInfor.personalFM.use = false
 
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {

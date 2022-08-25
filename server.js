@@ -137,6 +137,8 @@ async function consturctServer(moduleDefs) {
   
   const app = express()
   app.use('/blurlyric',router_blurlyric)
+  app.use(express.static(path.join(__dirname, 'dist')))
+
   app.set('trust proxy', true)
 	//允许跨域
 	app.all('*', function (req, res, next) {
@@ -189,7 +191,6 @@ async function consturctServer(moduleDefs) {
   /**
    * Serving static files
    */
-  app.use(express.static(path.join(__dirname, 'dist')))
 
   /**
    * Cache
