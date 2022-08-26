@@ -9,8 +9,8 @@
     -->
   <div v-if="data.player.tracks[data.player.trackNum + 1] && data.player.tracks[data.player.trackNum - 1]"
     style="display: none;">
-    <img v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl" alt="" srcset="">
-    <img v-bind:src="data.player.tracks[data.player.trackNum - 1].al.picUrl" alt="" srcset="">
+    <img v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl + '?param=1024y1024'" alt="" srcset="">
+    <img v-bind:src="data.player.tracks[data.player.trackNum - 1].al.picUrl + '?param=1024y1024'" alt="" srcset="">
   </div>
 
   <!--左侧导航栏-->
@@ -61,9 +61,9 @@
     </div>
   </div>
   <!--右侧导航栏-->
-  <div v-bind:class="'rightrow ' + data.player.uiDisplay.mainDisplay">
+  <div class="rightrow" v-if="data.player.uiDisplay.mainDisplay != 'top'">
     <!--顶部logo及导航（viewBox）-->
-    <div class="ROWTOPtitle">
+    <div class="ROWTOPtitle">  
       <div class="tl-title">BlurLyric</div>
       <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">
       <div class="dragBar"></div>
@@ -90,8 +90,8 @@
       <div>
         <div @click="mainDisplayChange()" class="player-Mini-img">
 
-          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
-          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=48y48'" alt="" srcset="">
+          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=1024y1024'" alt="" srcset="">
+          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl +'?param=1024y1024'" alt="" srcset="">
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
               d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
@@ -166,7 +166,7 @@
 	-->
     </div>
     <div v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
-      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl+')'"
+      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'+')'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -233,11 +233,11 @@
       v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
       <div class="left-side playerIndexSide">
 
-        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl" class="ImageBlurBackground">
+        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'" class="ImageBlurBackground">
         <!--图像-->
         <div class="left-sideImage">
 
-          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl">
+          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
 
         </div>
 
@@ -556,6 +556,7 @@
           random: false,
         },
         id: 0,
+        cache:{},
         data: {
           user: {},
           player: {
@@ -726,6 +727,11 @@
       },
     },
     methods: {
+      cacheData(link,data){
+        if(link == undefined) return{}
+        if(data != undefined) {this.cache[link] = data}
+        return this.cache[link]
+      },
       usePersonalFM() {
         this.getCurr()
         progress.load(this.audio)
@@ -875,7 +881,7 @@
                 },
                 color: (el, i, l) => {
                   let offset = i - lyricNum
-                  if (offset< -2 || offset> 7) return 'rgb(0,0,0,0)'
+                  if (offset< -2 || offset> 7) return 'rgb(0,0,0)'
                   if (i == lyricNum) return 'rgb(0,0,0,0.8)'
 
                   return 'rgb(0,0,0,' + (0.7 * (0.5 ** Math.abs(offset))) + ')'

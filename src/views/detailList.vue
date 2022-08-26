@@ -28,17 +28,17 @@
     </div>
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
     <div class="track playlist" style="user-select:none">
-        <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )"  v-for="(item,i) in page.track" :key="item.id">
+        <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )" v-for="(item,i) in page.track"
+            :key="item.id">
             <!--显示样式-->
             <div>
                 <div @click="playTheOnce(i)" class="trackIMG">
-            
-                    <img
-                    v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
-                    <img
-                    v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+
+                    <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                    <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-                        <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+                        <path
+                            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                     </svg>
                 </div>
                 <div class="trackTitle">
@@ -51,8 +51,10 @@
 
             <div class="linkbox bigger">
                 <a @click="musicListMore(item)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-three-dots" viewBox="0 0 16 16">
+                        <path
+                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                     </svg>
                 </a>
                 <!--a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"
@@ -77,6 +79,8 @@
 
 <script>
     import reTools from '../network/getData'
+    import app from '../App.vue'
+
     export default {
         name: 'detailList',
         data() {
@@ -112,48 +116,54 @@
                 this.setTracks(i)
             },
             loadDeailList() {
+                let appcache = this.$parent.$parent.$parent.cacheData('playlist' + this.page.id)
+                if (appcache != undefined) {
+                    this.page = appcache
+                    return
+                } else {
+                    reTools.getData('/playlist/detail', {
+                        id: this.$route.query.id,
+                        timetamp: (Number(new Date()))
+                    }).then(
+                        r => {
+                            console.log(r);
+                            this.page.res = r
+                            this.page.pic = r.playlist.coverImgUrl;
+                            this.page.title = r.playlist.name;
+                            this.page.content = r.playlist.description
+                            this.page.creater = r.playlist.creator
+                            this.page.trackIds = r.playlist.trackIds
+                            let trackIDList = ''
+                            this.page.lastUpdae = new Date(this.page.res.playlist.updateTime).toLocaleString()
+                            for (const num in this.page.trackIds) {
+                                trackIDList += this.page.trackIds[num].id
+                                this.page.aRtrackIds.push(this.page.trackIds[num].id)
+                                if (num < this.page.trackIds.length - 1) {
+                                    trackIDList += ','
 
-                reTools.getData('/playlist/detail', {
-                    id: this.page.id,
-                    timetamp: (Number(new Date()))
-                }).then(
-                    r => {
-                        console.log(r);
-                        this.page.res = r
-                        this.page.pic = r.playlist.coverImgUrl;
-                        this.page.title = r.playlist.name;
-                        this.page.content = r.playlist.description
-                        this.page.creater = r.playlist.creator
-                        this.page.trackIds = r.playlist.trackIds
-                        let trackIDList = ''
-                        this.page.lastUpdae = new Date(this.page.res.playlist.updateTime).toLocaleString()
-                        for (const num in this.page.trackIds) {
-                            trackIDList += this.page.trackIds[num].id
-                            this.page.aRtrackIds.push(this.page.trackIds[num].id)
-                            if (num < this.page.trackIds.length - 1) {
-                                trackIDList += ','
-
+                                }
                             }
-                        }
-                        reTools.getData('/song/detail', {
-                            ids: trackIDList,
-                            timetamp: (Number(new Date()))
-                        }).then(res => {
-                            this.page.track = res.songs
+                            reTools.getData('/song/detail', {
+                                ids: trackIDList,
+                                timetamp: (Number(new Date()))
+                            }).then(res => {
+                                this.page.track = res.songs
+                                this.$parent.$parent.$parent.cacheData('playlist' + this.page.id,this.page)
 
-                        })
+                            })
 
-                    }
-                )
-
+                        } 
+                    )
+                }
             }
         },
         watch: {
             $route: {
                 handler: function (newVal) {
+                    if(this.$route.name == 'DetaiList'){
                     this.page.id = newVal.query.id
                     this.loadDeailList()
-
+}
                 },
                 deep: true
             }
@@ -248,7 +258,8 @@
         .dlTopLab {
             gap: 20px;
         }
-        div.dlTopLab > div > p:nth-child(4){
+
+        div.dlTopLab>div>p:nth-child(4) {
             display: none;
         }
     }

@@ -119,6 +119,11 @@ export default {
             this.setTracks(i)
         },
         requestData(){
+                            let appcache = this.$parent.$parent.$parent.cacheData('search' + this.page.q)
+                if (appcache != undefined) {
+                    this.page = appcache
+                    return
+                } else {
             reTools.getData('/search',{keywords:this.$route.query.q,type:1,limit:50}).then(
             r=>{
                 this.page.trackIds = r.result.songs
@@ -139,18 +144,22 @@ export default {
             reTools.getData('/search',{type:1000,keywords:this.page.q,limit:100}).then(r=>{
                 this.page.playlist = r
                 this.page.PLtrack = r.result.playlists
+                this.$parent.$parent.$parent.cacheData('search' + this.page.q,this.page)
+
             })
             reTools.getData('/search',{type:100,keywords:this.page.q}).then(r=>{
                 this.page.ar = r
-            })
+            })}
         }
     },
     watch:{
         $route:{
             handler: function (newVal){
+                    if(this.$route.name == 'SearchList'){
+
                 this.page.q = newVal.query.q
                 this.requestData()
-                
+                    }
             },
             deep: true
         }
