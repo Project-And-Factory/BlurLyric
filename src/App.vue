@@ -861,16 +861,18 @@
                 targets: lis,
                 translateY: (el,i,l)=>{
                   let offset = i - lyricNum
-  
-                  if (offset < -2) return -(el.offsetTop + el.offsetHeight) ;
-                  if (offset > 7) return el.offsetTop;
+
+                  if (offset < -2) return -(el.offsetTop + el.offsetHeight)
+                  if (offset > 7) return document.querySelector("#lyric").offsetHeight - el.offsetTop
                    return Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (
                   bodyHeight * 0.15))
                 },
                 duration: (el,i,l)=>{
                   let offset = i - lyricNum
 
-                  if (offset < -2 || offset > 7) return 0 
+                  if (offset < -2 || offset > 7) {el.style.visibility = 'hidden';return 0 } else {
+                    el.style.visibility = 'visible';
+                  }  
                    return 600
 
                 },
@@ -1004,7 +1006,6 @@
             duration: time,
             progress: 0,
           })
-
           setTimeout(
             () => {
 

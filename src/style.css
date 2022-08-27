@@ -679,6 +679,7 @@ display: flex;
 }
 
 .right-side {
+  position: relative;
   padding-left: 10px;
 	max-width: calc(100% - 80px - 59vh);
 
@@ -850,6 +851,7 @@ img.ImageBlurBackground{
 #lyric {
   overflow: hidden;
   font-size:2.4vh;
+  height: inherit;
 }
 
 ul li {
