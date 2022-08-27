@@ -54,7 +54,7 @@ export default {
       let isOk = reg.test(this.phone)
 
       if (isOk) {
-        reTools.getData('/login/status', {
+        reTools.getData('/login/email', {
           email: this.phone,
           password: this.password,
         }).then(res => {
