@@ -23,7 +23,26 @@
 
     <h1>About | 关于</h1>
     <h2>隐私政策</h2>
-    <p>正在写</p>
+    <h3>Blurlyric(以下简称：该程序)本身不收集任何信息</h3>
+    <p>但如果您正在访问运行该程序的在线服务，您的以下信息可能会被服务提供方收集以及访问:</p>
+    <p>有关您计算机以及网络的信息，包括您的IP地址、Session Cookie，UA(用户代理)等；</p>
+    <p>有关您访问和使用服务的信息，包括流量来源、访问时间、访问的歌曲ID、歌单ID、错误日志和URL路径；</p>
+    <p>您在使用服务时生成的信息，包括您使用的时间、频率和环境。</p>
+    <p>您发送给服务提供方的任何其他个人信息。</p>
+    <h3>我的账户与密码安全吗?</h3>
+    <p>根据该程序的设计，如果在线服务提供方使用TLS(传输层安全性协议)加密了你的连接，</p>
+    <p>或你在本地运行该程序</p>
+    <p>那么你的账户与密码就是安全的，因为它全程加密地被直接发送到网易云音乐的认证服务器。</p>
+    <h3>你们是否披露任何信息?</h3>
+    <p>由于该程序是不收集任何信息的开源项目，我们无法向任何个人或组织披露任何敏感信息。</p>
+    <p>根据该程序的设计，任何例如专辑封面、媒体、歌词等资源直接向网易云音乐的服务器请求，没有任何中继连接。</p>
+    <p>在线服务的提供方可能会披露收集的信息，但他们无法得知您的任何敏感信息（如：账户名等）</p>
+    <p>这与Blurlyric也没有关系</p>
+    <h3>Cookie的使用</h3>
+    <p>Blurlyric使用Cookies向用户提供更好的体验，Cookies是一种会被保存在使用者电脑磁盘中的简要文档，</p>
+    <p>用以追踪、保存及存储使用者和互动信息。</p>
+    <p>如果您不希望Cookies被存入自己的电脑磁盘中，您需要采取必要步骤来阻止本地及在线服务提供方的Cookies。</p>
+    <p>Blurlyric开发者无法获取您的cookies</p>
     <h2>Staff | 参与人员</h2>
     <p>作者: Doge(ss15278205751@foxmail.com)<br>
       其他维护者：咸鸽(网络服务器，master@pafworld.top) (非实时更新)
@@ -31,7 +50,7 @@
     <h2>此软件</h2>
     <p>官网：blurlyric.app  |  https://gozaoo.github.io/blurlyric/<br>
       仓库地址: https://github.com/gozaoo/BlurLyric2.0 <br>
-      灵感来源/学习项目：Binaryify/NeteaseCloudMusicApi；qier222/YesPlayMusic；LyricEase；Apple Music
+      灵感来源/学习项目：Binaryify/NeteaseCloudMusicApi；qier222/YesPlayMusic；LyricEase；Apple Music；Spotify
     </p>
     <h2>
       帮助此项目
