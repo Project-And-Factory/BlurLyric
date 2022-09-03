@@ -1,6 +1,17 @@
 <template>
-  <div v-if="data.user.account && data.user.profile">
-    <div class="topBlock">
+
+<div style="margin-bottom:60px;flex-direction: column;display:flex;text-align: center;align-items: center;" v-if="!data.user.account || data.user.profile == undefined">
+  <h2 class="tl-title" style="margin:0;padding: 8px;">Blurlyric | 未登录</h2>
+  <p>登录体验更佳。当然，您也可以先体验一下</p>
+  <input style="text-align: center;" placeholder="回车搜索" v-on:keydown.enter="this.$parent.$parent.$parent.search" id="searchInputTemp">
+
+  <div class="linkbox bigger">
+
+    <router-link :to="{path:'/loginUser'}">点击我去登录</router-link>
+  </div>
+</div>
+
+    <div v-if="data.user.account && data.user.profile" class="topBlock">
       <div class="topBlockPicture">
         <img height="100%" v-bind:src="data.user.profile.avatarUrl" alt="" srcset="">
       </div>
@@ -26,8 +37,9 @@
     <div></div>
     <div class="muLib-MainBox">
       <!--我喜欢的Block-->
-      <div @click="this.$router.push({name:'detail',query:{id:data.myMusicList[0].id }})"
-        style="height: 7em;background-color:#5080ff;overflow:hidden; ">
+      <div v-if="data.user.account && data.user.profile" @click="this.$router.push({name:'detail',query:{id:data.myMusicList[0].id }})"
+        style=";
+;background-color:#5080ff;overflow:hidden; ">
         <p style="user-select:none ;position: relative;box-shadow: rgb(80 128 255) 0px 9px 14px 7px;z-index: 5;">我喜欢的
         </p>
 
@@ -40,7 +52,8 @@
             
             -->
       <div @click="this.$router.push({name:'dailySongs'})"
-        style=" color: #666;height: 7em;background-color:#eeeeee ;overflow:hidden; ">
+        style=" color: #666;;
+;background-color:#eeeeee ;overflow:hidden; ">
 
         <p style="user-select:none ;position: relative;z-index: 5;">个性推荐
         </p>
@@ -51,9 +64,9 @@
     <!--
 
         私人FM
-
+ 
     -->
-    <div class="personalFMCard" v-if="data.musicListInfor&&data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum]" style="grid-column-start: 1;grid-column-end: 3;background-color: #666">
+    <div v-bind:class="(data.user.profile == null) + ' personalFMCard'" v-if="data.musicListInfor&&data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum]"  style="background-color: #666">
         <div class="thisImg">
           <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
           <img v-bind:src="data.musicListInfor.personalFM.tracks[data.musicListInfor.personalFM.trackNum].al.picUrl  +'?param=512y512'" alt="" srcset="">
@@ -69,8 +82,9 @@
     </div>
 
 
+
     </div>
-  </div>
+  
 
 </template>
 <script>
@@ -238,7 +252,7 @@
     border-radius: 1.2em;
     color: white;
     padding: 20px 30px;
-
+    height: calc(10vh + 7vw);
   }
 
   .muLib-MainBox>div>p {
@@ -265,7 +279,8 @@
   }
   .muLib-MainBox>div.personalFMCard{
     z-index: 0;
-    height: 20vmin;
+    grid-column-start: 1;
+    grid-column-end: 3;
     position: relative;
     display: flex;
     flex-direction: row; 
@@ -273,7 +288,11 @@
     padding: 20px;
     overflow: hidden;
     
-  }
+    }
+    .muLib-MainBox>div.personalFMCard.true{
+    grid-column:auto;
+    
+    }
   .personalFMCard>.thisImg>img{
     height: 100%;
     border-radius: 17px;

@@ -155,7 +155,7 @@ export default {
     watch:{
         $route:{
             handler: function (newVal){
-                    if(this.$route.name == 'SearchList'){
+                    if(this.$route.name == 'search'){
 
                 this.page.q = newVal.query.q
                 this.requestData()

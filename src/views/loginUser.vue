@@ -18,7 +18,6 @@
 }
 .logincard{
   position: absolute;
-  transform: translate(0px, -177px);
   backdrop-filter: blur(0px);
 }
   input{
@@ -63,8 +62,11 @@ export default {
             document.cookie = res.cookie
             this.$router.push({name:'muLib'})
             setTimeout(() => {
-              location.reload()  
-            }, 1000); 
+              this.$router.go(-1)
+              this.checkLogin()
+
+
+            }, 3000);
           } else if (res.code == 502) {
             this.message= res.msg
           } else if (res.code == 400) {
@@ -79,10 +81,14 @@ export default {
           console.log(res);
           if (res.code == 200) {
             this.message= '登录成功, 即将刷新页面'
-          document.cookie += res.cookie
+
+          document.cookie += res.cookie;
+          document.cookie == res.cookie
+
             setTimeout(() => {
               this.$router.go(-1)
-              this.$parent.loginInfor()
+              this.checkLogin()
+
             }, 3000);
           } else if (res.code == 502) {
             this.message= res.msg
@@ -93,6 +99,13 @@ export default {
 
           }
         })
+      }
+    },
+    checkLogin(){
+      if(this.$parent.$parent.data.user.profile == null){
+        this.$parent.$parent.loginInfor();
+
+        setTimeout(() => this.checkLogin(),1000);
       }
     }
   },

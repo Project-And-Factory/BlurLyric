@@ -251,7 +251,7 @@ nav {
   background: #0080ff15;
 }
 
-input#searchInput {
+input#searchInput,#searchInputTemp {
 
   font-size: 14px;
   text-decoration: none;
@@ -265,6 +265,9 @@ input#searchInput {
   outline: none;
   width: 200px;
   margin: 10px 0;
+}
+#searchInputTemp{
+  height: 2em;
 }
 
 #link-musicLib-me {
@@ -850,7 +853,8 @@ img.ImageBlurBackground{
 
 #lyric {
   overflow: hidden;
-  font-size:2.4vh;
+  font-size: calc(1.5vh + 0.8vw);
+
   height: inherit;
 }
 
@@ -872,7 +876,7 @@ ul#lyrics {
   color: rgb(0, 0, 0, .15);
   width: fit-content;
   width: -moz-fit-content;
-  will-change: transform,filter,color;
+  will-change: transform,filter,color;    
 }
 
 #lyric  ul li:active {
@@ -894,7 +898,7 @@ ul#lyrics {
 }
 
 #lyric  ul li>div {
-  font-size: 1.5vh;
+  font-size: 0.8em;
   width: fit-content;
   width: -moz-fit-content;
   margin-top: 0.2em;
@@ -1057,7 +1061,8 @@ div.playertopbar > div.player-Title.displayTop{
 }
 .contorlPage{
   display: flex;
-  gap: 0.5em;
+    font-size: 2vh;
+    gap: 0.5em;
   align-items: center;
   color: rgb(0,0,0,0.7);
 }

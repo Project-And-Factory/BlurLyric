@@ -70,13 +70,6 @@
 
     </div>
     <div class="viewBox">
-      <div class="opes" v-bind:class="this.$route.name" v-if="!data.user.account || data.user.profile == undefined">
-        <h2>您似乎还 没有登录<br>点击登录来获取最佳体验</h2>
-        <div class="linkbox bigger">
-
-          <router-link @changetrack="changeTrack" :to="{path:'/loginUser'}">去登录</router-link>
-        </div>
-      </div>
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive" :data="data" />
       </keep-alive>
@@ -471,7 +464,7 @@
     </div>
   </div>
   <div id="messageLab">
-
+    <div>网络出现异常，请重试</div>
   </div>
   <div id="fixedButtom">
     <div v-for="item in data.ui.fixedButtom" v-bind:key="item.type+item.id">
@@ -507,7 +500,6 @@
   import reTools from './network/getData'
 
 
-  import lyric from './js/lyric.js'
   import audioNetease from './js/audioNetease.js'
   import progress from './js/progress.js'
   import anime from 'animejs/lib/anime.es.js';
@@ -516,6 +508,7 @@
   import './style.css'
   import './fixelButtom.css'
   import './naturalUI.css'
+  import './message.css'
 
 
   var bodyHeight, lineTopAir, bodyWidth,
@@ -556,7 +549,9 @@
           random: false,
         },
         id: 0,
-        cache:{},
+        cache:{
+          loadFuncGetCurr: false
+        },
         data: {
           user: {},
           player: {
@@ -640,15 +635,15 @@
                   //return ''
                   let offset = i - lyricNum
                   if (offset < -2 || offset > 7) return 'blur(0)';
-                  return 'blur(' + (0.8 - 0.5 ** Math.abs(offset)) + 'vh)'
+                  return 'blur(' + (0.7 - 0.5 ** Math.abs(offset)) + 'vh)'
                 }
               },
               funcDelay: {
                 use: function (offset) {
                   if (offset < -2 || offset > 7) return 0 
-                  return Math.floor(35 * offset * (0.90 ** Math.abs(offset)));
+                  return Math.floor(40 * (offset * (0.9 ** Math.abs(offset))));
                 }
-              }
+              } 
             }
           },
           setting: {
@@ -836,12 +831,6 @@
       },
       async lyricSet(force) {
 
-        setTimeout(() => {
-          if (force != true) {
-          this.lyricSet()
-          } 
-
-        }, 24);
         if (document.getElementById('lyrics') && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
           let lyrics = document.getElementById('lyrics'),
@@ -870,8 +859,11 @@
                 duration: (el,i,l)=>{
                   let offset = i - lyricNum
 
-                  if (offset < -2 || offset > 7) {el.style.visibility = 'hidden';return 0 } else {
+                  if (offset < -2) {el.style.visibility = 'hidden';return 0 } else if (offset > 7){
+                    el.style.display = 'none';return 0 
+                  } else {
                     el.style.visibility = 'visible';
+                    el.style.display = 'block'
                   }  
                    return 600
 
@@ -879,7 +871,7 @@
                 easing: 'cubicBezier(.3, .5, .2, 1)',
                 delay: (el, i, l) => {
                   return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                    .funcDelay](i - lyricNum)
+                    .funcDelay]((i - lyricNum))
                 },
                 color: (el, i, l) => {
                   let offset = i - lyricNum
@@ -907,9 +899,14 @@
 
           }
         }
+        setTimeout(() => {
+          if (force != true) {
+          this.lyricSet()
+          } 
+
+        }, 24);
       },
       async getCurr() {
-
         //音频进度转换
         let currTime, cur, audio = this.audio
         if (audio) {
@@ -1230,8 +1227,10 @@
           this.data.musicListInfor.myLove.aRtrackIds = aRtrackIds;
         })
       },
-      search() {
-        let value = document.getElementById('searchInput').value
+      search(text) {let value
+        if(document.getElementById('searchInputTemp')) { value=  document.getElementById('searchInputTemp').value || document.getElementById('searchInput').value}
+
+        value = document.getElementById('searchInput').value
         if (this.$route.name != 'search') {
           this.$router.push({
             name: 'search',
