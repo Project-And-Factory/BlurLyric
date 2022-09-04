@@ -631,12 +631,13 @@
           settingTemperture: {
             lyricSet: {
               funcBlur: {
-                heigh: function (i, lyricNum) {
+                true: function (i, lyricNum) {
                   //return ''
                   let offset = i - lyricNum
                   if (offset < -2 || offset > 7) return 'blur(0)';
                   return 'blur(' + (0.7 - 0.5 ** Math.abs(offset)) + 'vh)'
-                }
+                },
+                false: ()=>{return 'blur()'}
               },
               funcDelay: {
                 use: function (offset) {
@@ -652,7 +653,7 @@
               configVersion: '1.0',
               lyricSet: {
                 text: '最高',
-                funcBlur: 'heigh',
+                funcBlur: true,
                 funcDelay: 'use',
                 animeFontSize: false
               }
@@ -768,9 +769,9 @@
 
         })
       },
-      loginInfor() {
+      async loginInfor() {
 
-        reTools.getData('/login/status', {
+        await reTools.getData('/login/status', {
           timetamp: (Number(new Date()))
         }).then(r => {
           this.data.user = r.data
@@ -793,13 +794,15 @@
          * 创建获取BlurLyric账号
          */
         //cookies.remove('blurlyricid')
+
+        console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
           reTools.getData('/blurlyric/createUser').then(res => {
             cookies.set('blurlyricid', res.data.id)
             this.data.setting.id = res.data.id
             this.pushingconfig()
           })
-        } else if (cookies.get('blurlyricid') != undefined) {
+        } else {
           this.refuseConfig()
         }
       },
@@ -876,20 +879,20 @@
                 color: (el, i, l) => {
                   let offset = i - lyricNum
                   if (offset< -2 || offset> 7) return 'rgb(0,0,0)'
-                  if (i == lyricNum) return 'rgb(0,0,0,0.8)'
+                  if (i == lyricNum) return 'rgb(0,0,0,0.9)' 
 
-                  return 'rgb(0,0,0,' + (0.7 * (0.5 ** Math.abs(offset))) + ')'
+                  return 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(offset))) + ')'
                 },  
                 filter: (el, i, l) => {
                   return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
-                    .funcBlur](i, lyricNum)
+                   .funcBlur](i, lyricNum)
                 },
                 fontSize: (el, i, l) => {
                   if (this.data.setting.config.lyricSet.animeFontSize == false) {
                     return '1em'
                   };
                   let offset = Math.abs(i - lyricNum)
-                  if (i - lyricNum < -2 || i - lyricNum > 7) {
+                  if (i - lyricNum < -2 || offset > 7) {
                     return '1em'
                   }
                   return 1 * (0.9 ** offset) + 'em'

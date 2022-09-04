@@ -60,6 +60,11 @@
           bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.animeFontSize,
           func: this.lyricFontSize
         }, {
+          text: '在 歌词 中使用模糊效果',
+          type: 'line',
+          bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.funcBlur,
+          func: this.funcBlur
+        }, {
           text: '暂无其他，请等待更新',
           type: 'text'
         }] 
@@ -76,6 +81,22 @@
             } else {
               this.$parent.$parent.$parent.editconfig((data) => {
                 data.lyricSet.animeFontSize = false
+                return data
+              })
+
+            }
+          }, 100);
+      },
+      funcBlur(i){
+          setTimeout(() => {
+            if (this.settingButton[i].bolean == true){
+              this.$parent.$parent.$parent.editconfig((data) => {
+                data.lyricSet.funcBlur = true
+                return data
+              })
+            } else {
+              this.$parent.$parent.$parent.editconfig((data) => {
+                data.lyricSet.funcBlur = false
                 return data
               })
 
