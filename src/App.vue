@@ -637,7 +637,7 @@
                   if (offset < -2 || offset > 7) return 'blur(0)';
                   return 'blur(' + (0.7 - 0.5 ** Math.abs(offset)) + 'vh)'
                 },
-                false: ()=>{return 'blur()'}
+                false: ()=>{return 'blur(0)'}
               },
               funcDelay: {
                 use: function (offset) {
