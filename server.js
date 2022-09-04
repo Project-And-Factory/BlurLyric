@@ -8,7 +8,6 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
-const match = require('@unblockneteasemusic/server')
 const router_blurlyric = require('./serverRouter.js')
 
 /**

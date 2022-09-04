@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router()
 const axios = require('axios')
 const user = require('./user.js');
-const unblockmusic = require('@unblockneteasemusic/server');
 const match = require('@unblockneteasemusic/server');
 
 router.get('/createUser',(req,res)=>{
@@ -14,7 +13,10 @@ router.get('/createUser',(req,res)=>{
 })
 
 router.get('/unblockmusic',(req,res)=>{
-    res.json(unblockmusic(req.query.id, ['kuwo', 'migu', 'kugou']))
+    match(req.query.id, ['migu', 'kugou']).then(text =>{
+        console.log(text);
+        jsonTool('200',text,req,res)
+    })
 })
 
 router.get('/getUser',(req,res)=>{
@@ -22,7 +24,7 @@ router.get('/getUser',(req,res)=>{
         jsonTool('200',{
             "msg": '请填入ID',
         },req,res)
-        return
+        return 
     }
       
     user.getUser(req.query.id,(data)=>{

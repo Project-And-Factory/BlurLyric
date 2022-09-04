@@ -54,12 +54,13 @@ async function requireId(id) {
       })
   await reTools.getData('/blurlyric/unblockmusic', {
         id: id
-      }).then(res => {
+      }).then((res) => {
         if (Data.song.netea.br < Data.song.unblock.br || Data.song.netea.freeTrialInfo !=null) {
-          Data.song.unblock = res
+          Data.song.unblock = res.data
           Data.song.use = 'unblock'
         }
+
       })
       Data.song['src']=  Data.song[Data.song.use].url
-    return Data
+      return Data
 }
