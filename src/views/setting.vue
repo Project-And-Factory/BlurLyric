@@ -65,12 +65,32 @@
           bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.funcBlur,
           func: this.funcBlur
         }, {
+          text: '使用模糊背景',
+          type: 'line',
+          bolean: this.$parent.$parent.$parent.data.setting.config.useBlurBackground,
+          func: this.funcBackground
+        }, {
           text: '暂无其他，请等待更新',
           type: 'text'
         }] 
       }
+      
     },
     methods: {
+      funcBackground(i){
+        setTimeout(() => {
+            
+              this.$parent.$parent.$parent.editconfig((data) => {
+                if (this.settingButton[i].bolean == true){
+                data.lyricSet.useBlurBackground = true
+              } else {
+                  data.lyricSet.useBlurBackground = false
+                }
+                return data
+              })
+            }
+          , 100);
+      },
       lyricFontSize(i){
           setTimeout(() => {
             if (this.settingButton[i].bolean == true){

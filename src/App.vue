@@ -158,7 +158,7 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <div v-if="data.player.uiDisplay.mainDisplay != 'buttom'"
+    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && data.setting.config.useBlurBackground"
       v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'+')'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
@@ -659,7 +659,8 @@
                 funcBlur: true,
                 funcDelay: 'use',
                 animeFontSize: false
-              }
+              },
+              useBlurBackground: true
 
             }
           }
@@ -803,7 +804,7 @@
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
           reTools.getData('/blurlyric/createUser').then(res => {
-            cookies.set('blurlyricid', res.data.id)
+            cookies.set('blurlyricid', res.data.id,{ expires: new Date(2040, 0, 1) })
             this.data.setting.id = res.data.id
             this.pushingconfig()
           })
@@ -878,7 +879,6 @@
                     el.style.display = 'block'
                   }
                   return 600
-
                 },
                 easing: 'cubicBezier(.3, .5, .2, 1)',
                 delay: (el, i, l) => {
