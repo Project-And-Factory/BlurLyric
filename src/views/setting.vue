@@ -38,8 +38,8 @@
     </h2>
     方法1：帮助开发，如果您有能力解决或有新功能，可以在GitHub上将您的代码pull上来，或者是加入开发组，联系作者即可 <br>
     方法2：动力的来源是快乐，如果您有经济能力的话可以赞助我们一下，我们将会拿来升级服务器<a style="text-decoration: line-through">，也有可能被我们拿去花掉啦！</a>
-    <img src="https://gozaoo.github.io/img/z.jpg" alt="" srcset="">
-  <img src="https://gozaoo.github.io/img/w.jpg" alt="" srcset="">
+    <img style="width: 200px;" src="https://gozaoo.github.io/img/z.jpg" alt="" srcset="">
+  <img style="width: 200px;" src="https://gozaoo.github.io/img/w.jpg" alt="" srcset="">
   </div>
 
 </template>
