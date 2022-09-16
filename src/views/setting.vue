@@ -82,9 +82,9 @@
             
               this.$parent.$parent.$parent.editconfig((data) => {
                 if (this.settingButton[i].bolean == true){
-                data.lyricSet.useBlurBackground = true
+                data.useBlurBackground = true
               } else {
-                  data.lyricSet.useBlurBackground = false
+                  data.useBlurBackground = false
                 }
                 return data
               })
