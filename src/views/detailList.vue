@@ -12,7 +12,7 @@
             <p>
                 {{page.res.playlist.description}}
             </p>
-            <div class="linkbox">
+            <div class="linkbox" style="display: flex;">
                 <a style="user-select:none" @click="playThisPage()">
                     <svg style="transform: scale(1.6) " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
@@ -21,6 +21,10 @@
                         </path>
                     </svg>
                     播放歌单
+                </a>
+                <a style="user-select:none" @click="downloadThisPage()">
+
+                    一键下载
                 </a>
 
             </div>
@@ -79,7 +83,9 @@
 
 <script>
     import reTools from '../network/getData'
-    import app from '../App.vue'
+    // import app from '../App.vue'
+    import audioNetease from '../js/audioNetease.js'
+import { createElementBlock } from 'vue'
 
     export default {
         name: 'detailList',
@@ -115,6 +121,32 @@
             playTheOnce(i) {
                 this.setTracks(i)
             },
+            async downloadThisPage(){
+                for (let i = 0; i < this.page.track.length; i++) {
+                    let id = this.page.track[i].id
+                    audioNetease.requireURL(id).then(async (data)=>{
+                        console.log(data.song[data.song.use].url);
+                        let response = await fetch( data.song[data.song.use].url )
+                        let blob = await response.blob();  
+                        let objectUrl= window.URL.createObjectURL(blob);
+
+                        let a = document.createElement("a");
+                        a.href= objectUrl;
+                        let name = '' 
+                        for (let num in this.page.track[i].ar) {
+                            name+= this.page.track[i].ar[num].name;
+                            if (this.page.track[i].ar.length - num > 1){
+                                name += '&'
+                            }
+                        }
+                        a.download = this.page.track[i].name + ' - ' + name + '.mp3';
+                        a.click();
+                        a.remove()
+                    })
+
+                    
+                }
+            },
             loadDeailList() {
                 let appcache = this.$parent.$parent.$parent.cacheData('playlist' + this.page.id)
                 if (appcache != undefined) {
@@ -140,9 +172,9 @@
                                 this.page.aRtrackIds.push(this.page.trackIds[num].id)
                                 if (num < this.page.trackIds.length - 1) {
                                     trackIDList += ','
-
                                 }
                             }
+                            this.page['trackIdsContent'] = trackIDList
                             reTools.getData('/song/detail', {
                                 ids: trackIDList,
                                 timetamp: (Number(new Date()))

@@ -63,7 +63,7 @@
   <!--右侧导航栏-->
   <div class="rightrow" v-if="data.player.uiDisplay.mainDisplay != 'top'">
     <!--顶部logo及导航（viewBox）-->
-    <div class="ROWTOPtitle">  
+    <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
       <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">
       <div class="dragBar"></div>
@@ -226,7 +226,8 @@
       v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
       <div class="left-side playerIndexSide">
 
-        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'" class="ImageBlurBackground">
+        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'"
+          class="ImageBlurBackground">
         <!--图像-->
         <div class="left-sideImage">
 
@@ -549,7 +550,7 @@
           random: false,
         },
         id: 0,
-        cache:{
+        cache: {
           loadFuncGetCurr: false
         },
         data: {
@@ -637,14 +638,16 @@
                   if (offset < -2 || offset > 7) return 'blur(0)';
                   return 'blur(' + (0.7 - 0.5 ** Math.abs(offset)) + 'vh)'
                 },
-                false: ()=>{return 'blur(0)'}
+                false: () => {
+                  return 'blur(0)'
+                }
               },
               funcDelay: {
                 use: function (offset) {
-                  if (offset < -2 || offset > 7) return 0 
+                  if (offset < -2 || offset > 7) return 0
                   return Math.floor(40 * (offset * (0.9 ** Math.abs(offset))));
                 }
-              } 
+              }
             }
           },
           setting: {
@@ -687,7 +690,7 @@
         }
       })
     },
-    watch: { 
+    watch: {
       id: {
         async handler(newid, oldId) {
           getWindowInfo()
@@ -705,7 +708,7 @@
           {
             Data = this.data.player.musicCache[newid]
           }
-          if (this.id == newid && this.audio.src != Data.song.src ) {
+          if (this.id == newid && this.audio.src != Data.song.src) {
             this.audio.pause()
             this.audio.src = Data.song.src
             this.play()
@@ -723,9 +726,11 @@
       },
     },
     methods: {
-      cacheData(link,data){
-        if(link == undefined) return{}
-        if(data != undefined) {this.cache[link] = data}
+      cacheData(link, data) {
+        if (link == undefined) return {}
+        if (data != undefined) {
+          this.cache[link] = data
+        }
         return this.cache[link]
       },
       usePersonalFM() {
@@ -844,31 +849,35 @@
           if (lis.length > 0) {
             if (lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
 
-            if ((this.data.player.uiDisplay.LineNum != lyricNum  || force == true )&& lis[lyricNum]) {
+            if ((this.data.player.uiDisplay.LineNum != lyricNum || force == true) && lis[lyricNum]) {
               this.data.player.uiDisplay.LineNum = lyricNum
 
               //歌词高亮设置
 
               anime({
                 targets: lis,
-                translateY: (el,i,l)=>{
+                translateY: (el, i, l) => {
                   let offset = i - lyricNum
 
                   if (offset < -2) return -(el.offsetTop + el.offsetHeight)
                   if (offset > 7) return document.querySelector("#lyric").offsetHeight - el.offsetTop
-                   return Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (
-                  bodyHeight * 0.15))
+                  return Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (
+                    bodyHeight * 0.15))
                 },
-                duration: (el,i,l)=>{
+                duration: (el, i, l) => {
                   let offset = i - lyricNum
 
-                  if (offset < -2) {el.style.visibility = 'hidden';return 0 } else if (offset > 7){
-                    el.style.display = 'none';return 0 
+                  if (offset < -2) {
+                    el.style.visibility = 'hidden';
+                    return 0
+                  } else if (offset > 7) {
+                    el.style.display = 'none';
+                    return 0
                   } else {
                     el.style.visibility = 'visible';
                     el.style.display = 'block'
-                  }  
-                   return 600
+                  }
+                  return 600
 
                 },
                 easing: 'cubicBezier(.3, .5, .2, 1)',
@@ -878,14 +887,14 @@
                 },
                 color: (el, i, l) => {
                   let offset = i - lyricNum
-                  if (offset< -2 || offset> 7) return 'rgb(0,0,0)'
-                  if (i == lyricNum) return 'rgb(0,0,0,0.9)' 
+                  if (offset < -2 || offset > 7) return 'rgb(0,0,0)'
+                  if (i == lyricNum) return 'rgb(0,0,0,0.9)'
 
                   return 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(offset))) + ')'
-                },  
+                },
                 filter: (el, i, l) => {
                   return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
-                   .funcBlur](i, lyricNum)
+                    .funcBlur](i, lyricNum)
                 },
                 fontSize: (el, i, l) => {
                   if (this.data.setting.config.lyricSet.animeFontSize == false) {
@@ -898,14 +907,20 @@
                   return 1 * (0.9 ** offset) + 'em'
                 }
               })
+              anime({
+                targets: lis[lyricNum],
+                duration:620,
+                easing: 'cubicBezier(.3, .5, .2, 1)',
+                filter: 'blur(0)'
+              })
             }
 
           }
         }
         setTimeout(() => {
           if (force != true) {
-          this.lyricSet()
-          } 
+            this.lyricSet()
+          }
 
         }, 24);
       },
@@ -921,7 +936,7 @@
 
         this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = currTime
-        this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
+        if(transitionning != true) this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
         //音频过度事件触发
         if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
@@ -933,7 +948,18 @@
           transitionning = true
           let oldAudio = this.audio,
             newAudio = document.createElement("audio")
-
+            // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
+            oldAudio.removeEventListener("playing", () => {
+        this.state.playing = true;
+      });
+      oldAudio.removeEventListener("pause", () => {
+        this.state.playing = false;
+      });
+      oldAudio.removeEventListener('loadeddata', () => {
+        if (oldAudio.readyState >= 2) {
+          this.data.player.uiDisplay.duration = Math.floor(oldAudio.duration)
+        }
+      })
           let numb, id, NextMusicCache
 
           if (this.state.random == true) {
@@ -957,30 +983,34 @@
           newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
           newAudio.volume = 0
           newAudio.currentTime = 0
-
+          progress.load(this.audio)
           //播放新的音频
           newAudio.addEventListener('canplay', () => {
             newAudio.play();
           })
-          newAudio.addEventListener('loadeddata', () => {
-            if (newAudio.readyState >= 2) {
-              newAudio.play();
-              this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
-
-            }
-          })
-          if (newAudio.readyState >= 2) {
+          let loadeddataFunction = ()=>{
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
-          }
+            anime({
+                targets: this.data.player.uiDisplay,
+                duration: time,
+                easing: 'cubicBezier(.3, .5, .2, 1)',
+                progress: ()=>{
+                  return time/1000 / this.data.player.uiDisplay.duration
+                },
 
+              })
+          }
+          newAudio.addEventListener('loadeddata',loadeddataFunction)
+          if (newAudio.readyState >= 2) loadeddataFunction
+          
           reTools.getData('/scrobble', {
             id: this.id,
             sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-            time: Math.floor(this.audio.currentTime)
+            time: Math.floor(oldAudio.duration)
           })
           this.id = id,
-
+          this.data.player.uiDisplay.LineNum
             this.data.player.trackNum = numb
           this['audio'] = newAudio
           let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
@@ -996,16 +1026,8 @@
             duration: time,
             volume: 1,
             easing: 'linear'
-          }, {
-            targets: oldAudio,
-            duration: time,
-            volume: 0,
-            easing: 'linear'
-          }, {
-            targets: this.data.player.uiDisplay,
-            duration: time,
-            progress: 0,
           })
+
           setTimeout(
             () => {
 
@@ -1027,12 +1049,13 @@
 
               progress.load(this.audio)
 
-
-              this.data.player.uiDisplay.LineNum = 0
               setTimeout(() => {
                 this.state.playing = true
               }, 100);
               transitionning = false
+              newAudio.removeEventListener('loadeddata',loadeddataFunction)
+              oldAudio.removeEventListener('loadeddata',loadeddataFunction)
+
 
             }, time);
         }
@@ -1230,8 +1253,11 @@
           this.data.musicListInfor.myLove.aRtrackIds = aRtrackIds;
         })
       },
-      search(text) {let value
-        if(document.getElementById('searchInputTemp')) { value=  document.getElementById('searchInputTemp').value || document.getElementById('searchInput').value}
+      search(text) {
+        let value
+        if (document.getElementById('searchInputTemp')) {
+          value = document.getElementById('searchInputTemp').value || document.getElementById('searchInput').value
+        }
 
         value = document.getElementById('searchInput').value
         if (this.$route.name != 'search') {

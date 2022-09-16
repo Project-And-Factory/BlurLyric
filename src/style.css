@@ -800,7 +800,7 @@ img.ImageBlurBackground{
 }
 
 .box-progressbar:hover>#pointer {
-  background-color: rgb(0, 0, 0, .4);
+  background-color: rgb(15%,15%,15%);
 
 }
 
@@ -869,14 +869,12 @@ ul#lyrics {
   width: fit-content;
   width: -moz-fit-content;
   will-change: transform,filter,color;    
+  padding: .9em 0.4em;
+  min-height: 3.2em;
 }
 
 #lyric  ul li:active {
   transform: scale(0.9);
-}
-
-#lyric  ul li {
-  padding: 0.2em 0.4em;
 }
 
 #lyric  ul li>h1 {
@@ -890,27 +888,23 @@ ul#lyrics {
 }
 
 #lyric  ul li>div {
-  font-size: 0.8em;
+  font-size: 1.3em;
   width: fit-content;
   width: -moz-fit-content;
-  margin-top: 0.2em;
-  padding: 0.3em 0.5em;
-  border-radius: 0.8em;
   visibility: hidden;
-  background-color: none;
-
+  position: absolute;
+  right: 0.7em;
+  bottom: 0.2em;
+  color: rgb(0, 0, 0, 0.2);
 }
 
 #lyric  ul li:hover>div {
   visibility: visible;
-  background-color: rgb(0, 0, 0, .05)
 }
 
 #lyric  ul#lyrics li:hover {
   filter: none;
   cursor: pointer;
-
-
 }
 
 #lyric  ul#lyrics li.false{

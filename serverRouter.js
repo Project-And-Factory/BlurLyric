@@ -12,10 +12,10 @@ router.get('/createUser',(req,res)=>{
     
 })
 
-router.get('/unblockmusic',(req,res)=>{
-    match(req.query.id, ['migu', 'kugou']).then(text =>{
+router.get('/unblockmusic',async (req,res)=>{
+    match(req.query.id).then(text =>{
         console.log(text);
-        jsonTool('200',text,req,res)
+        res.json(text)
     })
 })
 

@@ -1,6 +1,7 @@
 export default {
     requireId,
-    requirePersonalFM
+    requirePersonalFM,
+    requireURL
 }
 
 
@@ -21,6 +22,40 @@ async function requirePersonalFM() {
   return res
 }
 
+/**
+ * 请求网易云ID的音乐
+ * 
+ * @param {number} id
+ */
+ async function requireURL(id) {
+  let Data = {
+    song: {
+        netea: {},
+        unblock: {},
+        use: 'netea',
+    },
+    lyric: {},
+}
+  await reTools.getData('/song/url', {
+    id: id
+  }).then(r => {
+    Data.song.netea = r.data[0]
+
+  })
+await reTools.getData('/blurlyric/unblockmusic', {
+    id: id
+  }).then(res => {
+    Data.song.unblock = res
+    console.log(res);
+
+    if ((Data.song.netea.br < Data.song.unblock.br) || (Data.song.netea.freeTrialInfo !=null)) {
+      Data.song.use = 'unblock'
+    }
+
+  })
+  Data.song['src']=  Data.song[Data.song.use].url
+  return Data
+ }
 /**
  * 请求网易云ID的音乐
  * 
@@ -52,14 +87,16 @@ async function requireId(id) {
         Data.song.netea = r.data[0]
 
       })
-  await reTools.getData('/blurlyric/unblockmusic', {
+      await reTools.getData('/blurlyric/unblockmusic', {
         id: id
-      }).then((res) => {
-        if (Data.song.netea.br < Data.song.unblock.br || Data.song.netea.freeTrialInfo !=null) {
-          Data.song.unblock = res.data
+      }).then(res => {
+        Data.song.unblock = res
+        console.log(res);
+    
+        if ((Data.song.netea.br < Data.song.unblock.br) || (Data.song.netea.freeTrialInfo !=null)) {
           Data.song.use = 'unblock'
         }
-
+    
       })
       Data.song['src']=  Data.song[Data.song.use].url
       return Data
