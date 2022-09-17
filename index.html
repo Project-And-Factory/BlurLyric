@@ -9,17 +9,73 @@
     <title>BlurLyric</title>
     <link rel="preconnect" href="https://s1.hdslb.com/" />
 <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" />
-<link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/medium.css" media="all" onload="this.media='all'" />
+<!-- <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/medium.css" media="all" onload="this.media='all'" /> -->
 
     <!--meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"-->
   </head>
   <body>
+    <div id="Loading">
+      <a class="logo">BlurLyric</a>
+      <a id="LoadingText"> </a>
+    </div>
+
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
   <style>
     body {
   font-family: "HarmonyOS_Regular" !important;
+}
+#app{
+  z-index: 2;
+}
+#LoadingText{
+  min-height: 1.5rem;
+}
+#Loading{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  text-align: center;
+                 /*设置为伸缩容器*/
+
+                 display: -webkit-box;
+justify-content: center;
+display: -moz-box;
+background-color: white;
+display: -ms-flexbox; 
+
+display: -webkit-flex;
+
+display: flex;
+
+/*垂直居中*/
+
+-webkit-box-align: center;/*旧版本*/
+
+-moz-box-align: center;/*旧版本*/
+
+-ms-flex-align: center;/*混合版本*/
+
+-webkit-align-items: center;/*新版本*/
+
+align-items: center;/*新版本*/
+}
+.logo{
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+@font-face {
+  font-family: harmonyLite;
+  font-display: swap;
+  src: url(./src/font/HarmonyOS_Sans_Light.ttf);
+}
+
+body .tl-title, #Loading {
+  font-family: harmonyLite;
+
 }
   </style>
 </html>

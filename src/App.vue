@@ -690,6 +690,7 @@
           this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
         }
       })
+      document.querySelector('#LoadingText').innerHTML = "加载用户数据中" 
     },
     watch: {
       id: {
@@ -795,6 +796,16 @@
               this.data.recommendSongs = r.data.dailySongs
             })
           }
+      document.querySelector('#LoadingText').innerHTML = "完成" 
+      let 渐变消失LOGO界面 = anime({
+        targets: document.querySelector('#Loading'),
+        opacity: 0,
+        duration: 2000
+      })
+      渐变消失LOGO界面.finished.then(function() {
+        document.querySelector('#Loading').style.zIndex = -1;
+      });
+
         })
         /**
          * 创建获取BlurLyric账号
@@ -854,15 +865,15 @@
               this.data.player.uiDisplay.LineNum = lyricNum
 
               //歌词高亮设置
-
+              let LyricBoxOffsetHeight = document.querySelector("#lyric").offsetHeight
               anime({
                 targets: lis,
                 translateY: (el, i, l) => {
                   let offset = i - lyricNum
 
                   if (offset < -2) return -(el.offsetTop + el.offsetHeight)
-                  if (offset > 7) return document.querySelector("#lyric").offsetHeight - el.offsetTop
-                  return Math.floor(lis[lyricNum].parentNode.offsetTop - lis[lyricNum].offsetTop + (
+                  if (offset > 7) return LyricBoxOffsetHeight - el.offsetTop
+                  return Math.floor(lyrics.offsetTop - lis[lyricNum].offsetTop + (
                     bodyHeight * 0.15))
                 },
                 duration: (el, i, l) => {
