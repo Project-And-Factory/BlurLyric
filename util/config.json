@@ -1,5 +1,5 @@
 {
-  "anonymous_token": "bf8bfeabb1aa84f9c8c3906c04a04fb864322804c83f5d607e91a04eae463c9436bd1a17ec353cf7a25102ce6b1c6d3b96e1e5996076530c993166e004087dd394197b340aea99f706bad76ea2d95a63e6003607710be9bdb9600f62777cbb10807e650dd04abd3fb8130b7ae43fcc5b",
+  "anonymous_token": "bf8bfeabb1aa84f9c8c3906c04a04fb864322804c83f5d607e91a04eae463c9436bd1a17ec353cf7606894f05c1d4b7d0ea8645c81be5544993166e004087dd3d674b15debec72a8cec63050dab2c2fbe6003607710be9bdb9600f62777cbb10807e650dd04abd3fb8130b7ae43fcc5b",
   "resourceTypeMap": {
     "0": "R_SO_4_",
     "1": "R_MV_5_",
@@ -7,6 +7,7 @@
     "3": "R_AL_3_",
     "4": "A_DJ_1_",
     "5": "R_VI_62_",
-    "6": "A_EV_2_"
+    "6": "A_EV_2_",
+    "7": "A_DR_14_"
   }
 }

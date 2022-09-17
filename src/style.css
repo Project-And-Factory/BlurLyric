@@ -403,12 +403,19 @@ flex-direction: column;
 .tracks{
   height: var(--minplayerHeight);
   white-space: nowrap;
-  padding: 9px 0px;
+  padding: 9px 9px;
   display: flex;
+  position: relative;
   gap: 8px;
   flex-direction: row;
-  text-overflow: ellipsis
-
+  text-overflow: ellipsis;
+  border-radius: calc(var(--minplayerHeight) * .2)
+}
+.tracks .linkbox>a{
+  padding: 6px;
+}
+.tracks:hover{
+  background-color: rgb(0, 0, 0, .03);
 }
 .player-Mini {
   position: relative;
@@ -426,19 +433,24 @@ flex-direction: column;
     display: inline-block;
     position: relative;
     user-select: none;
-    border-radius: 13px;
+    height: inherit;
 
     height: calc(var(--minplayerHeight) - 3px);
     width: calc(var(--minplayerHeight) - 6px);
     padding: 3px 3px 0 3px;
 }
+.trackIMG{
+  padding: 0px 5px 0 0px;
+
+}
 .player-Mini-img>*{
   transition: 0.08s;
 }
-.player-Mini-img>img,.trackIMG>img{
+.player-Mini-img>img,.trackIMG>img:nth-child(1){
   border-radius: 6px;
+  height: 100%;
 }
-.player-Mini-img> img:nth-child(1),.trackIMG>img:nth-child(1){
+.player-Mini-img> img:nth-child(1){
   position: absolute;
   left: 0;
   top: 0;
@@ -450,12 +462,26 @@ flex-direction: column;
 
 
 }
-.player-Mini-img> img:nth-child(2),.trackIMG>img:nth-child(2){
+.player-Mini-img> img:nth-child(2){
   display: none;
   z-index: 0;
   height: calc(var(--minplayerHeight) - 3px);
   width: calc(var(--minplayerHeight) - 6px);
   
+}
+.trackIMG>img:nth-child(1){
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 0;
+  height: var(--minplayerHeight);
+  width: var(--minplayerHeight);
+  z-index: 1;
+
+
+}
+.trackIMG>img:nth-child(2){
+  display: none;
 }
 .player-Mini-img> img:nth-child(2){
   filter: blur(5px);
@@ -486,17 +512,14 @@ flex-direction: column;
   transform: scale(0.8);
 }
 /*下边的音乐条hover后*/
-div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > img:nth-child(1),.tracks:hover>div>.trackIMG>img:nth-child(1){
+div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > img:nth-child(1){
   filter: brightness(0.6);
 }
-div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > img:nth-child(2),.tracks:hover>div>.trackIMG>img:nth-child(2){
+div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > img:nth-child(2){
   filter: blur(5px) saturate(1.5);
   display: block;
 }
-.trackIMG>img:nth-child(2){
-  display: block;
-}
-div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg,.tracks:hover>div>.trackIMG>svg{
+div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg{
   color: hsla(0, 0%, 100%, .8);
   display: block;
 

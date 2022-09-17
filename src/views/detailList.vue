@@ -35,15 +35,10 @@
         <div v-bind:class="'tracks ' + (item.id == this.$parent.$parent.$parent.id )" v-for="(item,i) in page.track"
             :key="item.id">
             <!--显示样式-->
-            <div>
-                <div @click="playTheOnce(i)" class="trackIMG">
+            <div @click="playTheOnce(i)">
+                <div  class="trackIMG">
 
                     <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
-                    <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-                        <path
-                            d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-                    </svg>
                 </div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
@@ -54,11 +49,9 @@
             </div>
 
             <div class="linkbox bigger">
-                <a @click="musicListMore(item)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-three-dots" viewBox="0 0 16 16">
-                        <path
-                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                <a @click="this.$parent.$parent.$parent.pushTrack(item)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </a>
                 <!--a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"

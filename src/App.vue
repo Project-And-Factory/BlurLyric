@@ -465,7 +465,6 @@
     </div>
   </div>
   <div id="messageLab">
-    <div>网络出现异常，请重试</div>
   </div>
   <div id="fixedButtom">
     <div v-for="item in data.ui.fixedButtom" v-bind:key="item.type+item.id">
@@ -504,12 +503,13 @@
   import audioNetease from './js/audioNetease.js'
   import progress from './js/progress.js'
   import anime from 'animejs/lib/anime.es.js';
+  import message from './js/message.js'
   import cookies from 'js-cookie'
 
   import './style.css'
   import './fixelButtom.css'
   import './naturalUI.css'
-  import './message.css'
+  import  './message.css'
 
 
   var bodyHeight, lineTopAir, bodyWidth,
@@ -796,11 +796,11 @@
               this.data.recommendSongs = r.data.dailySongs
             })
           }
-      document.querySelector('#LoadingText').innerHTML = "完成" 
+      document.querySelector('#LoadingText').innerHTML = "" 
       let 渐变消失LOGO界面 = anime({
         targets: document.querySelector('#Loading'),
         opacity: 0,
-        duration: 2000
+        duration: 3000
       })
       渐变消失LOGO界面.finished.then(function() {
         document.querySelector('#Loading').style.zIndex = -1;
@@ -1174,6 +1174,17 @@
 
         }
 
+      },
+      pushTrack(data) { //接受router的数据
+        if(this.data.player.tracks[0].id == 0){
+          this.changeTrack({
+            num: 0,
+            tracks: [data]
+          })
+        } else {
+          this.data.player.tracks.push(data)
+        }
+        message.create('成功增加歌曲' + data.name +'至播放列表末尾')
       },
       refuseTrack() {
         if (this.data.player.tracks[0].name == '') {} else {

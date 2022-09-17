@@ -1,4 +1,5 @@
 const encrypt = require('./crypto')
+const crypto = require('crypto')
 const axios = require('axios')
 const PacProxyAgent = require('pac-proxy-agent')
 const http = require('http')
@@ -50,13 +51,19 @@ const createRequest = (method, url, data = {}, options) => {
     if (url.includes('music.163.com'))
       headers['Referer'] = 'https://music.163.com'
     let ip = options.realIP || options.ip || ''
-    console.log(ip)
+    // console.log(ip)
     if (ip) {
       headers['X-Real-IP'] = ip
       headers['X-Forwarded-For'] = ip
     }
     // headers['X-Real-IP'] = '118.88.88.88'
     if (typeof options.cookie === 'object') {
+      options.cookie = {
+        ...options.cookie,
+        __remember_me: true,
+        NMTID: crypto.randomBytes(16).toString('hex'),
+        _ntes_nuid: crypto.randomBytes(16).toString('hex'),
+      }
       if (!options.cookie.MUSIC_U) {
         // 游客
         if (!options.cookie.MUSIC_A) {
@@ -73,6 +80,8 @@ const createRequest = (method, url, data = {}, options) => {
         .join('; ')
     } else if (options.cookie) {
       headers['Cookie'] = options.cookie
+    } else {
+      headers['Cookie'] = '__remember_me=true; NMTID=xxx'
     }
     // console.log(options.cookie, headers['Cookie'])
     if (options.crypto === 'weapi') {
