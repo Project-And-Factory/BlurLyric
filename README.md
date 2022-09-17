@@ -17,9 +17,8 @@
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)咸鸽 - https://web.blurlyric.app/</a><br>
-<br>
-<a herf="https://music.imgugu.ink/">咕咕咕鸽awa(qq:2493237147) - https://music.imgugu.ink/</a><br>
-感谢上方运行并且提供在线服务的网友
+感谢上方运行并且提供在线服务的网友<br>
+请警惕陌生链接，小心账户或隐私被盗取！！
 
 # 使用说明
 ## 正常用户(GUI界面运行)
