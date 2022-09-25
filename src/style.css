@@ -396,7 +396,6 @@ flex-direction: column;
   padding-bottom: 20px;
   box-shadow: #00000005 0 0 40px 0px;
   height: calc(100% + var(--minplayerHeight));
-  margin-top: -18px;
   background: #ffffff;
 }
 
@@ -418,7 +417,8 @@ flex-direction: column;
   background-color: rgb(0, 0, 0, .03);
 }
 .player-Mini {
-  position: relative;
+  position: absolute;
+  width:calc(100% - 30px);
   gap: 8px;
   background-color: #fff;
   padding: 9px 15px;
@@ -426,6 +426,7 @@ flex-direction: column;
   white-space: nowrap;
   display: flex;
   overflow: hidden;
+  z-index: 2;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -528,6 +529,9 @@ div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
   width: 100%;
   display: flex;
   max-width: calc(100% - 60px);
+}
+.player-Mini-Title{
+  width: 100%;
 }
 .player-Mini-Title,.trackTitle {
   font-size: 15px;
@@ -650,7 +654,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   height: 32px;
 }
 .playertopbar{
-
+z-index: 0;
   display: flex;
   justify-content: center;
   height: max-content;
@@ -700,6 +704,8 @@ display: flex;
   border-radius: 3vh;
   position: relative;
   overflow: hidden;
+  user-select: none;
+
 }
 
 .left-sideImage>img {
@@ -708,11 +714,14 @@ display: flex;
   transition: all 1s;
   max-height: 100%;
   height: auto;
+  pointer-events: none;
 }
 img.ImageBlurBackground{
   position: absolute;
   border-radius: 5%;
   --height: 0px;
+  pointer-events: none;
+
   --marginValue: calc(var(--height) * 0.09);
 
   max-width: calc(var(--height) - var(--marginValue));
@@ -873,7 +882,7 @@ ul#lyrics {
   
   padding-left: 0;
   height: fit-content;
-  min-height: 100vh;
+  min-height: 100%;
   margin-top: var(--marginTop)
 }
 

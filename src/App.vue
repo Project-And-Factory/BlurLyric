@@ -61,7 +61,7 @@
     </div>
   </div>
   <!--右侧导航栏-->
-  <div class="rightrow" v-if="data.player.uiDisplay.mainDisplay != 'top'">
+  <div class="rightrow">
     <!--顶部logo及导航（viewBox）-->
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
@@ -165,8 +165,8 @@
         主UI界面
       -->
     <!--控制界面按钮-->
-    <div class="playertopbar" v-if="(data.player.uiDisplay.mainDisplay != 'buttom')">
-      <div class="electron-control">
+    <div class="playertopbar" >
+      <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom')" class="electron-control">
         <div class="dragBar"></div>
       </div>
       <svg @click="mainDisplayChange()" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -505,11 +505,13 @@
   import anime from 'animejs/lib/anime.es.js';
   import message from './js/message.js'
   import cookies from 'js-cookie'
+  import playerElmContorl from './js/playerElm.js'
+
 
   import './style.css'
   import './fixelButtom.css'
   import './naturalUI.css'
-  import  './message.css'
+  import './message.css'
 
 
   var bodyHeight, lineTopAir, bodyWidth,
@@ -539,8 +541,11 @@
           .getBoundingClientRect().height + 'px');
       }
     }, 300)
+    return {
+      bodyHeight,
+      bodyWidth
+    }
   }
-  getWindowInfo()
   var vueApp = {
     data() {
       return {
@@ -684,13 +689,23 @@
       });
       this.audio.addEventListener("pause", () => {
         this.state.playing = false;
+        anime({
+                targets: document.getElementById('lyrics').getElementsByTagName("li"),
+                delay: (el, i, l) => {
+                  return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                    .funcDelay]((i - this.data.player.uiDisplay.LineNum))
+                },
+                filter: 'blur(0)',
+                duration: 500,
+                easing:'cubicBezier(.3, .5, .2, 1)'
+              })
       });
       this.audio.addEventListener('loadeddata', () => {
         if (this.audio.readyState >= 2) {
           this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
         }
       })
-      document.querySelector('#LoadingText').innerHTML = "加载用户数据中" 
+      document.querySelector('#LoadingText').innerHTML = "加载用户数据中"
     },
     watch: {
       id: {
@@ -728,6 +743,7 @@
       },
     },
     methods: {
+      getWindowInfo,
       cacheData(link, data) {
         if (link == undefined) return {}
         if (data != undefined) {
@@ -745,7 +761,7 @@
         this.refusePersonalFM()
         this.id = personalFMData.tracks[personalFMData.trackNum].id
         this.plays()
-        document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight))'
+        document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
       },
       getPersonalFM() {
         this.data.musicListInfor.personalFM.use = true
@@ -777,12 +793,14 @@
         })
       },
       async loginInfor() {
-
         await reTools.getData('/login/status', {
           timetamp: (Number(new Date()))
         }).then(r => {
-          this.data.user = r.data
-          if (this.data.user.account) {
+          console.log(r)
+
+          if (r.data.account && r.data.account.id != 8029312971) {
+            this.data.user = r.data
+
             this.myPlayList()
             //自动签到
             reTools.getData('/daily_signin', {
@@ -796,15 +814,18 @@
               this.data.recommendSongs = r.data.dailySongs
             })
           }
-      document.querySelector('#LoadingText').innerHTML = "" 
-      let 渐变消失LOGO界面 = anime({
-        targets: document.querySelector('#Loading'),
-        opacity: 0,
-        duration: 3000
-      })
-      渐变消失LOGO界面.finished.then(function() {
-        document.querySelector('#Loading').style.zIndex = -1;
-      });
+          playerElmContorl.load()
+          document.querySelector('#LoadingText').innerHTML = ""
+          let 渐变消失LOGO界面 = anime({
+            targets: document.querySelector('#Loading'),
+            opacity: 0,
+            duration: 1000,
+            easing: 'cubicBezier(.3, .5, .2, 1)',
+
+          })
+          渐变消失LOGO界面.finished.then(function () {
+            document.querySelector('#Loading').style.zIndex = -1;
+          });
 
         })
         /**
@@ -815,7 +836,9 @@
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
           reTools.getData('/blurlyric/createUser').then(res => {
-            cookies.set('blurlyricid', res.data.id,{ expires: new Date(2040, 0, 1) })
+            cookies.set('blurlyricid', res.data.id, {
+              expires: new Date(2040, 0, 1)
+            })
             this.data.setting.id = res.data.id
             this.pushingconfig()
           })
@@ -920,8 +943,7 @@
               })
               anime({
                 targets: lis[lyricNum],
-                duration:620,
-                easing: 'cubicBezier(.3, .5, .2, 1)',
+                duration: 620,
                 filter: 'blur(0)'
               })
             }
@@ -947,7 +969,7 @@
 
         this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = currTime
-        if(transitionning != true) this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
+        if (transitionning != true) this.data.player.uiDisplay.progress = cur / this.data.player.uiDisplay.duration
 
         //音频过度事件触发
         if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
@@ -959,18 +981,18 @@
           transitionning = true
           let oldAudio = this.audio,
             newAudio = document.createElement("audio")
-            // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
-            oldAudio.removeEventListener("playing", () => {
-        this.state.playing = true;
-      });
-      oldAudio.removeEventListener("pause", () => {
-        this.state.playing = false;
-      });
-      oldAudio.removeEventListener('loadeddata', () => {
-        if (oldAudio.readyState >= 2) {
-          this.data.player.uiDisplay.duration = Math.floor(oldAudio.duration)
-        }
-      })
+          // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
+          oldAudio.removeEventListener("playing", () => {
+            this.state.playing = true;
+          });
+          oldAudio.removeEventListener("pause", () => {
+            this.state.playing = false;
+          });
+          oldAudio.removeEventListener('loadeddata', () => {
+            if (oldAudio.readyState >= 2) {
+              this.data.player.uiDisplay.duration = Math.floor(oldAudio.duration)
+            }
+          })
           let numb, id, NextMusicCache
 
           if (this.state.random == true) {
@@ -999,30 +1021,30 @@
           newAudio.addEventListener('canplay', () => {
             newAudio.play();
           })
-          let loadeddataFunction = ()=>{
+          let loadeddataFunction = () => {
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
             anime({
-                targets: this.data.player.uiDisplay,
-                duration: time,
-                easing: 'cubicBezier(.3, .5, .2, 1)',
-                progress: ()=>{
-                  return time/1000 / this.data.player.uiDisplay.duration
-                },
+              targets: this.data.player.uiDisplay,
+              duration: time,
+              easing: 'cubicBezier(.3, .5, .2, 1)',
+              progress: () => {
+                return time / 1000 / this.data.player.uiDisplay.duration
+              },
 
-              })
+            })
           }
-          newAudio.addEventListener('loadeddata',loadeddataFunction)
+          newAudio.addEventListener('loadeddata', loadeddataFunction)
           if (newAudio.readyState >= 2) loadeddataFunction
-          
+
           reTools.getData('/scrobble', {
             id: this.id,
             sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
             time: Math.floor(oldAudio.duration)
           })
           this.id = id,
-          this.data.player.uiDisplay.LineNum
-            this.data.player.trackNum = numb
+            this.data.player.uiDisplay.LineNum
+          this.data.player.trackNum = numb
           this['audio'] = newAudio
           let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
 
@@ -1036,6 +1058,12 @@
             targets: newAudio,
             duration: time,
             volume: 1,
+            easing: 'linear'
+          })
+          anime({
+            targets: oldAudio,
+            duration: time,
+            volume: 0,
             easing: 'linear'
           })
 
@@ -1064,8 +1092,8 @@
                 this.state.playing = true
               }, 100);
               transitionning = false
-              newAudio.removeEventListener('loadeddata',loadeddataFunction)
-              oldAudio.removeEventListener('loadeddata',loadeddataFunction)
+              newAudio.removeEventListener('loadeddata', loadeddataFunction)
+              oldAudio.removeEventListener('loadeddata', loadeddataFunction)
 
 
             }, time);
@@ -1139,21 +1167,42 @@
           this.play()
         }
       },
-      mainDisplayChange() {
+      mainDisplayChange(type) {
         //settimeout为动画之后的事件，方便优化
-        getWindowInfo()
-        if (this.data.player.uiDisplay.mainDisplay == 'buttom') {
-          document.getElementById('player').style.top = 'calc(0px - var(--minplayerHeight))';
+        this.getWindowInfo()
+        if (this.data.player.uiDisplay.mainDisplay == 'buttom' || type == 'top') {
+          document.getElementById('player').style.top = '0px';
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          setTimeout(() => {
-            this.data.player.uiDisplay.mainDisplay = 'top'
-          }, .5 * 1000);
+          let ThisAnime = anime({
+            targets: document.querySelector('.player-Mini'),
+            easing: 'linear',
+            opacity: 0,
+            duration: 500
+          })
+          ThisAnime.finished.then(() => {
+            this.data.player.uiDisplay.mainDisplay = 'top';
+            document.querySelector('.player-Mini').style.zIndex = -1;
+
+
+          });
+          return 'top'
         } else {
-          document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight))'
+          document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          setTimeout(() => {
-            this.data.player.uiDisplay.mainDisplay = 'buttom'
-          }, .5 * 1000);
+          let ThisAnime = anime({
+            targets: document.querySelector('.player-Mini'),
+            opacity: 1,
+            duration: 500,
+            easing: 'linear',
+          })
+          document.querySelector('.player-Mini').style.zIndex = 99;
+
+          ThisAnime.finished.then(() => {
+            this.data.player.uiDisplay.mainDisplay = 'buttom';
+            document.querySelector('.player-Mini').style.zIndex = 99;
+          });
+          return 'buttom'
+
         }
 
       },
@@ -1170,13 +1219,13 @@
           this.data.player.tracks = data.tracks
           this.data.player.trackNum = data.num
           this.plays()
-          document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight))'
+          document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
 
         }
 
       },
       pushTrack(data) { //接受router的数据
-        if(this.data.player.tracks[0].id == 0){
+        if (this.data.player.tracks[0].id == 0) {
           this.changeTrack({
             num: 0,
             tracks: [data]
@@ -1184,7 +1233,7 @@
         } else {
           this.data.player.tracks.push(data)
         }
-        message.create('成功增加歌曲' + data.name +'至播放列表末尾')
+        message.create('成功增加歌曲' + data.name + '至播放列表末尾')
       },
       refuseTrack() {
         if (this.data.player.tracks[0].name == '') {} else {
@@ -1192,7 +1241,7 @@
             this.id = this.data.player.tracks[0].id
             this.data.player.trackNum = 0
             this.plays()
-            document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight))'
+            document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
 
 
           }
