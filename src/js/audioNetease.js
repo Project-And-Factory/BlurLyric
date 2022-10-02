@@ -46,7 +46,6 @@ await reTools.getData('/blurlyric/unblockmusic', {
     id: id
   }).then(res => {
     Data.song.unblock = res
-    console.log(res);
 
     if ((Data.song.netea.br < Data.song.unblock.br) || (Data.song.netea.freeTrialInfo !=null)) {
       Data.song.use = 'unblock'
@@ -91,7 +90,6 @@ async function requireId(id) {
         id: id
       }).then(res => {
         Data.song.unblock = res
-        console.log(res);
     
         if ((Data.song.netea.br < Data.song.unblock.br) || (Data.song.netea.freeTrialInfo !=null)) {
           Data.song.use = 'unblock'

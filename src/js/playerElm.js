@@ -10,7 +10,6 @@ var config = {
 
         let mouseDownEvent = (event) => {
             document.querySelector("#player > div.player-Mini").style.zIndex = 99
-            console.log(1,event);
             let thisClick =  event
             if (event.changedTouches) {
                 thisClick = event.changedTouches[0]
@@ -44,7 +43,6 @@ var config = {
                 } else {
                     app.mainDisplayChange(this.beformainDisplay)
                 }
-                console.log(thisClick.clientY - removeClick.clientY);
 
             }
             let move = (event) => {
@@ -89,7 +87,7 @@ function changeProgress(event) {
     let cacheMaxTop = config.size.bodyHeight - config.otherElm.playerMini.offsetHeight
 
     let persent = top / cacheMaxTop
-    config.otherElm.playerMini.style.opacity = persent
+    config.otherElm.playerMini.style.opacity = persent.toFixed(2)
     if (top < 0) top = 0
     if (top > cacheMaxTop) top = cacheMaxTop
     

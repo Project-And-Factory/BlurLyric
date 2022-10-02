@@ -12,14 +12,14 @@
             <div class="slider round"></div>
           </label>
         </div>
-          <hr style="background-color: #00000020;height: 1px;border: none;" v-if="(i != this.settingButton.length -1)">
+        <hr style="background-color: #00000020;height: 1px;border: none;" v-if="(i != this.settingButton.length -1)">
 
       </div>
 
       <h2 v-if="item.type == 'h2'" class="settingText">{{item.text}}</h2>
       <div v-if="item.type == 'text'">{{item.text}}</div>
 
-   </div>
+    </div>
 
     <h1>About | 关于</h1>
     <h2>隐私政策</h2>
@@ -29,7 +29,7 @@
       其他维护者：咸鸽(网络服务器，master@pafworld.top) (非实时更新)
     </p>
     <h2>此软件</h2>
-    <p>官网：blurlyric.app  |  https://gozaoo.github.io/blurlyric/<br>
+    <p>官网：blurlyric.app | https://gozaoo.github.io/blurlyric/<br>
       仓库地址: https://github.com/gozaoo/BlurLyric2.0 <br>
       灵感来源/学习项目：Binaryify/NeteaseCloudMusicApi；qier222/YesPlayMusic；LyricEase；Apple Music
     </p>
@@ -39,13 +39,13 @@
     方法1：帮助开发，如果您有能力解决或有新功能，可以在GitHub上将您的代码pull上来，或者是加入开发组，联系作者即可 <br>
     方法2：动力的来源是快乐，如果您有经济能力的话可以赞助我们一下，我们将会拿来升级服务器<a style="text-decoration: line-through">，也有可能被我们拿去花掉啦！</a>
     <img style="width: 200px;" src="https://gozaoo.github.io/img/z.jpg" alt="" srcset="">
-  <img style="width: 200px;" src="https://gozaoo.github.io/img/w.jpg" alt="" srcset="">
+    <img style="width: 200px;" src="https://gozaoo.github.io/img/w.jpg" alt="" srcset="">
   </div>
 
 </template>
 
 <script>
-  import app from '../App.vue'
+  import app from '../main.js'
 
   var setting = {
     name: 'setting',
@@ -57,71 +57,50 @@
         }, {
           text: '在 歌词 中使用动态字体大小',
           type: 'line',
-          bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.animeFontSize,
+          bolean: app.data.setting.config.lyricSet.animeFontSize,
           func: this.lyricFontSize
         }, {
           text: '在 歌词 中使用模糊效果',
           type: 'line',
-          bolean: this.$parent.$parent.$parent.data.setting.config.lyricSet.funcBlur,
+          bolean: app.data.setting.config.lyricSet.funcBlur,
           func: this.funcBlur
         }, {
           text: '使用模糊背景',
           type: 'line',
-          bolean: this.$parent.$parent.$parent.data.setting.config.useBlurBackground,
+          bolean: app.data.setting.config.useBlurBackground,
           func: this.funcBackground
         }, {
           text: '暂无其他，请等待更新',
           type: 'text'
-        }] 
+        }]
       }
-      
+
     },
     methods: {
-      funcBackground(i){
+      funcBackground(i) {
         setTimeout(() => {
-            
-              this.$parent.$parent.$parent.editconfig((data) => {
-                if (this.settingButton[i].bolean == true){
-                data.useBlurBackground = true
-              } else {
-                  data.useBlurBackground = false
-                }
-                return data
-              })
-            }
-          , 100);
+          app.editconfig((data) => {
+            data.useBlurBackground = this.settingButton[i].bolean
+            return data
+          })
+        }, 100);
       },
-      lyricFontSize(i){
+      lyricFontSize(i) {
           setTimeout(() => {
-            if (this.settingButton[i].bolean == true){
-              this.$parent.$parent.$parent.editconfig((data) => {
-                data.lyricSet.animeFontSize = true
-                return data
-              })
-            } else {
-              this.$parent.$parent.$parent.editconfig((data) => {
-                data.lyricSet.animeFontSize = false
-                return data
-              })
-
-            }
-          }, 100);
+          app.editconfig((data) => {
+            data.lyricSet.animeFontSize = this.settingButton[i].bolean
+            return data
+          })
+        }, 100);
       },
-      funcBlur(i){
-          setTimeout(() => {
-            if (this.settingButton[i].bolean == true){
-              this.$parent.$parent.$parent.editconfig((data) => {
-                data.lyricSet.funcBlur = true
-                return data
-              })
-            } else {
-              this.$parent.$parent.$parent.editconfig((data) => {
-                data.lyricSet.funcBlur = false
-                return data
-              })
+      funcBlur(i) {
 
-            }
-          }, 100);
+        setTimeout(() => {
+          app.editconfig((data) => {
+            data.lyricSet.funcBlur = this.settingButton[i].bolean
+            return data
+          })
+        }, 100);
       }
     }
   };
