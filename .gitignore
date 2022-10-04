@@ -4,3 +4,4 @@ outputs
 BlurLyric2.0.zip
 node_modules.zip
 data/user/*.json
+out

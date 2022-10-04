@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="page.res.playlist != undefined " class="dlTopLab" style="user-select:none">
+    <div class="dlTopLab" style="user-select:none">
         <img :src="page.pic" alt="" srcset="">
         <img :src="page.pic" alt="" srcset="">
 
@@ -9,10 +9,10 @@
             <p>List by{{' '+page.creater.nickname}} <br>
             </p>
             <a>最后更新于 {{page.lastUpdae}}</a>
-            <p>
+            <p v-if="page.res.playlist != undefined ">
                 {{page.res.playlist.description}}
             </p>
-            <div class="linkbox" style="display: flex;">
+            <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
                 <a style="user-select:none" @click="playThisPage()">
                     <svg style="transform: scale(1.6) " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
@@ -23,8 +23,13 @@
                     播放歌单
                 </a>
                 <a style="user-select:none" @click="downloadThisPage()">
-
                     一键下载
+                </a>
+                <a style="user-select:none" @click="collection(this.page.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+</svg>
+                    收藏
                 </a>
 
             </div>
@@ -76,9 +81,9 @@
 
 <script>
     import reTools from '../network/getData'
-    // import app from '../App.vue'
+    import app from '../main.js'
     import audioNetease from '../js/audioNetease.js'
-import { createElementBlock } from 'vue'
+    import message from '../js/message.js'
 
     export default {
         name: 'detailList',
@@ -86,14 +91,71 @@ import { createElementBlock } from 'vue'
             return {
                 page: {
                     id: this.$route.query.id,
-                    pic: '../icon/icon.svg',
+                    pic: '',
                     title: 'BLurlyric Loding',
                     content: '',
                     creater: 'Loding',
                     trackIds: '',
                     lastUpdae: '',
                     aRtrackIds: [],
-                    track: [],
+                    track: [{
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "id": 75017206,
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "tns": [],
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        }
+                    }],
                     res: {}
                 }
             }
@@ -102,6 +164,12 @@ import { createElementBlock } from 'vue'
             this.loadDeailList()
         },
         methods: {
+            collection(id){
+        reTools.getData('/playlist/subscribe',{id:id,t:1}).then(()=>{
+            app.myPlayList()
+            message.create('添加成功')
+        })
+            },
             setTracks(num) {
                 this.$parent.$parent.$parent.changeTrack({
                     tracks: this.page.track,
@@ -208,7 +276,8 @@ import { createElementBlock } from 'vue'
 
     .dlTopLab>img {
         border-radius: 7px;
-        --img-size: 240px
+        --img-size: 240px;
+        aspect-ratio: 1/1;
     }
 
     .dlTopLab>img:nth-child(1) {

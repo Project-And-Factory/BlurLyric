@@ -5,7 +5,7 @@ export function request(config,num) {
     axios.defaults.withCredentials = true;
     const instance = axios.create({
         baseURL: '/api/', 
-        // baseURL: 'http://web.blurlyric.app/',
+        //baseURL: 'https://web.blurlyric.app/',
         // baseURL: 'http://localhost:18775/',
         // baseURL: '',
         timeout: 10000,

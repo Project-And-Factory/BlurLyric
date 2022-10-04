@@ -23,7 +23,14 @@ h2 {
 h3 {
   font-weight: normal;
 }
+img[lazy=loading],img:not([src]),img[src=""],img[lazy=error],img[lazy=error]::before{
+  background: linear-gradient(#ccc, #bbb);
+  animation: imgLoading 500ms infinite;
+}
 
+@keyframes imgloading {
+  
+}
 
 html,
 body {
@@ -536,7 +543,10 @@ div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
 .player-Mini-Title,.trackTitle {
   font-size: 15px;
   margin: 0 8px;
-  display: inline-block;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:1;
+  /* display: inline-block; */
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
@@ -549,7 +559,10 @@ div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-	display: -webkit-box;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:1;
+  max-width: 100%;
 }
 
 div.player-Mini-Title>h1,.trackTitle>h1 {
@@ -566,6 +579,94 @@ div.player-Mini-Title>h2,.trackTitle>h2 {
 div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   margin: 0 0.4em 0 0;
 }
+
+.PLtrack {
+  display: grid;
+  --repeat: 2;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  --gapver: calc(1.2vh + 1.2vw);
+  gap: var(--gapver);
+  justify-content: space-between;
+  font-size: 16px;
+}
+@media (max-width: 60vh) {
+  .PLtrack {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
+}
+
+.PLtrack>div>img {
+  width: 100%;
+  border-radius: 1.5vw;
+}
+
+.PlTrTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  color: rgba(50, 50, 50, 1);
+  font-size: calc(1.5vh + 0.5vw);
+}.
+
+.PlTrTitle>* {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+
+}
+.Pltracks{
+  position: relative;
+}
+.Pltracks:hover>.PlButtom{
+  display: flex;
+}
+.PlButtom{
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  padding: 4px 5px;
+  background-color: #44444440;
+  box-shadow: 0px 0px 20px #00000040;
+  backdrop-filter: blur(8px);
+  border-radius: 6px;
+  min-height: 24px;
+  min-width: 24px;
+  gap: 5px;
+  display: none;
+}
+.PlButtom>*{
+  color: white;
+  height: 24px;
+  width: 24px;
+  border-radius: 4px;
+}
+.PlButtom>*>svg{
+  height: 24px;
+  width: 24px;
+}
+.PlButtom>*:hover{
+  background-color: #ffffff30;
+}
+
+.PlTrTitle>h1 {
+  -webkit-line-clamp: 2;
+  font-size: 1em;
+  color: rgba(50, 50, 50, 1);
+  margin: 0.4em 0 0 0;
+}
+
+.PlTrTitle>h2 {
+  -webkit-line-clamp: 1;
+  font-size: 0.8em;
+  color: rgba(100, 100, 100, 1);
+  margin: 1px 0 0 0;
+
+}
+
+
 .player-Mini-Contorl{
   display: flex;
   align-items: center;

@@ -12,7 +12,7 @@ async function getUser(id, fun) {
     await superTool.readJson('./data/user/' + id + '.json', (err, dataStr) => {
         if (err) {
             fun({
-                code: 'error',
+                code: '403',
                 message: '无法找到用户'
             })
             return

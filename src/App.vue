@@ -16,7 +16,7 @@
 
   <!--左侧导航栏-->
   <div v-bind:class="'leftlab ' + data.ui.leftSideWidth + ' ' + data.player.uiDisplay.mainDisplay">
-    <div class="linkbox">
+    <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
       <!--返回按钮-->
       <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
           class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -456,7 +456,7 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" v-if="data.player.musicCache[id]">
+          <ul id="lyrics" ref="lyricBox" v-if="data.player.musicCache[id]">
             <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
@@ -692,6 +692,7 @@
       });
       this.audio.addEventListener("pause", () => {
         this.state.playing = false;
+        if(document.getElementById('lyrics'))
         anime({
                 targets: document.getElementById('lyrics').getElementsByTagName("li"),
                 delay: (el, i, l) => {
@@ -865,7 +866,9 @@
 
       myPlayList() {
         reTools.getData('/user/playlist', {
-          uid: this.data.user.account.id
+          uid: this.data.user.account.id,
+          timetamp: (Number(new Date()))
+
         }).then(r => {
           this.data.myMusicList = r.playlist
         })
@@ -877,27 +880,29 @@
       },
       async lyricSet(force) {
 
-        if (document.getElementById('lyrics') && this.state.playing ==
-          true && this.data.player.uiDisplay.mainDisplay != 'buttom') {
-          let lyrics = document.getElementById('lyrics'),
-            lis = lyrics.getElementsByTagName("li"),
-            currTime = this.audio.currentTime,
+        if (this.$refs.lyricBox && this.state.playing ==
+          true && this.data.player.uiDisplay.mainDisplay != 'buttom' && this.data.player.musicCache[this.id])  {
+          let lyrics = this.$refs.lyricBox,
+            lis = lyrics.getElementsByTagName('li'),
+            currTime = this.data.player.uiDisplay.realCurrTime,
             lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
-
-          if (lis.length > 0) {
+            
+            if (lis.length > 0) {
             if (lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
 
             if ((this.data.player.uiDisplay.LineNum != lyricNum || force == true) && lis[lyricNum]) {
               this.data.player.uiDisplay.LineNum = lyricNum
+              let ms =this.data.player.musicCache[this.id].lyric.ms[lyricNum].c
 
               //歌词高亮设置
-              let LyricBoxOffsetHeight = document.querySelector("#lyric").offsetHeight
+              let LyricBoxOffsetHeight = lyrics.parentNode.offsetHeight
               anime({
                 targets: lis,
+                round: 100,
                 translateY: (el, i, l) => {
                   let offset = i - lyricNum
 
-                  if (offset < -2) return -(el.offsetTop + el.offsetHeight)
+                  if (offset < -2) return -LyricBoxOffsetHeight
                   if (offset > 7) return LyricBoxOffsetHeight - el.offsetTop
                   return Math.floor(lyrics.offsetTop - lis[lyricNum].offsetTop + (
                     bodyHeight * 0.15))
@@ -953,19 +958,13 @@
 
           }
         }
-        setTimeout(() => {
-          if (force != true) {
-            this.lyricSet()
-          }
-
-        }, 24);
       },
       async getCurr() {
         //音频进度转换
         let currTime, cur, audio = this.audio
-          cur = audio.currentTime.toFixed(3)
+          cur = Number(audio.currentTime.toFixed(3))
           currTime = parseInt(cur)
-        
+          this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = currTime
         let progress = cur / this.data.player.uiDisplay.duration
         if (transitionning != true) this.data.player.uiDisplay.progress = progress.toFixed(3)
@@ -973,6 +972,8 @@
         //音频过度事件触发
         if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
           this.transitionNextMusic()
+
+          this.lyricSet()
         setTimeout(() => this.getCurr(), 100)
       },
       async transitionNextMusic(times) {

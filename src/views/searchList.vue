@@ -1,7 +1,7 @@
 <template>
     <h1>搜索“<a>{{page.q}}</a>”的结果</h1>
 
-    <div class="row-two">
+    <div class="row-two search">
         <div>
             <h2 v-if="page.track != []">歌曲列表<a v-if="page.track != []"
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
@@ -68,9 +68,9 @@
                     </div>
                 </div-->
             </div>
-            <h2 v-if="page.PLtrack[0]">歌单<a v-if="page.PLtrack[0]"
+            <h2 v-if="page.PLtrack[0] && page.playlist.result">歌单<a 
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.playlist.result.playlistCount}}个</a></h2>
-            <div v-if="page.PLtrack[0]" class="PLtrack">
+            <div v-if="page.PLtrack[0] && page.playlist.result" class="PLtrack">
                 <div @click="this.$router.push({name:'detail',query:{id:item.id }})" v-for="(item) in page.PLtrack"
                     :key="item.id">
                     <img v-lazy="item.coverImgUrl + '?param=500y500)'" v-bind:alt="item.name">
@@ -100,7 +100,64 @@
                     creater: '',
                     trackIds: '',
                     aRtrackIds: [],
-                    track: [],
+                    track: [{
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "id": 75017206,
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        },
+                    }, {
+                        "name": "loading",
+                        "ar": [{
+                            "id": 906118,
+                            "name": "loading",
+                            "tns": [],
+                            "alias": []
+                        }],
+                        "alia": [],
+                        "al": {
+                            "picUrl": "",
+                        }
+                    }],
                     playlist: {},
                     PLtrack: [],
                     ar: {}
@@ -292,7 +349,20 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
+    .row-two>*{
+        overflow: hidden;
+    }
+    .PLtrack .search{
+  display: grid;
+  --repeat: 2;
+  overflow: hidden;
+  --gapver: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px,calc(50% -  var(--gapver))));
 
+  gap: var(--gapver);
+  flex-direction: row;
+  font-size: 16px;
+}
     @media (max-width:650px) {
         .row-two {
             display: grid;
@@ -308,53 +378,6 @@
             max-height: 50vh;
             border-radius: 8px;
         }
-
-    }
-
-    .PLtrack {
-        display: grid;
-        --repeat: 2;
-        grid-template-columns: repeat(var(--repeat), 1fr);
-        overflow: hidden;
-        --gapver: 20px;
-        gap: var(--gapver);
-        flex-direction: row;
-        font-size: 16px;
-    }
-
-    .PLtrack>div>img {
-        width: 100%;
-        border-radius: 1.5vw;
-    }
-
-    .PlTrTitle {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-box-orient: vertical;
-        color: rgba(50, 50, 50, 1);
-    }
-
-    .PlTrTitle>* {
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-box-orient: vertical;
-        display: -webkit-box;
-
-    }
-
-    .PlTrTitle>h1 {
-        -webkit-line-clamp: 2;
-        font-size: 1em;
-        color: rgba(50, 50, 50, 1);
-        margin: 0.4em 0 0 0;
-    }
-
-    .PlTrTitle>h2 {
-        -webkit-line-clamp: 1;
-        font-size: 0.8em;
-        color: rgba(100, 100, 100, 1);
-        margin: 1px 0 0 0;
 
     }
 
