@@ -37,7 +37,7 @@
     </div>
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
     <div  v-bind:style="'user-select:none;min-height:calc(var(--minplayerHeight) + 18px * '+page.track.length+')'" class="track playlist">
-        <div class="tracks" v-for="(item,i) in page.track"
+        <div class="tracks" :muid="item.id" v-for="(item,i) in page.track"
             :key="item.id">
             <!--显示样式-->
             <div @click="playTheOnce(i)">

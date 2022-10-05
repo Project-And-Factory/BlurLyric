@@ -6,7 +6,7 @@
             <h2 v-if="page.track != []">歌曲列表<a v-if="page.track != []"
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
             <div v-if="page.track != []" class="search track" style="user-select:none">
-                <div class="tracks" v-for="(item,i) in page.track" :key="item.id">
+                <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
                     <!--显示样式-->
                     <div @click="playTheOnce(i)">
                         <div class="trackIMG">

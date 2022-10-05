@@ -405,15 +405,16 @@ flex-direction: column;
   height: calc(100% + var(--minplayerHeight));
   background: #ffffff;
 }
-
+/* .tracks{
+  background-color: #0080ff15;
+} */
 .tracks{
   height: var(--minplayerHeight);
   white-space: nowrap;
   padding: 9px 9px;
-  display: flex;
   position: relative;
   gap: 8px;
-  flex-direction: row;
+  overflow: hidden;
   text-overflow: ellipsis;
   border-radius: calc(var(--minplayerHeight) * .2)
 }
@@ -533,9 +534,16 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg{
 
 }
 div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
-  width: 100%;
+  width: calc(100% - 36px);
   display: flex;
-  max-width: calc(100% - 60px);
+  height: inherit;
+
+  float: left;
+}
+div.tracks> .linkbox{
+  height: inherit;
+  float: right;
+  width: fit-content;
 }
 .player-Mini-Title{
   width: 100%;
@@ -607,7 +615,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   -webkit-box-orient: vertical;
   color: rgba(50, 50, 50, 1);
   font-size: calc(1.5vh + 0.5vw);
-}.
+}
 
 .PlTrTitle>* {
   -webkit-line-clamp: 2;
@@ -1178,9 +1186,6 @@ div.playertopbar > div.player-Title.displayTop{
 }
 .contorlPage.true{
   color: rgb(0,0,0,1);
-
-}
-.contorlPage>*{
 }
 .contorlPage>*::after{
   content: '';
