@@ -588,7 +588,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   display: grid;
   --repeat: 2;
   grid-auto-flow: row;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(minmax(2, auto-fit), minmax(180px, 1fr));
   --gapver: calc(1.2vh + 1.2vw);
   gap: var(--gapver);
   justify-content: space-between;
