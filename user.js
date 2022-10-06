@@ -12,12 +12,13 @@ async function getUser(id, fun) {
     await superTool.readJson('./data/user/' + id + '.json', (err, dataStr) => {
         if (err) {
             fun({
-                code: '403',
+                code: '400',
                 message: '无法找到用户'
             })
             return
         }
         fun(dataStr)
+        return
     })
 }
 
@@ -69,6 +70,7 @@ var superTool = {
         await fs.readFile(path.join(__dirname, file), 'utf8', (err, dataStr) => {
             if (err) {
                 callback(err)
+                return
             }
             callback(null, dataJson(dataStr))
         })

@@ -25,12 +25,8 @@ h3 {
 }
 img[lazy=loading],img:not([src]),img[src=""],img[lazy=error],img[lazy=error]::before{
   background: linear-gradient(#ccc, #bbb);
-  animation: imgLoading 500ms infinite;
 }
 
-@keyframes imgloading {
-  
-}
 
 html,
 body {

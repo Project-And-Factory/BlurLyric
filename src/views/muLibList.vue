@@ -99,9 +99,9 @@
   </div>
 
 
-  <div>
-    <h1>我的歌单</h1>
-    <div v-if="app.data.myMusicList[0]" class="PLtrack">
+  <div v-if="app.data.myMusicList[0]">
+    <h1>我收藏的歌单</h1>
+    <div class="PLtrack">
       <div class="Pltracks" 
         v-for="(item,i) in app.data.myMusicList" :key="item.id">
         <div class="PlButtom">

@@ -559,7 +559,7 @@
 
   var bodyHeight, lineTopAir, bodyWidth,
     transitionning = false,LyricBoxOffsetHeight,
-    usingLowWidhtMedi
+    usingLowWidhtMedi,lyricsOffsetTop
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -904,7 +904,8 @@
 
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
-          reTools.getData('/blurlyric/createUser').then(res => {
+            reTools.getData('/blurlyric/createUser').then(res => {
+
             cookies.set('blurlyricid', res.data.id, {
               expires: new Date(2040, 0, 1)
             })
@@ -925,6 +926,16 @@
         reTools.getData('/blurlyric/getUser', {
           id: cookies.get('blurlyricid')
         }).then(r => {
+          if(r.code==400){
+            reTools.getData('/blurlyric/createUser').then(r => {
+            cookies.set('blurlyricid', r.data.id, {
+              expires: new Date(2040, 0, 1)
+            })
+            this.data.setting.id = r.data.id
+            this.pushingconfig()
+            return
+            })
+          }
           this.data.setting = r.data
         })
       },
@@ -964,14 +975,15 @@
               anime({
                 targets: lis,
                 round: 100,
-                translateY: (el, i, l) => {
+                translateY:  (el, i, l) => {
+                // (bodyHeight * 0.15) - lis[lyricNum].offsetTop
+                
                   let offset = i - lyricNum
 
-                  if (offset < -2) return -LyricBoxOffsetHeight
-                  if (offset > 7) return LyricBoxOffsetHeight - el.offsetTop
-                  return Math.floor(lyrics.offsetTop - lis[lyricNum].offsetTop + (
-                    bodyHeight * 0.15))
-                },
+                  if (offset < -3 || offset > 8) return '0px'
+                  return Math.floor( - lis[lyricNum].offsetTop + (
+                    bodyHeight * 0.15))}
+                ,
                 duration: (el, i, l) => {
                   let offset = i - lyricNum
 

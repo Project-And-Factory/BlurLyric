@@ -41,7 +41,7 @@ var data
         data.elms = document.querySelectorAll('.box-progressbar')
         setTimeout(() => {
             loopProgressElement()
-        }, 1000);
+        }, 10000);
     }
     function changeProgress(event,box) {
 
