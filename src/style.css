@@ -410,6 +410,7 @@ flex-direction: column;
 } */
 .tracks{
   height: var(--minplayerHeight);
+  min-height: var(--minplayerHeight);
   white-space: nowrap;
   padding: 9px 9px;
   position: relative;
@@ -534,10 +535,9 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg{
 
 }
 div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
-  width: calc(100% - 36px);
+  width: calc(95% - 36px);
   display: flex;
   height: inherit;
-
   float: left;
 }
 div.tracks> .linkbox{

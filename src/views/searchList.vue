@@ -68,7 +68,7 @@
                     </div>
                 </div-->
             </div>
-            <h2 v-if="page.PLtrack[0] && page.playlist.result">歌单<a 
+            <h2 v-if="page.PLtrack[0] && page.playlist.result">歌单<a
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.playlist.result.playlistCount}}个</a></h2>
             <div v-if="page.PLtrack[0] && page.playlist.result" class="PLtrack">
                 <div @click="this.$router.push({name:'detail',query:{id:item.id }})" v-for="(item) in page.PLtrack"
@@ -331,7 +331,6 @@
 
         .search .track {
             position: relative;
-            background-image: linear-gradient(to right, #d1d1d1, #e5e5e5);
             border-radius: 9px;
             display: flex;
         }
@@ -349,20 +348,23 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
-    .row-two>*{
+
+    .row-two>* {
         overflow: hidden;
     }
-    .PLtrack .search{
-  display: grid;
-  --repeat: 2;
-  overflow: hidden;
-  --gapver: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px,calc(50% -  var(--gapver))));
 
-  gap: var(--gapver);
-  flex-direction: row;
-  font-size: 16px;
-}
+    .PLtrack .search {
+        display: grid;
+        --repeat: 2;
+        overflow: hidden;
+        --gapver: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, calc(50% - var(--gapver))));
+
+        gap: var(--gapver);
+        flex-direction: row;
+        font-size: 16px;
+    }
+
     @media (max-width:650px) {
         .row-two {
             display: grid;

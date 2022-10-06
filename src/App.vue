@@ -558,13 +558,14 @@
 
 
   var bodyHeight, lineTopAir, bodyWidth,
-    transitionning = false,
+    transitionning = false,LyricBoxOffsetHeight,
     usingLowWidhtMedi
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
+    LyricBoxOffsetHeight = lyrics.parentNode.offsetHeight
     if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     setTimeout(() => {
@@ -959,8 +960,7 @@
           if ((this.data.player.uiDisplay.LineNum != lyricNum || force == true) && lis[lyricNum]) {
             this.data.player.uiDisplay.LineNum = lyricNum
 
-            if (usingLowWidhtMedi == false || data.player.uiDisplay.playerSelec == 'lyric') { //歌词高亮设置
-              let LyricBoxOffsetHeight = lyrics.parentNode.offsetHeight
+            if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
               anime({
                 targets: lis,
                 round: 100,
@@ -1062,6 +1062,7 @@
 
           if (this.state.random == true) {
             numb = Math.floor(Math.random() * this.data.player.tracks.length)
+              this.data.player.musicCache[this.data.player.tracks[numb].id] = await audioNetease.requireId(this.data.player.tracks[numb].id)
           } else {
             if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.audio == true) {
               return
