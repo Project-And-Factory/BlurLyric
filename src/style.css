@@ -41,6 +41,8 @@ body {
   --hsla-white: hsla(0, 0%, 95%, .4);
   --minplayerHeight: 48px;
   --leftlab-width: 56px;
+  --color-theme: #0080ff;
+  --color-theme-background: #0080ff15;
 }
 
 ::-webkit-scrollbar {
@@ -588,17 +590,13 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   display: grid;
   --repeat: 2;
   grid-auto-flow: row;
-  grid-template-columns: repeat(minmax(2, auto-fit), minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(calc(7vw + 12vh), 1fr));
   --gapver: calc(1.2vh + 1.2vw);
   gap: var(--gapver);
   justify-content: space-between;
   font-size: 16px;
 }
-@media (max-width: 60vh) {
-  .PLtrack {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  }
-}
+
 
 .PLtrack>div>img {
   width: 100%;
@@ -610,7 +608,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   color: rgba(50, 50, 50, 1);
-  font-size: calc(1.5vh + 0.5vw);
+  font-size: 1rem
 }
 
 .PlTrTitle>* {
@@ -747,16 +745,24 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   display: none;
 }
 .electron-control{
-  height: 32px;
+  height: 2.5vh;
   width: 100%;
   display: flex;
   position: absolute;
+  display: none;
   top: 0;
   pointer-events: none;
 }
 .electron-control>.dragBar{
   width: 100%;
-  height: 32px;
+  height: inherit;
+}
+.dragbarLine{
+  height: 1vh;
+  margin: 0.75vh auto;
+  width: 200px;
+  background-color: #00000010;
+  border-radius: 2.5vmin;
 }
 .playertopbar{
 z-index: 0;

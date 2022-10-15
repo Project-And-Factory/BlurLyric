@@ -22,26 +22,45 @@
                     </svg>
                     播放歌单
                 </a>
+
+                <!--下载-->
                 <a style="user-select:none" @click="downloadThisPage()">
-                    一键下载
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                    </svg>
                 </a>
+                <!--收藏-->
+
                 <a style="user-select:none" @click="collection(this.page.id)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-</svg>
-                    收藏
+                    <svg v-if="app.data.myMusicList.find((item)=>{return item.id == this.page.id}) == undefined"
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    <svg style="color:var(--color-theme);"
+                        v-if="app.data.myMusicList.find((item)=>{return item.id == this.page.id}) != undefined"
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
                 </a>
 
             </div>
         </div>
     </div>
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-    <div  v-bind:style="'user-select:none;min-height:calc(var(--minplayerHeight) + 18px * '+page.track.length+')'" class="track playlist">
-        <div class="tracks" :muid="item.id" v-for="(item,i) in page.track"
-            :key="item.id">
+    <div v-bind:style="'user-select:none;min-height:calc(var(--minplayerHeight) + 18px * '+page.track.length+')'"
+        class="track playlist">
+        <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
             <!--显示样式-->
             <div @click="playTheOnce(i)">
-                <div  class="trackIMG">
+                <div class="trackIMG">
 
                     <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
                 </div>
@@ -55,8 +74,10 @@
 
             <div class="linkbox bigger">
                 <a @click="this.$parent.$parent.$parent.pushTrack(item)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus" viewBox="0 0 16 16">
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                     </svg>
                 </a>
                 <!--a v-if="(this.$parent.$parent.$parent.data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"
@@ -89,6 +110,7 @@
         name: 'detailList',
         data() {
             return {
+                app,
                 page: {
                     id: this.$route.query.id,
                     pic: '',
@@ -98,64 +120,7 @@
                     trackIds: '',
                     lastUpdae: '',
                     aRtrackIds: [],
-                    track: [{
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "id": 75017206,
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "tns": [],
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        }
-                    }],
+                    track: [],
                     res: {}
                 }
             }
@@ -164,11 +129,14 @@
             this.loadDeailList()
         },
         methods: {
-            collection(id){
-        reTools.getData('/playlist/subscribe',{id:id,t:1}).then(()=>{
-            app.myPlayList()
-            message.create('添加成功')
-        })
+            collection(id) {
+                reTools.getData('/playlist/subscribe', {
+                    id: id,
+                    t: 1
+                }).then(() => {
+                    app.myPlayList()
+                    message.create('添加成功')
+                })
             },
             setTracks(num) {
                 this.$parent.$parent.$parent.changeTrack({
@@ -182,21 +150,21 @@
             playTheOnce(i) {
                 this.setTracks(i)
             },
-            async downloadThisPage(){
+            async downloadThisPage() {
                 for (let i = 0; i < this.page.track.length; i++) {
                     let id = this.page.track[i].id
-                    audioNetease.requireURL(id).then(async (data)=>{
+                    audioNetease.requireURL(id).then(async (data) => {
                         console.log(data.song[data.song.use].url);
-                        let response = await fetch( data.song[data.song.use].url )
-                        let blob = await response.blob();  
-                        let objectUrl= window.URL.createObjectURL(blob);
+                        let response = await fetch(data.song[data.song.use].url)
+                        let blob = await response.blob();
+                        let objectUrl = window.URL.createObjectURL(blob);
 
                         let a = document.createElement("a");
-                        a.href= objectUrl;
-                        let name = '' 
+                        a.href = objectUrl;
+                        let name = ''
                         for (let num in this.page.track[i].ar) {
-                            name+= this.page.track[i].ar[num].name;
-                            if (this.page.track[i].ar.length - num > 1){
+                            name += this.page.track[i].ar[num].name;
+                            if (this.page.track[i].ar.length - num > 1) {
                                 name += '&'
                             }
                         }
@@ -205,7 +173,7 @@
                         a.remove()
                     })
 
-                    
+
                 }
             },
             loadDeailList() {
@@ -241,11 +209,11 @@
                                 timetamp: (Number(new Date()))
                             }).then(res => {
                                 this.page.track = res.songs
-                                this.$parent.$parent.$parent.cacheData('playlist' + this.page.id,this.page)
+                                this.$parent.$parent.$parent.cacheData('playlist' + this.page.id, this.page)
 
                             })
 
-                        } 
+                        }
                     )
                 }
             }
@@ -253,10 +221,10 @@
         watch: {
             $route: {
                 handler: function (newVal) {
-                    if(this.$route.name == 'DetaiList'){
-                    this.page.id = newVal.query.id
-                    this.loadDeailList()
-}
+                    if (this.$route.name == 'DetaiList') {
+                        this.page.id = newVal.query.id
+                        this.loadDeailList()
+                    }
                 },
                 deep: true
             }

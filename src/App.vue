@@ -188,7 +188,9 @@
     <!--控制界面按钮-->
     <div class="playertopbar">
       <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom')" class="electron-control">
-        <div class="dragBar"></div>
+        <div class="dragBar">
+          <div class="dragbarLine"></div>
+        </div>
       </div>
       <svg @click="mainDisplayChange()" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
         class="na-bottonBiggerHover bi bi-chevron-down contorlPlayerButtom" viewBox="0 0 16 16">
@@ -660,9 +662,7 @@
             ]
           },
           recommendSongs: [],
-          myMusicList: {
-
-          },
+          myMusicList: [],
           musicListInfor: {
             myLove: {
               data: {},
@@ -702,7 +702,7 @@
           setting: {
             id: '0',
             config: {
-              configVersion: '1.0',
+              configVersion: '1.1',
               lyricSet: {
                 text: '最高',
                 funcBlur: true,
@@ -905,7 +905,6 @@
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
             reTools.getData('/blurlyric/createUser').then(res => {
-
             cookies.set('blurlyricid', res.data.id, {
               expires: new Date(2040, 0, 1)
             })
@@ -926,6 +925,11 @@
         reTools.getData('/blurlyric/getUser', {
           id: cookies.get('blurlyricid')
         }).then(r => {
+          if(r.code!=400 && r.data.config.configVersion != this.data.setting.config.configVersion){
+            this.data.setting.id = r.data.id
+            this.pushingconfig()
+            return
+          }
           if(r.code==400){
             reTools.getData('/blurlyric/createUser').then(r => {
             cookies.set('blurlyricid', r.data.id, {

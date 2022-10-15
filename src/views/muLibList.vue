@@ -99,7 +99,7 @@
   </div>
 
 
-  <div v-if="app.data.myMusicList[0]">
+  <div v-if="app.data.myMusicList[0] != undefined">
     <h1>我收藏的歌单</h1>
     <div class="PLtrack">
       <div class="Pltracks" 
@@ -310,7 +310,7 @@
     border-radius: 1.2em;
     color: white;
     padding: 20px 30px;
-    height: calc(10vh + 7vw);
+    height: calc(8vh + 5vw);
   }
 
   .muLib-MainBox>div>p {
@@ -390,6 +390,6 @@
   }
 
   .personalFMCard>.Text {
-    font-size: 4vmin;
+    font-size: calc(calc(8vh + 5vw) * 0.25);
   }
 </style>

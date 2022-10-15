@@ -8,6 +8,7 @@ router.get('/createUser',(req,res)=>{
 
     user.createUser((data)=>{
         jsonTool('200',data,req,res)
+        return
     })
     
 })
