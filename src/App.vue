@@ -57,11 +57,18 @@
           <path fill-rule="evenodd"
             d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
         </svg><a>音乐库</a></router-link>
+        <router-link :to="{path:'/found'}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-broadcast" viewBox="0 0 16 16">
+  <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg><a>发现广场</a>
+        </router-link>
       <router-link :to="{path:'/setting'}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
           <path
             d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
         </svg><a>设置&关于</a></router-link>
+
+
       <!-- <a @click="electron.app.quit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
           <path
@@ -249,12 +256,12 @@
       v-bind:style="'display:' + data.player.uiDisplay.displayPlayBox">
       <div class="left-side playerIndexSide">
 
-        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'"
+        <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'"
           class="ImageBlurBackground">
         <!--图像-->
         <div class="left-sideImage">
 
-          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
+          <img v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'" v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
 
         </div>
 
@@ -559,15 +566,14 @@
   import './message.css'
 
 
-  var bodyHeight, lineTopAir, bodyWidth,
-    transitionning = false,LyricBoxOffsetHeight,
-    usingLowWidhtMedi,lyricsOffsetTop
+  var bodyHeight,  bodyWidth,
+    transitionning = false,
+    usingLowWidhtMedi
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
-    LyricBoxOffsetHeight = lyrics.parentNode.offsetHeight
     if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     setTimeout(() => {
@@ -657,9 +663,9 @@
           },
           ui: {
             leftSideWidth: 'icon',
-            fixedButtom: [
-
-            ]
+            fixedButtom: [],
+            lyricAnime: null,
+            lyricRunning: false,
           },
           recommendSongs: [],
           myMusicList: [],
@@ -684,8 +690,8 @@
                 true: function (i, lyricNum) {
                   //return ''
                   let offset = i - lyricNum
-                  if (offset < -2 || offset > 7) return 'blur(0)';
-                  return 'blur(' + (0.7 - 0.5 ** Math.abs(offset)) + 'vh)'
+                  if (offset < -2 || offset > 7) return 'blur(0vh)';
+                  return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
                 },
                 false: () => {
                   return 'blur(0)'
@@ -694,7 +700,7 @@
               funcDelay: {
                 use: function (offset) {
                   if (offset < -2 || offset > 7) return 0
-                  return Math.floor(40 * (offset * (0.9 ** Math.abs(offset))));
+                  return 40 * offset * (0.9 ** Math.abs(offset));
                 }
               }
             }
@@ -726,7 +732,6 @@
       this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
-      lineTopAir = Math.floor(bodyHeight * 0.2)
 
       this.audio.addEventListener("playing", () => {
         this.state.playing = true;
@@ -736,11 +741,8 @@
         if (document.getElementById('lyrics'))
           anime({
             targets: document.getElementById('lyrics').getElementsByTagName("li"),
-            delay: (el, i, l) => {
-              return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                .funcDelay]((i - this.data.player.uiDisplay.LineNum))
-            },
-            filter: 'blur(0)',
+            filter: 'blur(0vh)',
+            color: 'rgba(0,0,0,.5)',
             duration: 500,
             easing: 'cubicBezier(.3, .5, .2, 1)'
           })
@@ -784,7 +786,26 @@
             this.audio.src = Data.song.src
             this.play()
           }
+          // if (this.id == newid) {
+          //   setTimeout(() => {
+          //     let lis = document.querySelectorAll('#lyrics>li')
+          //     console.log(anime);
 
+          //     this.data.ui.lyricAnime = anime({
+          //       targets: lis,
+          //       duration: 600,
+          //       fontSize: '1em',
+          //       autoplay: true,
+          //       easing: 'cubicBezier(.3, .5, .2, 1)',
+          //       run: () => {
+          //         this.data.ui.lyricRunning = true
+          //       },
+          //       complete: ()=>{
+          //         this.data.ui.lyricRunning = false
+          //       }
+          //     })
+          //   }, 200);
+          // }
           //预缓存
           let witchIs = [-1, 0, 1, 2]
           for (let index = 0; index < witchIs.length; index++) {
@@ -799,7 +820,7 @@
     methods: {
       getWindowInfo,
       cacheData(link, data) {
-        if (link == undefined) return {}
+        if (link == undefined) return undefined
         if (data != undefined) {
           this.cache[link] = data
         }
@@ -867,7 +888,7 @@
         }).then(r => {
           console.log(r)
 
-          if (r.data.account && r.data.account.id != 8029312971) {
+          if (r.data.account && r.data.account.tokenVersion >= 3) {
             this.data.user = r.data
 
             this.myPlayList()
@@ -974,23 +995,19 @@
           //窄屏模式的节省资源
           if ((this.data.player.uiDisplay.LineNum != lyricNum || force == true) && lis[lyricNum]) {
             this.data.player.uiDisplay.LineNum = lyricNum
-
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
               anime({
                 targets: lis,
-                round: 100,
                 translateY:  (el, i, l) => {
                 // (bodyHeight * 0.15) - lis[lyricNum].offsetTop
                 
                   let offset = i - lyricNum
-
                   if (offset < -3 || offset > 8) return '0px'
                   return Math.floor( - lis[lyricNum].offsetTop + (
                     bodyHeight * 0.15))}
                 ,
                 duration: (el, i, l) => {
                   let offset = i - lyricNum
-
                   if (offset < -2) {
                     el.style.visibility = 'hidden';
                     return 0
@@ -1012,7 +1029,6 @@
                   let offset = i - lyricNum
                   if (offset < -2 || offset > 7) return 'rgb(0,0,0)'
                   if (i == lyricNum) return 'rgb(0,0,0,0.9)'
-
                   return 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(offset))) + ')'
                 },
                 filter: (el, i, l) => {
@@ -1030,28 +1046,22 @@
                   return 1 * (0.9 ** offset) + 'em'
                 }
               })
-              anime({
-                targets: lis[lyricNum],
-                duration: 620,
-                filter: 'blur(0)'
-              })
             }
+
           }
 
         }
       },
       async getCurr() {
         //音频进度转换
-        let currTime, cur, audio = this.audio
-        cur = Number(audio.currentTime.toFixed(3))
-        currTime = parseInt(cur)
+        let audio = this.audio,cur = audio.currentTime, parseCurrTime= parseInt(cur)
         this.data.player.uiDisplay.realCurrTime = cur
-        this.data.player.uiDisplay.currTime = currTime
-        let progress = cur / this.data.player.uiDisplay.duration
-        if (transitionning != true) this.data.player.uiDisplay.progress = progress.toFixed(3)
+        this.data.player.uiDisplay.currTime = parseCurrTime
+        let progress = parseCurrTime / this.data.player.uiDisplay.duration
+        if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - currTime <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
+        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration >= 10.5)
           this.transitionNextMusic()
 
         this.lyricSet()
@@ -1259,6 +1269,7 @@
             targets: document.querySelector('.player-Mini'),
             easing: 'linear',
             opacity: 0,
+
             duration: 500
           })
           ThisAnime.finished.then(() => {

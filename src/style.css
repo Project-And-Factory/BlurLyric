@@ -291,7 +291,6 @@ input#searchInput,#searchInputTemp {
   div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
     width: 100%;
     display: flex;
-    max-width: calc(100% - 60px);
   }
   .toplab {
     font-size: 23px;
@@ -409,12 +408,11 @@ flex-direction: column;
 .tracks{
   height: var(--minplayerHeight);
   min-height: var(--minplayerHeight);
-  white-space: nowrap;
   padding: 9px 9px;
   position: relative;
   gap: 8px;
+  display: flex;
   overflow: hidden;
-  text-overflow: ellipsis;
   border-radius: calc(var(--minplayerHeight) * .2)
 }
 .tracks .linkbox>a{
@@ -533,10 +531,10 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg{
 
 }
 div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
-  width: calc(95% - 36px);
-  display: flex;
+  width: 100%;
   height: inherit;
-  float: left;
+  display: flex;
+  max-width: calc(100% - 45px);
 }
 div.tracks> .linkbox{
   height: inherit;
@@ -555,6 +553,7 @@ div.tracks> .linkbox{
   /* display: inline-block; */
   user-select: none;
   white-space: nowrap;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   
@@ -565,12 +564,12 @@ div.tracks> .linkbox{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display:-webkit-box;
   -webkit-box-orient:vertical;
   -webkit-line-clamp:1;
   max-width: 100%;
 }
-
+.player-Mini-Title>*,.trackTitle>h1>a {
+}
 div.player-Mini-Title>h1,.trackTitle>h1 {
   font-size: 1em;
   margin: 0.42em 0 0 0;
@@ -621,6 +620,14 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 }
 .Pltracks{
   position: relative;
+}
+.Pltracks>img{
+  transition: all 0.1s;
+  cursor: pointer;
+
+}
+.Pltracks:hover>img{
+  transform: scale(1.02);
 }
 .Pltracks:hover>.PlButtom{
   display: flex;
@@ -816,7 +823,8 @@ display: flex;
   position: relative;
   overflow: hidden;
   user-select: none;
-
+  background-size: cover;
+  background-position: 50% 50%;
 }
 
 .left-sideImage>img {
