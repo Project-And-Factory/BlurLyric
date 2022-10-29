@@ -233,10 +233,15 @@
   }
 
   div.track.hotList>div {
-    padding: 3px 6px 3px 0;
-    --minplayerHeight: 46px
+    padding: 3px 6px 3px 0px;
+    --minplayerHeight: 46px 
   }
-
+@media (max-width: 600px) {
+  div.track.hotList>div {
+    padding: 3px 6px;
+    --minplayerHeight: 36px 
+  }
+}
   .hotList div.tracks .trackTitle {
     font-size: 13px;
   }

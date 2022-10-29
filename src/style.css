@@ -420,6 +420,7 @@ flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: inherit;
   aspect-ratio: 1 / 1.8;
 }
 .tracks .linkbox>a{
@@ -538,10 +539,19 @@ div.player-Mini:hover > div:nth-child(1) > div.player-Mini-img > svg{
 
 }
 div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
-  width: 100%;
   height: inherit;
   display: flex;
+}
+div.tracks > div:nth-child(1){
+  width: 100%;
   max-width: calc(100% - 45px);
+}
+div.player-Mini>div:nth-child(1){
+  flex: 1 
+  
+}
+div.player-Mini > div.player-Mini-Contorl{
+  flex: 0 1 fit-content
 }
 div.tracks> .linkbox{
   height: inherit;
@@ -549,21 +559,17 @@ div.tracks> .linkbox{
   width: fit-content;
 }
 .player-Mini-Title{
-  width: 100%;
+  width: 0; 
 }
 .player-Mini-Title,.trackTitle {
   font-size: 15px;
   margin: 0 8px;
-  display:-webkit-box;
   -webkit-box-orient:vertical;
   -webkit-line-clamp:1;
   /* display: inline-block; */
   user-select: none;
-  white-space: nowrap;
-  width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
-  
+flex: 1;
 }
 
 .player-Mini-Title>*,.trackTitle>* {
@@ -622,7 +628,6 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  display: -webkit-box;
 
 }
 .Pltracks{
@@ -1108,12 +1113,11 @@ div.playertopbar > div.player-Title.displayTop{
     font-size: 2vh;
     overflow: hidden;
     word-wrap: break-word;
-    max-width: inherit;
+    max-width: 100%;
     height:max-content;
     min-height: 15vh;
   }
   .player-Title>*{
-    display: -webkit-box;
     overflow: hidden;
     max-width: inherit;
     text-overflow: ellipsis;
