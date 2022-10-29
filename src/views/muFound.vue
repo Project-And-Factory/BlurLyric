@@ -7,10 +7,9 @@
       <div @click="this.$router.push({name:'detail',query:{id:item.id }})" class="title">{{item.title}}</div>
       <div v-bind:style="'user-select:none;max-height:calc(var(--minplayerHeight) + 18px * '+10+')'"
         class="track hotList">
-        <div class="tracks" :muid="playlist.id" v-for="(playlist,i) in item.track.slice(0,20)" :key="item.id">
+        <div class="tracks" :muid="playlist.id" v-for="(playlist,i) in item.track" :key="item.id">
           <!--显示样式-->
           <div @click="playTheOnce(item.track,i)">
-            <div class="num">{{i}}</div>
             <div class="trackTitle">
               <h1>{{playlist.name}} <a v-for="(alia,i) in playlist.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                   {{alia}} </a></h1>
@@ -29,7 +28,6 @@
             </a>
           </div>
         </div>
-        <a @click="this.$router.push({name:'detail',query:{id:item.id }})">更多请前往详情页查看</a>
       </div>
     </div>
   </div>
@@ -68,11 +66,9 @@
       }
     },
     created() {
-      let personalized = app.cacheData('personalized')
-      if (personalized == undefined) {
-        this.personalized().then(r=>{
-          app.cacheData('personalized', r)
-        })
+      let 歌单列表 = app.cacheData('personalized')
+      if (歌单列表 == undefined) {
+        app.cacheData('personalized', this.personalized())
       }
 
       //排行榜
@@ -96,8 +92,8 @@
         })
 
       },
-      async personalized() {
-        await reTools.getData('/personalized', {
+      personalized() {
+        reTools.getData('/personalized', {
             timetamp: (Number(new Date())),
           limit: 10
         }).then(r => {
@@ -199,10 +195,7 @@
     width: fit-content;
     position: relative;
   }
- .rankingsTrack .hotList>a{
-  color: #00000050;
-  cursor: pointer;
- }
+
 
   .rankingsTracks>.title:hover::before {
     display: block;

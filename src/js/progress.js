@@ -1,5 +1,4 @@
 import app from "../App.vue";
-var founding = false
 
 var data
 
@@ -26,7 +25,7 @@ var data
         }
     }
     function load(audioELement) {
-        data=null;
+
         data = {
             audio: audioELement || document.querySelector('audio'),
             elms: [],
@@ -36,20 +35,13 @@ var data
         loopProgressElement()
     }
     function loopProgressElement() {
-        if(founding == true) return
-        let func = ()=> {
-            let tempelms = document.querySelectorAll('.box-progressbar')
-            if (tempelms.length == data.elms.length) {
-                setProgressBar()
-            }
-            data.elms = tempelms
-            setTimeout(() => {
-                func()
-            }, 10000);
+        if (document.querySelectorAll('.box-progressbar').length != data.elms.length) {
+            setProgressBar()
         }
-        func()
-
-        founding = true
+        data.elms = document.querySelectorAll('.box-progressbar')
+        setTimeout(() => {
+            loopProgressElement()
+        }, 10000);
     }
     function changeProgress(event,box) {
 
