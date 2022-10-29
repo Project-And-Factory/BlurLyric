@@ -415,6 +415,13 @@ flex-direction: column;
   overflow: hidden;
   border-radius: calc(var(--minplayerHeight) * .2)
 }
+.tracks .num{
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1.8;
+}
 .tracks .linkbox>a{
   padding: 6px;
 }
@@ -1029,23 +1036,14 @@ ul#lyrics {
   font-size: 1.3em;
 }
 
-#lyric  ul li>div {
-  font-size: 1.3em;
-  width: fit-content;
-  width: -moz-fit-content;
-  visibility: hidden;
-  position: absolute;
-  right: 0.7em;
-  bottom: 0.2em;
-  color: rgb(0, 0, 0, 0.2);
-}
+
 
 #lyric  ul li:hover>div {
   visibility: visible;
 }
 
 #lyric  ul#lyrics li:hover {
-  filter: none;
+  filter: none !important;
   cursor: pointer;
 }
 

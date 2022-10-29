@@ -510,7 +510,7 @@
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
               <h2 v-if="(this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
-              <div>{{formTime(parseInt(item.t))}}</div>
+              <!-- <div>{{formTime(parseInt(item.t))}}</div> -->
             </li>
           </ul>
         </div>
@@ -554,11 +554,13 @@
 
 
   import audioNetease from './js/audioNetease.js'
+  import audioListener from './js/audioListener.js'
   import progress from './js/progress.js'
   import anime from 'animejs/lib/anime.es.js';
   import message from './js/message.js'
   import cookies from 'js-cookie'
   import playerElmContorl from './js/playerElm.js'
+  import main from './main.js'
 
   import './style.css'
   import './fixelButtom.css'
@@ -568,7 +570,7 @@
 
   var bodyHeight,  bodyWidth,
     transitionning = false,
-    usingLowWidhtMedi
+    usingLowWidhtMedi,lastTime = 0
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -576,7 +578,10 @@
     let CachebodyWidth = document.documentElement.clientWidth
     if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
-    setTimeout(() => {
+    let tempTime = new Date();
+      lastTime = tempTime
+      setTimeout(() => {
+        if(lastTime != tempTime) return
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
@@ -592,6 +597,7 @@
         document.querySelector('.playerDisplayOutBox').setAttribute('style', '--playertopbarHeight:' + playertopbar
           .getBoundingClientRect().height + 'px');
       }
+      main.lyricSet(true)
     }, 300)
     return {
       bodyHeight,
@@ -708,7 +714,7 @@
           setting: {
             id: '0',
             config: {
-              configVersion: '1.1',
+              configVersion: '1.2',
               lyricSet: {
                 text: '最高',
                 funcBlur: true,
@@ -733,20 +739,8 @@
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
 
-      this.audio.addEventListener("playing", () => {
-        this.state.playing = true;
-      });
-      this.audio.addEventListener("pause", () => {
-        this.state.playing = false;
-        if (document.getElementById('lyrics'))
-          anime({
-            targets: document.getElementById('lyrics').getElementsByTagName("li"),
-            filter: 'blur(0vh)',
-            color: 'rgba(0,0,0,.5)',
-            duration: 500,
-            easing: 'cubicBezier(.3, .5, .2, 1)'
-          })
-      });
+      audioListener.listen(this.audio)
+
       this.audio.addEventListener('loadeddata', () => {
         if (this.audio.readyState >= 2) {
           this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
@@ -820,7 +814,7 @@
     methods: {
       getWindowInfo,
       cacheData(link, data) {
-        if (link == undefined) return undefined
+        if (link == undefined) {return undefined}
         if (data != undefined) {
           this.cache[link] = data
         }
@@ -946,12 +940,12 @@
         reTools.getData('/blurlyric/getUser', {
           id: cookies.get('blurlyricid')
         }).then(r => {
-          if(r.code!=400 && r.data.config.configVersion != this.data.setting.config.configVersion){
+          if(r.data.code!=400 && r.data.config.configVersion != this.data.setting.config.configVersion){
             this.data.setting.id = r.data.id
             this.pushingconfig()
             return
           }
-          if(r.code==400){
+          if(r.data.code==400){
             reTools.getData('/blurlyric/createUser').then(r => {
             cookies.set('blurlyricid', r.data.id, {
               expires: new Date(2040, 0, 1)
@@ -991,22 +985,16 @@
 
           //对于
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
-
           //窄屏模式的节省资源
-          if ((this.data.player.uiDisplay.LineNum != lyricNum || force == true) && lis[lyricNum]) {
+          if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
               anime({
                 targets: lis,
-                translateY:  (el, i, l) => {
-                // (bodyHeight * 0.15) - lis[lyricNum].offsetTop
-                
-                  let offset = i - lyricNum
-                  if (offset < -3 || offset > 8) return '0px'
-                  return Math.floor( - lis[lyricNum].offsetTop + (
-                    bodyHeight * 0.15))}
+                translateY: - lis[lyricNum].offsetTop + (
+                    bodyHeight * 0.15)
                 ,
-                duration: (el, i, l) => {
+                duration: (el, i) => {
                   let offset = i - lyricNum
                   if (offset < -2) {
                     el.style.visibility = 'hidden';
@@ -1021,21 +1009,19 @@
                   return 600
                 },
                 easing: 'cubicBezier(.3, .5, .2, 1)',
-                delay: (el, i, l) => {
+                delay: (el, i) => {
                   return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
                     .funcDelay]((i - lyricNum))
                 },
-                color: (el, i, l) => {
+                color: (el, i) => {
                   let offset = i - lyricNum
                   if (offset < -2 || offset > 7) return 'rgb(0,0,0)'
                   if (i == lyricNum) return 'rgb(0,0,0,0.9)'
                   return 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(offset))) + ')'
                 },
-                filter: (el, i, l) => {
-                  return this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
-                    .funcBlur](i, lyricNum)
-                },
-                fontSize: (el, i, l) => {
+                filter: (el, i) => this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
+                    .funcBlur](i, lyricNum),
+                fontSize: (el, i) => {
                   if (this.data.setting.config.lyricSet.animeFontSize == false) {
                     return '1em'
                   };
@@ -1073,17 +1059,7 @@
           let oldAudio = this.audio,
             newAudio = document.createElement("audio")
           // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
-          oldAudio.removeEventListener("playing", () => {
-            this.state.playing = true;
-          });
-          oldAudio.removeEventListener("pause", () => {
-            this.state.playing = false;
-          });
-          oldAudio.removeEventListener('loadeddata', () => {
-            if (oldAudio.readyState >= 2) {
-              this.data.player.uiDisplay.duration = Math.floor(oldAudio.duration)
-            }
-          })
+          audioListener.listen(newAudio)
           let numb, id, NextMusicCache
 
           if (this.state.random == true) {
@@ -1108,12 +1084,14 @@
           newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
           newAudio.volume = 0
           newAudio.currentTime = 0
-          progress.load(this.audio)
+          progress.load(newAudio)
           //播放新的音频
           newAudio.addEventListener('canplay', () => {
             newAudio.play();
           })
           let loadeddataFunction = () => {
+            if(newAudio.readyState < 2) return
+
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
             anime({
@@ -1140,12 +1118,6 @@
           this['audio'] = newAudio
           let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
 
-          newAudio.addEventListener("playing", () => {
-            this.state.playing = true;
-          });
-          newAudio.addEventListener("pause", () => {
-            this.state.playing = false;
-          });
           anime({
             targets: newAudio,
             duration: time,
@@ -1171,14 +1143,11 @@
               }
 
               //上传听歌记录
-              oldAudio.addEventListener("pause", () => {
-                this.state.playing = true;
-              });
+
               oldAudio.pause()
               oldAudio.remove()
 
 
-              progress.load(this.audio)
 
               setTimeout(() => {
                 this.state.playing = true
