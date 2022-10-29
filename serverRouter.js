@@ -29,7 +29,7 @@ router.get('/getUser',(req,res)=>{
     }
       
     user.getUser(req.query.id,(data)=>{
-        jsonTool(data.code,data,req,res)
+        jsonTool(200,data,req,res)
     })
 })
 
@@ -51,7 +51,7 @@ router.get('/writeUser',(req,res)=>{
 
 function jsonTool(code,data,req,res) {
     res.json({
-        "code": code || 400,
+        "code": code || 200,
         "date": new Date(),
         "data": '' ||data,
         "ip": '' ||req.ip
