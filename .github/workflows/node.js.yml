@@ -23,6 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm run build
+    - run: npm run make
     
     - name: Zip the Build
       run: zip -r ${{ secrets.ReleaseZipName }} ./out/BlurLyric-win32-x64/
