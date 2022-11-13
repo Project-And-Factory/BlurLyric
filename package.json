@@ -11,7 +11,7 @@
     "test": "electron .",
     "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite",
     "package": "electron-forge package",
-    "make": "electron-forge make  --icon=icon.ico"
+    "make": "electron-forge make"
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
