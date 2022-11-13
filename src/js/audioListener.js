@@ -3,6 +3,8 @@ export default {
 }
 
 import app from '../main.js'
+import anime from 'animejs/lib/anime.es.js';
+
 
 function listen(elm) {
     if(config.elm != null){
@@ -19,7 +21,7 @@ function listen(elm) {
 
 function playing(){
     app.state.playing = true;
-    app.lyricSet(true)
+    app.lyricSet(true,'tran')
 }
 
 function pause(){

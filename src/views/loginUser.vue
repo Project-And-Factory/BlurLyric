@@ -32,6 +32,7 @@
 </style>
 <script>
 import reTools from '../network/getData'
+import message from '../js/message'
   import cookies from 'js-cookie'
 
 export default { 
@@ -68,9 +69,9 @@ export default {
 
             }, 3000);
           } else if (res.code == 502) {
-            this.message= res.msg
+            message.create(res.msg)
           } else if (res.code == 400) {
-            this.message= '账号错误'
+            message.create('账号错误')
           }
         })
       } else {
@@ -80,7 +81,8 @@ export default {
         }).then(res => {
           console.log(res);
           if (res.code == 200) {
-            this.message= '登录成功, 即将刷新页面'
+            message.create('登录成功, 即将刷新页面')
+
 
           document.cookie += res.cookie;
           document.cookie == res.cookie
@@ -91,11 +93,11 @@ export default {
 
             }, 3000);
           } else if (res.code == 502) {
-            this.message= res.msg
+            message.create(res.msg)
           } else if (res.code == 400) {
-            this.message= '账号错误'
+            message.create('账号错误')
           } else if (res.code == "ERR_BAD_REQUEST"){
-            this.message = JSON.parse(res.request.response).message
+            message.create('Error ERR_BAD_REQUEST ，请联系管理员' + JSON.parse(res.request.response).message)
 
           }
         })

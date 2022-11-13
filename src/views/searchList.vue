@@ -11,7 +11,7 @@
                     <div @click="playTheOnce(i)">
                         <div class="trackIMG">
 
-                            <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                            <img loading='lazy' :src="item.al.picUrl +'?param=192y192'" alt="" srcset="">
                         </div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
@@ -53,9 +53,15 @@
         <div>
             <h2 v-if="page.ar.result">歌手<a style="font-size:0.7em;color: rgba(0,0,0,.5)" v-if="page.ar.result">
                     {{'  '+page.ar.result.artistCount}}</a></h2>
-            <div class="ARtrack" v-if="page.ar.result">
-                <div v-for="(item) in page.ar.result.artists" :key="item.id">
-                    <div class="ARImg" v-lazy="item.picUrl + '?param=500y500)'" v-bind:alt="item.name"></div>
+            <div  class="ARtrack" v-if="page.ar.result">
+                <div @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: item.id
+            }
+          })" v-for="(item) in page.ar.result.artists" :key="item.id">
+
+                    <div class="ARImg" :style="'background-image: url(\'' +item.picUrl + '?param=500y500\')'" v-bind:alt="item.name"></div>
                     <div class="ARTrTitle">
                         {{item.name}}
                     </div>
@@ -73,7 +79,7 @@
             <div v-if="page.PLtrack[0] && page.playlist.result" class="PLtrack">
                 <div @click="this.$router.push({name:'detail',query:{id:item.id }})" v-for="(item) in page.PLtrack"
                     :key="item.id">
-                    <img v-lazy="item.coverImgUrl + '?param=500y500)'" v-bind:alt="item.name">
+                    <img loading='lazy' :src="item.coverImgUrl + '?param=500y500'" v-bind:alt="item.name">
                     <div class="PlTrTitle">
                         <h1>{{item.name}}</h1>
                         <h2>by {{item.creator.nickname}}</h2>

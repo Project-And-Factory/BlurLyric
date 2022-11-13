@@ -1,12 +1,9 @@
 <template>
 
-  <div style="margin-bottom:60px;flex-direction: column;display:flex;text-align: center;align-items: center;"
+  <div style="margin-bottom:60px;flex-direction: column;display:flex"
     v-if="!app.data.user.account || app.data.user.profile == undefined">
-    <h2 class="tl-title" style="margin:0;padding: 8px;">Blurlyric | 未登录</h2>
+    <h2 style="margin:0;padding: 0px;">您当前还未登录</h2>
     <p>登录体验更佳。当然，您也可以先体验一下</p>
-    <input style="text-align: center;" placeholder="回车搜索" v-on:keydown.enter="this.$parent.$parent.$parent.search"
-      id="searchInputTemp">
-
     <div class="linkbox bigger">
 
       <router-link :to="{path:'/loginUser'}">点击我去登录</router-link>
@@ -113,7 +110,7 @@
             </svg>
           </a>
         </div>
-        <img @click="this.$router.push({name:'detail',query:{id:item.id }})" v-lazy="item.coverImgUrl + '?param=500y500)'" v-bind:alt="item.name">
+        <img @click="this.$router.push({name:'detail',query:{id:item.id }})" loading='lazy' :src="item.coverImgUrl + '?param=500y500)'" v-bind:alt="item.name">
         <div class="PlTrTitle">
           <h1>{{item.name}}</h1>
           <h2>by {{item.creator.nickname}}</h2>

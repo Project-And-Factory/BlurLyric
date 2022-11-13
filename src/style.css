@@ -564,8 +564,7 @@ div.tracks> .linkbox{
 .player-Mini-Title,.trackTitle {
   font-size: 15px;
   margin: 0 8px;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:1;
+  
   /* display: inline-block; */
   user-select: none;
   overflow: hidden;
@@ -883,7 +882,7 @@ img.ImageBlurBackground{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  width: fit-content;
   font-size: 2vmin;
   text-align: center;
   margin: auto 0 auto 0;
@@ -1117,6 +1116,7 @@ div.playertopbar > div.player-Title.displayTop{
     height:max-content;
     min-height: 15vh;
   }
+  
   .player-Title>*{
     overflow: hidden;
     max-width: inherit;
@@ -1209,6 +1209,78 @@ div.playertopbar > div.player-Title.displayTop{
   border-right: none;
 }
 
+.artistText{
+  padding: .2em !important;
+  border-radius: .3em !important;
+  user-select: none;
+  transition: .1s;
+}
+.artistText:hover{
+  background-color: #00000015;
+  cursor: pointer;
+  transform: scale(1.1) !important; 
+}
+
+.mvTracks{
+  display: flex;
+  flex-direction: row;
+  height: 160px;
+  width: 100%;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 10px;
+  overflow-x: auto;
+
+}
+.mvTrack{
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  min-width: max-content;
+  aspect-ratio: 16 / 9;
+  border-radius: 13px;
+}
+.mvTrack>img{
+  height: 100%;
+  width: auto;
+  z-index: 0;
+}
+.mvTrack>div{
+  position: absolute;
+  z-index: 1;
+}
+.mvTrack>div.mvTitle{
+  color: #fff;
+  position: absolute;
+  z-index: 1;
+  bottom: 0px;
+  width: 100%;
+  padding-top: 1em;
+
+  padding-left: 1em;
+  padding-bottom: 0.4em;
+  height: 1.3em;
+  background-image: linear-gradient(#00000000,#00000050);
+}
+.mvTrack>div.mvTime{
+  color: #ffffff88;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  width: 100%;
+  padding-bottom: 1em;
+  font-size: .8em;
+  padding-left: 1em;
+  padding-top: 0.4em;
+  height: 1.3em;
+  transform: translateY(-100%);
+  background-image: linear-gradient(#00000050,#00000000);
+  transition: all .1s;
+}
+.mvTrack:hover>div.mvTime{
+  transform: translateY(0);
+  
+}
 /*
 @media (max-width:110vh) {
 	#lyric{

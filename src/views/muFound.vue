@@ -38,7 +38,7 @@
     <h1 style="width: fit-content ">推荐歌单</h1>
     <div class="PLtrack personalized">
       <div class="Pltracks" v-for="(item,i) in Pl" :key="item.id">
-        <img @click="this.$router.push({name:'detail',query:{id:item.id }})" v-lazy="item.picUrl + '?param=500y500)'"
+        <img @click="this.$router.push({name:'detail',query:{id:item.id }})" loading='lazy' :src="item.picUrl + '?param=500y500)'"
           v-bind:alt="item.name">
         <div class="PlTrTitle">
           <h1>{{item.name}}</h1>

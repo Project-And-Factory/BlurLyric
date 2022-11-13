@@ -61,9 +61,9 @@ const createWindow = () => {
     }
   })
   // 打开开发工具
-  mainWindow.webContents.openDevTools()
 
   mainWindow.webContents.loadURL('http://localhost:18776/')
+  mainWindow.webContents.openDevTools()
 
 
 }

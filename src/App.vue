@@ -212,7 +212,12 @@
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
             v-if="(data.player.musicCache[id]&&data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
-        <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
+        <h2><a  v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: item.id
+            }
+          })">{{item.name}}
           </a><a>&nbsp;-&nbsp;
             {{data.player.tracks[data.player.trackNum].al.name}}
           </a></h2>
@@ -260,9 +265,7 @@
           class="ImageBlurBackground">
         <!--图像-->
         <div class="left-sideImage">
-
           <img v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'" v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
-
         </div>
 
         <div class="player-Title lowWidthDisplay">
@@ -271,7 +274,12 @@
               style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
               style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
               v-if="data.player.musicCache[id]&&(data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
-          <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id">{{item.name}}
+          <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: item.id
+            }
+          })">{{item.name}}
             </a><a>&nbsp;-&nbsp;
               {{data.player.tracks[data.player.trackNum].al.name}}
             </a></h2>
@@ -780,6 +788,7 @@
             this.audio.src = Data.song.src
             this.play()
           }
+          document.title = this.data.player.tracks[this.data.player.trackNum].name
           // if (this.id == newid) {
           //   setTimeout(() => {
           //     let lis = document.querySelectorAll('#lyrics>li')
@@ -973,7 +982,7 @@
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       },
-      async lyricSet(force) {
+      async lyricSet(force,type) {
 
         if (this.$refs.lyricBox && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom' && this.data.player.musicCache[this.id]) {
@@ -989,12 +998,13 @@
           if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
-              anime({
-                targets: lis,
-                translateY: - lis[lyricNum].offsetTop + (
-                    bodyHeight * 0.15)
-                ,
-                duration: (el, i) => {
+              
+              let delayFunc =(el, i) => {
+                  return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                    .funcDelay]((i - lyricNum))
+                }
+              
+              let durationFunc = (el, i) => {
                   let offset = i - lyricNum
                   if (offset < -2) {
                     el.style.visibility = 'hidden';
@@ -1007,12 +1017,20 @@
                     el.style.display = 'block'
                   }
                   return 600
-                },
+                }
+              
+                if(force == true && type!='tran'){
+                  delayFunc = 0;
+                  durationFunc = 0;
+                }
+              let lyricanime = anime({
+                targets: lis,
+                translateY: - lis[lyricNum].offsetTop + (
+                    bodyHeight * 0.15)
+                ,
+                duration: durationFunc,
                 easing: 'cubicBezier(.3, .5, .2, 1)',
-                delay: (el, i) => {
-                  return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                    .funcDelay]((i - lyricNum))
-                },
+                delay: delayFunc,
                 color: (el, i) => {
                   let offset = i - lyricNum
                   if (offset < -2 || offset > 7) return 'rgb(0,0,0)'
@@ -1032,6 +1050,9 @@
                   return 1 * (0.9 ** offset) + 'em'
                 }
               })
+              lyricanime.finished.then(()=>{
+                if(lis[lyricNum]) lis[lyricNum].style.filter = ''
+              });
             }
 
           }
@@ -1420,20 +1441,5 @@
     }
   }
   export default vueApp
-  /*
-  function _isShow(el){//判断img是否出现在可视窗口
-      let coords = el.getBoundingClientRect(),text;
 
-  	if (coords.top >= 0) text = 'visibilityHidden';
-  	if ( coords.top <= (window.innerHeight + parseInt(bodyHeight * 0.2)) text = 'visibilityVisible';
-  	if (coords == ('visibilityHidden' || 'visibilityVisible')) text = 'displayNone';
-      return text;
-  };*/
-  function _isShow(el) { //判断img是否出现在可视窗口
-    let coords = el.getBoundingClientRect(),
-      text = 'visibilityHidden';
-
-    if (coords.bottom <= (bodyHeight * 1.5) && coords.bottom > 0) text = 'visibilityVisible'
-    return text;
-  }
 </script>

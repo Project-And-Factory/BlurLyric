@@ -58,6 +58,24 @@ const routes = [
       keepAlive: true
     }
 
+  },
+  {
+    path:'/artist',
+    name: 'artist',
+    component: () => import('../views/artist.vue'),
+    meta:{
+      keepAlive: false
+    }
+
+  },
+  {
+    path:'/video',
+    name: 'video',
+    component: () => import('../views/video.vue'),
+    meta:{
+      keepAlive: false
+    }
+
   }
 ]
 

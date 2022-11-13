@@ -14,7 +14,10 @@ router.get('/createUser',(req,res)=>{
 })
 
 router.get('/unblockmusic',async (req,res)=>{
-    match(req.query.id,['kugou','migu','kuwo']).then(text =>{
+    //,['kugou','migu','kuwo']
+    res.json({})
+    return
+    match(req.query.id).then(text =>{
         console.log(text);
         res.json(text)
     })
