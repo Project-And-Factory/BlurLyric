@@ -71,12 +71,6 @@
           "config": {
             "name": "blurlyric"
           }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
         }
       ]
     }
