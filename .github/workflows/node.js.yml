@@ -25,7 +25,7 @@ jobs:
     - run: npm run build
     
     - name: Zip the Build
-      run: zip -r ${{ secrets.ReleaseZipName }} ./AppName/bin/Release/netcoreapp3.1/ 
+      run: zip -r ${{ secrets.ReleaseZipName }} ./out/BlurLyric-win32-x64/
       
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -33,7 +33,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         name: Release ${{ github.ref }}
-        body: TODO New Release.
+        body: "自动构建"
         draft: false
         prerelease: false
         files: |
