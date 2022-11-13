@@ -23,8 +23,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: '安装依赖'
-      run: -| npm install
-              npx electron-forge import
+      run: npm install
+    - run: npx electron-forge import
+
     - name: '构建静态文件'
       run: npm run build
     - name: '打包可执行文件'
