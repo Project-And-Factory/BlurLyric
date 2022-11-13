@@ -13,7 +13,7 @@ export default defineConfig({
     host: '0.0.0.0',
     http: true,
     proxy: {
-      '/api': {
+      '/': {
         target: 'http://localhost:18775/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite

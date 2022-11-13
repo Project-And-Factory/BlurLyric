@@ -1055,7 +1055,7 @@ ul#lyrics {
 	visibility: hidden;
 	filter: none;
   transition: all 0s;
-}
+} 
 #lyric  ul#lyrics li.true{
 	visibility: visible
 }
