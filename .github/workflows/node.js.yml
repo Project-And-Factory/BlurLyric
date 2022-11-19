@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: "构建并上传Release"
     strategy:
       matrix:
         node-version: [18.x]
@@ -32,7 +32,8 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      run: 'zip -y -r blurlyric-win32-x64.zip .\out\blurlyric-win32-x64\'
+      working-directory: './out'
+      run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64\'
       
     - name: '创建并上传的Release'
       uses: actions/create-release@v1
@@ -48,10 +49,11 @@ jobs:
         
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
+      working-directory: './out'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/blurlyric-win32-x64.zip }}.zip
-        asset_name: blurlyric-win32-x64.zip.zip
+        asset_path: blurlyric-win32-x64.zip
+        asset_name: blurlyric-win32-x64.zip
         asset_content_type: application/zip
