@@ -1,8 +1,8 @@
 {
   "name": "blurlyric",
   "private": true,
-  "main": "build.js",
-  "version": "2.1.0",
+  "main": "main.js",
+  "version": "2.2.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -39,7 +39,6 @@
   "devDependencies": {
     "@electron-forge/cli": "^6.0.1",
     "@electron-forge/maker-deb": "^6.0.1",
-    "@electron-forge/maker-rpm": "^6.0.1",
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
     "@vitejs/plugin-vue": "^2.3.3",
@@ -58,27 +57,5 @@
   },
   "homepage": "https://github.com/gozaoo/BlurLyric2.0#readme",
   "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "BlurLyric",
-        "icon": "./icon.ico",
-        "setupIcon": "./icon.ico",
-        "authors": "Doge"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "blurlyric"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        }
-      ]
-    }
   }
 }

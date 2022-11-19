@@ -1,13 +1,13 @@
-import {request} from './request'
+import request from './request'
 
 async function getData(url,params) {
-    return request({
+    return request.request({
         url: url,
         params: params,
     })
 }
 async function postData(url,params) {
-    return request({
+    return request.request({
         url: url,
         method: 'post',
         data: params

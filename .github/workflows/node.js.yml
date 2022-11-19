@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -32,12 +32,7 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      uses: thedoctor0/zip-release@main
-      with:
-        type: 'zip'
-        filename: 'BlurLyric-win32-x64.zip'
-        directory: './make/out/BlurLyric-win32-x64'
-        path: '../../'
+      run: 'zip ./out/BlurLyric-win32-x64'
       
     - name: '创建一并上传的Release'
       uses: softprops/action-gh-release@v1
@@ -49,4 +44,4 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          ${{ secrets.ReleaseZipName }}.zip
+          ./out/${{ secrets.ReleaseZipName }}.zip

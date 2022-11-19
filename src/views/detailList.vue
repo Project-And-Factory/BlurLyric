@@ -62,7 +62,7 @@
             <div @click="playTheOnce(i)">
                 <div class="trackIMG">
 
-                    <img loading='lazy' :src="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                    <img loading='lazy' :src="item.al.picUrl +'?param=96y96'" alt="" srcset="">
                 </div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">

@@ -1,17 +1,12 @@
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
   padding: 0;
   margin: 0;
   width: 100vw;
-  height: 100vh;
-  background-color: #fff;
+  height: 10vh;
 }
 
-body > div.app-loading-wrap{
-  display: none-;
-}
 h1 {
   font-weight: normal;
 }
@@ -26,13 +21,12 @@ h3 {
 img[lazy=loading],img:not([src]),img[src=""],img[lazy=error],img[lazy=error]::before{
   background: linear-gradient(#ccc, #bbb);
 }
-
+ 
 
 html,
 body {
   padding: 0;
   margin: 0;
-  background-color: #fff;
 }
 
 :root {
@@ -124,14 +118,6 @@ body {
   flex-direction: column;
   z-index: 100;
   backdrop-filter:
-  /* 负责背景模糊 */
-  blur(0vw)
-  /* 负责亮度，100 以下会变暗，以上会提亮 */
-  brightness(100%)
-  /* 负责颜色饱和度，可以减小来衬托前景，避免背景太鲜艳 */
-  saturate(140%);
-  transition: all .2s cubic-bezier(.3, .45, .2, .95);
-  -webkit-backdrop-filter:
   /* 负责背景模糊 */
   blur(0vw)
   /* 负责亮度，100 以下会变暗，以上会提亮 */
@@ -588,7 +574,7 @@ div.player-Mini-Title>h1,.trackTitle>h1 {
 }
 
 div.player-Mini-Title>h2,.trackTitle>h2 {
-  color: rgb(44, 62, 80, 0.8);
+  color: rgb(60, 70, 100);
   font-size: 0.8em;
   margin: 0.20em 0 0 0;
 }
@@ -726,7 +712,9 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   }
 
   div.player-Mini-Title>h2,.trackTitle>h2 {
-    color: rgb(44, 62, 80, 0.8);
+
+    color: rgb(60, 70, 100);
+
     font-size: 0.8em;
     margin-block-start: 0.2em;
   }
@@ -912,6 +900,8 @@ img.ImageBlurBackground{
 .player-Title>h2>a {
   margin: 0 0.4em 0 0;
 }
+
+
 
 .musicContorlCurrTime {
   font-size: 1.8vh;

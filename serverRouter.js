@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const axios = require('axios')
-const user = require('./user.js');
+const user = require('./blurlyric/user');
 const match = require('@unblockneteasemusic/server');
 
 router.get('/createUser',(req,res)=>{

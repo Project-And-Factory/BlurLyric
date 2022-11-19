@@ -9,8 +9,7 @@
                     <!--显示样式-->
                     <div @click="setTracks(app.data.recommendSongs,i)">
                         <div class="trackIMG">
-
-                            <img v-lazy="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                            <img v-lazy="item.al.picUrl +'?param=96y96'" alt="" srcset="">
                         </div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
@@ -20,7 +19,6 @@
 
                         </div>
                     </div>
-
                     <div class="linkbox bigger">
                         <a @click="app.pushTrack(item)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -42,16 +40,7 @@
     data() {
       return {
         app,
-        futherData: {
-
-        },
         myData: {}
-      }
-    },
-
-    watch: {
-      data: function (val) {
-        this.futherData = val
       }
     },
     methods: {

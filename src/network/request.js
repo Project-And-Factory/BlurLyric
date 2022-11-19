@@ -1,15 +1,10 @@
 import axios from 'axios'
 import message from '../js/message.js'
 
-export function request(config,num) {
+var modules = {
+    request(config,num){
     axios.defaults.withCredentials = true;
-    const instance = axios.create({
-        // baseURL: '/api/', 
-        // baseURL: 'https://web.blurlyric.app/',
-        // baseURL: 'http://localhost:18775/',
-        baseURL: '',
-        timeout: 10000,
-    })
+    const instance = axios.create(this.config)
 
     instance.interceptors.request.use(config=>{
         return config
@@ -35,4 +30,11 @@ export function request(config,num) {
     })
 
     return instance(config)
+},
+config:{
+    baseURL: '/api/', 
+    timeout: 10000,
 }
+}
+
+export default modules

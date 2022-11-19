@@ -574,6 +574,7 @@
   import './fixelButtom.css'
   import './naturalUI.css'
   import './message.css'
+import setting from './views/setting.vue';
 
 
   var bodyHeight,  bodyWidth,
@@ -619,6 +620,7 @@
         state: {
           playing: false,
           random: false,
+          lyricTransitionTime: null
         },
         id: 0,
         cache: {
@@ -704,7 +706,7 @@
                 true: function (i, lyricNum) {
                   //return ''
                   let offset = i - lyricNum
-                  if (offset < -2 || offset > 7) return 'blur(0vh)';
+                  if (offset < -2 || offset > 7 || offset == 0) return 'blur(0vh)';
                   return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
                 },
                 false: () => {
@@ -788,28 +790,16 @@
             this.audio.src = Data.song.src
             this.play()
           }
-          document.title = this.data.player.tracks[this.data.player.trackNum].name
-          // if (this.id == newid) {
-          //   setTimeout(() => {
-          //     let lis = document.querySelectorAll('#lyrics>li')
-          //     console.log(anime);
+          let artist = ''
 
-          //     this.data.ui.lyricAnime = anime({
-          //       targets: lis,
-          //       duration: 600,
-          //       fontSize: '1em',
-          //       autoplay: true,
-          //       easing: 'cubicBezier(.3, .5, .2, 1)',
-          //       run: () => {
-          //         this.data.ui.lyricRunning = true
-          //       },
-          //       complete: ()=>{
-          //         this.data.ui.lyricRunning = false
-          //       }
-          //     })
-          //   }, 200);
-          // }
-          //预缓存
+          for(let num = 0;num < this.data.player.tracks[this.data.player.trackNum].ar.length;num++){
+            artist += this.data.player.tracks[this.data.player.trackNum].ar[num].name
+            if(num != this.data.player.tracks[this.data.player.trackNum].ar.length){
+              artist += '&'
+            }
+          }
+          document.title = this.data.player.tracks[this.data.player.trackNum].name + ' - ' + artist
+
           let witchIs = [-1, 0, 1, 2]
           for (let index = 0; index < witchIs.length; index++) {
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
@@ -994,65 +984,92 @@
 
           //对于
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
-          //窄屏模式的节省资源
+          /**
+           * 条件：（当歌词行数变化 或 被强制执行）同时要满足 歌词存在时再执行
+           */
           if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
+            
+            //记录此时的歌词行数，防止重复计算
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
               
-              let delayFunc =(el, i) => {
-                  return this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                    .funcDelay]((i - lyricNum))
-                }
-              
-              let durationFunc = (el, i) => {
+
+              /**
+               * 是否显示来节省资源
+               * 
+               * + 通过减少元素渲染节省资源
+               * 
+               * 返回 是否重要去渲染 的布尔值
+               */
+              var isDisplay = (el, i) => {
                   let offset = i - lyricNum
                   if (offset < -2) {
                     el.style.visibility = 'hidden';
-                    return 0
+                    return false
                   } else if (offset > 7) {
                     el.style.display = 'none';
-                    return 0
+                    return false
                   } else {
                     el.style.visibility = 'visible';
                     el.style.display = 'block'
+                    return true
                   }
-                  return 600
                 }
+
+                var fontSizeFunc = (el, i,needFocus) => {
+                        if (this.data.setting.config.lyricSet.animeFontSize == false) {
+                          return '1em'
+                        };
+                        let offset = Math.abs(i - lyricNum)
+                        if (!needFocus) {
+                          return '1em'
+                        }
+                        return 1 * (0.9 ** offset) + 'em'
+                      }
               
+                // 要平移的Y值
+                var translateY = - lis[lyricNum].offsetTop + (bodyHeight * 0.15)
+
+                let dur = '600ms'
                 if(force == true && type!='tran'){
-                  delayFunc = 0;
-                  durationFunc = 0;
+                  dur = '0';
                 }
-              let lyricanime = anime({
-                targets: lis,
-                translateY: - lis[lyricNum].offsetTop + (
-                    bodyHeight * 0.15)
-                ,
-                duration: durationFunc,
-                easing: 'cubicBezier(.3, .5, .2, 1)',
-                delay: delayFunc,
-                color: (el, i) => {
-                  let offset = i - lyricNum
-                  if (offset < -2 || offset > 7) return 'rgb(0,0,0)'
-                  if (i == lyricNum) return 'rgb(0,0,0,0.9)'
-                  return 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(offset))) + ')'
-                },
-                filter: (el, i) => this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
-                    .funcBlur](i, lyricNum),
-                fontSize: (el, i) => {
-                  if (this.data.setting.config.lyricSet.animeFontSize == false) {
-                    return '1em'
-                  };
-                  let offset = Math.abs(i - lyricNum)
-                  if (i - lyricNum < -2 || offset > 7) {
-                    return '1em'
-                  }
-                  return 1 * (0.9 ** offset) + 'em'
+                //对元素赋值
+                for (let i = 0; i < lis.length; i++) {
+                  let element = lis[i]
+                    let needFocus = isDisplay(element,i)
+                    if(needFocus == true) {
+                      element.style.transition = "all "+dur+" cubic-Bezier(.3, .5, .2, 1) " + this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                    .funcDelay](i - lyricNum) + "ms"
+
+                    setTimeout(() => {
+                      lyricTransitionClean(element)
+                    }, 1000);
+                    }
+                    element.style.transform ="translateY("+translateY+"px)"
+                    
+                      let color = null
+                      if (needFocus == false) {color ='rgb(0,0,0)'} else 
+                      if (i == lyricNum) {color ='rgb(0,0,0,0.9)'} else
+                      {
+                        color = 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')'
+                      }
+                      element.style.color = color
+                    
+                    element.style.filter = this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
+                    .funcBlur](i, lyricNum)
+
+                    element.style.fontSize =  fontSizeFunc(element, i,needFocus)
+                    this.state.lyricTransitionTime = Date.now()
+
+
                 }
-              })
-              lyricanime.finished.then(()=>{
-                if(lis[lyricNum]) lis[lyricNum].style.filter = ''
-              });
+                
+                let lyricTransitionClean = (elm)=>{
+                  if((Date.now() - this.state.lyricTransitionTime ) > 800)
+                  elm.style.transition = ''
+                }
+
             }
 
           }

@@ -11,7 +11,7 @@
                     <div @click="playTheOnce(i)">
                         <div class="trackIMG">
 
-                            <img loading='lazy' :src="item.al.picUrl +'?param=192y192'" alt="" srcset="">
+                            <img loading='lazy' :src="item.al.picUrl +'?param=96y96'" alt="" srcset="">
                         </div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
@@ -292,7 +292,7 @@
         border-radius: 9px;
         background-position: 50% 50%;
         background-size: cover;
-        background-image: url("https://p1.music.126.net/P99uc1Hqzkj2QE1UMehuHQ==/109951167197634217.jpg?param=48y48");
+        background-image: url("https://p1.music.126.net/P99uc1Hqzkj2QE1UMehuHQ==/109951167197634217.jpg?param=96y96");
     }
 
     .search .track>div:nth-child(1)>.trackTitle>h1 {
