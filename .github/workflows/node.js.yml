@@ -34,7 +34,7 @@ jobs:
       run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64/'
       with:
         wait-on: './out/blurlyric-win32-x64/'
-        working-directory: './out'
+        working-directory: './out/'
       
     - name: '创建并上传的Release'
       uses: actions/create-release@v1
@@ -53,7 +53,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        working-directory: './out'
+        wait-on: './out/blurlyric-win32-x64.zip'
+        working-directory: './out/'
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: blurlyric-win32-x64.zip
         asset_name: blurlyric-win32-x64.zip
