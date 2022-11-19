@@ -89,5 +89,5 @@ var superTool = {
 }
 
 function dataJson(res) {
-    return eval('(' + res + ')')
+    return JSON.parse( res )
 }

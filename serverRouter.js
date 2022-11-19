@@ -42,7 +42,7 @@ router.get('/writeUser',(req,res)=>{
         jsonTool('405',null,req,res)
         return
     }
-    let dataSize = strSize(req.query.res)
+    let dataSize = strSize(req.query.res.toString())
     if(strSize(dataSize,'utf8')>8000000){
         jsonTool('405',{msg: '文件过大 (>8mb)'},req,res)
         return
