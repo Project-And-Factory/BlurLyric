@@ -54,12 +54,7 @@ jobs:
         prerelease: false
         allowUpdates: true
         
-    - name: '将构建文件上传至release-asset'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/upload-artifact@v3
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: 'D:\a\BlurLyric2.0\BlurLyric2.0\blurlyric-win32-x64.zip'
-        asset_name: blurlyric-win32-x64.zip
-        asset_content_type: application/zip
+         name: out-artifact
+         path: D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64\blurlyric-win32-x64.zip
