@@ -51,10 +51,10 @@ jobs:
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      working-directory: './out/'
       with:
         wait-on: './out/blurlyric-win32-x64.zip'
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: blurlyric-win32-x64.zip
         asset_name: blurlyric-win32-x64.zip
         asset_content_type: application/zip
+      working-directory: './out/'
