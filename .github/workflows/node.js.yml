@@ -37,22 +37,6 @@ jobs:
         filename: 'blurlyric-win32-x64.zip'
         directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64'
         path: '../../'
-
-
-    - name: '创建Release'
-      uses: actions/create-release@v1
-      id: create_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: |
-          由机器人自动构建
-          若有报错请上报issue
-        draft: false
-        prerelease: false
-        allowUpdates: true
         
     - uses: actions/upload-artifact@v3
       with:
