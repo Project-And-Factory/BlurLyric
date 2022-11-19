@@ -32,9 +32,13 @@ var modules = {
     return instance(config)
 },
 config:{
-    baseURL: '/api/', 
+    baseURL: '',
     timeout: 10000,
 }
 }
 
+console.log(import.meta.env.SSR,import.meta.env.DEV);
+if(import.meta.env.DEV == true){
+    modules.config.baseURL="/api/"
+}
 export default modules

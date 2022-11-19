@@ -5,9 +5,6 @@ const path = require('path')
 
 app.commandLine.appendSwitch('force_high_performance_gpu')
 
-import request from "./src/network/request";
-request.config.baseURL=''
-
 // 加载NeteaseCloudMusicAPI
 const NeteaseCloudMusicApi = require('./app.js')
 

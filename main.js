@@ -7,6 +7,7 @@ app.commandLine.appendSwitch('force_high_performance_gpu')
 const ipc = ipcMain
 
 
+
 //登录窗口最小化
 ipc.on('min',function(){
   mainWindow.minimize();
