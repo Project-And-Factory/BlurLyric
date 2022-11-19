@@ -36,19 +36,21 @@ jobs:
 
       
     - name: '创建并上传的Release'
-      uses: actions/create-release@v2
+      uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: TODO New Release.
+        body: |
+          由机器人自动构建
+          若有报错请上报issue
         draft: false
         prerelease: false
         
     - name: Upload Release Asset
-      uses: actions/upload-release-asset@v2
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
