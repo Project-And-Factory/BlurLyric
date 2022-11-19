@@ -35,7 +35,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'blurlyric-win32-x64.zip'
-        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64'
+        directory: '.\out\blurlyric-win32-x64'
         path: '../../'
 
 
