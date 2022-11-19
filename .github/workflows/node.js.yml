@@ -1,0 +1,46 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: autoBuild
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: '使用 Node.js ${{ matrix.node-version }}'
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: '安装依赖'
+      run: npm install
+    - run: npx electron-forge import
+
+    - name: '构建静态文件'
+      run: npm run build
+    - name: '打包可执行文件'
+      run: npm run make
+    
+    - name: '打包zip'
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'blurlyric-win32-x64.zip'
+        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out'
+        path: '../../'
+        
+    - uses: actions/upload-artifact@v3
+      with:
+         name: out-artifact
+         path: |
+          "out\blurlyric-win32-x64.zip"
+          "out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe"
