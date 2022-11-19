@@ -45,14 +45,6 @@ jobs:
         body: TODO New Release.
         draft: false
         prerelease: false
-
-    - name: Create Release
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: TODO New Release.
-        draft: false
-        prerelease: false
         
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
