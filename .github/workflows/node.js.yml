@@ -32,7 +32,7 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      run: zip -r blurlyric-win32-x64.zip /out/blurlyric-win32-x64/
+      run: zip -r blurlyric-win32-x64.zip ./out/blurlyric-win32-x64/
       
     - name: '创建并上传的Release'
       uses: actions/create-release@v1
