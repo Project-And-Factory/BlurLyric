@@ -31,7 +31,7 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64/'
+      run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64'
       working-directory: './out/'
 
       
