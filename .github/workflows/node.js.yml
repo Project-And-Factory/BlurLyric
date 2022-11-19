@@ -42,5 +42,5 @@ jobs:
       with:
          name: out-artifact
          path: |
-          "out\blurlyric-win32-x64.zip"
-          "out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe"
+          out\blurlyric-win32-x64.zip
+          out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe
