@@ -37,7 +37,7 @@ jobs:
         working-directory: './out/'
       
     - name: '创建并上传的Release'
-      uses: actions/create-release@v1
+      uses: actions/create-release@v2
       id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,7 +49,7 @@ jobs:
         prerelease: false
         
     - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
