@@ -57,11 +57,13 @@
           <path fill-rule="evenodd"
             d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
         </svg><a>音乐库</a></router-link>
-        <router-link :to="{path:'/found'}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-broadcast" viewBox="0 0 16 16">
-  <path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
-</svg><a>发现广场</a>
-        </router-link>
+      <router-link :to="{path:'/found'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-broadcast"
+          viewBox="0 0 16 16">
+          <path
+            d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+        </svg><a>发现广场</a>
+      </router-link>
       <router-link :to="{path:'/setting'}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
           <path
@@ -212,7 +214,7 @@
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
             v-if="(data.player.musicCache[id]&&data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
-        <h2><a  v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
+        <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
             name: 'artist',
             query: {
               id: item.id
@@ -265,7 +267,9 @@
           class="ImageBlurBackground">
         <!--图像-->
         <div class="left-sideImage">
-          <img v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'" v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
+          <img
+            v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'"
+            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
         </div>
 
         <div class="player-Title lowWidthDisplay">
@@ -574,12 +578,12 @@
   import './fixelButtom.css'
   import './naturalUI.css'
   import './message.css'
-import setting from './views/setting.vue';
+  import setting from './views/setting.vue';
 
 
-  var bodyHeight,  bodyWidth,
+  var bodyHeight, bodyWidth,
     transitionning = false,
-    usingLowWidhtMedi,lastTime = 0
+    usingLowWidhtMedi, lastTime = 0
   window.addEventListener('resize', getWindowInfo)
 
   function getWindowInfo() {
@@ -588,9 +592,9 @@ import setting from './views/setting.vue';
     if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     let tempTime = new Date();
-      lastTime = tempTime
-      setTimeout(() => {
-        if(lastTime != tempTime) return
+    lastTime = tempTime
+    setTimeout(() => {
+      if (lastTime != tempTime) return
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
@@ -792,9 +796,9 @@ import setting from './views/setting.vue';
           }
           let artist = ''
 
-          for(let num = 0;num < this.data.player.tracks[this.data.player.trackNum].ar.length;num++){
+          for (let num = 0; num < this.data.player.tracks[this.data.player.trackNum].ar.length; num++) {
             artist += this.data.player.tracks[this.data.player.trackNum].ar[num].name
-            if(num != this.data.player.tracks[this.data.player.trackNum].ar.length){
+            if (num != this.data.player.tracks[this.data.player.trackNum].ar.length) {
               artist += '&'
             }
           }
@@ -813,7 +817,9 @@ import setting from './views/setting.vue';
     methods: {
       getWindowInfo,
       cacheData(link, data) {
-        if (link == undefined) {return undefined}
+        if (link == undefined) {
+          return undefined
+        }
         if (data != undefined) {
           this.cache[link] = data
         }
@@ -918,7 +924,7 @@ import setting from './views/setting.vue';
 
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
-            reTools.getData('/blurlyric/createUser').then(res => {
+          reTools.getData('/blurlyric/createUser').then(res => {
             cookies.set('blurlyricid', res.data.id, {
               expires: new Date(2040, 0, 1)
             })
@@ -939,19 +945,19 @@ import setting from './views/setting.vue';
         reTools.getData('/blurlyric/getUser', {
           id: cookies.get('blurlyricid')
         }).then(r => {
-          if(r.data.code!=400 && r.data.config.configVersion != this.data.setting.config.configVersion){
+          if (r.data.code != 400 && r.data.config.configVersion != this.data.setting.config.configVersion) {
             this.data.setting.id = r.data.id
             this.pushingconfig()
             return
           }
-          if(r.data.code==400){
+          if (r.data.code == 400) {
             reTools.getData('/blurlyric/createUser').then(r => {
-            cookies.set('blurlyricid', r.data.id, {
-              expires: new Date(2040, 0, 1)
-            })
-            this.data.setting.id = r.data.id
-            this.pushingconfig()
-            return
+              cookies.set('blurlyricid', r.data.id, {
+                expires: new Date(2040, 0, 1)
+              })
+              this.data.setting.id = r.data.id
+              this.pushingconfig()
+              return
             })
           }
           this.data.setting = r.data
@@ -972,7 +978,7 @@ import setting from './views/setting.vue';
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       },
-      async lyricSet(force,type) {
+      async lyricSet(force, type) {
 
         if (this.$refs.lyricBox && this.state.playing ==
           true && this.data.player.uiDisplay.mainDisplay != 'buttom' && this.data.player.musicCache[this.id]) {
@@ -988,12 +994,10 @@ import setting from './views/setting.vue';
            * 条件：（当歌词行数变化 或 被强制执行）同时要满足 歌词存在时再执行
            */
           if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
-            
+
             //记录此时的歌词行数，防止重复计算
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
-              
-
               /**
                * 是否显示来节省资源
                * 
@@ -1002,73 +1006,82 @@ import setting from './views/setting.vue';
                * 返回 是否重要去渲染 的布尔值
                */
               var isDisplay = (el, i) => {
-                  let offset = i - lyricNum
-                  if (offset < -2) {
-                    el.style.visibility = 'hidden';
-                    return false
-                  } else if (offset > 7) {
-                    el.style.display = 'none';
-                    return false
-                  } else {
+                let offset = i - lyricNum
+                if (offset < -2) {
+                  el.style.visibility = 'hidden';
+                  el.style.display = 'block'
+                  return false
+                } else if (offset > 7) {
+                  el.style.display = 'none';
+                  return false
+                } else {
+                  el.style.display = 'block'
                     el.style.visibility = 'visible';
-                    el.style.display = 'block'
                     return true
                   }
-                }
 
-                var fontSizeFunc = (el, i,needFocus) => {
-                        if (this.data.setting.config.lyricSet.animeFontSize == false) {
-                          return '1em'
-                        };
-                        let offset = Math.abs(i - lyricNum)
-                        if (!needFocus) {
-                          return '1em'
-                        }
-                        return 1 * (0.9 ** offset) + 'em'
-                      }
+                }
               
-                // 要平移的Y值
-                var translateY = - lis[lyricNum].offsetTop + (bodyHeight * 0.15)
 
-                let dur = '600ms'
-                if(force == true && type!='tran'){
-                  dur = '0';
+
+              var fontSizeFunc = (el, i, needFocus) => {
+                if (this.data.setting.config.lyricSet.animeFontSize == false) {
+                  return '1em'
+                };
+                let offset = Math.abs(i - lyricNum)
+                if (!needFocus) {
+                  return '1em'
                 }
-                //对元素赋值
-                for (let i = 0; i < lis.length; i++) {
-                  let element = lis[i]
-                    let needFocus = isDisplay(element,i)
-                    if(needFocus == true) {
-                      element.style.transition = "all "+dur+" cubic-Bezier(.3, .5, .2, 1) " + this.data.settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
-                    .funcDelay](i - lyricNum) + "ms"
+                return 1 * (0.9 ** offset) + 'em'
+              }
 
-                    setTimeout(() => {
-                      lyricTransitionClean(element)
-                    }, 1000);
-                    }
-                    element.style.transform ="translateY("+translateY+"px)"
-                    
-                      let color = null
-                      if (needFocus == false) {color ='rgb(0,0,0)'} else 
-                      if (i == lyricNum) {color ='rgb(0,0,0,0.9)'} else
-                      {
-                        color = 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')'
-                      }
-                      element.style.color = color
-                    
-                    element.style.filter = this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config.lyricSet
-                    .funcBlur](i, lyricNum)
+              // 要平移的Y值
+              var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15)
 
-                    element.style.fontSize =  fontSizeFunc(element, i,needFocus)
-                    this.state.lyricTransitionTime = Date.now()
+              let dur = '600ms'
+              if (force == true && type != 'tran') {
+                dur = '0';
+              }
+              //对元素赋值
+              for (let i = 0; i < lis.length; i++) {
+                let element = lis[i]
+                let needFocus = isDisplay(element, i)
+                if (needFocus == true) {
+                  element.style.transition = "all " + dur + " cubic-Bezier(.3, .5, .2, 1) " + this.data
+                    .settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                      .funcDelay](i - lyricNum) + "ms"
 
-
+                  setTimeout(() => {
+                    lyricTransitionClean(element)
+                  }, 1000);
                 }
-                
-                let lyricTransitionClean = (elm)=>{
-                  if((Date.now() - this.state.lyricTransitionTime ) > 800)
+                element.style.transform = "translateY(" + translateY + "px)"
+
+                let color = null
+                if (needFocus == false) {
+                  color = 'rgb(0,0,0)'
+                } else
+                if (i == lyricNum) {
+                  color = 'rgb(0,0,0,0.9)'
+                } else {
+                  color = 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')'
+                }
+                element.style.color = color
+
+                element.style.filter = this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config
+                  .lyricSet
+                  .funcBlur](i, lyricNum)
+
+                element.style.fontSize = fontSizeFunc(element, i, needFocus)
+                this.state.lyricTransitionTime = Date.now()
+
+
+              }
+
+              let lyricTransitionClean = (elm) => {
+                if ((Date.now() - this.state.lyricTransitionTime) > 800)
                   elm.style.transition = ''
-                }
+              }
 
             }
 
@@ -1078,7 +1091,9 @@ import setting from './views/setting.vue';
       },
       async getCurr() {
         //音频进度转换
-        let audio = this.audio,cur = audio.currentTime, parseCurrTime= parseInt(cur)
+        let audio = this.audio,
+          cur = audio.currentTime,
+          parseCurrTime = parseInt(cur)
         this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = parseCurrTime
         let progress = parseCurrTime / this.data.player.uiDisplay.duration
@@ -1102,7 +1117,8 @@ import setting from './views/setting.vue';
 
           if (this.state.random == true) {
             numb = Math.floor(Math.random() * this.data.player.tracks.length)
-              this.data.player.musicCache[this.data.player.tracks[numb].id] = await audioNetease.requireId(this.data.player.tracks[numb].id)
+            this.data.player.musicCache[this.data.player.tracks[numb].id] = await audioNetease.requireId(this.data
+              .player.tracks[numb].id)
           } else {
             if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.audio == true) {
               return
@@ -1128,7 +1144,7 @@ import setting from './views/setting.vue';
             newAudio.play();
           })
           let loadeddataFunction = () => {
-            if(newAudio.readyState < 2) return
+            if (newAudio.readyState < 2) return
 
             this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
             newAudio.play();
@@ -1458,5 +1474,4 @@ import setting from './views/setting.vue';
     }
   }
   export default vueApp
-
 </script>
