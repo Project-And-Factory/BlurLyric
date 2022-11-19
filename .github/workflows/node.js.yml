@@ -39,8 +39,8 @@ jobs:
         directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out\make'
         path: '../../'
       
-    - name: '创建一并上传的Release'
-      uses: softprops/action-gh-release@v1
+    - name: 'Upload Package'
+      uses: actions/upload-artifact@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         tag_name: ${{ github.ref }}
