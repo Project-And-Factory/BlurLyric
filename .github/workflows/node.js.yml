@@ -31,12 +31,11 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      if: ${{ !github.event.act }}
-      working-directory: './out'
       run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64\'
+      with:
+        working-directory: './out'
       
     - name: '创建并上传的Release'
-      if: ${{ !github.event.act }}
       uses: actions/create-release@v1
       id: create_release
       env:
@@ -50,10 +49,10 @@ jobs:
         
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
-      working-directory: './out'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        working-directory: './out'
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: blurlyric-win32-x64.zip
         asset_name: blurlyric-win32-x64.zip
