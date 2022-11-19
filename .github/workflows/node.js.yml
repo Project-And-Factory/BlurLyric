@@ -30,17 +30,14 @@ jobs:
     - name: '打包可执行文件'
       run: npm run make
     
-    - name: '打包zip'
-      uses: thedoctor0/zip-release@main
-      with:
-        type: 'zip'
-        filename: 'blurlyric-win32-x64.zip'
-        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out'
-        path: '../../'
-        
+
     - uses: actions/upload-artifact@v3
       with:
-         name: out-artifact
-         path: |
-          out\blurlyric-win32-x64.zip
-          out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe
+         name: blurlyric-win32-x64.zip
+         path:  out\blurlyric-win32-x64
+
+    - uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric-2.2.0 Setup.exe
+         path: out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe
+          
