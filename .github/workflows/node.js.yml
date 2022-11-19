@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         node-version: [18.x]
@@ -31,10 +31,14 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      run: 'zip -y -r blurlyric-win32-x64.zip blurlyric-win32-x64'
-      working-directory: './out/'
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'blurlyric-win32-x64.zip'
+        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64'
+        path: '../../'
 
-      
+
     - name: '创建并上传的Release'
       uses: actions/create-release@v1
       id: create_release
