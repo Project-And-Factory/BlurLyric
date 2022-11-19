@@ -52,6 +52,7 @@ jobs:
           若有报错请上报issue
         draft: false
         prerelease: false
+        allowUpdates: true
         
     - name: '将构建文件上传至release-asset'
       uses: actions/upload-release-asset@v1
