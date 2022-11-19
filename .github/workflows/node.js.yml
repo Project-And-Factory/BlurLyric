@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: "构建并上传Release"
     strategy:
       matrix:
         node-version: [18.x]
