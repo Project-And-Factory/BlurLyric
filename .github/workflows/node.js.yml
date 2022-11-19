@@ -35,10 +35,10 @@ jobs:
       with:
         type: 'zip'
         filename: 'blurlyric-win32-x64.zip'
-        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64'
+        directory: 'D:\a\BlurLyric2.0\BlurLyric2.0\out'
         path: '../../'
         
     - uses: actions/upload-artifact@v3
       with:
          name: out-artifact
-         path: D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64\blurlyric-win32-x64.zip
+         path: D:\a\BlurLyric2.0\BlurLyric2.0\out\blurlyric-win32-x64.zip
