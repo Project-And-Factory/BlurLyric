@@ -32,7 +32,7 @@ jobs:
       run: npm run make
     
     - name: '打包zip'
-      run: zip -r ${{ secrets.ReleaseZipName }} ./out/blurlyric-win32-x64/
+      run: zip -r blurlyric-win32-x64.zip /out/blurlyric-win32-x64/
       
     - name: '创建并上传的Release'
       uses: actions/create-release@v1
@@ -52,6 +52,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/${{ secrets.ReleaseZipName }}.zip
-        asset_name: ${{ secrets.ReleaseZipName }}.zip
+        asset_path: ./out/blurlyric-win32-x64.zip }}.zip
+        asset_name: blurlyric-win32-x64.zip.zip
         asset_content_type: application/zip
