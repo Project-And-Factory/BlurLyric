@@ -91,9 +91,6 @@ location / {
 <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/zfbSK.jpg">
 <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/wxSK.png"><br>
 
-捐赠名单：
-（暂无）
-
 ### 什么？你有很好的点子？！！
 UI改进，代码效率提高等等，都可以提交至Pull requests! 如果您是有棒的UI设计，但是不会写代码，您可以发送您的想法/设计至我的邮箱 2261129603@qq.com!
 
@@ -103,3 +100,8 @@ https://github.com/qier222/YesPlayMusic<br>
 LyricEase（https://apps.microsoft.com/store/detail/lyricease/9N1MKDF0F4GT?hl=zh-cn&gl=CN）<br>
 Apple Music<br>
 Spotify
+
+捐赠名单：不按顺序排名
+微信 *央
+
+
