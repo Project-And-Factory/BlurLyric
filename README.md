@@ -101,7 +101,7 @@ LyricEase（https://apps.microsoft.com/store/detail/lyricease/9N1MKDF0F4GT?hl=zh
 Apple Music<br>
 Spotify
 
-捐赠名单：不按顺序排名
-微信 *央
+捐赠名单：不按顺序排名 <br>
+微信:*央
 
 
