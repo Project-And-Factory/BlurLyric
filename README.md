@@ -1,19 +1,19 @@
 <div>
 
-## <img  style="width: 64px;float: left;padding-right: 0.5em " src="https://gozaoo.github.io/blurlyric/favicon.svg"> 
+## <img  style="width: 64px;float: left;padding-right: 0.5em " src="https://gozaoo.github.io/blurlyric/blurlyric.png"> 
 ### <a style= "font-size: 2em">Blurlyric</a>
 
 </div>
 
-### 一款简单、高颜值、高性能的第三方网易云音乐播放器
+### 一款简单、高颜值、持续优化性能的第三方网易云音乐播放器
 
 ### **官方网站:**  
 [blurlyric.app](https://blurlyric.app)
 
 ## 特色
-使用unblock netease music从其他音源播放，简单、高颜值、注重性能。<br>
-采用anime.js强力驱动，实现0时延超快反馈和更加流畅的歌词。<br>
-模仿Spotify的交叉串流播放，实现歌曲与歌曲之间淡入淡出无缝切换的效果。<br>
+支持使用unblock netease music从其他音源播放（完善中），简单、高颜值。<br>
+自制歌词计算方法，实现0时延超快反馈和视觉效果更加流畅的歌词。<br>
+交叉串流播放，实现歌曲与歌曲之间淡入淡出无缝切换的效果。<br>
 以及通过响应式布局，赋予BlurLyric多种分辨率屏幕的强适配能力.
 
 快速体验：<br>
@@ -21,11 +21,16 @@
 请警惕陌生链接，小心账户或隐私被盗取！！
 
 # 使用说明
+## 最新版本下载
+请先登录github后
+再点击 <a herf="https://web.blurlyric.app/">https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml</a>中的最新的工作流中下载新版本
+
 ## 稳定版下载
 
-可直接在[Releases](https://github.com/gozaoo/BlurLyric2.0/releases)页面下载已发行的稳定构建版本。
+可直接在[Releases](https://github.com/gozaoo/BlurLyric2.0/releases)页面下载已发行的稳定构建版本。（不建议从此处下载，因为不经常更新。）
 
-不建议从此处下载，因为不经常更新。
+
+##
 
 ## 使用GUI界面运行
 **需要先安装npm为依赖**
@@ -38,6 +43,7 @@ npm install
 ```
 npm run test
 ```
+或双击 运行.bat 运行
 
 ## 服务器运行
 > Tips:服务器运行可以使用server分支中无electron模块的版本。
@@ -45,6 +51,15 @@ npm run test
 node onlyOnWeb
 ```
 即可，地址 http://localhost:18776/ ，可在vite.config.js修改端口
+
+## 手动构建可执行文件
+使用命令行输入
+```
+npm run build
+npm run make
+```
+即可，输出在out中
+
 
 ## 服务器反向代理配置：
 ```
