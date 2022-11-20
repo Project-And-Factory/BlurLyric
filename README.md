@@ -1,6 +1,6 @@
 <div>
 
-## <img  style="width: 64px;float: left;padding-right: 0.5em " src="https://gozaoo.github.io/blurlyric/blurlyric.png"> 
+## <img  style="width: 64px;float: left;padding-right: 0.5em " src="https://github.com/gozaoo/gozaoo.github.io/blob/main/blurlyric/BlurLyric.png"> 
 ### <a style= "font-size: 2em">Blurlyric</a>
 
 </div>
@@ -88,8 +88,8 @@ location / {
 
 ## 帮助我们
 有什么用？ 您捐助的钱会部分用于<a herf="https://web.blurlyric.app/">咸鸽 - https://web.blurlyric.app/</a><br>在线服务的费用开销，当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
-<img style="width: 200px" src="https://gozaoo.github.io/image/zfbSK.jpg">
-<img style="width: 200px" src="https://gozaoo.github.io/image/wxSK.png"><br>
+<img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/zfbSK.jpg">
+<img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/wxSK.png"><br>
 
 捐赠名单：
 （暂无）
