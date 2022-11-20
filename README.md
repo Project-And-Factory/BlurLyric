@@ -20,6 +20,14 @@
 <a herf="https://web.blurlyric.app/">(推荐)官方 - https://web.blurlyric.app/</a><br>
 请警惕陌生链接，小心账户或隐私被盗取！！
 
+## 浏览器支持
+请使用Chrome/Edge/Firefox/Opera/Safari等的现代浏览器，不支持IE浏览器
+
+(如果您使用的是从Releases或工作流中下载的已构建版本，可忽略这一条)
+
+## 操作系统支持
+请使用Windows 7或更高版本的系统，暂不支持MacOS/Linux(未来会支持)
+
 # 使用说明
 ## 最新版本下载
 请先登录github后
@@ -33,7 +41,7 @@
 ##
 
 ## 使用GUI界面运行
-**需要先安装npm为依赖**
+**需要先安装nodejs和npm为依赖**
 
 首次安装： 进入文件夹，使用命令行输入
 ```
@@ -45,8 +53,7 @@ npm run test
 ```
 或双击 运行.bat 运行
 
-## 服务器运行
-> Tips:服务器运行可以使用server分支中无electron模块的版本。
+## 在线部署
 ```
 node onlyOnWeb
 ```
@@ -83,11 +90,9 @@ location / {
 ```
 
 
-当然，如果你还是不行，我在有空的时候可以帮您搭建服务哦~
-我的qq: 2261129603
 
 ## 帮助我们
-有什么用？ 您捐助的钱会部分用于<a herf="https://web.blurlyric.app/">咸鸽 - https://web.blurlyric.app/</a><br>在线服务的费用开销，当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
+有什么用？ 您捐助的钱会部分用于<a herf="https://web.blurlyric.app/">https://web.blurlyric.app/</a><br>在线服务的费用开销，支持我们的开发。当然，也有部分被我拿去买快乐水了！XD 。总之呢，非常感谢您的使用，如果您觉得我做的产品好用可以点一下右上角的星（Star）,如果可以，也可以用您的一块钱捐助我哦~谢谢你<br>
 <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/zfbSK.jpg">
 <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/wxSK.png"><br>
 
