@@ -8,7 +8,12 @@ const cache = require('./util/apicache').middleware
 const { cookieToJson } = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
+<<<<<<< HEAD
 const match = require('@unblockneteasemusic/server')
+=======
+const router_blurlyric = require('./serverRouter.js')
+
+>>>>>>> server
 /**
  * The version check result.
  * @readonly
@@ -132,7 +137,9 @@ async function checkVersion() {
  * @returns {Promise<import("express").Express>} The server instance.
  */
 async function consturctServer(moduleDefs) {
+  
   const app = express()
+<<<<<<< HEAD
   app.set('trust proxy', true)
 	//允许跨域
 	app.all('*', function (req, res, next) {
@@ -141,6 +148,19 @@ async function consturctServer(moduleDefs) {
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
     next();
+=======
+  app.use('/blurlyric',router_blurlyric)
+  app.use(express.static(path.join(__dirname, 'dist')))
+
+  app.set('trust proxy', true)
+	//允许跨域
+	app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    next();
+>>>>>>> server
   });
   /**
    * CORS & Preflight request
@@ -185,7 +205,10 @@ async function consturctServer(moduleDefs) {
   /**
    * Serving static files
    */
+<<<<<<< HEAD
   app.use(express.static(path.join(__dirname, 'dist')))
+=======
+>>>>>>> server
 
   /**
    * Cache
@@ -278,6 +301,7 @@ async function consturctServer(moduleDefs) {
       }
     })
   }
+<<<<<<< HEAD
 	//魔改 （doge）
 	app.get('/unblockmusic',(req,res)=>{
 		let query = req.query
@@ -286,6 +310,10 @@ async function consturctServer(moduleDefs) {
 			res.json(r)
 		})
 	})
+=======
+  
+
+>>>>>>> server
   return app
 }
 

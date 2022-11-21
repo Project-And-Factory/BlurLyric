@@ -7,6 +7,7 @@ app.commandLine.appendSwitch('force_high_performance_gpu')
 const ipc = ipcMain
 
 
+
 //登录窗口最小化
 ipc.on('min',function(){
   mainWindow.minimize();
@@ -36,6 +37,8 @@ const { createServer } = require('vite')
   await server.listen()
 
   server.printUrls()
+  mainWindow.webContents.loadURL('http://localhost:18776/')
+  mainWindow.webContents.openDevTools()
 })()
 
 
@@ -49,16 +52,20 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
-    frame:false,
+    title: "BlurLyric",
+    icon:"src/icon/iconx256.ico",
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#00000000',symbolColor: 'black'
+    },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
     }
   })
   // 打开开发工具
-  mainWindow.webContents.openDevTools()
 
-  mainWindow.webContents.loadURL('http://localhost:18776/')
+  mainWindow.webContents.loadURL('http://localhost:18775/')
 
 
 }

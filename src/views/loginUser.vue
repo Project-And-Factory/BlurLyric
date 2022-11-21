@@ -18,7 +18,6 @@
 }
 .logincard{
   position: absolute;
-  transform: translate(0px, -177px);
   backdrop-filter: blur(0px);
 }
   input{
@@ -33,7 +32,10 @@
 </style>
 <script>
 import reTools from '../network/getData'
-export default {
+import message from '../js/message'
+  import cookies from 'js-cookie'
+
+export default { 
   name: 'loginUser',
   data() {
     return {
@@ -52,21 +54,24 @@ export default {
       let isOk = reg.test(this.phone)
 
       if (isOk) {
-        reTools.getData('/login/status', {
+        reTools.getData('/login/email', {
           email: this.phone,
           password: this.password,
         }).then(res => {
           console.log(res);
           if (res.code == 200) {
-            this.message= '登录成功, 即将刷新页面'
             document.cookie = res.cookie
+            this.$router.push({name:'muLib'})
             setTimeout(() => {
-              this.$router.push({name:'muLib'})
+              this.$router.go(-1)
+              this.checkLogin()
+
+
             }, 3000);
           } else if (res.code == 502) {
-            this.message= res.msg
+            message.create(res.msg)
           } else if (res.code == 400) {
-            this.message= '账号错误'
+            message.create('账号错误')
           }
         })
       } else {
@@ -76,18 +81,33 @@ export default {
         }).then(res => {
           console.log(res);
           if (res.code == 200) {
-            this.message= '登录成功, 即将刷新页面'
-          document.cookie = res.cookie
+            message.create('登录成功, 即将刷新页面')
+
+
+          document.cookie += res.cookie;
+          document.cookie == res.cookie
+
             setTimeout(() => {
               this.$router.go(-1)
-              location.reload()
+              this.checkLogin()
+
             }, 3000);
           } else if (res.code == 502) {
-            this.message= res.msg
+            message.create(res.msg)
           } else if (res.code == 400) {
-            this.message= '账号错误'
+            message.create('账号错误')
+          } else if (res.code == "ERR_BAD_REQUEST"){
+            message.create('Error ERR_BAD_REQUEST ，请联系管理员' + JSON.parse(res.request.response).message)
+
           }
         })
+      }
+    },
+    checkLogin(){
+      if(this.$parent.$parent.data.user.profile == null){
+        this.$parent.$parent.loginInfor();
+
+        setTimeout(() => this.checkLogin(),1000);
       }
     }
   },

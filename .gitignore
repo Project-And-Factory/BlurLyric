@@ -1,3 +1,10 @@
 node_modules
 dist
 outputs
+<<<<<<< HEAD
+=======
+BlurLyric2.0.zip
+node_modules.zip
+data/user/*.json
+out/*/
+>>>>>>> server

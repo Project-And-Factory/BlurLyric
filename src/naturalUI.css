@@ -1,0 +1,30 @@
+
+:root{
+    --botton-color-background: rgb(0,0,0,0.08);
+    --botton-color-border: rgb(0,0,0,0.2);
+
+}
+
+#lyrics > li:hover,
+.na-bottonBigger,.na-bottonBiggerHover:hover{
+    background-color: var(--botton-color-background);
+    border: solid 0.15em var(--botton-color-border);
+
+}
+#lyrics > li,
+.na-bottonBigger,.na-bottonBiggerHover{
+    background-color: none;
+    padding: 0.5em;
+    border-radius: 1.15em;
+    border: solid 0.15em #ffffff00;
+    transition: background-color .2s,border .2s,border-radius 0s;
+}
+div.linkbox a{
+    border: solid 0.15em #ffffff00;
+    display: flex;
+}
+div.linkbox a:hover{
+    background-color: var(--botton-color-background);
+    border: solid 0.15em var(--botton-color-border)
+
+}
