@@ -8,15 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server.js",
-    "test": "electron .",
-    "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite"
     
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "axios": "^0.27.2",
     "color.js": "^1.2.0",
-    "electron": "^20.0.0-alpha.7",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
     "md5": "^2.3.0",
