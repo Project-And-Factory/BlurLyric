@@ -1,4 +1,5 @@
 # Blurlyric
+服务器部署版本
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)官方 - https://web.blurlyric.app/</a><br>
@@ -6,11 +7,6 @@
 
 ## 浏览器支持
 请使用Chrome/Edge/Firefox/Opera/Safari等的现代浏览器，不支持IE浏览器
-
-(如果您使用的是从Releases或工作流中下载的已构建版本，可忽略这一条)
-
-## 操作系统支持
-请使用Windows 7或更高版本的系统，暂不支持MacOS/Linux(未来会支持)
 
 # 使用说明
 ## 最新版本下载
@@ -20,22 +16,6 @@
 ## 稳定版下载
 
 可直接在[Releases](https://github.com/gozaoo/BlurLyric2.0/releases)页面下载已发行的稳定构建版本。（不建议从此处下载，因为不经常更新。）
-
-
-##
-
-## 使用GUI界面运行
-**需要先安装nodejs和npm为依赖**
-
-首次安装： 进入文件夹，使用命令行输入
-```
-npm install
-```
-正常使用
-```
-npm run test
-```
-或双击 运行.bat 运行
 
 ## 在线部署
 ```
@@ -52,7 +32,7 @@ npm run make
 即可，输出在out中
 
 
-## 服务器反向代理配置：
+## 服务器反向代理配置（以Nginx为例）：
 ```
 # 反向代理相关配置开始
 location / {
