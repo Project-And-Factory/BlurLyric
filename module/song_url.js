@@ -1,3 +1,5 @@
+// 歌曲链接
+
 const crypto = require('crypto')
 module.exports = (query, request) => {
   // if (!('MUSIC_U' in query.cookie))
