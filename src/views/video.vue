@@ -81,11 +81,11 @@
 </script>
 
 <template>
-    <h1 style="margin:.3em 0;">{{(this.page.type == 'mv')?page.detail.data.name:page.detail.data.title}}</h1>
+    <h1 v-if="page.detail.data" style="margin:.3em 0;">{{(this.page.type == 'mv')?page.detail.data.name:page.detail.data.title}}</h1>
     <div v-if="(this.page.type == 'video')" style="color:#777;margin:0 0 .7em 0">by {{page.detail.data.creator.nickname}}</div>
 
-    <div>
-        <a @click="this.$router.push({
+    <div v-if="(this.page.type == 'mv')&&page.detail.data">
+        创作者：<a @click="this.$router.push({
             name: 'artist',
             query: {
               id: item.id

@@ -26,7 +26,7 @@
                             picUrl: ''
                         }
                     },
-                    mvs:[]
+                    mvs: []
                 }
             }
         },
@@ -55,9 +55,9 @@
                         this.page.artistData = res
                     })
 
-                    await reTools.getData('/artist/mv',{
-                        id:this.page.id
-                    }).then(res=>{
+                    await reTools.getData('/artist/mv', {
+                        id: this.page.id
+                    }).then(res => {
                         this.page.mvs = res.mvs
                     })
 
@@ -65,7 +65,8 @@
                         this.page.colorResult = result
                     })
                     let data = Color(this.page.colorResult[0].color).object()
-                    this.page.textColor = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' : '#FFFFFF'
+                    this.page.textColor = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' :
+                        '#FFFFFF'
 
                     app.cacheData('artist' + this.page.id, this.page)
 
@@ -91,6 +92,7 @@
     <div class="card card-artist"
         v-bind:style="'--theme-color:' + page.colorResult[0].color + ';--theme-color2:' + page.textColor + ';--imgSrc:' + page.artistData.artist.picUrl + ';'">
         <img class="card-img" :src="this.page.artistData.artist.picUrl + '?param=512y512'" alt="">
+        <img class="card-img blur" :src="this.page.artistData.artist.picUrl + '?param=512y512'" alt="">
         <div>
             <h1 class="title">{{this.page.artistData.artist.name}}</h1>
             <h2 :style="'color:'+page.textColor+'80;'" class="title">
@@ -100,42 +102,43 @@
     </div>
     <div class="artist girdIndex">
         <div>
-            <h2 style="display: flex;justify-items: center;gap: 10px;">热门单曲 <a class="linkbox"><a style="display:block"  @click="playTheOnce(0,page.artistData.hotSongs)">
-                    <svg style="transform: scale(1.6);" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                        <path
-                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z">
-                        </path>
-                    </svg>播放</a></a></h2>
+            <h2 style="display: flex;justify-items: center;gap: 10px;">热门单曲 <a class="linkbox"><a style="display:block"
+                        @click="playTheOnce(0,page.artistData.hotSongs)">
+                        <svg style="transform: scale(1.6);" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z">
+                            </path>
+                        </svg>播放</a></a></h2>
             <div class="track" style="clear:left">
                 <div class="tracks" :muid="item.id" v-for="(item,i) in page.artistData.hotSongs" :key="item.id">
-                <div @click="playTheOnce(i,page.artistData.hotSongs)">
-                    <div class="num">{{i}}</div>
-                    <div class="trackTitle">
-                        <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
-                                style="color: rgba(44,62,80,0.5)">
-                                {{alia}} </a></h1>
-                        <h2 ><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                    <div @click="playTheOnce(i,page.artistData.hotSongs)">
+                        <div class="num">{{i}}</div>
+                        <div class="trackTitle">
+                            <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
+                                    style="color: rgba(44,62,80,0.5)">
+                                    {{alia}} </a></h1>
+                            <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
 
+                        </div>
+                    </div>
+
+                    <div class="linkbox bigger">
+                        <a @click="app.pushTrack(item)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
-
-                <div class="linkbox bigger">
-                    <a @click="app.pushTrack(item)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus" viewBox="0 0 16 16">
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
             </div>
 
         </div>
         <div>
-            <h2>MV</h2>
-            <div class="mvTracks">
+            <h2 v-if="page.mvs[0]">MV</h2>
+            <div v-if="page.mvs[0]" class="mvTracks">
                 <div @click="this.$router.push({
             name: 'video',
             query: {
@@ -149,7 +152,7 @@
 
                 </div>
             </div>
-            <h2>专辑</h2>
+            <!--h2>专辑</h2-->
 
         </div>
     </div>
@@ -164,14 +167,23 @@
         position: relative;
         display: flex;
         font-size: calc(.8vh + 1vw);
+        overflow: hidden;
         margin-bottom: calc(.8vh * 2 + 1vw * 2);
     }
 
-    .card-img {
+    .card-img{
+        z-index: 2;
+    }
+    .card-img ,.card-artist .blur{
         height: calc(8vh + 10vw);
         aspect-ratio: 1 / 1;
         border-radius: 50%;
         margin-right: 20px;
+    }
+    .card-artist .blur{
+        position: absolute;
+        filter: blur( calc(1.6vh + 2vw));
+        z-index: 1;
     }
 
     .card .title,
@@ -208,7 +220,8 @@
     .artist.girdIndex>div>h2 {
         margin: .3em 0;
     }
-    @media (max-width: 650px){
+
+    @media (max-width: 650px) {
         .artist.girdIndex {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -216,11 +229,12 @@
             overflow: hidden;
             position: relative;
             width: 100%;
-    }
-    .artist.girdIndex .track {
-        height: calc(10 * calc(var(--minplayerHeight) + 18px));
-        overflow: hidden;    
-    }
+        }
+
+        .artist.girdIndex .track {
+            height: calc(10 * calc(var(--minplayerHeight) + 18px));
+            overflow: hidden;
+        }
 
 
     }

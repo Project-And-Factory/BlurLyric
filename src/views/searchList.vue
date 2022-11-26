@@ -53,7 +53,7 @@
         <div>
             <h2 v-if="page.ar.result">歌手<a style="font-size:0.7em;color: rgba(0,0,0,.5)" v-if="page.ar.result">
                     {{'  '+page.ar.result.artistCount}}</a></h2>
-            <div  class="ARtrack" v-if="page.ar.result">
+            <div class="ARtrack" v-if="page.ar.result">
                 <div @click="this.$router.push({
             name: 'artist',
             query: {
@@ -61,18 +61,27 @@
             }
           })" v-for="(item) in page.ar.result.artists" :key="item.id">
 
-                    <div class="ARImg" :style="'background-image: url(\'' +item.picUrl + '?param=500y500\')'" v-bind:alt="item.name"></div>
+                    <div class="ARImg" :style="'background-image: url(\'' +item.picUrl + '?param=500y500\')'"
+                        v-bind:alt="item.name"></div>
                     <div class="ARTrTitle">
                         {{item.name}}
                     </div>
                 </div>
-                <!--div @click="this.$router.push({name:'detail',query:{id:item.id }})" v-for="(item) in page.PLtrack" :key="item.id">
-                    <img v-bind:src="item.coverImgUrl" v-bind:alt="item.name" >
-                    <div class="PlTrTitle">
-                        <h1>{{item.name}}</h1>
-                        <h2>by {{item.creator.nickname}}</h2>
-                    </div>
-                </div-->
+            </div>
+
+            <h2>MV</h2>
+            <div class="mvTracks">
+                <div @click="this.$router.push({
+            name: 'video',
+            query: {
+              id: item.id,
+              type: 'mv'
+            }
+          })" v-for="(item,i) in page.mvs" :key="i.id" class="mvTrack">
+                    <img :src="item.cover+'?param=356y200'" loading="lazy" :alt="'音乐'+item.name+'的MV'">
+                    <div class="mvTitle">{{item.name}}</div>
+                    <div class="mvTime">{{app.formTime(item.duration * 0.001)}}</div>
+                </div>
             </div>
             <h2 v-if="page.PLtrack[0] && page.playlist.result">歌单<a
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.playlist.result.playlistCount}}个</a></h2>
@@ -98,6 +107,7 @@
         name: 'searchList',
         data() {
             return {
+                app,
                 page: {
                     q: this.$route.query.q,
                     pic: '',
@@ -106,64 +116,8 @@
                     creater: '',
                     trackIds: '',
                     aRtrackIds: [],
-                    track: [{
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "id": 75017206,
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        },
-                    }, {
-                        "name": "loading",
-                        "ar": [{
-                            "id": 906118,
-                            "name": "loading",
-                            "tns": [],
-                            "alias": []
-                        }],
-                        "alia": [],
-                        "al": {
-                            "picUrl": "",
-                        }
-                    }],
+                    track: [],
+                    mvs: [],
                     playlist: {},
                     PLtrack: [],
                     ar: {}
@@ -197,6 +151,7 @@
                         type: 1,
                         limit: 35
                     }).then(
+
                         r => {
                             this.page.trackIds = r.result.songs
                             let trackIDList = ''
@@ -216,6 +171,12 @@
                             })
                         })
                     reTools.getData('/search', {
+                        type: 1004,
+                        keywords: this.page.q,
+                    }).then(r => {
+                        this.page.mvs = r.result.mvs
+                    })
+                    reTools.getData('/search', {
                         type: 1000,
                         keywords: this.page.q,
                         limit: 100
@@ -225,6 +186,7 @@
                         app.cacheData('search' + this.page.q, this.page)
 
                     })
+
                     reTools.getData('/search', {
                         type: 100,
                         keywords: this.page.q
