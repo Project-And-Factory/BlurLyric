@@ -1,23 +1,25 @@
 module.exports = {
-    packageConfig: {
-        name: 'BlurLyric',
-        icon: './icon.ico',
-        setupIcon: "./icon.ico",
-        authors: "Gozaoo"
-    },
-    makers: [
-        {
-            name: "@electron-forge/maker-squirrel",
-        },{
-            name: "@electron-forge/maker-deb",
-        },{
-            "name": "@electron-forge/maker-zip",
-            "platforms": [
-              "darwin"
-            ]
+  packageConfig: {
+      name: 'BlurlyricPC',
+      icon: './src/assets/icon.ico',
+      authors: "Gozaoo"
+  },
+  makers: [
+      {
+          name: "@electron-forge/maker-squirrel",
+          config: {
+              icon: '/src/assets/icon.png',
           }
-    ],
-    readPackageJson: {
-      main: 'build.js'
-    }
+      },{
+          name: "@electron-forge/maker-deb",
+      },{
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        }
+  ],
+  readPackageJson: {
+    main: 'build.js'
   }
+}

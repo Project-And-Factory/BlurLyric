@@ -6,7 +6,7 @@ const path = require('path')
 app.commandLine.appendSwitch('force_high_performance_gpu')
 const ipc = ipcMain
 
-
+var mainWindow
 
 //登录窗口最小化
 ipc.on('min',function(){
@@ -27,33 +27,35 @@ ipc.on('close',function(){
 
 // 加载vite
 const { createServer } = require('vite')
+var loadURL = 'http://localhost:18775/'
 
-;(async () => {
+var loadVite= async()=>{
+
   const server = await createServer({
     // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
     configFile: path.join(__dirname, 'vite.config.js'),
     root: __dirname,
   })
-  await server.listen()
-
-  server.printUrls()
-  mainWindow.webContents.loadURL('http://localhost:18776/')
-  mainWindow.webContents.openDevTools()
-})()
-
-
+  
+  server.listen().then(()=>{
+    server.printUrls()
+    loadURL = 'http://localhost:18776/'
+    mainWindow.webContents.loadURL('http://localhost:18776/')
+    mainWindow.webContents.openDevTools({mode:'undocked'})
+  })
+}
 // 加载NeteaseCloudMusicAPI
 const NeteaseCloudMusicApi = require('./app.js')
 
 NeteaseCloudMusicApi.start()
 
-const createWindow = () => {
+const createWindow = async () => {
 
-  const mainWindow = new BrowserWindow({
+   mainWindow = await new BrowserWindow({
     width: 1000,
     height: 700,
     title: "BlurLyric",
-    icon:"src/icon/iconx256.ico",
+    icon:"./src/assets/icon.png",
     titleBarStyle: 'hidden',
     titleBarOverlay: {
       color: '#00000000',symbolColor: 'black'
@@ -64,8 +66,7 @@ const createWindow = () => {
     }
   })
   // 打开开发工具
-
-  mainWindow.webContents.loadURL('http://localhost:18775/')
+  mainWindow.webContents.loadURL(loadURL)
 
 
 }
@@ -74,9 +75,10 @@ const createWindow = () => {
   // 这段程序将会在 Electron 结束初始化
   // 和创建浏览器窗口的时候调用
   // 部分 API 在 ready 事件触发后才能使用。
-  app.whenReady().then(() => {
-    createWindow()
-
+  app.whenReady().then(async () => {
+    await createWindow()
+    
+    loadVite()
 
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
