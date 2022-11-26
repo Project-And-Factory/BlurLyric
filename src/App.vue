@@ -84,7 +84,7 @@
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
       <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">
-      <div class="dragBar"></div>
+      <div v-if="(data.player.uiDisplay.mainDisplay != 'top')" class="dragBar"></div>
 
     </div>
     <div class="viewBox">
@@ -225,12 +225,10 @@
           </a></h2>
       </div>
       <div class="contorlPage lowWidthDisplay">
-        <a style="color: black;" v-if="data.player.uiDisplay.playerSelec == 'song'">歌曲</a><a
-          @click="data.player.uiDisplay.playerSelec = 'song'" v-if="data.player.uiDisplay.playerSelec != 'song'">歌曲</a>
+        <a @click="data.player.uiDisplay.playerSelec = 'song'" :style="(data.player.uiDisplay.playerSelec == 'song')?'color: black;':''">歌曲</a>
 
-        <a style="color: black;" v-if="data.player.uiDisplay.playerSelec == 'lyric'">歌词</a><a
-          @click="data.player.uiDisplay.playerSelec = 'lyric'"
-          v-if="data.player.uiDisplay.playerSelec != 'lyric'">歌词</a>
+        <a @click="data.player.uiDisplay.playerSelec = 'lyric'" :style="(data.player.uiDisplay.playerSelec == 'lyric')?'color: black;':''">歌词</a>
+
 
       </div>
       <!-- 
@@ -265,12 +263,18 @@
 
         <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'"
           class="ImageBlurBackground">
-        <!--图像-->
+
+                  <!--图像-->
+        <!--加载图像-->
         <div class="left-sideImage">
-          <img
+          <!--前台图像-->
+          <img 
             v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'"
-            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'">
+            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'"
+            importance="high"
+            >
         </div>
+
 
         <div class="player-Title lowWidthDisplay">
           <h1>{{data.player.tracks[data.player.trackNum].name}} <a
@@ -578,7 +582,6 @@
   import './fixelButtom.css'
   import './naturalUI.css'
   import './message.css'
-  import setting from './views/setting.vue';
 
 
   var bodyHeight, bodyWidth,
@@ -1026,7 +1029,7 @@
 
               var fontSizeFunc = (el, i, needFocus) => {
                 if (this.data.setting.config.lyricSet.animeFontSize == false) {
-                  return '1em'
+                  return (i==lyricNum)?'1.05em':'1em'
                 };
                 let offset = Math.abs(i - lyricNum)
                 if (!needFocus) {
@@ -1071,9 +1074,9 @@
                   color = 'rgb(0,0,0,0)'
                   element.style.filter=''
                 }
-
-                element.style.transform = "translateY(" + translateY + "px)"
-
+                
+                
+                element.style.transform = "translateY(" + translateY + "px)"// + ((i==lyricNum)?" scale(1.05)":'')
                 element.style.color = color
 
 

@@ -757,6 +757,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
   position: absolute;
   display: none;
   top: 0;
+  -webkit-app-region:drag;
   pointer-events: none;
 }
 .electron-control>.dragBar{
@@ -765,7 +766,7 @@ div.player-Mini-Title>h2>a,.trackTitle>h2>a {
 }
 .dragbarLine{
   height: 1vh;
-  margin: 0.75vh auto;
+  margin: 0.5vh auto;
   width: 200px;
   background-color: #00000010;
   border-radius: 2.5vmin;
@@ -782,6 +783,7 @@ z-index: 0;
 .playerDisplayOutBox {
   position: relative;
   width: 100vw;
+  overflow: hidden;
 gap: 3vw;
 display: flex;
   height: calc(100vh - var(--playertopbarHeight));
@@ -810,7 +812,7 @@ display: flex;
 .right-side {
   position: relative;
   padding-left: 10px;
-	max-width: calc(100% - 80px - 59vh);
+	max-width: calc(100% - 80px - 59vh - 1vw);
 
 }
 
@@ -986,10 +988,10 @@ img.ImageBlurBackground{
 }
 
 #lyric {
-  overflow: hidden;
-  font-size: calc(1.5vh + 0.8vw);
-
+  font-size: calc(1.3vh + 0.8vw);
+  --fontSize: calc(1.3vh + 0.8vw);
   height: inherit;
+  
 }
 
 ul li {
@@ -1007,12 +1009,14 @@ ul#lyrics {
 }
 
 #lyric ul li {
+  position: relative;
   color: rgb(0, 0, 0, .15);
   width: fit-content;
   width: -moz-fit-content;
+  transform-Origin: 10% 50%;
   will-change: transform,filter,color;    
-  padding: .9em 0.4em;
-  min-height: 3.2em;
+  padding: .9em 0.3em;
+  min-height: 3em;
   min-width: 7em;
 }
 
@@ -1020,21 +1024,25 @@ ul#lyrics {
   transform: scale(0.9);
 }
 
-#lyric  ul li>h1 {
+#lyric  ul li h1 {
   font-size: 2em;
   margin: 0;
 }
 
-#lyric  ul#lyrics li>h2 {
+#lyric  ul#lyrics li h2 {
   margin: 0.2em 0 0 0;
   font-size: 1.3em;
 }
 
 
 
-#lyric  ul li:hover>div {
-  visibility: visible;
+li div.Padding {
+  visibility: hidden;
+  transition: none !important;
+  font-size: var(--fontSize) !important;
+
 }
+
 
 #lyric  ul#lyrics li:hover {
   filter: none !important;
@@ -1160,7 +1168,7 @@ div.playertopbar > div.player-Title.displayTop{
     transform: translate(-50%,0);
     padding: 0;
     height: 75vh;
-    overflow: hidden;
+    overflow-y: hidden;
     --paddingLeft: 35px;
     width:56vh;
     max-width: calc(100vw - 70px);
@@ -1169,9 +1177,7 @@ div.playertopbar > div.player-Title.displayTop{
   .lyric .right-side .lyrics{
     padding: 0;margin: 0;
   }
-  .lyric #lyric ul{
-    font-size: 1.9vh;
-  }
+
   
 }
 .lowWidthDisplay .buttonline {
@@ -1184,11 +1190,12 @@ div.playertopbar > div.player-Title.displayTop{
     font-size: 2vh;
     gap: 0.5em;
   align-items: center;
-  color: rgb(0,0,0,0.7);
+  color: rgb(0,0,0,0.3);
 }
-.contorlPage.true{
-  color: rgb(0,0,0,1);
+.contorlPage>*{
+  cursor: pointer;
 }
+
 .contorlPage>*::after{
   content: '';
   margin-left: 0.5em;
