@@ -1,7 +1,7 @@
 module.exports = {
   packageConfig: {
       name: 'BlurlyricPC',
-      icon: './src/assets/icon.ico',
+      icon: './src/assets/icon',
       authors: "Gozaoo"
   },
   makers: [
