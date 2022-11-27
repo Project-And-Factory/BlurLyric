@@ -783,7 +783,6 @@ z-index: 0;
 .playerDisplayOutBox {
   position: relative;
   width: 100vw;
-  overflow: hidden;
 gap: 3vw;
 display: flex;
   height: calc(100vh - var(--playertopbarHeight));
@@ -851,7 +850,7 @@ img.ImageBlurBackground{
   left: 50%;
   transform: translate(-50% ,0);
   z-index: -1;
-  filter: blur(2.8vmax) contrast(2);
+  filter: blur(4vmax) contrast(3);
   background-repeat: no-repeat;
 	background-size: cover;
   transition: background 1s;
