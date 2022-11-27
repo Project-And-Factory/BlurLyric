@@ -23,8 +23,12 @@
     <script type="module" src="/src/main.js"></script>
   </body>
   <style>
-    body {
-  font-family: "HarmonyOS_Regular" !important;
+    @font-face {
+  font-family: "Localhar";
+  font-display: swap;
+  src: url('./src/font/HarmonyOS_Sans_SC_Regular.ttf');
+}
+body {
   overflow: hidden;
 }
 #app{
@@ -75,6 +79,8 @@ align-items: center;/*新版本*/
   font-display: swap;
   src: url(./src/font/HarmonyOS_Sans_Light.ttf);
 }
+
+
 
 body .tl-title, #Loading {
   font-family: harmonyLite;

@@ -21,6 +21,8 @@ var config = {
             app.data.player.uiDisplay.mainDisplay = 'watting'
 
             document.querySelector('#player').style.transition = 'none'
+            document.querySelector('.player-Mini').style.transition = "none"
+
             let boxPosition = this.elm.getBoundingClientRect();
             this.size = app.getWindowInfo();
 
@@ -30,8 +32,6 @@ var config = {
                 if (removeevent.changedTouches) {
                     removeClick = removeevent.changedTouches[0]
                 }
-                changeProgress(thisClick)
-
 
                 document.onmousemove = null;
                 document.ontouchmove = null
@@ -44,22 +44,22 @@ var config = {
                 document.querySelector('#player').style.transition = ''
                 if (removeClick && thisClick.clientY - removeClick.clientY > 100) {
                     this.beformainDisplay = app.mainDisplayChange('top')
-            document.querySelector("#player > div.player-Mini").style.zIndex = -1
+                    document.querySelector("#player > div.player-Mini").style.zIndex = -1
 
                 } else if (removeClick && thisClick.clientY - removeClick.clientY < -100) {
-                document.querySelector("#player > div.player-Mini").style.zIndex = 99
+                    document.querySelector("#player > div.player-Mini").style.zIndex = 99
                     this.beformainDisplay = app.mainDisplayChange('buttom')
                 } else if (thisClick.clientY - removeClick.clientY != 0) {
                     app.mainDisplayChange(this.beformainDisplay)
                 } else {
                     app.data.player.uiDisplay.mainDisplay = this.beformainDisplay
                 }
-            if(this.beformainDisplay == 'top'){
-                document.querySelector("#player > div.player-Mini").style.zIndex = -1
-            } else {
-                // document.querySelector("#player > div.player-Mini").style.zIndex = 99
-            }
-            document.querySelector("#player > div.player-Mini").style.pointerEvents = 'auto'
+                if (this.beformainDisplay == 'top') {
+                    document.querySelector("#player > div.player-Mini").style.zIndex = -1
+                } else {
+                    // document.querySelector("#player > div.player-Mini").style.zIndex = 99
+                }
+                document.querySelector("#player > div.player-Mini").style.pointerEvents = 'auto'
 
 
             }

@@ -1001,7 +1001,7 @@ ul li {
 }
 
 ul#lyrics {
-  
+  overflow: hidden;
   padding-left: 0;
   height: fit-content;
   min-height: 100%;
@@ -1013,13 +1013,19 @@ ul#lyrics {
   color: rgb(0, 0, 0, .15);
   width: fit-content;
   width: -moz-fit-content;
-  transform-Origin: 10% 50%;
-  will-change: transform,filter,color;    
+  will-change: transform,filter,color,font-size;    
   padding: .9em 0.3em;
   min-height: 3em;
   min-width: 7em;
 }
 
+#lyric ul li[lyricfocus="true"] h1{
+  font-size: 2.2em ;
+}
+#lyric ul li[lyricfocus="true"] h2{
+  font-size: 1.43em ;
+  
+}
 #lyric  ul li:active {
   transform: scale(0.9);
 }
@@ -1027,10 +1033,12 @@ ul#lyrics {
 #lyric  ul li h1 {
   font-size: 2em;
   margin: 0;
+  transition: font-size .6s ;
 }
 
-#lyric  ul#lyrics li h2 {
+#lyric  ul li h2 {
   margin: 0.2em 0 0 0;
+  transition: font-size .6s ;
   font-size: 1.3em;
 }
 

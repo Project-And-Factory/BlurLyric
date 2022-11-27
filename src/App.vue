@@ -1029,7 +1029,12 @@
 
               var fontSizeFunc = (el, i, needFocus) => {
                 if (this.data.setting.config.lyricSet.animeFontSize == false) {
-                  return (i==lyricNum)?'1.05em':'1em'
+                  if (i==lyricNum) {
+                    el.setAttribute('lyricFocus',true)
+                  } else if(el.lyricFocus == true) {
+                    el.setAttribute('lyricFocus',false)
+                  }
+                  return '1em' //(i==lyricNum)?'1.05em':'1em'
                 };
                 let offset = Math.abs(i - lyricNum)
                 if (!needFocus) {
@@ -1039,7 +1044,8 @@
               }
 
               // 要平移的Y值
-              var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15)
+              var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15),
+              translateYContent = "translateY(" + translateY + "px)"
 
               let dur = '600ms'
               if (force == true && type != 'tran') {
@@ -1061,11 +1067,7 @@
                   .lyricSet
                   .funcBlur](i, lyricNum)
 
-                  if (i == lyricNum) {
-                    color = 'rgb(0,0,0,0.9)'
-                  } else {
-                    color = 'rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')'
-                  }
+                  color =(i == lyricNum)?'rgb(0,0,0,0.9)':('rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')')
 
                   setTimeout(() => {
                     lyricTransitionClean(element)
@@ -1076,7 +1078,7 @@
                 }
                 
                 
-                element.style.transform = "translateY(" + translateY + "px)"// + ((i==lyricNum)?" scale(1.05)":'')
+                element.style.transform = translateYContent// + ((i==lyricNum)?" scale(1.05)":'')
                 element.style.color = color
 
 
@@ -1292,38 +1294,35 @@
       mainDisplayChange(type) {
         //settimeout为动画之后的事件，方便优化
         this.getWindowInfo()
+        let playerMini = document.querySelector('.player-Mini')
+        
         if (this.data.player.uiDisplay.mainDisplay == 'buttom' || type == 'top') {
+          playerMini.style.transition="all .5s cubic-bezier(.3, .45, .2, .95)"
+
           document.getElementById('player').style.top = '0px';
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          let ThisAnime = anime({
-            targets: document.querySelector('.player-Mini'),
-            easing: 'linear',
-            opacity: 0,
-
-            duration: 500
-          })
-          ThisAnime.finished.then(() => {
+          playerMini.style.opacity=0
+          setTimeout(() => {
             this.data.player.uiDisplay.mainDisplay = 'top';
-            document.querySelector('.player-Mini').style.zIndex = -1;
+          playerMini.style.transition="none"
 
-
-          });
+          playerMini.style.zIndex = -1;
+          },500);
           return 'top'
         } else {
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          let ThisAnime = anime({
-            targets: document.querySelector('.player-Mini'),
-            opacity: 1,
-            duration: 500,
-            easing: 'linear',
-          })
-          document.querySelector('.player-Mini').style.zIndex = 99;
+          playerMini.style.transition="all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.opacity=1
+          playerMini.style.zIndex = 99;
 
-          ThisAnime.finished.then(() => {
+          setTimeout(() => {
+            
             this.data.player.uiDisplay.mainDisplay = 'buttom';
-            document.querySelector('.player-Mini').style.zIndex = 99;
-          });
+          playerMini.style.transition="none"
+
+            playerMini.style.zIndex = 99;
+          },500);
           return 'buttom'
 
         }
