@@ -1031,7 +1031,7 @@
                 if (this.data.setting.config.lyricSet.animeFontSize == false) {
                   if (i==lyricNum) {
                     el.setAttribute('lyricFocus',true)
-                  } else if(el.lyricFocus == true) {
+                  } else if(needFocus == true) {
                     el.setAttribute('lyricFocus',false)
                   }
                   return '1em' //(i==lyricNum)?'1.05em':'1em'

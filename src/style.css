@@ -1013,7 +1013,7 @@ ul#lyrics {
   color: rgb(0, 0, 0, .15);
   width: fit-content;
   width: -moz-fit-content;
-  will-change: transform,filter,color,font-size;    
+  will-change: transform,filter,color,font-size,transition;    
   padding: .9em 0.3em;
   min-height: 3em;
   min-width: 7em;
