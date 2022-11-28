@@ -1,5 +1,4 @@
 # Blurlyric
-服务器部署版本
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)官方 - https://web.blurlyric.app/</a><br>
