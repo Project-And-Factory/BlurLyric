@@ -1,5 +1,4 @@
 # Blurlyric
-服务器部署版本
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)官方 - https://web.blurlyric.app/</a><br>
@@ -7,6 +6,13 @@
 
 ## 浏览器支持
 请使用Chrome/Edge/Firefox/Opera/Safari等的现代浏览器，不支持IE浏览器
+
+## 特色
+自主编写的歌词滚动算法，实现几乎0时延的超快反馈。<br>
+通过响应式布局，赋予BlurLyric在各种分辨率屏幕下的强适配能力。<br>
+持续优化，不断更迭的性能优化。力求在各种设备环境下流畅稳定运行。<br>
+模仿Spotify的交叉串流播放，歌曲与歌曲之间切换更加自然。
+
 
 # 使用说明
 ## 最新版本下载
