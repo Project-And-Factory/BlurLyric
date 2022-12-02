@@ -15,7 +15,29 @@
         <hr style="background-color: #00000020;height: 1px;border: none;" v-if="(i != this.settingButton.length -1)">
 
       </div>
+      <div class="" v-if="item.type == 'tap'">
+        <div class="setline">
+          <div class="text">
+            <span>{{item.text}}</span>
+          </div>
 
+        </div>
+        <div class="setline">
+
+        <div class="text">{{item.config.min}}
+          </div>
+      <input style="display:block;text-align: center;width: 100px;" v-on:keydown="this.pushData" v-model="app.data.setting.config.lyricSet.dur" id="searchInput">
+
+          <div class="text">{{item.config.max}}
+          </div>
+          </div>
+        <div @click="item.clickFunc" v-bind:style="('--height:calc(0.6vh + 0.3vw);--musicProgressPercent:' + (new Number(app.data.setting.config.lyricSet.dur) + item.config.offset)/1000)" class="box-progressbar">
+            <div id="progress"></div>
+            <div id="pointer"></div>
+          </div>
+        <hr style="background-color: #00000020;height: 1px;border: none;" v-if="(i != this.settingButton.length -1)">
+
+      </div>
       <h2 v-if="item.type == 'h2'" class="settingText">{{item.text}}</h2>
       <div v-if="item.type == 'text'">{{item.text}}</div>
 
@@ -62,6 +84,7 @@
     name: 'setting',
     data() {
       return {
+        app,
         displayQrCode:false,
         settingButton: [{
           text: '显示',
@@ -81,10 +104,33 @@
           type: 'line',
           bolean: app.data.setting.config.useBlurBackground,
           func: this.funcBackground
+        },{
+          text: '在 单歌词 过度时长 [点击进度条修改]',
+          type: 'tap',
+          value: app.data.setting.config.lyricSet.dur,
+          config:{
+            offset: 0,
+            max: 1000,
+            min: 0
+          },
+          clickFunc:(i)=>{
+            app.editconfig((data) => {
+            let value = new Number(((i.offsetX / i.path[2].offsetWidth) * 1000).toFixed(0))
+            data.lyricSet.dur = value
+            this.settingButton[5].value = value
+            
+            return data
+          })
+          }
         }, {
           text: '诶？到底了，等待更新吧（*゜ー゜*）',
           type: 'text'
-        }]
+        }],
+        pushData(){
+          setTimeout(() => {
+            app.pushingconfig()
+          }, 100);
+        }
       }
 
     },

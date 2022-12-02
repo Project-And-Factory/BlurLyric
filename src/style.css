@@ -1016,6 +1016,7 @@ ul#lyrics {
   padding: .9em 0.3em;
   min-height: 3em;
   min-width: 7em;
+  --dur:600ms
 }
 
 #lyric ul li[lyricfocus="true"] h1{
@@ -1032,12 +1033,12 @@ ul#lyrics {
 #lyric  ul li h1 {
   font-size: 2em;
   margin: 0;
-  transition: font-size .6s ;
+  transition: font-size var(--dur) ;
 }
 
 #lyric  ul li h2 {
   margin: 0.2em 0 0 0;
-  transition: font-size .6s ;
+  transition: font-size var(--dur) ;
   font-size: 1.3em;
 }
 

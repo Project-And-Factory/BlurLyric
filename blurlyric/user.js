@@ -9,7 +9,7 @@ module.exports = {
 };
 
 async function getUser(id, fun) {
-    await superTool.readJson('./data/user/' + id + '.json', (err, dataStr) => {
+    await superTool.readJson('../data/user/' + id + '.json', (err, dataStr) => {
         if (err) {
             fun({
                 code: '400',
@@ -40,7 +40,7 @@ async function createUser(callback) {
                 id: id,
                 config: {}
             }
-            fs.writeFileSync(path.join(__dirname, './data/user/' + id + '.json'),JSON.stringify(file))
+            fs.writeFileSync(path.join(__dirname, '../data/user/' + id + '.json'),JSON.stringify(file))
 
             callback(file)
 }}
@@ -51,7 +51,7 @@ async function upsetConfig(query, callback) {
         config: dataJson(query.res)
     }
 
-    superTool.writeJson('./data/user/' + file.id + '.json', file, (err, dataStr)=>{
+    superTool.writeJson('../data/user/' + file.id + '.json', file, (err, dataStr)=>{
         if (err) {
             callback(err);
         } else {

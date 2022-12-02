@@ -301,7 +301,7 @@
         <!--进度条-->
         <div class="musicContorlCurrTime">
 
-          <div v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress" class="box-progressbar">
+          <div id="audioProgress" v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress" class="box-progressbar">
             <div id="progress"></div>
             <div id="pointer"></div>
           </div>
@@ -721,9 +721,9 @@
                 }
               },
               funcDelay: {
-                use: function (offset) {
+                use:(offset) =>{
                   if (offset < -2 || offset > 7) return 0
-                  return 40 * offset * (0.9 ** Math.abs(offset));
+                  return 0.066 * this.data.setting.config.lyricSet.dur * offset * (0.9 ** Math.abs(offset));
                 }
               }
             }
@@ -731,8 +731,9 @@
           setting: {
             id: '0',
             config: {
-              configVersion: '1.2',
+              configVersion: '1.3',
               lyricSet: {
+                dur: 600,
                 text: '最高',
                 funcBlur: true,
                 funcDelay: 'use',
@@ -1026,14 +1027,16 @@
               }
 
 
-
               var fontSizeFunc = (el, i, needFocus) => {
                 if (this.data.setting.config.lyricSet.animeFontSize == false) {
                   if (i==lyricNum) {
                     el.setAttribute('lyricFocus',true)
-                  } else if(i>lyricNum) {
+                    el.style['--dur']= dur
+
+                  } else if(i>lyricNum&&el.getAttribute('lyricFocus')!=false) {
                     el.setAttribute('lyricFocus',false)
                   }
+
                   return '1em' //(i==lyricNum)?'1.05em':'1em'
                 };
                 let offset = Math.abs(i - lyricNum)
@@ -1047,9 +1050,11 @@
               var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15),
               translateYContent = "translateY(" + translateY + "px)"
 
-              let dur = '600ms'
+              let dur
               if (force == true && type != 'tran') {
                 dur = '0';
+              } else {
+                dur = this.data.setting.config.lyricSet.dur +  'ms'
               }
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
@@ -1071,7 +1076,7 @@
 
                   setTimeout(() => {
                     lyricTransitionClean(element)
-                  }, 1000);
+                  }, new Number(this.data.setting.config.lyricSet.dur)+200);
                 } else {
                   color = 'rgb(0,0,0,0)'
                   element.style.filter=''

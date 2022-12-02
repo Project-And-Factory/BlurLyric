@@ -4,7 +4,7 @@ var founding = false
 var data
 
     function setProgressBar(){
-        let elems = document.querySelectorAll('.box-progressbar')
+        let elems = document.querySelectorAll('#audioProgress')
 
         for(let i = 0; i < elems.length; i++) {
 
