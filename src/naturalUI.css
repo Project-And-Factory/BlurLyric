@@ -5,13 +5,11 @@
 
 }
 
-#lyrics > li:hover,
 .na-bottonBigger,.na-bottonBiggerHover:hover{
     background-color: var(--botton-color-background);
     border: solid 0.15em var(--botton-color-border);
 
 }
-#lyrics > li,
 .na-bottonBigger,.na-bottonBiggerHover{
     background-color: none;
     padding: 0.5em;
@@ -26,5 +24,17 @@ div.linkbox a{
 div.linkbox a:hover{
     background-color: var(--botton-color-background);
     border: solid 0.15em var(--botton-color-border)
-
+}
+.playerIndexSide>div.linkbox a:hover{
+    background-color: var(--botton-color-background);
+    border: none !important;
+    transform: none;
+}
+.playerIndexSide>div.linkbox a:active{
+    background-color: var(--botton-color-border);
+}
+.playerIndexSide>div.linkbox a{
+    /* background-color: var(--botton-color-background); */
+    border: none !important;
+    transition: none;
 }

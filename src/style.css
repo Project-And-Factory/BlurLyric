@@ -987,8 +987,9 @@ img.ImageBlurBackground{
 }
 
 #lyric {
-  font-size: calc(1.3vh + 0.8vw);
-  --fontSize: calc(1.3vh + 0.8vw);
+  font-size: calc(1.4vh + 0.9vw);
+  /* --fontSize: calc(1.3vh + 0.8vw); */
+  --dur:600ms;
   height: inherit;
   
 }
@@ -1013,21 +1014,22 @@ ul#lyrics {
   width: fit-content;
   width: -moz-fit-content;
   will-change: transform,filter,color,font-size,transition;    
-  padding: .9em 0.3em;
+  padding: .7em 0.3em;
   min-height: 3em;
   min-width: 7em;
-  --dur:600ms
+  transform:scale(.85);
+  border-left: solid 0.2em #00000000;
+  transform-origin: 0% 50%;
 }
 
-#lyric ul li[lyricfocus="true"] h1{
-  font-size: 2.2em ;
+#lyric ul li:hover{
+  border-left: solid 0.2em #00000030;
+  /* transition: border-left 0s !important; */
 }
-#lyric ul li[lyricfocus="true"] h2{
-  font-size: 1.43em ;
-  
-}
+
+
 #lyric  ul li:active {
-  transform: scale(0.9);
+  transform: scale(0.96);
 }
 
 #lyric  ul li h1 {

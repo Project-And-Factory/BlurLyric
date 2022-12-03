@@ -521,7 +521,7 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" ref="lyricBox" v-if="data.player.musicCache[id]">
+          <ul id="lyrics" :style="'--dur:'+data.setting.config.lyricSet.dur +  'ms'" ref="lyricBox" v-if="data.player.musicCache[id]">
             <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
@@ -1031,7 +1031,6 @@
                 if (this.data.setting.config.lyricSet.animeFontSize == false) {
                   if (i==lyricNum) {
                     el.setAttribute('lyricFocus',true)
-                    el.style['--dur']= dur
 
                   } else if(i>lyricNum&&el.getAttribute('lyricFocus')!=false) {
                     el.setAttribute('lyricFocus',false)
@@ -1048,7 +1047,7 @@
 
               // 要平移的Y值
               var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15),
-              translateYContent = "translateY(" + translateY + "px)"
+              translateYContent = "translateY(" + translateY + "px)" 
 
               let dur
               if (force == true && type != 'tran') {
@@ -1083,7 +1082,9 @@
                 }
                 
                 
-                element.style.transform = translateYContent// + ((i==lyricNum)?" scale(1.05)":'')
+                element.style.transform = translateYContent + ((i==lyricNum||this.data.setting.config
+                  .lyricSet
+                  .animeFontSize==true)?" scale(1)":'scale(.85)')
                 element.style.color = color
 
 
