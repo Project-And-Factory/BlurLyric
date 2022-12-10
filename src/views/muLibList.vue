@@ -377,8 +377,8 @@
     left: 0;
     height: 100%;
     width: 100%;
-    filter: saturate(0%);
-    opacity: 0.05;
+    filter: blur(3rem);
+    opacity: 0.5;
     background-position: 100% 50%;
     background-repeat: no-repeat;
     background-size: cover;

@@ -33,6 +33,7 @@
     "vite": "^2.9.9",
     "vue": "^3.2.40",
     "vue-router": "^4.1.1",
+    "vue-virtual-scroller": "^2.0.0-beta.5",
     "vue3-lazyload": "^0.3.5",
     "yargs": "^17.5.1"
   },
@@ -56,6 +57,5 @@
     "url": "https://github.com/gozaoo/BlurLyric2.0/issues"
   },
   "homepage": "https://github.com/gozaoo/BlurLyric2.0#readme",
-  "config": {
-  }
+  "config": {}
 }

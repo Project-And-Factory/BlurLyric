@@ -18,7 +18,7 @@
   </div>
 
   <!--左侧导航栏-->
-  <div v-bind:class="'leftlab ' + data.ui.leftSideWidth + ' ' + data.player.uiDisplay.mainDisplay">
+  <div v-if="data.player.uiDisplay.mainDisplay != 'top'" v-bind:class="'leftlab ' + data.ui.leftSideWidth">
     <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
       <!--返回按钮-->
       <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -231,29 +231,6 @@
 
 
       </div>
-      <!-- 
-      <div class="musicTitle"> 
-        
-        <svg @click="data.player.uiDisplay.SideDisplaySet = 'onlyLeft'" xmlns="http://www.w3.org/2000/svg" width="28"
-          height="32" fill="currentColor" class="bi bi-file-richtext" viewBox="0 0 16 16">
-          <path
-            d="M7 4.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zm-.861 1.542 1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V7.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V7s1.54-1.274 1.639-1.208zM5 9a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z" />
-          <path
-            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
-        </svg>
-        
-        <svg @click="data.player.uiDisplay.SideDisplaySet = ''" xmlns="http://www.w3.org/2000/svg" width="25"
-          height="32" fill="currentColor" class="bi bi-grid-1x2" viewBox="0 0 16 16">
-          <path
-            d="M6 1H1v14h5V1zm9 0h-5v5h5V1zm0 9v5h-5v-5h5zM0 1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm9 0a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1V1zm1 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-5z" />
-        </svg>
-        <svg @click="data.player.uiDisplay.SideDisplaySet = 'onlylyric'" xmlns="http://www.w3.org/2000/svg" width="32"
-          height="32" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-        </svg>
-      </div>
-        -->
 
     </div>
     <!--display-->
@@ -268,9 +245,14 @@
         <!--加载图像-->
         <div class="left-sideImage">
           <!--前台图像-->
+          <div 
+            v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000),url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'"
+          
+          >
+            
+          </div>
           <img 
-            v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'"
-            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1024y1024'"
+            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000'"
             importance="high"
             >
         </div>
@@ -592,7 +574,7 @@
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
-    if (document.querySelector('div.left-sideImage > img')) document.querySelector("img.ImageBlurBackground").style =
+    if (document.querySelector('div.left-sideImage > img')) document.querySelector("div.left-side").style =
       '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     let tempTime = new Date();
     lastTime = tempTime
@@ -614,7 +596,10 @@
           .getBoundingClientRect().height + 'px');
       }
       main.lyricSet(true)
-    }, 300)
+
+      if (document.querySelector('div.left-sideImage > img')) document.querySelector("div.left-side").style =
+      '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
+    }, 400)
     return {
       bodyHeight,
       bodyWidth

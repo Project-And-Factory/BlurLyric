@@ -826,19 +826,41 @@ display: flex;
   background-size: cover;
   background-position: 50% 50%;
 }
+.left-sideImage {
+  border-radius: 3vh;
+  background-size: cover;
+  transition: background .1s;
+  background-position: center;
+  background-repeat:no-repeat ;
 
+}
 .left-sideImage>img {
-  border-radius: 5%;
   max-width: 100%;
   transition: all 1s;
   max-height: 100%;
   height: auto;
   pointer-events: none;
+  visibility: hidden;
+  /* transition: all .1s; */
+  aspect-ratio: 1/1;
+
+}
+.left-sideImage>div{
+  position: absolute;
+  height: var(--height);
+  width: var(--height);
+  border-radius: 5%;
+  transition: background .2s;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
 img.ImageBlurBackground{
   position: absolute;
   border-radius: 5%;
-  --height: 0px;
+  /* --height: 0px; */
   pointer-events: none;
 
   --marginValue: calc(var(--height) * 0.09);

@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
 import vueApp from './App.vue'
 import router from './router'
+import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 // import VueLazyload from 'vue3-lazyload'
 
-const app = createApp(vueApp).use(router).mount('#app')
+const app = createApp(vueApp).use(router).use(VueVirtualScroller).mount('#app')
 // .use(VueLazyload,{
 //     preLoad: 3,
 //     attempt: 3
