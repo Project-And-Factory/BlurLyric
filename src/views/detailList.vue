@@ -233,10 +233,10 @@
 
     .dlTopLab>img:nth-child(1) {
         position: absolute;
-        filter: blur(12px);
+        filter: blur(2rem);
         z-index: -1;
-        height: calc(var(--img-size) - 20px);
-        margin: 15px 10px 0 10px;
+        height: calc(var(--img-size) - 30px);
+        margin: 20px 10px 0 10px;
     }
 
     .dlTopLab>img:nth-child(2) {
@@ -306,6 +306,21 @@
 
         div.dlTopLab>div>p:nth-child(4) {
             display: none;
+        }
+    }
+    @media (max-width:460px){
+        .dlTopLab{
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            /* justify-content: center; */
+        }
+        .dlTopLab>img {
+            border-radius: 7px;
+            --img-size: 200px;
+        }
+        .dlTopLab-TitleLab .linkbox{
+            justify-content: center;
         }
     }
 </style>

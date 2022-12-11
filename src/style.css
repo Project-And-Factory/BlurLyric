@@ -9,6 +9,7 @@
 
 h1 {
   font-weight: normal;
+  font-size: 1.5rem;
 }
 
 h2 {
@@ -270,24 +271,7 @@ input#searchInput,#searchInputTemp {
   }
 }
 
-@media (max-width: 410px) {
-  .linkbox>a {
-    font-size: 14px;
-  }
-  div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
-    width: 100%;
-    display: flex;
-  }
-  .toplab {
-    font-size: 23px;
-  }
 
-  input#searchInput {
-    font-size: 14px;
-    height: 16px;
-    width: 150px;
-  }
-}
 .ROWTOPtitle{
   position: relative;
   display: flex;
@@ -296,6 +280,9 @@ input#searchInput,#searchInputTemp {
   z-index: 1;
   align-items: center;
   
+}
+.ROWTOPtitle>div.linkbox{
+  display: none;
 }
 .ROWTOPtitle>div.dragBar{
   width: calc(100%);
@@ -315,6 +302,41 @@ input#searchInput,#searchInputTemp {
 
 .tl-title::after {
   padding: 0 0 0 15px;
+}
+@media (max-width:420px){
+ :root{
+  --leftlab-width:0px
+ }
+
+ #app > div.leftlab.icon{
+   transform: translateX(-100%);
+   --leftlab-width: 56px;
+
+ }
+ .ROWTOPtitle{
+    padding-left: 10px;
+ }
+}
+@media (max-width: 410px) {
+  .linkbox>a {
+    font-size: 14px;
+  }
+  div.player-Mini > div:nth-child(1),div.tracks > div:nth-child(1){
+    width: 100%;
+    display: flex;
+  }
+  .toplab {
+    font-size: 23px;
+  }
+
+  input#searchInput {
+    font-size: 14px;
+    height: 16px;
+    width: 150px;
+  }
+  .ROWTOPtitle>div.linkbox{
+    display: flex;
+  }
 }
 .rightrow{
 flex-direction: column;
@@ -1015,7 +1037,14 @@ img.ImageBlurBackground{
   height: inherit;
   
 }
+@media (max-width:460px){
+@media (max-height:240vw){
+  #lyric {
+    font-size: 1rem;
+  }
+}
 
+}
 ul li {
   list-style: none;
   padding: 0;

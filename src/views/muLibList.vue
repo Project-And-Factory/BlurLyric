@@ -387,6 +387,6 @@
   }
 
   .personalFMCard>.Text {
-    font-size: calc(calc(8vh + 5vw) * 0.25);
+    font-size: calc(1.5vh + 1.2vw) ;
   }
 </style>
