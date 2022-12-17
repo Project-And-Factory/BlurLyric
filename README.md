@@ -25,9 +25,9 @@
 
 ## 在线部署
 ```
-node onlyOnWeb
+node .\blurlyric\onlyonweb
 ```
-即可，地址 http://localhost:18776/ ，可在vite.config.js修改端口
+即可，地址 http://localhost:18775/ ，可在vite.config.js修改端口
 
 ## 手动构建可执行文件
 使用命令行输入

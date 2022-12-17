@@ -2,6 +2,6 @@
 :start
 set ENABLE_FLAC=true
 set ENABLE_LOCAL_VIP=true
-node onlyonweb
+node .\blurlyric\onlyonweb
 goto start
 pasue

@@ -29,8 +29,8 @@
       <hr style="color:#00000050;width:100%;margin: 2px 0;">
       <a alt="显示侧边栏" @click="
           this.data.ui.leftSideWidth = (this.data.ui.leftSideWidth == 'iconWithText')?'icon':'iconWithText'
-      "><svg v-if="data.ui.leftSideWidth =='icon'" xmlns="http://www.w3.org/2000/svg"
-          width="16" height="16" fill="currentColor" class="bi bi-pin-angle" viewBox="0 0 16 16">
+      "><svg v-if="data.ui.leftSideWidth =='icon'" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-pin-angle" viewBox="0 0 16 16">
           <path
             d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146zm.122 2.112v-.002.002zm0-.002v.002a.5.5 0 0 1-.122.51L6.293 6.878a.5.5 0 0 1-.511.12H5.78l-.014-.004a4.507 4.507 0 0 0-.288-.076 4.922 4.922 0 0 0-.765-.116c-.422-.028-.836.008-1.175.15l5.51 5.509c.141-.34.177-.753.149-1.175a4.924 4.924 0 0 0-.192-1.054l-.004-.013v-.001a.5.5 0 0 1 .12-.512l3.536-3.535a.5.5 0 0 1 .532-.115l.096.022c.087.017.208.034.344.034.114 0 .23-.011.343-.04L9.927 2.028c-.029.113-.04.23-.04.343a1.779 1.779 0 0 0 .062.46z" />
         </svg><svg v-if="data.ui.leftSideWidth == 'iconWithText'" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -85,20 +85,22 @@
     <!--顶部logo及导航（viewBox）-->
     <div class="ROWTOPtitle">
       <div class="tl-title">BlurLyric</div>
-<div class="linkbox">
-            <!--返回按钮-->
-            <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-          class="bi bi-chevron-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd"
-            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-        </svg></a>
-      <a alt="显示侧边栏" @click="
+      <div class="linkbox">
+        <!--返回按钮-->
+        <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+          </svg></a>
+        <a alt="显示侧边栏" @click="
           this.data.ui.leftSideWidth = (this.data.ui.leftSideWidth == 'iconWithText')?'icon':'iconWithText'
       ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
-          <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
-        </svg>
-      </a>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection"
+            viewBox="0 0 16 16">
+            <path
+              d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
+          </svg>
+        </a>
       </div>
       <input placeholder="搜索框" v-on:keydown.enter="search" id="searchInput">
       <div v-if="(data.player.uiDisplay.mainDisplay != 'top')" class="dragBar"></div>
@@ -242,9 +244,11 @@
           </a></h2>
       </div>
       <div class="contorlPage lowWidthDisplay">
-        <a @click="data.player.uiDisplay.playerSelec = 'song'" :style="(data.player.uiDisplay.playerSelec == 'song')?'color: black;':''">歌曲</a>
+        <a @click="data.player.uiDisplay.playerSelec = 'song'"
+          :style="(data.player.uiDisplay.playerSelec == 'song')?'color: black;':''">歌曲</a>
 
-        <a @click="data.player.uiDisplay.playerSelec = 'lyric'" :style="(data.player.uiDisplay.playerSelec == 'lyric')?'color: black;':''">歌词</a>
+        <a @click="data.player.uiDisplay.playerSelec = 'lyric'"
+          :style="(data.player.uiDisplay.playerSelec == 'lyric')?'color: black;':''">歌词</a>
 
 
       </div>
@@ -258,20 +262,15 @@
         <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'"
           class="ImageBlurBackground">
 
-                  <!--图像-->
+        <!--图像-->
         <!--加载图像-->
         <div class="left-sideImage">
           <!--前台图像-->
-          <div 
-            v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000),url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'"
-          
-          >
-            
+          <div
+            v-bind:style="'background-image: url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000),url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128)'">
+
           </div>
-          <img 
-            v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000'"
-            importance="high"
-            >
+          <img v-bind:src="data.player.tracks[data.player.trackNum].al.picUrl + '?param=1000y1000'" importance="high">
         </div>
 
 
@@ -300,7 +299,8 @@
         <!--进度条-->
         <div class="musicContorlCurrTime">
 
-          <div id="audioProgress" v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress" class="box-progressbar">
+          <div id="audioProgress" v-bind:style="'--musicProgressPercent:' + data.player.uiDisplay.progress"
+            class="box-progressbar">
             <div id="progress"></div>
             <div id="pointer"></div>
           </div>
@@ -520,7 +520,8 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" :style="'--dur:'+data.setting.config.lyricSet.dur +  'ms'" ref="lyricBox" v-if="data.player.musicCache[id]">
+          <ul id="lyrics" :style="'--dur:'+data.setting.config.lyricSet.dur +  'ms'" ref="lyricBox"
+            v-if="data.player.musicCache[id]">
             <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
@@ -614,7 +615,7 @@
       main.lyricSet(true)
 
       if (document.querySelector('div.left-sideImage > img')) document.querySelector("div.left-side").style =
-      '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
+        '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
     }, 400)
     return {
       bodyHeight,
@@ -708,8 +709,8 @@
               tracks: [],
             }
           },
-          settingTemperture:config.settingTemperture,
-          setting:config.setting
+          settingTemperture: config.settingTemperture,
+          setting: config.setting
         }
       }
     },
@@ -949,11 +950,11 @@
 
               var fontSizeFunc = (el, i, needFocus) => {
                 if (config.setting.config.lyricSet.animeFontSize == false) {
-                  if (i==lyricNum) {
-                    el.setAttribute('lyricFocus',true)
+                  if (i == lyricNum) {
+                    el.setAttribute('lyricFocus', true)
 
-                  } else if(i>lyricNum&&el.getAttribute('lyricFocus')!=false) {
-                    el.setAttribute('lyricFocus',false)
+                  } else if (i > lyricNum && el.getAttribute('lyricFocus') != false) {
+                    el.setAttribute('lyricFocus', false)
                   }
 
                   return '1em' //(i==lyricNum)?'1.05em':'1em'
@@ -967,13 +968,13 @@
 
               // 要平移的Y值
               var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15),
-              translateYContent = "translateY(" + translateY + "px)" 
+                translateYContent = "translateY(" + translateY + "px)"
 
               let dur
               if (force == true && type != 'tran') {
                 dur = '0';
               } else {
-                dur = config.setting.config.lyricSet.dur +  'ms'
+                dur = config.setting.config.lyricSet.dur + 'ms'
               }
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
@@ -988,23 +989,24 @@
                   element.style.fontSize = fontSizeFunc(element, i, needFocus)
 
                   element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
-                  .lyricSet
-                  .funcBlur](i, lyricNum)
+                    .lyricSet
+                    .funcBlur](i, lyricNum)
 
-                  color =(i == lyricNum)?'rgb(0,0,0,0.9)':('rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i - lyricNum))) + ')')
+                  color = (i == lyricNum) ? 'rgb(0,0,0,0.9)' : ('rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i -
+                    lyricNum))) + ')')
 
                   setTimeout(() => {
                     lyricTransitionClean(element)
-                  }, new Number(config.setting.config.lyricSet.dur)+200);
+                  }, new Number(config.setting.config.lyricSet.dur) + 200);
                 } else {
                   color = 'rgb(0,0,0,0)'
-                  element.style.filter=''
+                  element.style.filter = ''
                 }
-                
-                
-                element.style.transform = translateYContent + ((i==lyricNum||config.setting.config
+
+
+                element.style.transform = translateYContent + ((i == lyricNum || config.setting.config
                   .lyricSet
-                  .animeFontSize==true)?" scale(1)":'scale(.85)')
+                  .animeFontSize == true) ? " scale(1)" : 'scale(.85)')
                 element.style.color = color
 
 
@@ -1027,11 +1029,12 @@
       },
       async getCurr() {
         //音频进度转换
-          let cur = this.audio.currentTime,
+        let cur = this.audio.currentTime,
           parseCurrTime = parseInt(cur)
         this.data.player.uiDisplay.realCurrTime = cur
         this.data.player.uiDisplay.currTime = parseCurrTime
         let progress = parseCurrTime / this.data.player.uiDisplay.duration
+
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
         //音频过度事件触发
@@ -1042,112 +1045,115 @@
         setTimeout(() => this.getCurr(), 100)
       },
       async transitionNextMusic(times) {
-        if (transitionning == false) {
-          transitionning = true
-          let oldAudio = this.audio,
-            newAudio = document.createElement("audio")
-          // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
-          audioListener.listen(newAudio)
-          let numb, id, NextMusicCache
+        transitionning = true
+        let oldAudio = this.audio,
+          newAudio = document.createElement("audio")
+        // oldAudio.removeEventListener('loadeddata',loadeddataFunction)
+        audioListener.listen(newAudio)
+        let numb, id, NextMusicCache
 
-          if (this.state.random == true) {
-            numb = Math.floor(Math.random() * this.data.player.tracks.length)
-            this.data.player.musicCache[this.data.player.tracks[numb].id] = await audioNetease.requireId(this.data
-              .player.tracks[numb].id)
-          } else {
-            if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.audio == true) {
-              return
-            }
-            numb = this.data.player.trackNum + 1
+        if (this.state.random == true) {
+          numb = Math.floor(Math.random() * this.data.player.tracks.length)
+          this.data.player.musicCache[this.data.player.tracks[numb].id] = await audioNetease.requireId(this.data
+            .player.tracks[numb].id)
+        } else {
+          if (this.data.player.tracks.length == this.data.player.trackNum + 1 || this.audio == true) {
+            return
           }
-          id = this.data.player.tracks[numb].id
-
-          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
-              .player
-              .trackNum < 3)) {
-
-            this.getPersonalFM()
-          }
-          //设置音频
-          NextMusicCache = this.data.player.musicCache[id]
-          newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
-          newAudio.volume = 0
-          newAudio.currentTime = 0
-          progress.load(newAudio)
-          //播放新的音频
-          newAudio.addEventListener('canplay', () => {
-            newAudio.play();
-          })
-          let loadeddataFunction = () => {
-            if (newAudio.readyState < 2) return
-
-            this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
-            newAudio.play();
-            anime({
-              targets: this.data.player.uiDisplay,
-              duration: time,
-              easing: 'cubicBezier(.3, .5, .2, 1)',
-              progress: () => {
-                return time / 1000 / this.data.player.uiDisplay.duration
-              },
-
-            })
-          }
-          newAudio.addEventListener('loadeddata', loadeddataFunction)
-          if (newAudio.readyState >= 2) loadeddataFunction
-
-          reTools.getData('/scrobble', {
-            id: this.id,
-            sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-            time: Math.floor(oldAudio.duration)
-          })
-          this.id = id,
-            this.data.player.uiDisplay.LineNum
-          this.data.player.trackNum = numb
-          this['audio'] = newAudio
-          let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
-
-          anime({
-            targets: newAudio,
-            duration: time,
-            volume: 1,
-            easing: 'linear'
-          })
-          anime({
-            targets: oldAudio,
-            duration: time,
-            volume: 0,
-            easing: 'linear'
-          })
-
-          setTimeout(
-            () => {
-
-              if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
-                numb
-              if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
-                  .player
-                  .trackNum < 3)) {
-                this.getPersonalFM()
-              }
-
-              //上传听歌记录
-
-              oldAudio.pause()
-              oldAudio.remove()
-
-
-
-              setTimeout(() => {
-                this.state.playing = true
-              }, 100);
-              transitionning = false
-              newAudio.removeEventListener('loadeddata', loadeddataFunction)
-              oldAudio.removeEventListener('loadeddata', loadeddataFunction)
-
-
-            }, time);
+          numb = this.data.player.trackNum + 1
         }
+        id = this.data.player.tracks[numb].id
+
+        if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
+            .player
+            .trackNum < 3)) {
+
+          this.getPersonalFM()
+        }
+        //设置音频
+        NextMusicCache = this.data.player.musicCache[id]
+        newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
+        newAudio.volume = 0
+        newAudio.currentTime = 0
+        progress.load(newAudio)
+        //播放新的音频
+        newAudio.addEventListener('canplay', () => {
+          newAudio.play();
+        })
+        let loadeddataFunction = () => {
+          if (newAudio.readyState < 2) return
+
+          this.data.player.uiDisplay.duration = Math.floor(this.audio.duration)
+          newAudio.play();
+          transitionning = true
+
+          let progressAnime = anime({
+            targets: this.data.player.uiDisplay,
+            duration: time / 10,
+            easing: 'cubicBezier(.3, .5, .2, 1)',
+            progress: () => {
+              return time / 10000 / this.data.player.uiDisplay.duration
+            },
+
+          })
+
+          progressAnime.finished.then(() => {
+            transitionning = false
+          });
+        }
+        newAudio.addEventListener('loadeddata', loadeddataFunction)
+        if (newAudio.readyState >= 2) loadeddataFunction
+
+        reTools.getData('/scrobble', {
+          id: this.id,
+          sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
+          time: Math.floor(oldAudio.duration)
+        })
+        this.id = id,
+          this.data.player.uiDisplay.LineNum
+        this.data.player.trackNum = numb
+        this['audio'] = newAudio
+        let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
+
+        anime({
+          targets: newAudio,
+          duration: time,
+          volume: 1,
+          easing: 'linear'
+        })
+        anime({
+          targets: oldAudio,
+          duration: time,
+          volume: 0,
+          easing: 'linear'
+        })
+
+        setTimeout(
+          () => {
+
+            if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum =
+              numb
+            if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
+                .player
+                .trackNum < 3)) {
+              this.getPersonalFM()
+            }
+
+            //上传听歌记录
+
+            oldAudio.pause()
+            oldAudio.remove()
+
+
+
+            setTimeout(() => {
+              this.state.playing = true
+            }, 100);
+            newAudio.removeEventListener('loadeddata', loadeddataFunction)
+            oldAudio.removeEventListener('loadeddata', loadeddataFunction)
+
+
+          }, time);
       },
       showLong() { //音频加载成功后改变进度
         this.data.player.uiDisplay.duration = parseInt(this.audio.duration)
@@ -1220,34 +1226,34 @@
         //settimeout为动画之后的事件，方便优化
         this.getWindowInfo()
         let playerMini = document.querySelector('.player-Mini')
-        
+
         if (this.data.player.uiDisplay.mainDisplay == 'buttom' || type == 'top') {
-          playerMini.style.transition="all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
 
           document.getElementById('player').style.top = '0px';
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          playerMini.style.opacity=0
+          playerMini.style.opacity = 0
           setTimeout(() => {
             this.data.player.uiDisplay.mainDisplay = 'top';
-          playerMini.style.transition="none"
+            playerMini.style.transition = "none"
 
-          playerMini.style.zIndex = -1;
-          },500);
+            playerMini.style.zIndex = -1;
+          }, 500);
           return 'top'
         } else {
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          playerMini.style.transition="all .5s cubic-bezier(.3, .45, .2, .95)"
-          playerMini.style.opacity=1
+          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.opacity = 1
           playerMini.style.zIndex = 99;
 
           setTimeout(() => {
-            
+
             this.data.player.uiDisplay.mainDisplay = 'buttom';
-          playerMini.style.transition="none"
+            playerMini.style.transition = "none"
 
             playerMini.style.zIndex = 99;
-          },500);
+          }, 500);
           return 'buttom'
 
         }

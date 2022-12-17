@@ -1,6 +1,6 @@
 <template>
   <div class="setting">
-    <h1>Setting | 设置</h1>
+    <h1>Setting | 设置(暂时不可用)</h1>
     <div v-for="(item, i) in this.settingButton" :key="'setting'+i">
       <div class="" v-if="item.type == 'line'">
         <div class="setline">
@@ -79,6 +79,7 @@
 
 <script>
   import app from '../main.js'
+  import config from '../js/config.js'
 
   var setting = {
     name: 'setting',
@@ -114,7 +115,7 @@
             min: 0
           },
           clickFunc:(i)=>{
-            app.editconfig((data) => {
+            config.methods.editconfig((data) => {
             let value = new Number(((i.offsetX / i.path[2].offsetWidth) * 1000).toFixed(0))
             data.lyricSet.dur = value
             this.settingButton[5].value = value
@@ -128,7 +129,7 @@
         }],
         pushData(){
           setTimeout(() => {
-            app.pushingconfig()
+            config.methods.pushingconfig()
           }, 100);
         }
       }
@@ -137,7 +138,7 @@
     methods: {
       funcBackground(i) {
         setTimeout(() => {
-          app.editconfig((data) => {
+          config.methods.editconfig((data) => {
             data.useBlurBackground = this.settingButton[i].bolean
             return data
           })
@@ -145,7 +146,7 @@
       },
       lyricFontSize(i) {
           setTimeout(() => {
-          app.editconfig((data) => {
+          config.methods.editconfig((data) => {
             data.lyricSet.animeFontSize = this.settingButton[i].bolean
             return data
           })
@@ -154,7 +155,7 @@
       funcBlur(i) {
 
         setTimeout(() => {
-          app.editconfig((data) => {
+          config.methods.editconfig((data) => {
             data.lyricSet.funcBlur = this.settingButton[i].bolean
             return data
           })
