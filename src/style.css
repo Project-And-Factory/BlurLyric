@@ -298,7 +298,7 @@ input#searchInput,
   }
 }
 
-@media (max-width: 410px) {
+@media (max-width: 420px) {
   .linkbox>a {
       font-size: 14px
   }
