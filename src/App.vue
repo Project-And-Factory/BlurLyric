@@ -27,7 +27,7 @@
             d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
         </svg><a>返回</a> </a>
       <hr style="color:#00000050;width:100%;margin: 2px 0;">
-      <a alt="隐藏侧边栏" @click="
+      <a alt="显示描述" @click="
           this.data.ui.leftSideWidth = (this.data.ui.leftSideWidth == 'iconWithText')?'icon':'iconWithText'
       "><svg v-if="data.ui.leftSideWidth =='icon'" xmlns="http://www.w3.org/2000/svg"
           width="16" height="16" fill="currentColor" class="bi bi-pin-angle" viewBox="0 0 16 16">
@@ -37,7 +37,7 @@
           height="16" fill="currentColor" class="bi bi-pin-angle-fill" viewBox="0 0 16 16">
           <path
             d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146z" />
-        </svg><a>隐藏侧边栏</a></a>
+        </svg><a>显示描述</a></a>
 
 
       <hr style="color:#00000050;width:100%;margin: 2px 0">
@@ -566,14 +566,13 @@
 </template>
 <script>
   import reTools from './network/getData'
-
+  import config from './js/config.js'
 
   import audioNetease from './js/audioNetease.js'
   import audioListener from './js/audioListener.js'
   import progress from './js/progress.js'
   import anime from 'animejs/lib/anime.es.js';
   import message from './js/message.js'
-  import cookies from 'js-cookie'
   import playerElmContorl from './js/playerElm.js'
   import main from './main.js'
 
@@ -709,42 +708,8 @@
               tracks: [],
             }
           },
-          settingTemperture: {
-            lyricSet: {
-              funcBlur: {
-                true: function (i, lyricNum) {
-                  //return ''
-                  let offset = i - lyricNum
-                  if (offset == 0) return 'blur(0vh)';
-                  return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
-                },
-                false: () => {
-                  return ''
-                }
-              },
-              funcDelay: {
-                use:(offset) =>{
-                  if (offset < -2 || offset > 7) return 0
-                  return 0.066 * this.data.setting.config.lyricSet.dur * offset * (0.9 ** Math.abs(offset));
-                }
-              }
-            }
-          },
-          setting: {
-            id: '0',
-            config: {
-              configVersion: '1.3',
-              lyricSet: {
-                dur: 600,
-                text: '最高',
-                funcBlur: true,
-                funcDelay: 'use',
-                animeFontSize: false
-              },
-              useBlurBackground: true
-
-            }
-          }
+          settingTemperture:config.settingTemperture,
+          setting:config.setting
         }
       }
     },
@@ -874,10 +839,7 @@
         this.data.player.trackNum = personalFMData.trackNum;
         this.data.player.tracks = personalFMData.tracks
       },
-      editconfig(func) {
-        this.data.setting.config = func(this.data.setting.config)
-        this.pushingconfig()
-      },
+
       musicListMore(item) {
 
         this.data.ui.fixedButtom.push({
@@ -923,51 +885,7 @@
           });
 
         })
-        /**
-         * 创建获取BlurLyric账号
-         */
-        //cookies.remove('blurlyricid')
-
-        console.log(cookies.get('blurlyricid'))
-        if (cookies.get('blurlyricid') == undefined) {
-          reTools.getData('/blurlyric/createUser').then(res => {
-            cookies.set('blurlyricid', res.data.id, {
-              expires: new Date(2040, 0, 1)
-            })
-            this.data.setting.id = res.data.id
-            this.pushingconfig()
-          })
-        } else {
-          this.refuseConfig()
-        }
-      },
-      pushingconfig() {
-        reTools.getData('/blurlyric/writeUser', {
-          id: cookies.get('blurlyricid'),
-          res: this.data.setting.config
-        })
-      },
-      refuseConfig() {
-        reTools.getData('/blurlyric/getUser', {
-          id: cookies.get('blurlyricid')
-        }).then(r => {
-          if (r.data.code != 400 && r.data.config.configVersion != this.data.setting.config.configVersion) {
-            this.data.setting.id = r.data.id
-            this.pushingconfig()
-            return
-          }
-          if (r.data.code == 400) {
-            reTools.getData('/blurlyric/createUser').then(r => {
-              cookies.set('blurlyricid', r.data.id, {
-                expires: new Date(2040, 0, 1)
-              })
-              this.data.setting.id = r.data.id
-              this.pushingconfig()
-              return
-            })
-          }
-          this.data.setting = r.data
-        })
+        config.methods.lunch()
       },
 
       myPlayList() {
@@ -1030,7 +948,7 @@
 
 
               var fontSizeFunc = (el, i, needFocus) => {
-                if (this.data.setting.config.lyricSet.animeFontSize == false) {
+                if (config.setting.config.lyricSet.animeFontSize == false) {
                   if (i==lyricNum) {
                     el.setAttribute('lyricFocus',true)
 
@@ -1055,7 +973,7 @@
               if (force == true && type != 'tran') {
                 dur = '0';
               } else {
-                dur = this.data.setting.config.lyricSet.dur +  'ms'
+                dur = config.setting.config.lyricSet.dur +  'ms'
               }
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
@@ -1065,11 +983,11 @@
 
                 if (needFocus == true) {
                   element.style.transition = "all " + dur + " cubic-Bezier(.3, .5, .2, 1) " + this.data
-                    .settingTemperture.lyricSet.funcDelay[this.data.setting.config.lyricSet
+                    .settingTemperture.lyricSet.funcDelay[config.setting.config.lyricSet
                       .funcDelay](i - lyricNum) + "ms"
                   element.style.fontSize = fontSizeFunc(element, i, needFocus)
 
-                  element.style.filter = this.data.settingTemperture.lyricSet.funcBlur[this.data.setting.config
+                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
                   .lyricSet
                   .funcBlur](i, lyricNum)
 
@@ -1077,14 +995,14 @@
 
                   setTimeout(() => {
                     lyricTransitionClean(element)
-                  }, new Number(this.data.setting.config.lyricSet.dur)+200);
+                  }, new Number(config.setting.config.lyricSet.dur)+200);
                 } else {
                   color = 'rgb(0,0,0,0)'
                   element.style.filter=''
                 }
                 
                 
-                element.style.transform = translateYContent + ((i==lyricNum||this.data.setting.config
+                element.style.transform = translateYContent + ((i==lyricNum||config.setting.config
                   .lyricSet
                   .animeFontSize==true)?" scale(1)":'scale(.85)')
                 element.style.color = color
