@@ -677,7 +677,7 @@
               "al": {
                 "id": 0,
                 "name": "",
-                "picUrl": "/icon.svg",
+                "picUrl": "/src/assets/icon.png",
                 "tns": [],
                 "pic_str": "0",
                 "pic": 0

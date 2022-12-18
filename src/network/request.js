@@ -32,7 +32,7 @@ var modules = {
     return instance(config)
 },
 config:{
-    baseURL: '',
+    baseURL: import.meta.env.VITE_BLURLYRIC_NETWORK_BASEURL||'',
     timeout: 10000,
 }
 }
