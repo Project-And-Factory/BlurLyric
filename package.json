@@ -26,7 +26,7 @@
     "music-metadata": "^7.5.3",
     "pac-proxy-agent": "^5.0.0",
     "plyr": "^3.7.2",
-    "qrcode": "^1.5.0",
+    "qrcode": "^1.5.1",
     "rgbaster": "^2.1.1",
     "safe-decode-uri-component": "^1.2.1",
     "tunnel": "^0.0.6",

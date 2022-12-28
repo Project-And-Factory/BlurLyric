@@ -38,7 +38,10 @@ body {
   --minplayerHeight: 48px;
   --leftlab-width: 56px;
   --color-theme: #0080ff;
+  --color-theme-alpha: #0080ff99;
+
   --color-theme-background: #0080ff15
+  
 }
 
 ::-webkit-scrollbar {
@@ -641,12 +644,10 @@ div.player-Mini-Title>h2>a,
   cursor: pointer
 }
 
-.Pltracks:hover>img {
-  transform: scale(1.02)
-}
-
 .Pltracks:hover>.PlButtom {
   display: flex
+}
+.Pltracks:hover {
 }
 
 .PlButtom {
@@ -769,10 +770,30 @@ div.player-Mini-Title>h2>a,
   background-color: var(--color1);
   background-repeat: no-repeat;
   background-size: cover;
-  filter: blur(10vmax) contrast(.3) brightness(1.5) saturate(2);
-  transition: background .4s
-}
+  filter: blur(7vmax)  contrast(.3) brightness(1.5) saturate(2);
+  /* blur(10vmax)  */
+  transition: background .4s;
+  /* animation: background 5s infinite; */
 
+}
+/* @keyframes background {
+  0%{
+    background-position: 50% 50%;
+    
+  }
+  33%{
+    background-position: 60% 80%;
+
+  }
+  66%{
+    background-position: 80% 60%;
+
+  }
+  100%{
+    background-position: 50% 50%;
+
+  }
+} */
 #player>div.player-background.buttom {
   display: none
 }
@@ -903,6 +924,7 @@ img.ImageBlurBackground {
   background-size: cover;
   transition: background 1s
 }
+
 
 .contorlPlayerButtom {
   position: absolute;
@@ -1373,31 +1395,7 @@ li div.Padding {
   transform: translateY(0)
 }
 
-#fixedButtom>div {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 8px 0;
-  border-radius: 7px;
-  box-shadow: #00000010 0 0 40px;
-  background-color: #ffffff20;
-  z-index: 999;
-  backdrop-filter: blur(8px);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden
-}
 
-#fixedButtom>div>a {
-  padding: 6px 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center
-}
-
-#fixedButtom>div>a:hover {
-  background-color: #00000008
-}
 
 :root {
   --botton-color-background: rgb(0, 0, 0, .08);

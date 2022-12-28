@@ -8,7 +8,7 @@
             <span>{{item.text}}</span>
           </div>
           <label class="switch">
-            <input v-model="item.bolean" type="checkbox" @change="item.func(i)">
+            <input v-model="item.bolean" type="checkbox" @change="item.func(item)">
             <div class="slider round"></div>
           </label>
         </div>
@@ -24,17 +24,20 @@
         </div>
         <div class="setline">
 
-        <div class="text">{{item.config.min}}
+          <div class="text">{{item.config.min}}
           </div>
-      <input style="display:block;text-align: center;width: 100px;" v-on:keydown="this.pushData" v-model="app.data.setting.config.lyricSet.dur" id="searchInput">
+          <input style="display:block;text-align: center;width: 100px;" v-on:keydown="this.pushData"
+            v-model="config.setting.config.lyricSet.dur" id="searchInput">
 
           <div class="text">{{item.config.max}}
           </div>
-          </div>
-        <div @click="item.clickFunc" v-bind:style="('--height:calc(0.6vh + 0.3vw);--musicProgressPercent:' + (new Number(app.data.setting.config.lyricSet.dur) + item.config.offset)/1000)" class="box-progressbar">
-            <div id="progress"></div>
-            <div id="pointer"></div>
-          </div>
+        </div>
+        <div @click="item.clickFunc"
+          v-bind:style="('--height:calc(0.6vh + 0.3vw);--musicProgressPercent:' + (new Number(config.setting.config.lyricSet.dur) + item.config.offset)/1000)"
+          class="box-progressbar">
+          <div id="progress"></div>
+          <div id="pointer"></div>
+        </div>
         <hr style="background-color: #00000020;height: 1px;border: none;" v-if="(i != this.settingButton.length -1)">
 
       </div>
@@ -78,88 +81,58 @@
 </template>
 
 <script>
-  import app from '../main.js'
-  import config from '../js/config.js'
-
+  import configjs from '../js/config.js'
+  let config = configjs.setting.config
   var setting = {
     name: 'setting',
     data() {
       return {
-        app,
-        displayQrCode:false,
-        settingButton: [{
-          text: '显示',
-          type: 'h2',
-        }, {
-          text: '在 歌词 中使用动态字体大小',
-          type: 'line',
-          bolean: app.data.setting.config.lyricSet.animeFontSize,
-          func: this.lyricFontSize
-        }, {
-          text: '在 歌词 中使用模糊效果',
-          type: 'line',
-          bolean: app.data.setting.config.lyricSet.funcBlur,
-          func: this.funcBlur
-        }, {
-          text: '使用模糊背景',
-          type: 'line',
-          bolean: app.data.setting.config.useBlurBackground,
-          func: this.funcBackground
-        },{
-          text: '在 单歌词 过度时长 [点击进度条修改]',
-          type: 'tap',
-          value: app.data.setting.config.lyricSet.dur,
-          config:{
-            offset: 0,
-            max: 1000,
-            min: 0
+        displayQrCode: false,
+        settingButton: {
+          text1: {
+            text: '显示',
+            type: 'h2',
           },
-          clickFunc:(i)=>{
-            config.methods.editconfig((data) => {
-            let value = new Number(((i.offsetX / i.path[2].offsetWidth) * 1000).toFixed(0))
-            data.lyricSet.dur = value
-            this.settingButton[5].value = value
-            
-            return data
-          })
+          animeFontSize: {
+            text: '在 歌词 中使用动态字体大小',
+            type: 'line',
+            bolean: config.lyricSet.animeFontSize,
+            func: (item) => {
+              config.lyricSet.animeFontSize = item.bolean
+              this.upload()
+            }
+          },
+          useBlur: {
+            text: '在 歌词 中使用模糊字体',
+            type: 'line',
+            bolean: config.lyricSet.funcBlur,
+            func: (item) => {
+              config.lyricSet.funcBlur = item.bolean
+              this.upload()
+            }
+          },
+          useDelay: {
+            text: '在 歌词 中使用延迟特效',
+            type: 'line',
+            bolean: config.lyricSet.funcDelay,
+            func: (item) => {
+              config.lyricSet.funcDelay = item.bolean
+              this.upload()
+            }
           }
-        }, {
-          text: '诶？到底了，等待更新吧（*゜ー゜*）',
-          type: 'text'
-        }],
-        pushData(){
-          setTimeout(() => {
-            config.methods.pushingconfig()
-          }, 100);
-        }
+        },
+        config
       }
 
     },
+    created() {
+      console.log(this.config);
+    },
     methods: {
-      funcBackground(i) {
-        setTimeout(() => {
-          config.methods.editconfig((data) => {
-            data.useBlurBackground = this.settingButton[i].bolean
-            return data
-          })
-        }, 100);
-      },
-      lyricFontSize(i) {
-          setTimeout(() => {
-          config.methods.editconfig((data) => {
-            data.lyricSet.animeFontSize = this.settingButton[i].bolean
-            return data
-          })
-        }, 100);
-      },
-      funcBlur(i) {
-
-        setTimeout(() => {
-          config.methods.editconfig((data) => {
-            data.lyricSet.funcBlur = this.settingButton[i].bolean
-            return data
-          })
-        }, 100);
+      upload() {
+        configjs.methods.editconfig((r) => {
+          return this.config
+        })
       }
     }
   };

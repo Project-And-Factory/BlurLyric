@@ -207,7 +207,7 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && data.setting.config.useBlurBackground"
+    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting.config.useBlurBackground"
       v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')'"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
@@ -408,7 +408,7 @@
             </svg>
           </a>
           <!--下一曲-->
-          <a @click="musicPanel(this.id)">
+          <a @click="tapElm.musicPanel.display">
             <svg style="height: 3vh; width: 3vh" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
               fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
               <path fill-rule="evenodd"
@@ -520,12 +520,12 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" :style="'--dur:'+data.setting.config.lyricSet.dur +  'ms'" ref="lyricBox"
+          <ul id="lyrics" :style="'--dur:'+config.setting.config.lyricSet.dur +  'ms'" ref="lyricBox"
             v-if="data.player.musicCache[id]">
             <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
-              <h2 v-if="(this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
+              <h2 v-if="(state.useTran == true&&this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
               <!-- <div>{{formTime(parseInt(item.t))}}</div> -->
             </li>
           </ul>
@@ -535,33 +535,48 @@
   </div>
   <div id="messageLab">
   </div>
+
+  <!--漂浮按钮区-->
   <div id="fixedButtom">
-    <div v-for="item in data.ui.fixedButtom" v-bind:key="item.type+item.id">
+    <!--主音乐控制面板-->
+    <div id="musicPanel" style="display:none">
+      <!--操控点-->
+      <div class="tap">
+          <div class="tapInner"></div>
 
-      <a @click="loveMusic()">
-        <svg style="color:red;user-select:none" v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)"
-          xmlns="http://www.w3.org/2000/svg" width="20" height="15" fill="currentColor" class="bi bi-heart-fill"
-          viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-        </svg>
-        <svg v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)" style="user-select:none"
-          xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-heart"
-          viewBox="0 0 16 16">
-          <path
-            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-        </svg>
-        <a v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) != -1)">取消喜欢</a>
-        <a v-if="(data.musicListInfor.myLove.aRtrackIds.indexOf(item.id) == -1)">喜欢该曲</a>
+      </div>
+      <!--按钮-->
+      <div class="others">
 
-      </a>
-      <a @click="data.player.tracks.push(item.data);refuseTrack()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-view-list"
-          viewBox="0 0 16 16">
-          <path
-            d="M3 4.5h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H3zM1 2a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 2zm0 12a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 14z" />
-        </svg>
-        加入播放列表
-      </a>
+        <!--音量条-->
+        <div v-bind:style="'--progressPercent:' + (state.volume / 1)" id="volum"
+          v-on:mousedown="tapElm.musicPanel.volume.mousedown"
+        class="progressElm">
+          <div class="Color"></div>
+          <div class="Icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-volume-down-fill" viewBox="0 0 16 16">
+                <path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/>
+              </svg>
+            </div>
+        </div>
+        <div class="gridbuttom">
+          <div @click="audioNetease.downloadID(this.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-download" viewBox="0 0 16 16">
+                <path
+                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                <path
+                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+            </svg>
+          </div>
+          <div v-bind:style="'background:'+((state.useTran == true)?'var(--color-theme-alpha);color:#00000040':'#00000010')" @click="state.useTran = !state.useTran;lyricSet(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate" viewBox="0 0 16 16">
+              <path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zm1.634-.736L5.5 3.956h-.049l-.679 2.022H6.18z"/>
+              <path d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -576,6 +591,7 @@
   import message from './js/message.js'
   import playerElmContorl from './js/playerElm.js'
   import main from './main.js'
+  import tapElm from './js/tapElm.js'
 
   import './style.css'
   import './fixelButtom.css'
@@ -625,11 +641,14 @@
   var vueApp = {
     data() {
       return {
+        config,
         audio: document.createElement('audio'),
         state: {
           playing: false,
           random: false,
-          lyricTransitionTime: null
+          lyricTransitionTime: null,
+          volume: 1,
+          useTran: true
         },
         id: 0,
         cache: {
@@ -709,9 +728,9 @@
               tracks: [],
             }
           },
-          settingTemperture: config.settingTemperture,
-          setting: config.setting
-        }
+        },
+        tapElm,
+        audioNetease
       }
     },
 
@@ -856,7 +875,7 @@
         }).then(r => {
           console.log(r)
 
-          if (r.data.account && r.data.account.tokenVersion >= 3) {
+          if (r.data && r.data.account && r.data.account.tokenVersion >= 3) {
             this.data.user = r.data
 
             this.myPlayList()
@@ -873,6 +892,8 @@
             })
           }
           playerElmContorl.load()
+      tapElm.create(document.querySelector('#musicPanel>.tap'),document.querySelector('#musicPanel'),()=>{})
+
           document.querySelector('#LoadingText').innerHTML = ""
           let 渐变消失LOGO界面 = anime({
             targets: document.querySelector('#Loading'),
@@ -963,7 +984,7 @@
                 if (!needFocus) {
                   return '1em'
                 }
-                return 1 * (0.9 ** offset) + 'em'
+                return 1 - ( 0.1 * offset)
               }
 
               // 要平移的Y值
@@ -983,14 +1004,13 @@
                   color
 
                 if (needFocus == true) {
-                  element.style.transition = "all " + dur + " cubic-Bezier(.3, .5, .2, 1) " + this.data
+                  element.style.transition = "all " + dur + " cubic-Bezier(.3, .5, .2, 1) " + config
                     .settingTemperture.lyricSet.funcDelay[config.setting.config.lyricSet
                       .funcDelay](i - lyricNum) + "ms"
-                  element.style.fontSize = fontSizeFunc(element, i, needFocus)
 
-                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
-                    .lyricSet
-                    .funcBlur](i, lyricNum)
+                    element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
+                      .lyricSet
+                      .funcBlur](i, lyricNum)
 
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.9)' : ('rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i -
                     lyricNum))) + ')')
@@ -1001,12 +1021,14 @@
                 } else {
                   color = 'rgb(0,0,0,0)'
                   element.style.filter = ''
+                  element.style.transition = 'none'
                 }
 
-
-                element.style.transform = translateYContent + ((i == lyricNum || config.setting.config
+                element.style.transform = translateYContent + ((i == lyricNum) ? " scale(1)" : ((config.setting
+                  .config
                   .lyricSet
-                  .animeFontSize == true) ? " scale(1)" : 'scale(.85)')
+                  .animeFontSize == true) ? (
+                   'scale(' +fontSizeFunc(element, i, needFocus)+')') : 'scale(0.85)'))
                 element.style.color = color
 
 
@@ -1118,7 +1140,7 @@
         anime({
           targets: newAudio,
           duration: time,
-          volume: 1,
+          volume: 1 * this.state.volume,
           easing: 'linear'
         })
         anime({
@@ -1209,6 +1231,7 @@
         if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data
           .player.trackNum
       },
+
       upMusic() {
         reTools.getData('/scrobble', {
           id: this.id,
@@ -1407,7 +1430,7 @@
         } else {
           this.data.ui.leftSideWidth = 'icon'
         }
-      }
+      },
     }
   }
   export default vueApp

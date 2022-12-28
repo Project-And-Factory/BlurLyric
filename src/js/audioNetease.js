@@ -1,7 +1,8 @@
 export default {
     requireId,
     requirePersonalFM,
-    requireURL
+    requireURL,
+    downloadID
 }
 
 
@@ -98,4 +99,35 @@ async function requireId(id) {
       })
       Data.song['src']=  Data.song[Data.song.use].url
       return Data
+}
+
+async function downloadID(id){
+  requireURL(id).then(async (data) => {
+      console.log(data.song[data.song.use].url);
+      let response = await fetch(data.song[data.song.use].url)
+      let blob = await response.blob();
+      let objectUrl = window.URL.createObjectURL(blob);
+
+      let a = document.createElement("a");
+      a.href = objectUrl;
+
+      let song  = null 
+      await reTools.getData('/song/detail', {
+        ids: id,
+        timetamp: (Number(new Date()))
+        }).then(r => {
+          song = r.songs[0]
+        })
+      
+      let name = ''
+      for (let num in song.ar) {
+          name += song.ar[num].name;
+          if (song.ar.length - num > 1) {
+              name += '&'
+          }
+      }
+      a.download = song.name + ' - ' + name + '.mp3';
+      a.click();
+      a.remove()
+  })
 }

@@ -10,7 +10,7 @@ let setting = {
             dur: 600,
             text: '最高',
             funcBlur: true,
-            funcDelay: 'use',
+            funcDelay: true,
             animeFontSize: false
         },
         useBlurBackground: true
@@ -23,13 +23,7 @@ let methods = {
 
         console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
-            reTools.getData('/blurlyric/createUser').then(res => {
-                cookies.set('blurlyricid', res.data.id, {
-                    expires: new Date(2040, 0, 1)
-                })
-                setting.id = res.data.id
-                this.pushingconfig()
-            })
+            this.createUser()
         } else {
             this.refuseConfig()
         }
@@ -38,22 +32,29 @@ let methods = {
         reTools.getData('/blurlyric/getUser', {
             id: cookies.get('blurlyricid')
         }).then(r => {
+        console.log(r);
+
             if (r.data.code != 400 && r.data.config.configVersion != setting.config.configVersion) {
                 setting.id = r.data.id
                 this.pushingconfig()
                 return
             }
-            if (r.data.code == 400) {
-                reTools.getData('/blurlyric/createUser').then(r => {
-                    cookies.set('blurlyricid', r.data.id, {
-                        expires: new Date(2040, 0, 1)
-                    })
-                    setting.id = r.data.id
-                    this.pushingconfig()
-                    return
-                })
+            if (r.data.code == 400 || setting.config == undefined) {
+                this.createUser()
             }
+
             setting = r.data
+            console.log(setting);
+
+        })
+    },
+    createUser(){
+        reTools.getData('/blurlyric/createUser').then(res => {
+            cookies.set('blurlyricid', res.data.id, {
+                expires: new Date(2040, 0, 1)
+            })
+            setting.id = res.data.id
+            this.pushingconfig()
         })
     },
     pushingconfig() {
@@ -82,15 +83,19 @@ let  settingTemperture = {
                 }
             },
             funcDelay: {
-                use: (offset) => {
+                true: (offset) => {
                     if (offset < -2 || offset > 7) return 0
-                    return 0.066 * setting.config.lyricSet.dur * offset * (0.9 ** Math.abs(offset));
+                    return 0.066 * setting.config.lyricSet.dur * offset * (0.93 ** Math.abs(offset));
+                    //  return 0;
+                },
+                false:(offset)=>{
+                    return 10 * offset
                 }
             }
         }
     }
 export default {
-    setting: setting,
-    methods: methods,
-    settingTemperture:settingTemperture
+    setting,
+    methods,
+    settingTemperture
 }
