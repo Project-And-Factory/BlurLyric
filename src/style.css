@@ -1563,3 +1563,15 @@ div.linkbox a:hover {
   pointer-events: none;
   z-index: -1
 }
+.bi-arrow-clockwise{
+  animation: rat 1s cubic-bezier(.3, .45, .2, .95)  infinite;
+  transform: scale(0.8);
+}
+@keyframes rat {
+  from{
+    transform: scale(0.8) rotate(0);
+  }
+  to{
+    transform: scale(0.8) rotate(360deg);
+  }
+}
