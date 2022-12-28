@@ -158,6 +158,11 @@
           clearInterval(timer)
           this.message=('授权登录成功')
           document.cookie +=statusRes.cookie
+          setTimeout(() => {
+                  this.$router.go(-1)
+                  this.checkLogin()
+
+                }, 3000);
           localStorage.setItem('cookie', statusRes.cookie)
         }
       }, 5000)
