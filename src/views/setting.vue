@@ -1,6 +1,6 @@
 <template>
   <div class="setting">
-    <h1>Setting | 设置(暂时不可用)</h1>
+    <h1>Setting | 设置</h1>
     <div v-for="(item, i) in this.settingButton" :key="'setting'+i">
       <div class="" v-if="item.type == 'line'">
         <div class="setline">
@@ -94,7 +94,7 @@
             type: 'h2',
           },
           animeFontSize: {
-            text: '在 歌词 中使用动态字体大小',
+            text: '在 歌词 中使用全局动态字体大小',
             type: 'line',
             bolean: config.lyricSet.animeFontSize,
             func: (item) => {

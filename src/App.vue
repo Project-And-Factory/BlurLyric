@@ -221,7 +221,7 @@
 	-->
     </div>
     <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting.config.useBlurBackground"
-      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')'"
+      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+') '"
       v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
         主UI界面
@@ -257,10 +257,10 @@
           </a></h2>
       </div>
       <div class="contorlPage lowWidthDisplay">
-        <a @click="data.player.uiDisplay.playerSelec = 'song'"
+        <a @click="data.player.uiDisplay.playerSelec = 'song';getWindowInfo()"
           :style="(data.player.uiDisplay.playerSelec == 'song')?'color: black;':''">歌曲</a>
 
-        <a @click="data.player.uiDisplay.playerSelec = 'lyric'"
+        <a @click="data.player.uiDisplay.playerSelec = 'lyric';getWindowInfo()"
           :style="(data.player.uiDisplay.playerSelec == 'lyric')?'color: black;':''">歌词</a>
 
 
@@ -653,7 +653,7 @@
 
       if (document.querySelector('div.left-sideImage > img')) document.querySelector("div.left-side").style =
         '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
-    }, 400)
+    }, 200)
     return {
       bodyHeight,
       bodyWidth
@@ -778,6 +778,7 @@
       id: {
         async handler(newid, oldId) {
           getWindowInfo()
+          this.audio.src = ''
           if (oldId == undefined) return false
           var Data = {
             song: {},
@@ -1002,13 +1003,13 @@
                     el.setAttribute('lyricFocus', false)
                   }
 
-                  return '1em' //(i==lyricNum)?'1.05em':'1em'
+                  return '1' //(i==lyricNum)?'1.05em':'1em'
                 };
                 let offset = Math.abs(i - lyricNum)
                 if (!needFocus) {
-                  return '1em'
+                  return '1'
                 }
-                return 1 - ( 0.1 * offset)
+                return 0.94 - ( 0.09 * offset)
               }
 
               // 要平移的Y值
@@ -1452,6 +1453,7 @@
           this.data.ui.leftSideWidth = 'icon'
         }
       },
+      setTimeout
     }
   }
   export default vueApp

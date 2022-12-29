@@ -759,14 +759,15 @@ div.player-Mini-Title>h2>a,
   height: 120vh;
   margin: -10vh 0 0 -10vw;
   z-index: -2;
-  background-color: var(--color1);
+  /* background-color: var(--color1); */
   background-repeat: no-repeat;
   background-size: cover;
-  filter: blur(7vmax)  contrast(.3) brightness(1.5) saturate(2);
+  will-change: filter,background;
+  filter: saturate(75%) contrast(50%) brightness(150%) blur(7vmax)  ;
   /* blur(10vmax)  */
   transition: background .4s;
   /* animation: background 5s infinite; */
-
+  --bg-others: linear-gradient(to bottom, rgb(100%,100%,100%,40%),rgb(100%,100%,100%,40%))
 }
 /* @keyframes background {
   0%{
@@ -807,11 +808,7 @@ div.player-Mini-Title>h2>a,
 }
 
 .dragbarLine {
-  height: 1vh;
-  margin: .5vh auto;
-  width: 200px;
-  background-color: #00000010;
-  border-radius: 2.5vmin
+
 }
 
 .playertopbar {
@@ -923,6 +920,7 @@ img.ImageBlurBackground {
   z-index: 1;
   height: 100%;
   --scalc: .45;
+  color: #00000060;
   transform: scale(var(--scalc)) translate(-25%, -25%);
   left: 0
 }
@@ -1047,7 +1045,7 @@ div.left-side>div.linkbox>a {
   justify-content: center;
   background: rgb(0, 0, 0, 0);
   padding: 1vh;
-  color: #000000b3;
+  color: #00000099;
   font-size: 1rem
 }
 
@@ -1106,7 +1104,7 @@ ul#lyrics {
   min-width: 7em;
   transform: scale(.85);
   border-left: solid .2em #00000000;
-  transform-origin: 0% 50%
+  transform-origin: 0% 50%;
 }
 
 #lyric ul li:hover {
@@ -1119,6 +1117,7 @@ ul#lyrics {
 
 #lyric ul li h1 {
   font-size: 2em;
+  font-weight: bolder;
   margin: 0;
   transition: font-size var(--dur)
 }
