@@ -17,5 +17,5 @@ if(import.meta.env.VITE_BLURLYRIC_NETWORK_HTTPS == true){
     let httpsreq = document.createElement('meta')
     httpsreq.setAttribute( 'http-equiv',"Content-Security-Policy")
     httpsreq.setAttribute( 'content',"upgrade-insecure-requests")
-    document.body.appendChild(httpsreq)
+    document.head.appendChild(httpsreq)
 }
