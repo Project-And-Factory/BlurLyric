@@ -10,15 +10,15 @@
     gap: 1em;
 }
 #messageLab>div{
-    background-color: white;
     padding: 9px;
     font-size: 0.8rem;
-    border-radius: 13px;
-    border: 1px solid #dddddd ;
-    box-shadow: 0px 1.3vh calc(1vh + 2vw) #00000020;
     opacity: 0; 
     transform: translateY(-30%) scale(1.05);
-    
+    padding:10px;
+    border-radius: 10px;
+    box-shadow: #00000020 0 0 30px;
+    backdrop-filter: blur(8px);
+    background-color: #ffffff99;
 }
 
 @keyframes spawn {

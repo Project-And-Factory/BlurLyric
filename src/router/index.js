@@ -69,6 +69,15 @@ const routes = [
 
   },
   {
+    path:'/playingList',
+    name: 'playingList',
+    component: () => import('../views/playingList.vue'),
+    meta:{
+      keepAlive: false
+    }
+
+  },
+  {
     path:'/video',
     name: 'video',
     component: () => import('../views/video.vue'),

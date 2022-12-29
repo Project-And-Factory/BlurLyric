@@ -78,7 +78,7 @@
           alt="" srcset="">
       </div>
       <div class="personalbackground"
-        v-bind:style="'background-image:url(' + app.data.musicListInfor.personalFM.tracks[app.data.musicListInfor.personalFM.trackNum].album.picUrl  +'?param=512y512)'"
+        v-bind:style="'background-image:url(' + app.data.musicListInfor.personalFM.tracks[app.data.musicListInfor.personalFM.trackNum].album.picUrl  +'?param=32y32)'"
         alt="" srcset="">
       </div>
       <div class="Text">

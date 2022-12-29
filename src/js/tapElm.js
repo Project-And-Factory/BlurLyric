@@ -74,11 +74,8 @@ export default  {
             console.log(event);
             let box = document.querySelector('#musicPanel')
             box.style.display = (box.style.display == 'none')?'block': 'none'
-            setTimeout(() => {
-                let boxPosition = box.getBoundingClientRect()
-                box.style.left = event.x- ( boxPosition.width / 2)+ 'px'
-                box.style.top = event.y-( boxPosition.height / 2) + 'px'
-            }, 16);
+                box.style.left = event.x + 'px'
+                box.style.top = event.y + 'px'
 
         },
         volume:{
@@ -93,6 +90,7 @@ export default  {
                     app.state.volume = progress
 
                 }
+                document.querySelector('body').style.userSelect = 'none'
                 let box = document.querySelector('#musicPanel #volum'),
                 boxPosition = box.getBoundingClientRect()
                 changeProgress(e.offsetX,boxPosition.width)
@@ -108,6 +106,7 @@ export default  {
                 let up = ()=>{
                     document.removeEventListener('mousemove',mousemove)
                     document.removeEventListener('mouseup',up)
+                    document.querySelector('body').style.userSelect = ''
                 }
 
 
