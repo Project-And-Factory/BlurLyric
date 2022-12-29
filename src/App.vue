@@ -1037,7 +1037,7 @@
                       .lyricSet
                       .funcBlur](i, lyricNum)
 
-                  color = (i == lyricNum) ? 'rgb(0,0,0,0.9)' : ('rgb(0,0,0,' + (0.6 * (0.5 ** Math.abs(i -
+                  color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
 
                   setTimeout(() => {
