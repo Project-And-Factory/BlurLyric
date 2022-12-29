@@ -10,14 +10,14 @@ var modules = {
         return config
     }, err =>{
         console.log(err)
+        message.create('网络链接失败，尝试重连（'+num+'/5)')
         if(num == 5){
             return err
         }
         if(num != undefined)
-        {num = 0} else {
-            num++
+        {num++} else {
+            var num = 0
         }
-        message.create('网络链接失败，尝试重连（'+num+'/5)')
         request(config,num)
 
     })
