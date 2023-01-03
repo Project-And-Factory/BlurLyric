@@ -1,19 +1,108 @@
 <template>
+    <!--默认显示 将要播放-->
+    <div v-if="displayType == 0">
+        <div v-if="app.data.player.tracks[0].id != 0">
+            <h1 style="font-size:1.5rem">当前正播放</h1>
+            <div class="tracks" :muid="app.data.player.tracks[app.data.player.trackNum].id">
+                <!--显示样式-->
+                <div  class="infor">
+                    <div class="trackTitle">
+                        <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i" style="color: rgba(44,62,80,0.5)">
+                                {{alia}} </a></h1>
+                        <h2><a v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id"> {{name.name}}</a></h2>
 
-    <h1 style="font-size:1.75rem">您正在播放的列表<a v-if="app.data.player.tracks[0].id != 0"
-            style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+app.data.player.tracks.length}}首</a></h1>
-    <div v-if="app.data.player.tracks[0].id != 0"
-        v-bind:style="'user-select:none;min-height:calc(var(--minplayerHeight) + 18px * '+app.data.player.tracks.length+')'"
-        class="track playlist">
-        <div class="linkbox">
-            <a @click="cleanAll()" style="align-items:center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                </svg>
-                清除所有
-            </a>                <!--下载-->
+                    </div>
+                    <div class="trackAl">
+                        {{ app.data.player.tracks[app.data.player.trackNum].al.name }}
+                    </div>
+                </div>
+                <div class="linkbox bigger">
+                    <a @click="clean(app.data.player.trackNum)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </a>
+                </div>
+
+
+            </div>
+            <br>
+            <div class="linkbox">
+                <a @click="displayType++">查看整个列表</a>
+            </div>
+            <h1 style="font-size:1.5rem;font-weight:bolder;">接下来播放</h1>
+            <div  
+                class="track playlist">
+                <div class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks.slice(app.data.player.trackNum + 1, app.data.player.trackNum + 21)" :key="item.id">
+                    <!--显示样式-->
+                    <div @click="playTheOnce(app.data.player.trackNum + i + 1)" class="infor">
+                        <div class="trackTitle">
+                            <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
+                                    style="color: rgba(44,62,80,0.5)">
+                                    {{alia}} </a></h1>
+                            <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+
+                        </div>
+                        <div class="trackAl">
+                            {{ item.al.name }}
+                        </div>
+                    </div>
+                    <div class="linkbox bigger">
+                        <a @click="clean(i)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x" viewBox="0 0 16 16">
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                        </a>
+                        <a @click="upGo(app.data.player.tracks,i)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </a>
+                        <a @click="downGo(app.data.player.tracks,i)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="time" v-if="item.dt !=  undefined ">
+                        {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="linkbox">
+                <a @click="displayType++">查看整个列表</a>
+            </div>
+        </div>
+        <div v-if="app.data.player.tracks[0].id == 0">
+            <h1>您的播放列表没有任何音乐，快去点歌吧</h1>
+        </div>
+    </div>
+    <div v-if="displayType == 1">
+        <h1 style="font-size:1.75rem">您正在播放的列表<a v-if="app.data.player.tracks[0].id != 0"
+                style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+app.data.player.tracks.length}}首</a></h1>
+        <div v-if="app.data.player.tracks[0].id != 0"
+             
+            class="track playlist">
+            <div class="linkbox">
+                <a @click="cleanAll()" style="align-items:center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                    </svg>
+                    清除所有
+                </a>
+                <!--下载-->
                 <a style="user-select:none" @click="downloadThisPage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-download" viewBox="0 0 16 16">
@@ -23,47 +112,56 @@
                             d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
                     </svg>
                 </a>
-        </div>
-        <br>
-        <div class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks" :key="item.id">
-            <!--显示样式-->
-            <div @click="playTheOnce(i)">
-                <div class="num">{{i + 1}}</div>
-                <div class="trackTitle">
-                    <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
-                            {{alia}} </a></h1>
-                    <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                <a @click="displayType--">恢复将要播放样式</a>
 
+            </div>
+            <br>
+            <div class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks" :key="item.id">
+                <!--显示样式-->
+                <div @click="playTheOnce(i)" class="infor">
+                    <div class="num">{{i}}</div>
+                    <div class="trackTitle">
+                        <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
+                                {{alia}} </a></h1>
+                        <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+
+                    </div>
+                    <div class="trackAl">
+                        {{ item.al.name }}
+                    </div>
                 </div>
-            </div>
+                <div class="linkbox bigger">
+                    <a @click="clean(i)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x" viewBox="0 0 16 16">
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </a>
+                    <a @click="upGo(app.data.player.tracks,i)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </a>
+                    <a @click="downGo(app.data.player.tracks,i)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="time">
+                    {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
+                </div>
 
-            <div class="linkbox bigger">
-                <a @click="clean(i)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                </a>
-                <a @click="upGo(app.data.player.tracks,i)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-bar-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M8 10a.5.5 0 0 0 .5-.5V3.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 3.707V9.5a.5.5 0 0 0 .5.5zm-7 2.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z" />
-                    </svg>
-                </a>
-                <a @click="downGo(app.data.player.tracks,i)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z" />
-                    </svg>
-                </a>
             </div>
         </div>
-    </div>
-    <div v-if="app.data.player.tracks[0].id == 0">
-        <p>您的播放列表没有任何音乐，快去点歌吧</p>
+        <div v-if="app.data.player.tracks[0].id == 0">
+            <p>您的播放列表没有任何音乐，快去点歌吧</p>
+        </div>
     </div>
 </template>
 
@@ -76,7 +174,8 @@
         name: 'playingList',
         data() {
             return {
-                app
+                app,
+                displayType: 0
             }
         },
         async created() {
@@ -123,7 +222,7 @@
                 array[index] = array.splice(index + 1, 1, array[index])[0]
                 app.data.player.tracks = array
                 app.id = app.data.player.tracks[app.data.player.trackNum].id
-                message.create('操作成功 ' + (index + 1) + ' 处音乐下移一处' )
+                message.create('操作成功 ' + (index + 1) + ' 处音乐下移一处')
             },
             upGo(array, index) {
                 if (index === 0) return false
@@ -131,7 +230,7 @@
                 array[index] = array.splice(index - 1, 1, array[index])[0]
                 app.data.player.tracks = array
                 app.id = app.data.player.tracks[app.data.player.trackNum].id
-                message.create('操作成功 ' + (index + 1) + ' 处音乐上移一处' )
+                message.create('操作成功 ' + (index + 1) + ' 处音乐上移一处')
 
             },
             toFirst(array, index) {
@@ -140,15 +239,15 @@
                 array.unshift(array.splice(index, 1)[0])
                 app.data.player.tracks = array
             },
-            clean(index){
-                app.data.player.tracks.splice(index,1)
-                if(app.data.player.trackNum>index){
+            clean(index) {
+                app.data.player.tracks.splice(index, 1)
+                if (app.data.player.trackNum > index) {
                     app.data.player.trackNum--
                 }
-                if(app.data.player.trackNum == index){
+                if (app.data.player.trackNum == index) {
                     app.id = app.data.player.tracks[app.data.player.trackNum].id
                 }
-                message.create('删除成功 ' + (index + 1) + ' 处音乐删除' )
+                message.create('删除成功 ' + (index + 1) + ' 处音乐删除')
 
             },
             cleanAll() {
@@ -177,7 +276,7 @@
                 app.data.player.trackNum = 0;;
                 document.getElementById('player').style.top = '100%'
                 app.audio.pause()
-                message.create('操作成功 请快去选择音乐吧' )
+                message.create('操作成功 请快去选择音乐吧')
 
             }
         },

@@ -8,7 +8,7 @@
             <div v-if="page.track != []" class="search track" style="user-select:none">
                 <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
                     <!--显示样式-->
-                    <div @click="playTheOnce(i)">
+                    <div @click="playTheOnce(i)" class="infor">
                         <div class="trackIMG">
 
                             <img loading='lazy' :src="item.al.picUrl +'?param=96y96'" alt="" srcset="">

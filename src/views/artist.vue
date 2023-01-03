@@ -112,7 +112,7 @@
                         </svg>播放</a></a></h2>
             <div class="track" style="clear:left">
                 <div class="tracks" :muid="item.id" v-for="(item,i) in page.artistData.hotSongs" :key="item.id">
-                    <div @click="playTheOnce(i,page.artistData.hotSongs)">
+                    <div  class="infor" @click="playTheOnce(i,page.artistData.hotSongs)">
                         <div class="num">{{i}}</div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"

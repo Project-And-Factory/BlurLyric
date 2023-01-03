@@ -307,7 +307,7 @@ input#searchInput,
   }
 
   div.player-Mini>div:nth-child(1),
-  div.tracks>div:nth-child(1) {
+  div.tracks .infor {
       width: 100%;
       display: flex
   }
@@ -399,16 +399,14 @@ input#searchInput,
   gap: 8px;
   display: flex;
   overflow: hidden;
-  border-radius: calc(var(--minplayerHeight) * .2)
 }
 
 .tracks .num {
   color: #888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: inherit;
-  aspect-ratio: 1 / 1.8
+  text-align: center;
+  height: fit-content;
+  width: 1.6em;
+  margin: auto;
 }
 
 .tracks .linkbox>a {
@@ -416,7 +414,8 @@ input#searchInput,
 }
 
 .tracks:hover {
-  background-color: #00000008
+  background-color: #00000008;
+  border-radius: calc(var(--minplayerHeight) * 0.2);
 }
 
 .player-Mini {
@@ -530,18 +529,40 @@ div.player-Mini:hover>div:nth-child(1)>div.player-Mini-img>svg {
 }
 
 div.player-Mini>div:nth-child(1),
-div.tracks>div:nth-child(1) {
+div.tracks .infor {
   height: inherit;
   display: flex
 }
-
-div.tracks>div:nth-child(1) {
-  width: 100%;
-  max-width: calc(100% - 45px)
+.infor .trackAl{
+  color: #888;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  align-items: center;
+  font-size: calc(var(--minplayerHeight) / 3);
+}
+div.tracks .infor {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  align-items: center;
+}
+div.tracks>.time{
+  height: fit-content;
+  margin: auto 0;
+  margin-right: .3em;
+  font-size: .8em;
 }
 
 div.player-Mini>div:nth-child(1) {
   flex: 1
+  
 }
 
 div.player-Mini>div.player-Mini-Contorl {
@@ -550,8 +571,8 @@ div.player-Mini>div.player-Mini-Contorl {
 
 div.tracks>.linkbox {
   height: inherit;
-  float: right;
-  width: fit-content
+  width: max-content;
+  justify-content:flex-end
 }
 
 .player-Mini-Title {
@@ -578,12 +599,16 @@ div.tracks>.linkbox {
   max-width: 100%
 }
 
-div.player-Mini-Title>h1,
 .trackTitle>h1 {
+  font-size: 1em;
+  margin: .0em 0 0
+}
+
+div.player-Mini-Title>h1
+ {
   font-size: 1em;
   margin: .42em 0 0
 }
-
 div.player-Mini-Title>h2,
 .trackTitle>h2 {
   color: #3c4664;
@@ -595,6 +620,21 @@ div.player-Mini-Title>h2>a,
 .trackTitle>h2>a {
   margin: 0 .4em 0 0
 }
+.trackAl>div{
+  padding: 0.1em 0.2em;
+}
+.trackAl>div,.trackTitle .artistNames>a,.artistText:hover
+{
+  width: fit-content;
+  border-radius:5px;
+  cursor: pointer;
+}
+.trackTitle .artistNames>a{
+  padding: 0.1em 0.2em;
+
+}
+.trackAl>div:hover,.trackTitle .artistNames>a:hover,.artistText:hover
+{background-color: rgb(0, 0, 0,.1);}
 
 .PLtrack {
   display: grid;
@@ -750,8 +790,10 @@ div.player-Mini-Title>h2>a,
   .player-Mini-Title>* {
       margin: 3px 0 0
   }
+  div.tracks>.time{
+    display: none;
+  }
 }
-
 .player-background {
   position: absolute;
   content: "";

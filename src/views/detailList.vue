@@ -56,20 +56,22 @@
     </div>
 
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-    <div v-bind:style="'user-select:none;min-height:calc(var(--minplayerHeight) + 18px * '+page.track.length+')'"
+    <div
         class="track playlist">
         <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id" >
             <!--显示样式-->
-            <div  @click="playTheOnce(i)">
+            <div  @click="playTheOnce(i)" class="infor">
                 <div  class="num">{{i}}</div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                             {{alia}} </a></h1>
-                    <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
 
                 </div>
+                <div class="trackAl">
+                    <div>{{ item.al.name }}</div>
+                </div>
             </div>
-
             <div class="linkbox bigger">
                 <a @click="app.pushTrack(item)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -78,6 +80,9 @@
                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                     </svg>
                 </a>
+            </div>
+            <div class="time">
+                {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
             </div>
         </div>
     </div>
@@ -137,7 +142,6 @@
                 for (let i = 0; i < this.page.track.length; i++) {
                     let id = this.page.track[i].id
                     audioNetease.requireURL(id).then(async (data) => {
-                        console.log(data.song[data.song.use].url);
                         let response = await fetch(data.song[data.song.use].url)
                         let blob = await response.blob();
                         let objectUrl = window.URL.createObjectURL(blob);
@@ -170,7 +174,6 @@
                         timetamp: (Number(new Date()))
                     }).then(
                         r => {
-                            console.log(r);
                             this.page.res = r
                             this.page.pic = r.playlist.coverImgUrl;
                             this.page.title = r.playlist.name;
@@ -193,7 +196,6 @@
                             }).then(res => {
                                 this.page.track = res.songs
                                 app.cacheData('playlist' + this.page.id, this.page)
-
                             })
 
                         }

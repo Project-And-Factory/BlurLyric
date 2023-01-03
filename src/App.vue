@@ -792,7 +792,7 @@
           }
           this.cache.playingStyle.innerHTML = null
           this.cache.playingStyle.appendChild(document.createTextNode(".tracks[muid=\"" + newid +
-            "\"]{background-color: #0080ff15;}"))
+            "\"]{border-radius: calc(var(--minplayerHeight) * 0.2);background-color: #0080ff15;}"))
 
           //如果无法找到缓存最终的信息
           if (this.data.player.musicCache[newid] == undefined) {
@@ -807,6 +807,13 @@
             this.audio.src = Data.song.src
             this.play()
           }
+
+          
+        reTools.getData('/scrobble', {
+          id: newid,
+          sourceid: this.data.player.tracks.find((item)=>{return item.id == newid}).al.id,
+          timetamp:  (Number(new Date()))
+        })
           let artist = ''
           if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
             .trackNum < 3)) {
@@ -1085,7 +1092,7 @@
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration != 0)
+        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration != 0 && this.audio.loop != true)
           this.transitionNextMusic()
 
         this.lyricSet()
@@ -1151,11 +1158,6 @@
         newAudio.addEventListener('loadeddata', loadeddataFunction)
         if (newAudio.readyState >= 2) loadeddataFunction
 
-        reTools.getData('/scrobble', {
-          id: this.id,
-          sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-          time: Math.floor(oldAudio.duration)
-        })
         this.id = id,
           this.data.player.uiDisplay.LineNum
         this.data.player.trackNum = numb
@@ -1231,11 +1233,6 @@
       nextMusic() {
 
         //上传听歌记录
-        reTools.getData('/scrobble', {
-          id: this.id,
-          sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-          time: Math.floor(this.audio.currentTime)
-        })
 
         this.data.player.uiDisplay.LineNum = 0
         this.audio.currentTime = 0
@@ -1255,11 +1252,6 @@
       },
 
       upMusic() {
-        reTools.getData('/scrobble', {
-          id: this.id,
-          sourceid: this.data.player.tracks[this.data.player.trackNum].al.id,
-          time: Math.floor(this.audio.currentTime)
-        })
         if (this.data.player.trackNum != 0) {
           this.data.player.trackNum--
           this.data.player.uiDisplay.LineNum = 0
