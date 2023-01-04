@@ -9,12 +9,16 @@
                     <div class="trackTitle">
                         <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i" style="color: rgba(44,62,80,0.5)">
                                 {{alia}} </a></h1>
-                                <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                                <h2 class="artistNames"><a v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id"> {{name.name}}</a></h2>
 
                     </div>
                     <div class="trackAl">
+                    <div>
+                        
                         {{ app.data.player.tracks[app.data.player.trackNum].al.name }}
                     </div>
+                </div>
+
                 </div>
                 <div class="linkbox bigger">
                     <a @click="clean(app.data.player.trackNum)">
@@ -47,11 +51,11 @@
             query: {
               id: name.id
             }
-          })"></a></h2>
+        })"> {{name.name}}</a></h2>
                         </div>
                         <div class="trackAl">
-                            {{ item.al.name }}
-                        </div>
+                    <div>{{ item.al.name }}</div>
+                </div>
                     </div>
                     <div class="linkbox bigger">
                         <a @click="clean(i)">
@@ -127,12 +131,16 @@
                     <div class="trackTitle">
                         <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                                 {{alia}} </a></h1>
-                        <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
-
+                                <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+        })"> {{name.name}}</a></h2>
                     </div>
                     <div class="trackAl">
-                        {{ item.al.name }}
-                    </div>
+                    <div>{{ item.al.name }}</div>
+                </div>
                 </div>
                 <div class="linkbox bigger">
                     <a @click="clean(i)">
@@ -292,15 +300,6 @@
             }
         },
         watch: {
-            $route: {
-                handler: function (newVal) {
-                    if (this.$route.name == 'DetaiList') {
-                        this.page.id = newVal.query.id
-                        this.loadDeailList()
-                    }
-                },
-                deep: true
-            }
         }
 
     }

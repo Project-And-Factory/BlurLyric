@@ -7,15 +7,19 @@
       <div @click="this.$router.push({name:'detail',query:{id:item.id }})" class="title">{{item.title}}</div>
       <div v-bind:style="'user-select:none;max-height:calc(var(--minplayerHeight) + 18px * '+10+')'"
         class="track hotList">
-        <div class="tracks" :muid="playlist.id" v-for="(playlist,i) in item.track.slice(0,20)" :key="item.id">
+        <div @click="playTheOnce(item.track,i)" class="tracks" :muid="playlist.id" v-for="(playlist,i) in item.track.slice(0,20)" :key="item.id">
           <!--显示样式-->
-          <div @click="playTheOnce(item.track,i)">
+          <div class="infor">
             <div class="num">{{i}}</div>
             <div class="trackTitle">
               <h1>{{playlist.name}} <a v-for="(alia,i) in playlist.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                   {{alia}} </a></h1>
-              <h2><a v-for="(name) in playlist.ar" :key="name.id"> {{name.name}}</a></h2>
-
+              <h2 class="artistNames"><a v-for="(name) in playlist.ar" :key="name.id"  @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+          })"> {{name.name}}</a></h2>
             </div>
           </div>
 
@@ -54,6 +58,7 @@
   // @ is an alias to /src
   import reTools from "../network/getData.js";
   import app from "../main.js";
+  var time = new Date().getTime()
 
 
   export default {
@@ -90,10 +95,17 @@
     },
     methods: {
       playTheOnce(track, i) {
-        app.changeTrack({
+        let tempTime = new Date().getTime()
+                if ((tempTime - time)<500){
+                    time = tempTime - 1000
+                    app.changeTrack({
           tracks: track,
           num: i
         })
+
+                }
+                time = tempTime
+
 
       },
       async personalized() {

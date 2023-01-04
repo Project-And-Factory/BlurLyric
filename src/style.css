@@ -337,13 +337,37 @@ input#searchInput,
 }
 
 .viewBox {
-  height: 100%;
+  transition: transform .18s cubic-bezier(.3, .5, .2, 1);
+  will-change: transform;
+
+}
+.viewBox[anime=true]{
+  animation: spawn3 .4s cubic-bezier(0,1,.5,1);
+}
+@keyframes spawn3 {
+  from{
+    filter: opacity(0);
+    transform: translateY(100px);
+  }
+  to {
+    filter: opacity(1);
+    transform: translateY(0px);
+
+  }
+}
+.scrollBox{
   float: left;
-  border-radius: 12px;
   background: var(--hsla-white);
-  padding: 20px 20px 84px;
+  padding: 20px 20px 84px 20px;
+  height: 100%;
   overflow-y: auto;
-  overflow-x: hidden
+  border-radius: 12px 0 0 0;
+}
+.scrollBox::-webkit-scrollbar{
+  display: hidden;
+}
+.scrollBox::-webkit-scrollbar-thumb{
+  display: none;
 }
 
 .opes {

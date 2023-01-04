@@ -59,9 +59,8 @@
     <div
         class="track playlist">
         <div  @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id" >
-            <!--显示样式-->
             <div class="infor">
-                <div  class="num">{{i}}</div>
+                <div  class="num">{{i + 1}}</div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                             {{alia}} </a></h1>

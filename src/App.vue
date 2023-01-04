@@ -72,15 +72,17 @@
             d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
         </svg><a>设置&关于</a></router-link>
 
-        <hr style="color:#00000050;width:100%;margin: 2px 0">
+      <hr style="color:#00000050;width:100%;margin: 2px 0">
 
-        <router-link :to="{path:'/playingList'}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-list" viewBox="0 0 16 16">
-  <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
-  <path fill-rule="evenodd" d="M12 3v10h-1V3h1z"/>
-  <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z"/>
-  <path fill-rule="evenodd" d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
-</svg><a>播放列表</a>
+      <router-link :to="{path:'/playingList'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-list"
+          viewBox="0 0 16 16">
+          <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z" />
+          <path fill-rule="evenodd" d="M12 3v10h-1V3h1z" />
+          <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z" />
+          <path fill-rule="evenodd"
+            d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z" />
+        </svg><a>播放列表</a>
       </router-link>
       <!-- <a @click="electron.app.quit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
@@ -115,12 +117,15 @@
       <div v-if="(data.player.uiDisplay.mainDisplay != 'top')" class="dragBar"></div>
 
     </div>
-    <div class="viewBox">
+    <div class="scrollBox">
+      <div class="viewBox">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive" :data="data" />
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" :data="data" />
     </div>
+    </div>
+
   </div>
 
   <div id="player">
@@ -199,10 +204,12 @@
             <path
               d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
           </svg>
-          <svg  v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-            </svg>
+          <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+            <path
+              d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+          </svg>
         </a>
         <!--下一曲-->
         <a class="player-Mini-Contorl-normal" @click="nextMusic()">
@@ -246,7 +253,8 @@
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
             v-if="(data.player.musicCache[id]&&data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
-        <h2><div v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
+        <h2>
+          <div v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
             name: 'artist',
             query: {
               id: item.id
@@ -254,7 +262,8 @@
           })">{{item.name}}
           </div><a>&nbsp;-&nbsp;
             {{data.player.tracks[data.player.trackNum].al.name}}
-          </a></h2>
+          </a>
+        </h2>
       </div>
       <div class="contorlPage lowWidthDisplay">
         <a @click="data.player.uiDisplay.playerSelec = 'song';getWindowInfo()"
@@ -361,9 +370,11 @@
               <path
                 d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
             </svg>
-            <svg style="height: 4.5vh; width: 4.5vh" v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+            <svg style="height: 4.5vh; width: 4.5vh" v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg"
+              width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+              <path
+                d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
             </svg>
           </a>
           <!--下一曲/随机-->
@@ -484,15 +495,17 @@
                 <path
                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
               </svg>
-              <svg v-if="( state.playing == true && audio.readyState >= 2)" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+              <svg v-if="( state.playing == true && audio.readyState >= 2)" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
                 <path
                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z" />
               </svg>
-            <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-              <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-            </svg>
+              <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                <path
+                  d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+              </svg>
             </a>
             <!--下一曲/随机-->
             <a @click="nextMusic()">
@@ -563,7 +576,7 @@
     <div id="musicPanel" style="display:none">
       <!--操控点-->
       <div class="tap">
-          <div class="tapInner"></div>
+        <div class="tapInner"></div>
 
       </div>
       <!--按钮-->
@@ -571,29 +584,35 @@
 
         <!--音量条-->
         <div v-bind:style="'--progressPercent:' + (state.volume / 1)" id="volum"
-          v-on:mousedown="tapElm.musicPanel.volume.mousedown"
-        class="progressElm">
+          v-on:mousedown="tapElm.musicPanel.volume.mousedown" class="progressElm">
           <div class="Color"></div>
           <div class="Icon">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-volume-down-fill" viewBox="0 0 16 16">
-                <path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/>
-              </svg>
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-volume-down-fill"
+              viewBox="0 0 16 16">
+              <path
+                d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z" />
+            </svg>
+          </div>
         </div>
         <div class="gridbuttom">
           <div @click="audioNetease.downloadID(this.id)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-download" viewBox="0 0 16 16">
-                <path
-                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                <path
-                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
+              viewBox="0 0 16 16">
+              <path
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+              <path
+                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
             </svg>
           </div>
-          <div v-bind:style="'background:'+((state.useTran == true)?'var(--color-theme-alpha);color:#00000040':'#00000010')" @click="state.useTran = !state.useTran;lyricSet(true)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate" viewBox="0 0 16 16">
-              <path d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zm1.634-.736L5.5 3.956h-.049l-.679 2.022H6.18z"/>
-              <path d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z"/>
+          <div
+            v-bind:style="'background:'+((state.useTran == true)?'var(--color-theme-alpha);color:#00000040':'#00000010')"
+            @click="state.useTran = !state.useTran;lyricSet(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate"
+              viewBox="0 0 16 16">
+              <path
+                d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zm1.634-.736L5.5 3.956h-.049l-.679 2.022H6.18z" />
+              <path
+                d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z" />
             </svg>
           </div>
         </div>
@@ -613,6 +632,7 @@
   import playerElmContorl from './js/playerElm.js'
   import main from './main.js'
   import tapElm from './js/tapElm.js'
+  import viewBoxScroll from './js/viewBoxScroll.js'
 
   import './style.css'
   import './fixelButtom.css'
@@ -759,7 +779,6 @@
       audioNetease.requirePersonalFM().then(r => {
         this.data.musicListInfor.personalFM.tracks = r
       })
-
       this.loginInfor();
       this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
@@ -808,17 +827,20 @@
             this.play()
           }
 
-          
-        reTools.getData('/scrobble', {
-          id: newid,
-          sourceid: this.data.player.tracks.find((item)=>{return item.id == newid}).al.id,
-          timetamp:  (Number(new Date()))
-        })
+
+          reTools.getData('/scrobble', {
+            id: newid,
+            sourceid: this.data.player.tracks.find((item) => {
+              return item.id == newid
+            }).al.id,
+            timetamp: (Number(new Date()))
+          })
           let artist = ''
-          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data.player
-            .trackNum < 3)) {
-          this.getPersonalFM()
-        }
+          if ((this.data.musicListInfor.personalFM.use == true) && (this.data.player.tracks.length - this.data
+              .player
+              .trackNum < 3)) {
+            this.getPersonalFM()
+          }
           for (let num = 0; num < this.data.player.tracks[this.data.player.trackNum].ar.length; num++) {
             artist += this.data.player.tracks[this.data.player.trackNum].ar[num].name
             if (num != this.data.player.tracks[this.data.player.trackNum].ar.length - 1) {
@@ -836,6 +858,12 @@
           }
         }
       },
+      $route: {
+        handler: async function (newVal) {
+          viewBoxScroll.onNewPage()
+        },
+        deep: true
+      }
     },
     methods: {
       getWindowInfo,
@@ -924,7 +952,8 @@
             })
           }
           playerElmContorl.load()
-      tapElm.create(document.querySelector('#musicPanel>.tap'),document.querySelector('#musicPanel'),()=>{})
+          tapElm.create(document.querySelector('#musicPanel>.tap'), document.querySelector('#musicPanel'),
+        () => {})
 
           document.querySelector('#LoadingText').innerHTML = ""
           let 渐变消失LOGO界面 = anime({
@@ -940,6 +969,8 @@
 
         })
         config.methods.lunch()
+        viewBoxScroll.lunch()
+
       },
 
       myPlayList() {
@@ -1016,7 +1047,7 @@
                 if (!needFocus) {
                   return '1'
                 }
-                return 0.94 - ( 0.09 * offset)
+                return 0.94 - (0.09 * offset)
               }
 
               // 要平移的Y值
@@ -1040,9 +1071,9 @@
                     .settingTemperture.lyricSet.funcDelay[config.setting.config.lyricSet
                       .funcDelay](i - lyricNum) + "ms"
 
-                    element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
-                      .lyricSet
-                      .funcBlur](i, lyricNum)
+                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
+                    .lyricSet
+                    .funcBlur](i, lyricNum)
 
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
@@ -1060,7 +1091,7 @@
                   .config
                   .lyricSet
                   .animeFontSize == true) ? (
-                   'scale(' +fontSizeFunc(element, i, needFocus)+')') : 'scale(0.85)'))
+                  'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
                 element.style.color = color
 
 
@@ -1092,7 +1123,8 @@
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration != 0 && this.audio.loop != true)
+        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration != 0 && this
+          .audio.loop != true)
           this.transitionNextMusic()
 
         this.lyricSet()
@@ -1445,7 +1477,6 @@
           this.data.ui.leftSideWidth = 'icon'
         }
       },
-      setTimeout
     }
   }
   export default vueApp
