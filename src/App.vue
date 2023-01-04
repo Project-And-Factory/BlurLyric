@@ -246,13 +246,13 @@
             style="color: rgba(44,62,80,0.5);font-size: 0.8em;"> {{alia}}</a><a
             style="font-size: 0.7em;background-color: #00000010;padding: 0 0.3em;border-radius: .3em;"
             v-if="(data.player.musicCache[id]&&data.player.musicCache[id].song.br >= 900000)">FLAC</a></h1>
-        <h2><a v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
+        <h2><div v-for="item in data.player.tracks[data.player.trackNum].ar" :key="item.id" class="artistText" @click="this.$router.push({
             name: 'artist',
             query: {
               id: item.id
             }
           })">{{item.name}}
-          </a><a>&nbsp;-&nbsp;
+          </div><a>&nbsp;-&nbsp;
             {{data.player.tracks[data.player.trackNum].al.name}}
           </a></h2>
       </div>

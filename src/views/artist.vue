@@ -3,6 +3,7 @@
     import Color from 'color'
     import reTools from '../network/getData'
     import app from '../main.js'
+    var time = new Date().getTime()
 
     async function picColor(url) {
         return await analyze(url + '?param=24y24', {
@@ -41,7 +42,14 @@
                 })
             },
             playTheOnce(i, track) {
-                this.setTracks(i, track)
+                let tempTime = new Date().getTime()
+                if ((tempTime - time) < 500) {
+                    time = tempTime - 1000
+                    this.setTracks(i, track)
+
+                }
+                time = tempTime
+
             },
             async requestData() {
                 let appcache = app.cacheData('artist' + this.page.id)
@@ -70,16 +78,27 @@
 
                     app.cacheData('artist' + this.page.id, this.page)
 
-
                 }
             }
         },
         watch: {
             $route: {
-                handler: function (newVal) {
-                    if (this.$route.name == 'artist') {
-                        this.page.id = newVal.query.id
-                        this.requestData()
+                handler: async function (newVal) {
+                    if (newVal.name == 'artist') {
+                        this.page = {
+                            id: this.$route.query.id,
+                            colorResult: [{
+                                color: '#bbb'
+                            }, ],
+                            textColor: '#000',
+                            artistData: {
+                                artist: {
+                                    picUrl: ''
+                                }
+                            },
+                            mvs: []
+                        }
+                        await this.requestData()
                     }
                 },
                 deep: true
@@ -111,15 +130,20 @@
                             </path>
                         </svg>播放</a></a></h2>
             <div class="track" style="clear:left">
-                <div class="tracks" :muid="item.id" v-for="(item,i) in page.artistData.hotSongs" :key="item.id">
-                    <div  class="infor" @click="playTheOnce(i,page.artistData.hotSongs)">
+                <div class="tracks" @click="playTheOnce(i,page.artistData.hotSongs)" :muid="item.id"
+                    v-for="(item,i) in page.artistData.hotSongs" :key="item.id">
+                    <div class="infor">
                         <div class="num">{{i}}</div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
                                     style="color: rgba(44,62,80,0.5)">
                                     {{alia}} </a></h1>
-                            <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
-
+                            <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+          })"> {{name.name}}</a></h2>
                         </div>
                     </div>
 
@@ -171,18 +195,21 @@
         margin-bottom: calc(.8vh * 2 + 1vw * 2);
     }
 
-    .card-img{
+    .card-img {
         z-index: 2;
     }
-    .card-img ,.card-artist .blur{
+
+    .card-img,
+    .card-artist .blur {
         height: calc(8vh + 10vw);
         aspect-ratio: 1 / 1;
         border-radius: 50%;
         margin-right: 20px;
     }
-    .card-artist .blur{
+
+    .card-artist .blur {
         position: absolute;
-        filter: blur( calc(1.6vh + 2vw));
+        filter: blur(calc(1.6vh + 2vw));
         z-index: 1;
     }
 

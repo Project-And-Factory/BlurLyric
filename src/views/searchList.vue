@@ -17,7 +17,12 @@
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
                                     style="color: rgba(44,62,80,0.5)">
                                     {{alia}} </a></h1>
-                            <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"  @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+          })"> {{name.name}}</a></h2>
 
                         </div>
                     </div>
@@ -102,6 +107,7 @@
 
 <script>
     import reTools from '../network/getData'
+    var time = new Date().getTime()
     import app from '../main.js'
     export default {
         name: 'searchList',
@@ -138,7 +144,13 @@
                 this.setTracks(0)
             },
             playTheOnce(i) {
-                this.setTracks(i)
+                let tempTime = new Date().getTime()
+                if ((tempTime - time)<500){
+                    time = tempTime - 1000
+                    this.setTracks(i)
+
+                }
+                time = tempTime
             },
             requestData() {
                 let appcache = app.cacheData('search' + this.page.q)

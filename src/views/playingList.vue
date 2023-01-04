@@ -9,7 +9,7 @@
                     <div class="trackTitle">
                         <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i" style="color: rgba(44,62,80,0.5)">
                                 {{alia}} </a></h1>
-                        <h2><a v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id"> {{name.name}}</a></h2>
+                                <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
 
                     </div>
                     <div class="trackAl">
@@ -35,15 +35,19 @@
             <h1 style="font-size:1.5rem;font-weight:bolder;">接下来播放</h1>
             <div  
                 class="track playlist">
-                <div class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks.slice(app.data.player.trackNum + 1, app.data.player.trackNum + 21)" :key="item.id">
+                <div @click="playTheOnce(app.data.player.trackNum + i + 1)"  class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks.slice(app.data.player.trackNum + 1, app.data.player.trackNum + 21)" :key="item.id">
                     <!--显示样式-->
-                    <div @click="playTheOnce(app.data.player.trackNum + i + 1)" class="infor">
+                    <div class="infor">
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
                                     style="color: rgba(44,62,80,0.5)">
                                     {{alia}} </a></h1>
-                            <h2><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
-
+                                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+          })"></a></h2>
                         </div>
                         <div class="trackAl">
                             {{ item.al.name }}
@@ -169,6 +173,7 @@
     import reTools from '../network/getData'
     import app from '../main.js'
     import message from '../js/message.js'
+    var time = new Date().getTime()
 
     export default {
         name: 'playingList',
@@ -187,7 +192,13 @@
                 app.id = app.data.player.tracks[num].id
             },
             playTheOnce(i) {
-                this.setTracks(i)
+                let tempTime = new Date().getTime()
+                if ((tempTime - time)<500){
+                    time = tempTime - 1000
+                    this.setTracks(i)
+
+                }
+                time = tempTime
             },
             async downloadThisPage() {
                 for (let i = 0; i < app.data.player.tracks.length; i++) {

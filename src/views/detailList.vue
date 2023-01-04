@@ -58,14 +58,19 @@
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
     <div
         class="track playlist">
-        <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id" >
+        <div  @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id" >
             <!--显示样式-->
-            <div  @click="playTheOnce(i)" class="infor">
+            <div class="infor">
                 <div  class="num">{{i}}</div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                             {{alia}} </a></h1>
-                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"> {{name.name}}</a></h2>
+                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+          })"> {{name.name}}</a></h2>
 
                 </div>
                 <div class="trackAl">
@@ -93,7 +98,7 @@
     import app from '../main.js'
     import audioNetease from '../js/audioNetease.js'
     import message from '../js/message.js'
-
+    var time = new Date().getTime()
     export default {
         name: 'detailList',
         data() {
@@ -136,7 +141,13 @@
                 this.setTracks(0)
             },
             playTheOnce(i) {
-                this.setTracks(i)
+                let tempTime = new Date().getTime()
+                if ((tempTime - time)<500){
+                    time = tempTime - 1000
+                    this.setTracks(i)
+
+                }
+                time = tempTime
             },
             async downloadThisPage() {
                 for (let i = 0; i < this.page.track.length; i++) {
