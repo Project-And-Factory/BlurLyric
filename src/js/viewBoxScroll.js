@@ -9,22 +9,50 @@ async function lunch() {
      */
 
     config.scrollY = 0
+
+    var timeout = 0
     /**
      * 滚轮
      */
-    let wheelChange = (event) => {
-        event.preventDefault();
-        config.scrollY -= event.deltaY
+     let giveOffset = () => {
+        let elHeight = -el.offsetHeight + elbox.clientHeight - 100
 
+        // if(config.scrollY == elHeight || config.scrollY == 0) return
         if (config.scrollY > 0) {
             config.scrollY = 0
         }
 
-        let elHeight = -el.offsetHeight + elbox.clientHeight - 100
         if (config.scrollY < elHeight) {
             config.scrollY = elHeight
         }
+
         el.style.transform = "translateY(" + config.scrollY + "px)"
+
+    }
+    let wheelChange = (event) => {
+        //取消原本的行为
+        event.preventDefault();
+        config.scrollY -= event.deltaY
+        let nowTime = new Date().getTime()
+
+        if((nowTime - timeout) < 64){
+            //小于4帧数，节约看情况
+            setTimeout(() => {
+                //若在四帧内的滚动过了，那就不叠加
+                if(timeout>nowTime){
+
+                } else {
+                //若在四帧内的滚动没过，那就叠加一次
+                    giveOffset()
+                    timeout=nowTime
+                }
+            }, 100);
+        } else {
+
+            //大于4帧，直接运算
+            giveOffset()
+            timeout=nowTime
+        }
     }
     if (config.firstLoad == false) {
         elbox.addEventListener('wheel', wheelChange)
@@ -36,7 +64,6 @@ async function lunch() {
 
 async function onNewPage() {
     if (config.firstLoad == false) await lunch()
-
     config.el.setAttribute('anime',true)
 
     config.scrollY = 0
@@ -47,8 +74,6 @@ async function onNewPage() {
         config.el.setAttribute('anime',false)
 
     }, 500);
-
-
 }
 var config = {
     elbox: document.querySelector('.scrollBox'),

@@ -12,7 +12,7 @@
             <p v-if="page.res.playlist != undefined ">
                 {{page.res.playlist.description}}
             </p>
-            <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
+            <div class="linkbox" style="flex-direction: row;user-select:none;flex-wrap: wrap;display: flex;">
                 <a style="user-select:none" @click="playThisPage()">
                     <svg style="transform: scale(1.6) " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
@@ -35,7 +35,7 @@
                 </a>
                 <!--收藏-->
 
-                <a style="user-select:none" @click="collection(this.page.id)">
+                <a @click="collection(this.page.id)">
                     <svg v-if="app.data.myMusicList.find((item)=>{return item.id == this.page.id}) == undefined"
                         xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-star-fill" viewBox="0 0 16 16">
@@ -50,17 +50,23 @@
                             d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                     </svg>
                 </a>
-
+                <a @click="loadDeailList(true)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" :class="(
+                loading==true)?'bi bi-arrow-clockwise':''" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                        <path
+                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
 
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
-    <div
-        class="track playlist">
-        <div  @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id" >
+    <div class="track playlist">
+        <div @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
             <div class="infor">
-                <div  class="num">{{i + 1}}</div>
+                <div class="num">{{i + 1}}</div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
                             {{alia}} </a></h1>
@@ -114,7 +120,8 @@
                     aRtrackIds: [],
                     track: [],
                     res: {}
-                }
+                },
+                loading: true
             }
         },
         async created() {
@@ -141,7 +148,7 @@
             },
             playTheOnce(i) {
                 let tempTime = new Date().getTime()
-                if ((tempTime - time)<500){
+                if ((tempTime - time) < 500) {
                     time = tempTime - 1000
                     this.setTracks(i)
 
@@ -173,10 +180,13 @@
 
                 }
             },
-            loadDeailList() {
+            loadDeailList(force) {
+                this.loading = true
                 let appcache = app.cacheData('playlist' + this.page.id)
-                if (appcache != undefined) {
+                if (appcache != undefined && force != true) {
                     this.page = appcache
+                    this.loading = false
+
                     return
                 } else {
                     reTools.getData('/playlist/detail', {
@@ -206,6 +216,8 @@
                             }).then(res => {
                                 this.page.track = res.songs
                                 app.cacheData('playlist' + this.page.id, this.page)
+                                this.loading = false
+
                             })
 
                         }
@@ -320,18 +332,21 @@
             display: none;
         }
     }
-    @media (max-width:460px){
-        .dlTopLab{
+
+    @media (max-width:460px) {
+        .dlTopLab {
             flex-direction: column;
             align-items: center;
             text-align: center;
             /* justify-content: center; */
         }
+
         .dlTopLab>img {
             border-radius: 7px;
             --img-size: 200px;
         }
-        .dlTopLab-TitleLab .linkbox{
+
+        .dlTopLab-TitleLab .linkbox {
             justify-content: center;
         }
     }

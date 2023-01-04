@@ -19,6 +19,7 @@ export default  {
         }
         let events = {
             down: (e) => {
+                e.preventDefault();
                 infor.clickOffset.left = e.layerX;
                 infor.clickOffset.top = e.layerY;
                 document.addEventListener('mousemove', events.move)
@@ -28,7 +29,8 @@ export default  {
                 }
             },
             move: (e) => {
-                if (event.buttons != 1) {
+                e.preventDefault();
+                if (e.buttons != 1) {
                 document.removeEventListener('mousemove', events.move)
                 document.removeEventListener('mouseup', events.up)
                 // document.body.onselectstart = document.body.ondrag = function () {

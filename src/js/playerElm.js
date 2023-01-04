@@ -9,6 +9,7 @@ var config = {
         this.otherElm.playerMini = document.getElementsByClassName('player-Mini')[0]
 
         let mouseDownEvent = (event) => {
+            event.preventDefault();
             document.querySelector("#player > div.player-Mini").style.zIndex = 99
             document.querySelector("#player > div.player-Mini").style.pointerEvents = 'none'
 
@@ -28,6 +29,7 @@ var config = {
 
             this.offset = thisClick.clientY - boxPosition.y
             let remove = (removeevent) => {
+                removeevent.preventDefault();
                 let removeClick = removeevent
                 if (removeevent.changedTouches) {
                     removeClick = removeevent.changedTouches[0]
@@ -64,6 +66,7 @@ var config = {
 
             }
             let move = (event) => {
+                event.preventDefault();
                 if (event.buttons != 1 && !event.changedTouches) {
                     remove
                 } else {

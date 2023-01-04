@@ -14,14 +14,17 @@ function setProgressBar() {
             changeProgress(event, element)
         }
         elems[i].onmousedown = (event) => {
+            event.preventDefault();
             changeProgress(event, element)
             data.canChange = true;
             document.onmouseup = () => {
+                event.preventDefault();
                 data.canChange = false;
                 document.onmouseup = function (){}
                 document.onmousemove = function (){}
             }
             document.onmousemove = (event) => {
+                event.preventDefault();
                 if (data.canChange == true && event.buttons == 1) changeProgress(event, element)
             }
         }

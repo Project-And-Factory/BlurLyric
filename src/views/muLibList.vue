@@ -53,7 +53,7 @@
     <div @click="this.$router.push({name:'dailySongs'})" style=" color: #666;;
 ;background-color:#eeeeee ;overflow:hidden; ">
 
-      <p style="user-select:none ;position: relative;z-index: 5;">个性推荐
+      <p style="user-select:none ;position: relative;z-index: 5;">每日推荐
       </p>
       <p
         style="user-select:none ;position: absolute;right: -1vw;bottom: -1vw;color:#00000005;font-size: 12vw;;z-index: 1;">
