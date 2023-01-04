@@ -61,17 +61,22 @@ async function lunch() {
 
     el.style.transform = "translateY(" + config.scrollY + "px)"
 }
-
+var lastnewpagetimeout = new Date()
 async function onNewPage() {
+
     if (config.firstLoad == false) await lunch()
+
     config.el.setAttribute('anime',true)
 
     config.scrollY = 0
     config.el.style.transform = "translateY(" + config.scrollY + "px)"
 
+    let temptime = new Date()
+    lastnewpagetimeout = temptime
 
     setTimeout(() => {
-        config.el.setAttribute('anime',false)
+        if(lastnewpagetimeout == temptime) config.el.setAttribute('anime',false)
+        
 
     }, 500);
 }

@@ -1173,7 +1173,7 @@
           newAudio.play();
           transitionning = true
 
-          let progressAnime = anime({
+          anime({
             targets: this.data.player.uiDisplay,
             duration: time / 10,
             easing: 'cubicBezier(.3, .5, .2, 1)',
@@ -1182,10 +1182,10 @@
             },
 
           })
-
-          progressAnime.finished.then(() => {
+          setTimeout(() => {
             transitionning = false
-          });
+          }, time / 10000 / this.data.player.uiDisplay.duration);
+
         }
         newAudio.addEventListener('loadeddata', loadeddataFunction)
         if (newAudio.readyState >= 2) loadeddataFunction
@@ -1233,6 +1233,7 @@
             newAudio.removeEventListener('loadeddata', loadeddataFunction)
             oldAudio.removeEventListener('loadeddata', loadeddataFunction)
 
+            transitionning = false
 
           }, time);
       },

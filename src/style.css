@@ -363,11 +363,13 @@ input#searchInput,
   overflow-y: auto;
   border-radius: 12px 0 0 0;
 }
-.scrollBox::-webkit-scrollbar{
-  display: hidden;
-}
-.scrollBox::-webkit-scrollbar-thumb{
-  display: none;
+@media (any-hover: hover) {
+  .scrollBox::-webkit-scrollbar{
+    display: hidden;
+  }
+  .scrollBox::-webkit-scrollbar-thumb{
+    display: none;
+  }
 }
 
 .opes {
