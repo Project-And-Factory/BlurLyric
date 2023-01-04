@@ -999,7 +999,11 @@ img.ImageBlurBackground {
   color: #000000bf;
   font-weight: 600
 }
-
+.playertopbar>.player-Title>h2{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 .player-Title>h2 {
   margin: 0 0 .3em;
   font-size: .9em;
