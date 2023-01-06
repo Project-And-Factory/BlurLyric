@@ -12,7 +12,7 @@
           <div class="infor">
             <div class="num">{{i}}</div>
             <div class="trackTitle">
-              <h1>{{playlist.name}} <a v-for="(alia,i) in playlist.alia" :key="i" style="color: rgba(44,62,80,0.5)">
+              <h1>{{playlist.name}} <a v-for="(alia,i) in playlist.alia" :key="i">
                   {{alia}} </a></h1>
               <h2 class="artistNames"><a v-for="(name) in playlist.ar" :key="name.id"  @click="this.$router.push({
             name: 'artist',

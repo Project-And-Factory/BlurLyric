@@ -125,9 +125,6 @@
       }
 
     },
-    created() {
-      console.log(this.config);
-    },
     methods: {
       upload() {
         configjs.methods.editconfig((r) => {

@@ -136,7 +136,7 @@
                         <div class="num">{{i}}</div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
-                                    style="color: rgba(44,62,80,0.5)">
+                                   >
                                     {{alia}} </a></h1>
                             <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
             name: 'artist',

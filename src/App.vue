@@ -204,7 +204,7 @@
             <path
               d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
           </svg>
-          <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" class="bi-arrow-clockwise bi"
             fill="currentColor" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
             <path
@@ -435,7 +435,7 @@
                 p-id="1996"></path>
             </svg>
           </a>
-          <!--下一曲-->
+          <!--musicPanel-->
           <a @click="tapElm.musicPanel.display">
             <svg style="height: 3vh; width: 3vh" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
               fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
@@ -575,7 +575,7 @@
     <!--主音乐控制面板-->
     <div id="musicPanel" style="display:none">
       <!--操控点-->
-      <div class="tap">
+      <div @contextmenu.prevent="tapElm.musicPanel.display" class="tap">
         <div class="tapInner"></div>
 
       </div>
@@ -584,7 +584,7 @@
 
         <!--音量条-->
         <div v-bind:style="'--progressPercent:' + (state.volume / 1)" id="volum"
-          v-on:mousedown="tapElm.musicPanel.volume.mousedown" class="progressElm">
+           v-on:mousedown="tapElm.musicPanel.volume.mousedown" class="progressElm">
           <div class="Color"></div>
           <div class="Icon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-volume-down-fill"
@@ -614,6 +614,21 @@
               <path
                 d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z" />
             </svg>
+          </div>
+        </div>
+        <a v-if="data.player.musicCache[id] && data.player.musicCache[id].song.netea && data.player.musicCache[id].song.unblock && data.player.musicCache[id].song.unblock.br " style="color:#00000088;font-size:0.8em">网易云解灰配置</a>
+        <div class="gridbuttom" v-if="data.player.musicCache[id] && data.player.musicCache[id].song.netea ">
+          <div
+          @click="data.player.musicCache[id].song.use = 'netea';audioSrcRef()"
+          v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'netea')?'var(--color-theme-alpha);color:#00000040':'#00000010')"
+          >
+            {{'原 ' + (data.player.musicCache[id].song.netea.br / 1000).toFixed() + 'k' }}
+          </div>
+          <div
+            @click="data.player.musicCache[id].song.use = 'unblock';audioSrcRef()"
+            v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'unblock')?'var(--color-theme-alpha);color:#00000040':'#00000010')"
+            >
+            {{'其他 '+ (data.player.musicCache[id].song.unblock.br / 1000).toFixed() + 'k' }}
           </div>
         </div>
       </div>
@@ -866,6 +881,10 @@
       }
     },
     methods: {
+      audioSrcRef(){
+        this.audio.src =this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url
+        this.play()
+      },
       getWindowInfo,
       cacheData(link, data) {
         if (link == undefined) {
@@ -933,7 +952,6 @@
         await reTools.getData('/login/status', {
           timetamp: (Number(new Date()))
         }).then(r => {
-          console.log(r)
 
           if (r.data && r.data.account && r.data.account.tokenVersion >= 3) {
             this.data.user = r.data
@@ -1034,12 +1052,6 @@
 
               var fontSizeFunc = (el, i, needFocus) => {
                 if (config.setting.config.lyricSet.animeFontSize == false) {
-                  if (i == lyricNum) {
-                    el.setAttribute('lyricFocus', true)
-
-                  } else if (i > lyricNum && el.getAttribute('lyricFocus') != false) {
-                    el.setAttribute('lyricFocus', false)
-                  }
 
                   return '1' //(i==lyricNum)?'1.05em':'1em'
                 };
@@ -1056,9 +1068,9 @@
 
               let dur
               if (force == true && type != 'tran') {
-                dur = '0';
+                dur = 0;
               } else {
-                dur = config.setting.config.lyricSet.dur + 'ms'
+                dur = config.setting.config.lyricSet.dur
               }
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
@@ -1067,9 +1079,10 @@
                   color
 
                 if (needFocus == true) {
-                  element.style.transition = "all " + dur + " cubic-Bezier(.3, .5, .2, 1) " + config
+                  let delay = config
                     .settingTemperture.lyricSet.funcDelay[config.setting.config.lyricSet
-                      .funcDelay](i - lyricNum) + "ms"
+                      .funcDelay](i - lyricNum)
+                  element.style.transition = "all " + (dur ) + "ms var(--animation-speed-line) " + delay + 'ms'
 
                   element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
                     .lyricSet
@@ -1077,6 +1090,14 @@
 
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
+
+                    if (i == lyricNum) {
+                      element.setAttribute('lyricFocus', true)
+
+                  } else if (i > lyricNum && element.getAttribute('lyricFocus') != false) {
+                    element.setAttribute('lyricFocus', false)
+                  }
+
 
                   setTimeout(() => {
                     lyricTransitionClean(element)

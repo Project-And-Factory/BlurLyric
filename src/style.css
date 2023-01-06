@@ -18,13 +18,18 @@ h3 {
 }
 
 img[lazy=loading],
-img:not([src]),
-img[src=""],
 img[lazy=error],
 img[lazy=error]:before {
   background: linear-gradient(#ccc, #bbb)
+
 }
 
+img:not([src]),
+img[src=""]{
+  outline: none;
+  border: none;
+  
+}
 html,
 body {
   padding: 0;
@@ -629,7 +634,16 @@ div.tracks>.linkbox {
   font-size: 1em;
   margin: .0em 0 0
 }
-
+.trackTitle>h1>a {
+  font-size: .8em;
+  color: #00000060 !important;
+}
+.trackTitle>h1>a::before{
+  content: '(';
+}
+.trackTitle>h1>a::after{
+  content: ')';
+}
 div.player-Mini-Title>h1
  {
   font-size: 1em;
@@ -835,7 +849,7 @@ div.player-Mini-Title>h2>a,
   /* background-color: var(--color1); */
   background-repeat: no-repeat;
   background-size: cover;
-  will-change: filter,background;
+  /* will-change: filter,background; */
   filter: saturate(75%) contrast(50%) brightness(150%) blur(7vmax)  ;
   /* blur(10vmax)  */
   transition: background .4s;
@@ -1182,6 +1196,8 @@ ul#lyrics {
   transform: scale(.85);
   border-left: solid .2em #00000000;
   transform-origin: 0% 50%;
+  --animation-speed-line: cubic-bezier(.3, .5, .2, 1);
+
 }
 
 #lyric ul li:hover {
@@ -1224,6 +1240,9 @@ li div.Padding {
 
 #lyric ul#lyrics li.true {
   visibility: visible
+}
+#lyric ul li[lyricFocus=true]{
+  --animation-speed-line: cubic-bezier(.3, .5, .2, 1);
 }
 
 @media (min-width:110vh) {

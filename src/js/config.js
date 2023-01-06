@@ -2,7 +2,7 @@ import cookies from 'js-cookie'
 import reTools from '../network/getData'
 
 
-let setting = {
+var setting = {
     id: '0',
     config: {
         configVersion: '1.3',
@@ -14,25 +14,22 @@ let setting = {
             animeFontSize: false
         },
         useBlurBackground: true
-
     }
 }
 
-let methods = {
+var methods = {
     lunch() {
 
-        console.log(cookies.get('blurlyricid'))
         if (cookies.get('blurlyricid') == undefined) {
             this.createUser()
         } else {
             this.refuseConfig()
         }
     },
-    refuseConfig() {
+    async refuseConfig() {
         reTools.getData('/blurlyric/getUser', {
             id: cookies.get('blurlyricid')
         }).then(r => {
-        console.log(r);
 
             if (r.data.code != 400 && r.data.config.configVersion != setting.config.configVersion) {
                 setting.id = r.data.id
@@ -44,11 +41,10 @@ let methods = {
             }
 
             setting = r.data
-            console.log(setting);
 
         })
     },
-    createUser(){
+    async createUser() {
         reTools.getData('/blurlyric/createUser').then(res => {
             cookies.set('blurlyricid', res.data.id, {
                 expires: new Date(2040, 0, 1)
@@ -69,33 +65,33 @@ let methods = {
     }
 }
 
-let  settingTemperture = {
-        lyricSet: {
-            funcBlur: {
-                true: function (i, lyricNum) {
-                    //return ''
-                    let offset = i - lyricNum
-                    if (offset == 0) return 'blur(0vh)';
-                    return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
-                },
-                false: () => {
-                    return ''
-                }
+var settingTemperture = {
+    lyricSet: {
+        funcBlur: {
+            true: function (i, lyricNum) {
+                //return ''
+                let offset = i - lyricNum
+                if (offset == 0) return 'blur(0vh)';
+                return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
             },
-            funcDelay: {
-                true: (offset) => {
-                    if (offset < -2 || offset > 7) return 0
-                    return 0.066 * setting.config.lyricSet.dur * offset * (0.93 ** Math.abs(offset));
-                    //  return 0;
-                },
-                false:(offset)=>{
-                    return 10 * offset
-                }
+            false: () => {
+                return ''
+            }
+        },
+        funcDelay: {
+            true: (offset) => {
+                if (offset < -2 || offset > 7) return 0
+                return setting.config.lyricSet.dur * 0.08 * (offset + 1);
+            },
+            false: (offset) => {
+                return 10 * offset
             }
         }
     }
+}
+
 export default {
     setting,
     methods,
-    settingTemperture
+    settingTemperture,
 }

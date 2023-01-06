@@ -92,18 +92,18 @@ async function requireId(id) {
       }).then(res => {
         Data.song.unblock = res
     
-        if ((Data.song.netea.br < Data.song.unblock.br) || (Data.song.netea.freeTrialInfo !=null)) {
+        if (Data.song.netea.br == 0 || Data.song.netea.freeTrialInfo !=null) {
           Data.song.use = 'unblock'
         }
     
       })
       Data.song['src']=  Data.song[Data.song.use].url
+      console.log(Data);
       return Data
 }
 
 async function downloadID(id){
   requireURL(id).then(async (data) => {
-      console.log(data.song[data.song.use].url);
       let response = await fetch(data.song[data.song.use].url)
       let blob = await response.blob();
       let objectUrl = window.URL.createObjectURL(blob);

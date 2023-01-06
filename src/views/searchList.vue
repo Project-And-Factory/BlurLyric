@@ -6,16 +6,15 @@
             <h2 v-if="page.track != []">歌曲列表<a v-if="page.track != []"
                     style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
             <div v-if="page.track != []" class="search track" style="user-select:none">
-                <div class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
+                <div @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
                     <!--显示样式-->
-                    <div @click="playTheOnce(i)" class="infor">
+                    <div class="infor">
                         <div class="trackIMG">
-
                             <img loading='lazy' :src="item.al.picUrl +'?param=96y96'" alt="" srcset="">
                         </div>
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
-                                    style="color: rgba(44,62,80,0.5)">
+                                   >
                                     {{alia}} </a></h1>
                                     <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id"  @click="this.$router.push({
             name: 'artist',

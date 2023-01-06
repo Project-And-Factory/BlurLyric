@@ -22,7 +22,7 @@ async function lunch() {
             config.scrollY = 0
         }
 
-        if (config.scrollY < elHeight) {
+        if (config.scrollY < elHeight && config.scrollY != 0) {
             config.scrollY = elHeight
         }
 

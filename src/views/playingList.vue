@@ -7,7 +7,7 @@
                 <!--显示样式-->
                 <div  class="infor">
                     <div class="trackTitle">
-                        <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i" style="color: rgba(44,62,80,0.5)">
+                        <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i">
                                 {{alia}} </a></h1>
                                 <h2 class="artistNames"><a v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id"> {{name.name}}</a></h2>
 
@@ -44,7 +44,7 @@
                     <div class="infor">
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
-                                    style="color: rgba(44,62,80,0.5)">
+                                   >
                                     {{alia}} </a></h1>
                                     <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
             name: 'artist',
@@ -129,7 +129,7 @@
                 <div @click="playTheOnce(i)" class="infor">
                     <div class="num">{{i}}</div>
                     <div class="trackTitle">
-                        <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i" style="color: rgba(44,62,80,0.5)">
+                        <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i">
                                 {{alia}} </a></h1>
                                 <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
             name: 'artist',
