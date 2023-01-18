@@ -1142,14 +1142,15 @@
                   .animeFontSize == true) ? (
                   'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
 
-                  setTimeout(() => {
-                    lyricTransitionClean(element)
-                  }, new Number(config.setting().config.lyricSet.dur) + 200);
+                  // setTimeout(() => {
+                  //   lyricTransitionClean(element)
+                  // }, dur*1.2);
                 } else {
-                  // color = 'rgb(0,0,0,0)'
-                  // element.style.filter = ''
-                  // element.style.transform = translateYContent
-                  // // element.style.transition = 'none'
+                  element.style.transition = ''
+                  color = 'rgb(0,0,0,0)'
+                  element.style.filter = ''
+                  element.style.transform = translateYContent
+                  
                 }
 
                 element.style.color = color
@@ -1162,10 +1163,10 @@
               // console.log((nowTime - this.state.lyricTransitionTime));
               this.state.lyricTransitionTime = nowTime
               // console.log('仅对'+realdisplay+'个元素使用动画');
-              let lyricTransitionClean = (elm) => {
-                if ((nowTime - this.state.lyricTransitionTime) > dur)
-                  elm.style.transition = ''
-              }
+              // let lyricTransitionClean = (elm) => {
+              //   // if ((nowTime - this.state.lyricTransitionTime) > dur*1.2)
+              //   //   elm.style.transition = ''
+              // }
 
             }
 
