@@ -28,8 +28,9 @@ jobs:
     - name: '构建静态文件'
       run: npm run build
 
-    - name: '清理没必要打包的文件'
+    - name: '清理没必要打包的文件(1/2)'
       run: rmdir /s /q src
+    - name: '清理没必要打包的文件(2/2)'
       run: rmdir /s /q blurlyric
 
     - name: '打包可执行文件'
