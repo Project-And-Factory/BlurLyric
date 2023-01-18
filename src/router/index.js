@@ -42,6 +42,15 @@ const routes = [
     }
   },
   {
+    path: '/album',
+    name: 'album',
+
+    component: () => import('../views/album.vue'),
+    meta:{
+      keepAlive: false
+    }
+  },
+  {
     path:'/dailySongs',
     name: 'dailySongs',
     component: () => import('../views/dailySongs.vue'),
@@ -54,9 +63,9 @@ const routes = [
     path:'/setting',
     name: 'setting',
     component: () => import('../views/setting.vue'),
-    meta:{
-      keepAlive: true
-    }
+    // meta:{
+    //   keepAlive: true
+    // }
 
   },
   {

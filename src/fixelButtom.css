@@ -91,15 +91,16 @@
 }
 #musicPanel{
   animation: spawn2 0.1s cubic-bezier(.3, .45, .2, .95);
+  transform: translate(-50%,-120%);
 }
 @keyframes spawn2 {
   0% {
       opacity: 0;
-      transform: translate(0%,10%) scale(1.05);
+      transform: translate(-50%,-110%) scale(1.05);
   }
   100%{
       opacity: 1;
-      transform: translate(0%,0) scale(1);  
+      transform:translate(-50%,-120%) scale(1);  
 
   }
 }

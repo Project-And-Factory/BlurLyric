@@ -62,9 +62,9 @@
         </div>
     </div>
 
-    <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.track.length}}首</a></h2>
+    <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.res.playlist.trackIds.length}}首</a></h2>
     <div class="track playlist">
-        <div @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in page.track" :key="item.id">
+        <div @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :key="item.id">
             <div class="infor">
                 <div class="num">{{i + 1}}</div>
                 <div class="trackTitle">
@@ -78,7 +78,12 @@
           })"> {{name.name}}</a></h2>
 
                 </div>
-                <div class="trackAl">
+                <div class="trackAl" @click="this.$router.push({
+            name: 'album',
+            query: {
+              id: item.al.id
+            }
+          })">
                     <div>{{ item.al.name }}</div>
                 </div>
             </div>
@@ -95,6 +100,10 @@
                 {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
             </div>
         </div>
+    </div>
+    <br>
+    <div v-if="displayMore == false&&page.mintrack.length<21" class="linkbox">
+        <a @click="displayMore = true">显示完整歌单</a>
     </div>
 </template>
 
@@ -119,9 +128,11 @@
                     lastUpdae: '',
                     aRtrackIds: [],
                     track: [],
+                    mintrack:[],
                     res: {}
                 },
-                loading: true
+                loading: true,
+                displayMore: false,
             }
         },
         async created() {
@@ -195,12 +206,15 @@
                     }).then(
                         r => {
                             this.page.res = r
+                            console.log(r);
                             this.page.pic = r.playlist.coverImgUrl;
                             this.page.title = r.playlist.name;
                             this.page.content = r.playlist.description
                             this.page.creater = r.playlist.creator
                             this.page.trackIds = r.playlist.trackIds
                             let trackIDList = ''
+                            this.page.mintrack = r.playlist.tracks
+
                             this.page.lastUpdae = new Date(this.page.res.playlist.updateTime).toLocaleString()
                             for (const num in this.page.trackIds) {
                                 trackIDList += this.page.trackIds[num].id
@@ -209,6 +223,7 @@
                                     trackIDList += ','
                                 }
                             }
+                            
                             this.page['trackIdsContent'] = trackIDList
                             reTools.getData('/song/detail', {
                                 ids: trackIDList,

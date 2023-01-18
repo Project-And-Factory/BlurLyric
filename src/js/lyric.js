@@ -43,20 +43,23 @@
         return olrcms
       }
 	  
-	  function makeLrcObj(lrc, tran) {
+	  function makeLrcObj(lrc, other) {
         let oLRC = {
           offset: -200, //时间补偿值，单位毫秒，用于调整歌词整体位置
           ms: [], //歌词数组{t:时间,c:歌词}
           tran: false
         },norLRC = Lrcsplit(lrc),tranLRC;
-        if (tran) {
-          tranLRC = Lrcsplit(tran)
-		  for(let num in tranLRC){//让有翻译的歌词自己循环一遍自己在哪
-			  let objNum = norLRC.findIndex(o => o.t == tranLRC[num].t)
-			  if (objNum!=-1) norLRC[objNum]["tranC"]=tranLRC[num].c
-		  }
-          oLRC.tran = true
+        
+        for(let i in other){
+          let element = other[i]
+          tranLRC = Lrcsplit(element)
+          for(let num in tranLRC){//让有翻译的歌词自己循环一遍自己在哪
+            let objNum = norLRC.findIndex(o => o.t == tranLRC[num].t)
+            if (objNum!=-1) norLRC[objNum][i+"C"]=tranLRC[num].c
+          }
+              oLRC.tran = true
         }
+
 		oLRC.ms =norLRC
 
         oLRC.ms.sort(function (a, b) { //按时间顺序排序 

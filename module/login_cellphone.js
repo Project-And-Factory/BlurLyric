@@ -3,8 +3,8 @@
 const crypto = require('crypto')
 
 module.exports = async (query, request) => {
-  query.cookie.os = 'pc'
-  query.cookie.appver = '2.10.6'
+  query.cookie.os = 'ios'
+  query.cookie.appver = '8.7.01'
   const data = {
     phone: query.phone,
     countrycode: query.countrycode || '86',
@@ -17,7 +17,7 @@ module.exports = async (query, request) => {
   }
   let result = await request(
     'POST',
-    `https://music.163.com/eapi/w/login/cellphone`,
+    `https://music.163.com/weapi/login/cellphone`,
     data,
     {
       crypto: 'weapi',

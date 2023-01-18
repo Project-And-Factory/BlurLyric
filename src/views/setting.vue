@@ -1,6 +1,8 @@
 <template>
   <div class="setting">
-    <h1>Setting | 设置</h1>
+     <h1>Setting | 设置 </h1>
+     <a>嗯？去哪了？被光吸引来的娥弄坏啦！正在努力思考新方案中</a>
+     <!--
     <div v-for="(item, i) in this.settingButton" :key="'setting'+i">
       <div class="" v-if="item.type == 'line'">
         <div class="setline">
@@ -44,14 +46,17 @@
       <h2 v-if="item.type == 'h2'" class="settingText">{{item.text}}</h2>
       <div v-if="item.type == 'text'">{{item.text}}</div>
 
-    </div>
+    </div> -->
 
     <h1>About | 关于</h1>
-    <h2>隐私政策</h2>
-    <p>正在写</p>
+    <a style="font-size:1.2em">LICENSE</a>  <br>
+    GUN gpl v3 (https://www.gnu.org/licenses/gpl-3.0.zh.html)
+    <!-- <h2>隐私政策</h2>
+    <p>正在写</p> -->
     <h2>Staff | 参与人员</h2>
     <p>作者: Doge(ss15278205751@foxmail.com)<br>
-      其他维护者：咸鸽(网络服务器，master@pafworld.top) (非实时更新)
+      <!-- 咸鸽(网络服务器，master@pafworld.top) (非实时更新) -->
+      后端服务:咸鸽(master@pafworld.top)
     </p>
     <h2>此软件</h2>
     <p>官网：blurlyric.app | https://gozaoo.github.io/blurlyric/<br>
@@ -61,16 +66,17 @@
     <h2>
       帮助此项目
     </h2>
-    方法1：帮助开发，如果您有能力解决或有新功能，可以在GitHub上将您的代码pull上来，或者是加入开发组，联系作者即可 <br>
-    方法2：动力的来源是快乐，如果您有经济能力的话可以赞助我们一下，我们将会拿来升级服务器<a style="text-decoration: line-through">，也有可能被我们拿去花掉啦！</a>
-
+    帮助开发，如果您有能力解决或有新功能，可以在GitHub上将您的代码pull上来，或者是加入开发组，联系作者即可 <br>
+    <!-- 方法2：动力的来源是快乐，如果您有经济能力的话可以赞助我们一下，我们将会拿来升级服务器<a style="text-decoration: line-through">，也有可能被我们拿去花掉啦！</a> -->
+    <br>
     <div class="linkbox">
-      <a @click="displayQrCode = !displayQrCode">
-        <div v-if="!displayQrCode">显示收款码</div>
-        <div v-if="displayQrCode">隐藏收款码</div>
+      <a style="font-size:.8rem" @click="displayQrCode = (displayQrCode==2)?0:(displayQrCode+1)">
+        <div v-if="displayQrCode==0">[这是一个赞赏按钮，请确认自身经济情况后赞助]<br>呃呃，这是啥，好像是个打赏链接？</div>
+        <div v-if="displayQrCode==1">[这是一个赞赏按钮，请确认自身经济情况后赞助] <br> 什...什么？？你要请我喝可乐？呜呜┭┮﹏┭┮谢谢你，赞助请慎重哦~(づ￣ 3￣)づ</div>
+        <div v-if="displayQrCode==2">呜呜谢谢你！</div>
       </a>
     </div>
-    <div v-if="displayQrCode">
+    <div v-if="displayQrCode==2">
       一定要慎重花钱喔，理性赞助\(￣︶￣*\)) <br>
       <img style="width: 200px;" src="https://gozaoo.github.io/img/z.jpg" alt="" srcset="">
       <img style="width: 200px;" src="https://gozaoo.github.io/img/w.jpg" alt="" srcset=""><br>
@@ -82,12 +88,12 @@
 
 <script>
   import configjs from '../js/config.js'
-  let config = configjs.setting.config
+  let config = configjs.setting().config
   var setting = {
     name: 'setting',
     data() {
       return {
-        displayQrCode: false,
+        displayQrCode: 0,
         settingButton: {
           text1: {
             text: '显示',
@@ -130,9 +136,15 @@
         configjs.methods.editconfig((r) => {
           return this.config
         })
+        // 
+        // import QRCode from 'qrcode'
+        // QRCode.toDataURL('https://qr.alipay.com/fkx19645qen17ojqk3sm1dd',{ errorCorrectionLevel: 'L' },(err,url)=>{
+        //     this.settingButton.text1.text = url
+        //   })
       }
     }
   };
+  
   export default setting
 </script>
 

@@ -27,8 +27,16 @@ jobs:
 
     - name: '构建静态文件'
       run: npm run build
+
+    - name: '清理没必要打包的文件'
+      run: rmdir /s /q src
+      run: rmdir /s /q blurlyric
+
     - name: '打包可执行文件'
       run: npm run make
+    
+
+    
     
 
     - uses: actions/upload-artifact@v3
@@ -36,8 +44,9 @@ jobs:
          name: blurlyric-win32-x64.zip
          path:  out\blurlyric-win32-x64
 
+
+          
     - uses: actions/upload-artifact@v3
       with:
          name: blurlyric-2.2.0 Setup.exe
          path: out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe
-          

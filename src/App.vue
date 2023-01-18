@@ -70,7 +70,7 @@
           fill="currentColor" class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
           <path
             d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
-        </svg><a>设置&关于</a></router-link>
+        </svg><a>关于</a></router-link>
 
       <hr style="color:#00000050;width:100%;margin: 2px 0">
 
@@ -119,16 +119,16 @@
     </div>
     <div class="scrollBox">
       <div class="viewBox">
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :data="data" />
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" :data="data" />
-    </div>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" :data="data" />
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" :data="data" />
+      </div>
     </div>
 
   </div>
 
-  <div id="player">
+  <div id="player" >
     <!--迷你控制器-->
     <div class="player-Mini">
       <div>
@@ -227,11 +227,13 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting.config.useBlurBackground"
-      v-bind:style="'background-image:url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+') '"
-      v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
+    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting().config.useBlurBackground" :style="{
+        backgroundImage: 'url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')',
+        // backgroundColor: this.data.player['musicCache'][id]['backgroundColor'],
+        // fontColor: this.data.player['musicCache'][id]['fontColor']
+      }" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
     <!--
-        主UI界面
+        主UI界面      v-bind:style="'background-image:"
       -->
     <!--控制界面按钮-->
     <div class="playertopbar">
@@ -260,9 +262,14 @@
               id: item.id
             }
           })">{{item.name}}
-          </div><a>&nbsp;-&nbsp;
+          </div>&nbsp;-&nbsp;<div class="artistText" @click="this.$router.push({
+            name: 'album',
+            query: {
+              id: data.player.tracks[data.player.trackNum].al.id
+            }
+          })">
             {{data.player.tracks[data.player.trackNum].al.name}}
-          </a>
+          </div>
         </h2>
       </div>
       <div class="contorlPage lowWidthDisplay">
@@ -308,7 +315,12 @@
               id: item.id
             }
           })">{{item.name}}
-            </a><a>&nbsp;-&nbsp;
+            </a><a @click="this.$router.push({
+            name: 'album',
+            query: {
+              id: data.player.tracks[data.player.trackNum].al.id
+            }
+          })">&nbsp;-&nbsp;
               {{data.player.tracks[data.player.trackNum].al.name}}
             </a></h2>
           <div style="display: block;"
@@ -489,9 +501,8 @@
 
             <!--播放键-->
             <a style="color: black;height: inherit;;aspect-ratio: 1/1" @click="plays()">
-              <svg v-if="( state.playing == false && audio.readyState >= 2)" 
-                xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-circle-fill"
-                viewBox="0 0 16 16">
+              <svg v-if="( state.playing == false && audio.readyState >= 2)" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
                 <path
                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
               </svg>
@@ -500,8 +511,8 @@
                 <path
                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z" />
               </svg>
-              <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+              <svg v-if="( audio.readyState < 2 )" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                 <path
                   d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
@@ -554,12 +565,12 @@
       <div class="right-side playerIndexSide">
 
         <div id="lyric">
-          <ul id="lyrics" :style="'--dur:'+config.setting.config.lyricSet.dur +  'ms'" ref="lyricBox"
+          <ul id="lyrics" :style="'--dur:'+config.setting().config.lyricSet.dur +  'ms'" ref="lyricBox"
             v-if="data.player.musicCache[id]">
             <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
-              <h2 v-if="(state.useTran == true&&this.data.player.musicCache[id].lyric.tran == true)">{{item.tranC}}</h2>
+              <h2 v-if="(state.lyricUse !=false&&item[state.lyricUse+'C'] != undefined)">{{item[state.lyricUse+'C']}}</h2>
               <!-- <div>{{formTime(parseInt(item.t))}}</div> -->
             </li>
           </ul>
@@ -584,7 +595,7 @@
 
         <!--音量条-->
         <div v-bind:style="'--progressPercent:' + (state.volume / 1)" id="volum"
-           v-on:mousedown="tapElm.musicPanel.volume.mousedown" class="progressElm">
+          v-on:mousedown="tapElm.musicPanel.volume.mousedown" class="progressElm">
           <div class="Color"></div>
           <div class="Icon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-volume-down-fill"
@@ -595,7 +606,7 @@
           </div>
         </div>
         <div class="gridbuttom">
-          <div @click="audioNetease.downloadID(this.id)">
+          <div @click="audioNetease.downloadURL( this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
               viewBox="0 0 16 16">
               <path
@@ -605,29 +616,27 @@
             </svg>
           </div>
           <div
-            v-bind:style="'background:'+((state.useTran == true)?'var(--color-theme-alpha);color:#00000040':'#00000010')"
-            @click="state.useTran = !state.useTran;lyricSet(true)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate"
+            v-bind:style="'background:'+((state.lyricUse != false)?'var(--color-theme-alpha);color:#00000040':'#00000010')"
+            @click="state.lyricUse = (state.lyricUse == false)?'tran':((state.lyricUse == 'tran')?'roma':false);lyricSet(true)">
+            <svg v-if="state.lyricUse != 'roma'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-translate"
               viewBox="0 0 16 16">
               <path
                 d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286H4.545zm1.634-.736L5.5 3.956h-.049l-.679 2.022H6.18z" />
               <path
                 d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2zm7.138 9.995c.193.301.402.583.63.846-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6.066 6.066 0 0 1-.415-.492 1.988 1.988 0 0 1-.94.31z" />
             </svg>
+            <div v-if="state.lyricUse == 'roma'">音</div>
           </div>
         </div>
-        <a v-if="data.player.musicCache[id] && data.player.musicCache[id].song.netea && data.player.musicCache[id].song.unblock && data.player.musicCache[id].song.unblock.br " style="color:#00000088;font-size:0.8em">网易云解灰配置</a>
+        <a v-if="data.player.musicCache[id] && data.player.musicCache[id].song.netea && data.player.musicCache[id].song.unblock && data.player.musicCache[id].song.unblock.br "
+          style="color:#00000088;font-size:0.8em">网易云解灰配置</a>
         <div class="gridbuttom" v-if="data.player.musicCache[id] && data.player.musicCache[id].song.netea ">
-          <div
-          @click="data.player.musicCache[id].song.use = 'netea';audioSrcRef()"
-          v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'netea')?'var(--color-theme-alpha);color:#00000040':'#00000010')"
-          >
+          <div @click="data.player.musicCache[id].song.use = 'netea';audioSrcRef()"
+            v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'netea')?'var(--color-theme-alpha);color:#00000040':'#00000010')">
             {{'原 ' + (data.player.musicCache[id].song.netea.br / 1000).toFixed() + 'k' }}
           </div>
-          <div
-            @click="data.player.musicCache[id].song.use = 'unblock';audioSrcRef()"
-            v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'unblock')?'var(--color-theme-alpha);color:#00000040':'#00000010')"
-            >
+          <div @click="data.player.musicCache[id].song.use = 'unblock';audioSrcRef()"
+            v-bind:style="'color:#00000088;font-size:0.8em;text-align:left;background:'+((data.player.musicCache[id].song.use == 'unblock')?'var(--color-theme-alpha);color:#00000040':'#00000010')">
             {{'其他 '+ (data.player.musicCache[id].song.unblock.br / 1000).toFixed() + 'k' }}
           </div>
         </div>
@@ -638,6 +647,8 @@
 <script>
   import reTools from './network/getData'
   import config from './js/config.js'
+  import analyze from 'rgbaster'
+  import Color from 'color'
 
   import audioNetease from './js/audioNetease.js'
   import audioListener from './js/audioListener.js'
@@ -704,7 +715,7 @@
           random: false,
           lyricTransitionTime: null,
           volume: 1,
-          useTran: true
+          lyricUse: 'tran'
         },
         id: 0,
         cache: {
@@ -818,12 +829,15 @@
             song: {},
             lyric: {},
           }
+
+
           // 让全局中正在播放的音乐赋予高亮显示
           if (!this.cache.playingStyle) {
             this.cache['playingStyle'] = document.createElement('style')
             this.cache.playingStyle.type = "text/css"
             document.body.appendChild(this.cache['playingStyle'])
           }
+
           this.cache.playingStyle.innerHTML = null
           this.cache.playingStyle.appendChild(document.createTextNode(".tracks[muid=\"" + newid +
             "\"]{border-radius: calc(var(--minplayerHeight) * 0.2);background-color: #0080ff15;}"))
@@ -869,8 +883,20 @@
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
               this.data.player.musicCache[thisMusic.id] = await audioNetease.requireId(thisMusic.id)
+
+              // analyze(thisMusic.al.picUrl + '?param=24y24', {
+              //   ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
+              // }).then(result => {
+              //   this.data.player['musicCache'][thisMusic.id]['backgroundColor'] = result[0].color
+              //   this.data.player['musicCache'][thisMusic.id]['colorData'] = Color(result[0].color).object()
+              //   // let colordata = 
+              //   // this.data.player['musicCache'][thisMusic.id]['fontColor'] = (colordata.r * 0.299 + colordata.g *
+              //   //     0.587 + colordata.b * 0.114) > 186 ? '#000000' :
+              //   //   '#FFFFFF'
+              // })
             }
           }
+
         }
       },
       $route: {
@@ -881,8 +907,8 @@
       }
     },
     methods: {
-      audioSrcRef(){
-        this.audio.src =this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url
+      audioSrcRef() {
+        this.audio.src = this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url
         this.play()
       },
       getWindowInfo,
@@ -971,7 +997,7 @@
           }
           playerElmContorl.load()
           tapElm.create(document.querySelector('#musicPanel>.tap'), document.querySelector('#musicPanel'),
-        () => {})
+            () => {})
 
           document.querySelector('#LoadingText').innerHTML = ""
           let 渐变消失LOGO界面 = anime({
@@ -1036,22 +1062,29 @@
                 let offset = i - lyricNum
                 if (offset < -2) {
                   el.style.visibility = 'hidden';
-                  el.style.display = 'block'
                   return false
                 } else if (offset > 7) {
                   el.style.display = 'none';
                   return false
                 } else {
                   el.style.display = 'block'
-                  el.style.visibility = 'visible';
+
+                  // if(el.getBoundingClientRect().top >= bodyHeight*1.2){
+                    // el.style.visibility = 'hidden';
+                  // return false
+                  // } else {
+                    el.style.visibility = 'visible';
                   return true
+
+                  // }
+
                 }
 
               }
 
 
               var fontSizeFunc = (el, i, needFocus) => {
-                if (config.setting.config.lyricSet.animeFontSize == false) {
+                if (config.setting().config.lyricSet.animeFontSize == false) {
 
                   return '1' //(i==lyricNum)?'1.05em':'1em'
                 };
@@ -1070,8 +1103,10 @@
               if (force == true && type != 'tran') {
                 dur = 0;
               } else {
-                dur = config.setting.config.lyricSet.dur
+                dur = config.setting().config.lyricSet.dur
               }
+              // let realdisplay = 0
+              let nowTime = Date.now()
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
                 let element = lis[i]
@@ -1079,51 +1114,56 @@
                   color
 
                 if (needFocus == true) {
-                  let delay = config
-                    .settingTemperture.lyricSet.funcDelay[config.setting.config.lyricSet
+                  let delay = (force == true)?'':config
+                    .settingTemperture.lyricSet.funcDelay[config.setting().config.lyricSet
                       .funcDelay](i - lyricNum)
-                  element.style.transition = "all " + (dur ) + "ms var(--animation-speed-line) " + delay + 'ms'
 
-                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting.config
+                  element.style.transition = "all " + dur + "ms var(--animation-speed-line) " + delay + 'ms'
+
+                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting().config
                     .lyricSet
                     .funcBlur](i, lyricNum)
-
+                  // let colorData = this.data.player['musicCache'][this.id]['colorData']
+                  // if(colorData == undefined) {colorData = {r:'0',g:'0',b:'0'} }
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
 
-                    if (i == lyricNum) {
-                      element.setAttribute('lyricFocus', true)
+                  if (i == lyricNum) {
+                    element.setAttribute('lyricFocus', true)
 
                   } else if (i > lyricNum && element.getAttribute('lyricFocus') != false) {
                     element.setAttribute('lyricFocus', false)
                   }
 
-
-                  setTimeout(() => {
-                    lyricTransitionClean(element)
-                  }, new Number(config.setting.config.lyricSet.dur) + 200);
-                } else {
-                  color = 'rgb(0,0,0,0)'
-                  element.style.filter = ''
-                  element.style.transition = 'none'
-                }
-
-                element.style.transform = translateYContent + ((i == lyricNum) ? " scale(1)" : ((config.setting
+                  // realdisplay++
+                  element.style.transform = translateYContent + ((i == lyricNum) ? " scale(1)" : ((config.setting()
                   .config
                   .lyricSet
                   .animeFontSize == true) ? (
                   'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
+
+                  setTimeout(() => {
+                    lyricTransitionClean(element)
+                  }, new Number(config.setting().config.lyricSet.dur) + 200);
+                } else {
+                  // color = 'rgb(0,0,0,0)'
+                  // element.style.filter = ''
+                  // element.style.transform = translateYContent
+                  // // element.style.transition = 'none'
+                }
+
                 element.style.color = color
 
 
-
-                this.state.lyricTransitionTime = Date.now()
+                
 
 
               }
-
+              // console.log((nowTime - this.state.lyricTransitionTime));
+              this.state.lyricTransitionTime = nowTime
+              // console.log('仅对'+realdisplay+'个元素使用动画');
               let lyricTransitionClean = (elm) => {
-                if ((Date.now() - this.state.lyricTransitionTime) > 800)
+                if ((nowTime - this.state.lyricTransitionTime) > dur)
                   elm.style.transition = ''
               }
 
@@ -1149,7 +1189,7 @@
           this.transitionNextMusic()
 
         this.lyricSet()
-        setTimeout(() => this.getCurr(), 100)
+        setTimeout(() => this.getCurr(), 120)
       },
       async transitionNextMusic(times) {
         transitionning = true

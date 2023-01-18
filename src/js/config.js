@@ -1,3 +1,4 @@
+// import { set } from 'animejs'
 import cookies from 'js-cookie'
 import reTools from '../network/getData'
 
@@ -40,8 +41,7 @@ var methods = {
                 this.createUser()
             }
 
-            setting = r.data
-
+            localStorage.setItem("blurlyricConfig", JSON.stringify(r.data));
         })
     },
     async createUser() {
@@ -56,10 +56,11 @@ var methods = {
     pushingconfig() {
         reTools.getData('/blurlyric/writeUser', {
             id: cookies.get('blurlyricid'),
-            res: setting.config
+            res: (JSON.parse(localStorage.getItem("blurlyricConfig")).config||(setting.config))
         })
     },
     editconfig(func) {
+        let setting = (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
         setting.config = func(setting.config)
         this.pushingconfig()
     }
@@ -72,7 +73,14 @@ var settingTemperture = {
                 //return ''
                 let offset = i - lyricNum
                 if (offset == 0) return 'blur(0vh)';
-                return 'blur(' + (0.7 - (0.5 ** Math.abs(offset))) + 'vh)'
+                let value = (0.7 - (0.5 ** Math.abs(offset)))
+                if(value<0.5){
+                    return 'blur(' + value + 'vh)'
+                }else{
+                    return 'blur(' + 0.5 + 'vh)'
+                }
+                
+                
             },
             false: () => {
                 return ''
@@ -81,17 +89,18 @@ var settingTemperture = {
         funcDelay: {
             true: (offset) => {
                 if (offset < -2 || offset > 7) return 0
-                return setting.config.lyricSet.dur * 0.08 * (offset + 1);
+                return setting.config.lyricSet.dur * 0.1 * (offset + 1);
             },
             false: (offset) => {
-                return 10 * offset
+                return 13 * offset
             }
         }
     }
 }
 
 export default {
-    setting,
+    
+    setting:()=>{return (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))},
     methods,
     settingTemperture,
 }

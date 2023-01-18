@@ -2,13 +2,15 @@ export default {
     requireId,
     requirePersonalFM,
     requireURL,
-    downloadID
+    downloadID,
+    downloadURL
 }
 
 
 //用于网络请求
 import reTools from '../network/getData'
 import lyric from './lyric.js'
+import app from '../main.js'
 
 async function requirePersonalFM() {
   let res
@@ -75,7 +77,10 @@ async function requireId(id) {
         id: id
         }).then(r => {
         if (r.lrc.lyric && r.tlyric) {
-            Data.lyric = lyric.makeLrcObj(r.lrc.lyric, r.tlyric.lyric)
+            Data.lyric = lyric.makeLrcObj(r.lrc.lyric, {
+              tran: r.tlyric.lyric,
+              roma: r.romalrc.lyric
+            })
         } else {
             Data.lyric = lyric.makeLrcObj(r.lrc.lyric)
         }
@@ -98,7 +103,6 @@ async function requireId(id) {
     
       })
       Data.song['src']=  Data.song[Data.song.use].url
-      console.log(Data);
       return Data
 }
 
@@ -130,4 +134,25 @@ async function downloadID(id){
       a.click();
       a.remove()
   })
+}
+async function downloadURL(url){
+  // window.location.href = url
+  let song =  app.data.player.tracks[app.data.player.trackNum]
+  
+  let name = ''
+  for (let num in song.ar) {
+      name += song.ar[num].name;
+      if (song.ar.length - num > 1) {
+          name += '&'
+      }
+  }
+  let response = await fetch(url)
+  let blob = await response.blob();
+  let objectUrl = window.URL.createObjectURL(blob);
+  let a = document.createElement("a");
+  a.href = objectUrl;
+
+  a.download = song.name + ' - ' + name + (app.data.player.musicCache[app.id].song[app.data.player.musicCache[app.id].song.use].br < 900000)?'.mp3':'.flac';
+  a.click();
+  a.remove()
 }
