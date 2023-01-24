@@ -19,7 +19,7 @@
                 page: {
                     id: this.$route.query.id,
                     colorResult: [{
-                        color: '#bbb'
+                        color: '#0000'
                     }, ],
                     textColor: '#000',
                     artistData: {
@@ -27,7 +27,10 @@
                             picUrl: ''
                         }
                     },
-                    mvs: []
+                    mvs: [],
+                    als:[
+
+                    ]
                 }
             }
         },
@@ -68,7 +71,12 @@
                     }).then(res => {
                         this.page.mvs = res.mvs
                     })
-
+                    await reTools.getData('/artist/album',{
+                        id:this.page.id,
+                        // limit: 10
+                    }).then(res=>{
+                        this.page.als = res.hotAlbums
+                    })
                     await picColor(this.page.artistData.artist.picUrl).then(result => {
                         this.page.colorResult = result
                     })
@@ -177,6 +185,22 @@
                 </div>
             </div>
             <!--h2>专辑</h2-->
+            <h2 v-if="page.als[0]">热门专辑</h2>
+            <div v-if="page.als[0]" class="PLtrack">
+                <div @click="this.$router.push({
+            name: 'album',
+            query: {
+              id: item.id
+            }
+          })" v-for="(item) in page.als"
+                    :key="item.id">
+                    <img loading='lazy' :src="item.picUrl + '?param=500y500'" v-bind:alt="item.name">
+                    <div class="PlTrTitle">
+                        <h1>{{item.name}}</h1>
+                        <h2 class="artistNames">by <a v-for="(name) in item.artists" :key="name.id" > {{' ' + name.name}}</a></h2>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -193,6 +217,8 @@
         font-size: calc(.8vh + 1vw);
         overflow: hidden;
         margin-bottom: calc(.8vh * 2 + 1vw * 2);
+        transition:background-color .3s;
+
     }
 
     .card-img {

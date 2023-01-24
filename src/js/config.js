@@ -89,7 +89,7 @@ var settingTemperture = {
         funcDelay: {
             true: (offset) => {
                 if (offset < -2 || offset > 7) return 0
-                return setting.config.lyricSet.dur * 0.1 * (offset + 1);
+                return setting.config.lyricSet.dur * 0.1 * (offset + 2);
             },
             false: (offset) => {
                 return 13 * offset

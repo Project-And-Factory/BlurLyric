@@ -323,7 +323,7 @@
           })">&nbsp;-&nbsp;
               {{data.player.tracks[data.player.trackNum].al.name}}
             </a></h2>
-          <div style="display: block;"
+          <div class="lowWidthDisplay" 
             v-if="this.data.player.musicCache[this.id]&&this.data.player.musicCache[this.id].lyric.ms[this.data.player.uiDisplay.LineNum]&&data.player.uiDisplay.playerSelec == 'song'">
             {{this.data.player.musicCache[this.id].lyric.ms[this.data.player.uiDisplay.LineNum].c}}
             <div v-if="(this.data.player.musicCache[id].lyric.tran == true)">
@@ -1060,8 +1060,8 @@
                */
               var isDisplay = (el, i) => {
                 let offset = i - lyricNum
-                if (offset < -2) {
-                  el.style.visibility = 'hidden';
+                if (offset < -3) {
+                  // el.style.visibility = 'hidden';
                   return false
                 } else if (offset > 7) {
                   el.style.display = 'none';
@@ -1073,7 +1073,7 @@
                     // el.style.visibility = 'hidden';
                   // return false
                   // } else {
-                    el.style.visibility = 'visible';
+                    // el.style.visibility = 'visible';
                   return true
 
                   // }
@@ -1107,6 +1107,10 @@
               }
               // let realdisplay = 0
               let nowTime = Date.now()
+
+              lyrics.style.setProperty('--dur',dur + 'ms') 
+              lyrics.style.setProperty('--transform', translateYContent ) 
+
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
                 let element = lis[i]
@@ -1118,46 +1122,40 @@
                     .settingTemperture.lyricSet.funcDelay[config.setting().config.lyricSet
                       .funcDelay](i - lyricNum)
 
-                  element.style.transition = "all " + dur + "ms var(--animation-speed-line) " + delay + 'ms'
+                  element.setAttribute('displaying',true)
+                  element.style.setProperty('--delay',  delay + 'ms') 
 
                   element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting().config
                     .lyricSet
                     .funcBlur](i, lyricNum)
                   // let colorData = this.data.player['musicCache'][this.id]['colorData']
                   // if(colorData == undefined) {colorData = {r:'0',g:'0',b:'0'} }
+                  element.style.
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
 
+                    
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
-
-                  } else if (i > lyricNum && element.getAttribute('lyricFocus') != false) {
+                  } else {
                     element.setAttribute('lyricFocus', false)
                   }
 
                   // realdisplay++
-                  element.style.transform = translateYContent + ((i == lyricNum) ? " scale(1)" : ((config.setting()
-                  .config
-                  .lyricSet
-                  .animeFontSize == true) ? (
-                  'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
+                  
+                  // + ((i == lyricNum) ? "" : ((config.setting()
+                  // .config
+                  // .lyricSet
+                  // .animeFontSize == true) ? (
+                  // 'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
 
                   // setTimeout(() => {
                   //   lyricTransitionClean(element)
                   // }, dur*1.2);
                 } else {
-                  element.style.transition = ''
-                  color = 'rgb(0,0,0,0)'
-                  element.style.filter = ''
-                  element.style.transform = translateYContent
-                  
+                  element.setAttribute('displaying',false)
+
                 }
-
-                element.style.color = color
-
-
-                
-
 
               }
               // console.log((nowTime - this.state.lyricTransitionTime));
@@ -1185,10 +1183,9 @@
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.data.player.uiDisplay.duration != 0 && this
+        if (this.data.player.uiDisplay.duration - cur <= 10.5 && this.audio.duration > 0 && this.audio.readyState >=2 && this
           .audio.loop != true)
           this.transitionNextMusic()
-
         this.lyricSet()
         setTimeout(() => this.getCurr(), 120)
       },
