@@ -60,8 +60,9 @@ var methods = {
         })
     },
     editconfig(func) {
-        let setting = (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
-        setting.config = func(setting.config)
+        let nowsetting = (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
+        setting.config = func(nowsetting)
+        localStorage.setItem("blurlyricConfig",JSON.stringify(nowsetting))
         this.pushingconfig()
     }
 }
@@ -89,7 +90,7 @@ var settingTemperture = {
         funcDelay: {
             true: (offset) => {
                 if (offset < -2 || offset > 7) return 0
-                return setting.config.lyricSet.dur * 0.1 * (offset + 2);
+                return setting.config.lyricSet.dur * 0.095 * (offset + 2);
             },
             false: (offset) => {
                 return 13 * offset

@@ -184,10 +184,19 @@
     overflow: auto;
     height: fit-content;
     display: flex;
+    width: calc(100% + 40px);
     flex-direction: row;
     gap: 15px;
+    padding: 20px;
+    padding-bottom: 0;
+    padding-right: 40px;
+
+    margin: -20px;
     border-radius: 17px;
 
+  }
+  .rankingsTrack::-webkit-scrollbar-thumb{
+    border-radius: 0PX;
   }
 
   .rankingsTracks {

@@ -89,8 +89,7 @@ body {
   }
 }
 
-.acrylicEffect,
-.leftlab.iconWithText {
+.acrylicEffect {
   -webkit-backdrop-filter: blur(3vw) brightness(100%) saturate(140%);
   backdrop-filter: blur(3vw) brightness(100%) saturate(140%);
   background-color: #fff8
@@ -102,7 +101,7 @@ body {
   height: calc(100vh - 20px);
   display: flex;
   top: 0;
-  padding: 10px;
+  padding: 10px 10px 10px 10px;
   float: left;
   color: #444;
   font-size: 26px;
@@ -111,8 +110,30 @@ body {
   gap: 12px;
   flex-direction: column;
   z-index: 100;
-  backdrop-filter: blur(0vw) brightness(100%) saturate(140%);
+  /* backdrop-filter: blur(0vw) brightness(100%) saturate(140%); */
   transition: all .2s cubic-bezier(.3, .45, .2, .95)
+}
+.leftlab.iconWithText{
+  padding: 10px 3px 10px 10px;
+  width: calc(var(--leftlab-width) - 16px);
+  transition: width 0s,padding 0s !important;
+  overflow: auto;
+
+}
+
+.leftlab.iconWithText::-webkit-scrollbar {
+  width: 4px;
+  /* height: 8px; */
+  background: 0
+
+}
+.leftlab.iconWithText:hover::-webkit-scrollbar-thumb{
+  background: hsla(0, 0%, 50.2%, .15)
+
+}
+.leftlab.iconWithText::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: hsla(0, 0%, 50.2%, .0)
 }
 
 .leftlab.top {
@@ -125,7 +146,7 @@ body {
 
 .leftlab.leftlab.iconWithText {
   transition: width .2s cubic-bezier(.3, .45, .2, .95), box-shadow .2s cubic-bezier(.3, .45, .2, .95);
-  box-shadow: 4px 0 50px #00000005
+  /* box-shadow: 4px 0 50px #00000005 */
 }
 
 .leftlab>.linkbox {
@@ -140,17 +161,34 @@ body {
   width: calc(100% - 19px);
   user-select: none;
   display: flex;
-  align-items: center;
-  position: relative
+  /* align-items: center; */
+  position: relative;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
-
+.leftlab>.linkbox>a>a{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  /* width: 100%; */
+}
+.leftlab>.linkbox>a:hover{
+  transform: none;
+}
+.leftlab>.linkbox>a:active{
+  color: #888;
+}
 .leftlab>.linkbox>a>a {
   pointer-events: none;
   transform: translateY(-50%);
   margin-left: 1.3em;
   font-size: 16px;
   position: absolute;
-  top: 50%
+  top: 50%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:1
 }
 
 .leftlab.icon>.linkbox>a>a {
@@ -163,7 +201,7 @@ body {
   transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s, color 0s
 }
 
-.leftlab.iconWithText {
+.leftlab.iconWithText,.rightrow.iconWithText {
   --leftlab-width: 200px
 }
 
@@ -180,7 +218,6 @@ nav {
 }
 
 .linkbox>a {
-  font-weight: 700;
   font-size: 18px;
   text-decoration: none;
   padding: 5px 10px;
@@ -340,6 +377,14 @@ input#searchInput,
   width: calc(100% - var(--leftlab-width));
   height: 100vh
 }
+.rightrow.icon {
+  transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s
+}
+
+.rightrow.iconWithText {
+  transition: all .2s cubic-bezier(.3, .45, .2, .95)
+  /* box-shadow: 4px 0 50px #00000005 */
+}
 
 .viewBox {
   transition: transform .2s cubic-bezier(.3, .5, .2, 1);
@@ -416,7 +461,7 @@ input#searchInput,
   width: 100%;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
   padding-bottom: 20px;
-  box-shadow: #00000005 0 0 40px;
+  box-shadow: #00000005 0 0 var(--padd);
   height: calc(100% + var(--minplayerHeight));
   background: #ffffff
 }
@@ -723,9 +768,6 @@ div.player-Mini-Title>h2>a,
 .Pltracks:hover>.PlButtom {
   display: flex
 }
-.Pltracks:hover {
-}
-
 .PlButtom {
   position: absolute;
   left: 8px;
@@ -892,10 +934,6 @@ div.player-Mini-Title>h2>a,
   height: inherit
 }
 
-.dragbarLine {
-
-}
-
 .playertopbar {
   z-index: 0;
   display: flex;
@@ -915,20 +953,21 @@ div.player-Mini-Title>h2>a,
 }
 
 .playerIndexSide {
+  --padd: calc(2vw + 2.85vh);
   flex-direction: column;
   height: calc(100vh - var(--playertopbarHeight));
-  max-height: calc(calc(100vh - var(--playertopbarHeight)) - 40px)
+  max-height: calc(calc(100vh - var(--playertopbarHeight)) - var(--padd))
 }
 
 .left-side {
   position: relative;
-  width: calc(48vw - 40px);
+  width: calc(48vw - var(--padd));
   max-width: 56vh;
   left: 0;
   top: 0;
   display: flex;
   gap: 3vh;
-  margin: 0 0 40px 40px;
+  margin: 0 0 var(--padd) var(--padd);
   justify-content: space-between
 }
 
@@ -1163,7 +1202,7 @@ img.ImageBlurBackground {
   }
   .box-progressbar {
     margin: 1.2vh 0;
-    transition: margin  .3s, height .3s;
+    transition: margin  .2s, height .2s;
   }
 
   .musicContorlCurrTime:hover {
@@ -1245,7 +1284,7 @@ ul#lyrics {
   width: fit-content;
   width: -moz-fit-content;
   will-change: transform, filter, color, font-size, transition;
-  padding: 1em .3em;
+  padding: .8em .3em;
   min-height: 3em;
   /* filter: none !important; */
   min-width: 7em;
@@ -1256,15 +1295,14 @@ ul#lyrics {
   --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
 }
 #lyric ul li[displaying=true]{
-  transition: all  var(--dur) var(--animation-speed-line)  var(--delay)
+  transition: all  var(--dur) var(--animation-speed-line)  var(--delay),filter 300ms
 }
 #lyric ul li[displaying=false]{
-  transition: 0s;
+  transition: none !important;
   visibility: hidden;
-  filter: blur(0) !important;
+  filter: none !important;
 
   color: #0000 !important;
-  transform: var(--transform);
 }
 
 #lyric ul li:hover {
@@ -1315,6 +1353,7 @@ li div.Padding {
 }
 #lyric ul li[lyricFocus=true]{
   transform: var(--transform) scale(1);
+  filter: none !important;
   
 }
 

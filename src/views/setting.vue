@@ -2,7 +2,7 @@
   <div class="setting">
      <h1>Setting | 设置 </h1>
      <a>嗯？去哪了？被光吸引来的娥弄坏啦！正在努力思考新方案中</a>
-     <!--
+     
     <div v-for="(item, i) in this.settingButton" :key="'setting'+i">
       <div class="" v-if="item.type == 'line'">
         <div class="setline">
@@ -29,13 +29,13 @@
           <div class="text">{{item.config.min}}
           </div>
           <input style="display:block;text-align: center;width: 100px;" v-on:keydown="this.pushData"
-            v-model="config.setting.config.lyricSet.dur" id="searchInput">
+            v-model="config.setting().config.lyricSet.dur" id="searchInput">
 
           <div class="text">{{item.config.max}}
           </div>
         </div>
         <div @click="item.clickFunc"
-          v-bind:style="('--height:calc(0.6vh + 0.3vw);--musicProgressPercent:' + (new Number(config.setting.config.lyricSet.dur) + item.config.offset)/1000)"
+          v-bind:style="('--height:calc(0.6vh + 0.3vw);--musicProgressPercent:' + (new Number(config.setting().config.lyricSet.dur) + item.config.offset)/1000)"
           class="box-progressbar">
           <div id="progress"></div>
           <div id="pointer"></div>
@@ -46,7 +46,7 @@
       <h2 v-if="item.type == 'h2'" class="settingText">{{item.text}}</h2>
       <div v-if="item.type == 'text'">{{item.text}}</div>
 
-    </div> -->
+    </div>
 
     <h1>About | 关于</h1>
     <a style="font-size:1.2em">LICENSE</a>  <br>

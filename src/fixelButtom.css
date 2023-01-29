@@ -28,9 +28,6 @@
   #fixedButtom>div>a:hover {
     background-color: #00000008
   }
-  #fixedButtom>div>.tap{
-    
-  }
   #fixedButtom>div .tapInner{
     margin: 8px auto 8px auto;
     height: 0.4rem;

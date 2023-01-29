@@ -243,8 +243,21 @@
         watch: {
             $route: {
                 handler: function (newVal) {
-                    if (this.$route.name == 'DetaiList') {
-                        this.page.id = newVal.query.id
+                    if (this.$route.name == 'detail') {
+                        this.page = {
+                                id: newVal.query.id,
+                                pic: '',
+                                title: 'xxxxxx',
+                                content: '',
+                                creater: 'xxx',
+                                trackIds: '',
+                                lastUpdae: '',
+                                aRtrackIds: [],
+                                track: [],
+                                mintrack:[],
+                                res: {}
+                            }
+                            this.loading = true
                         this.loadDeailList()
                     }
                 },
