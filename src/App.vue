@@ -123,7 +123,7 @@
       <div v-if="(data.player.uiDisplay.mainDisplay != 'top')" class="dragBar"></div>
 
     </div>
-    <div class="scrollBox">
+    <div class="scrollBox" @scroll="handleScroll($event)">
       <div class="viewBox">
         <keep-alive>
           <router-view v-if="$route.meta.keepAlive" :data="data" />
@@ -131,7 +131,9 @@
         <router-view v-if="!$route.meta.keepAlive" :data="data" />
       </div>
     </div>
-
+    <div class="scroll">
+      <div class="scroll-thumb"></div>
+    </div>
   </div>
 
   <div id="player" >
@@ -664,7 +666,6 @@
   import playerElmContorl from './js/playerElm.js'
   import main from './main.js'
   import tapElm from './js/tapElm.js'
-  import viewBoxScroll from './js/viewBoxScroll.js'
 
   import './style.css'
   import './fixelButtom.css'
@@ -721,7 +722,12 @@
           random: false,
           lyricTransitionTime: null,
           volume: 1,
-          lyricUse: 'tran'
+          lyricUse: 'tran',
+          scrollTop: 0,
+          scrollPercent: 0,
+          scrollDisplayOffsetTop: 1000,
+          scrollHeight: 1920,
+
         },
         id: 0,
         cache: {
@@ -907,12 +913,26 @@
       },
       $route: {
         handler: async function (newVal) {
-          viewBoxScroll.onNewPage()
+          // viewBoxScroll.onNewPage()
         },
         deep: true
       }
     },
     methods: {
+      handleScroll(e){
+        let date  = new Date().getTime()
+        localStorage.setItem('handleScrollDelay',date)
+
+        setTimeout(() => {
+          if (localStorage.getItem('handleScrollDelay') == date){
+            this.state.scrollTop = e.srcElement.scrollTop
+        this.state.scrollPercent =  e.srcElement.scrollTop / ( e.srcElement.scrollHeight - e.srcElement.offsetHeight )
+        this.state.scrollDisplayOffsetTop = this.state.scrollTop + (e.srcElement.offsetHeight || bodyHeight)
+        // console.log(this.state.scrollDisplayOffsetTop);
+        this.state.scrollHeight=e.srcElement.offsetHeight||bodyHeight
+          }
+        }, 80);
+      },
       audioSrcRef() {
         this.audio.src = this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url
         this.play()
@@ -1019,7 +1039,7 @@
 
         })
         config.methods.lunch()
-        viewBoxScroll.lunch()
+        // viewBoxScroll.lunch()
 
       },
 

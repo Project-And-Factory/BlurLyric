@@ -409,18 +409,26 @@ input#searchInput,
   float: left;
   background: var(--hsla-white);
   padding: 20px 20px 84px 20px;
+  /* margin-top: 3px; */
+
+  /* margin-right: 3px; */
   height: 100%;
   overflow-y: auto;
   border-radius: 12px 0 0 0;
 }
-@media (any-hover: hover) {
-  .scrollBox::-webkit-scrollbar{
-    display: hidden;
-  }
-  .scrollBox::-webkit-scrollbar-thumb{
-    display: none;
-  }
+.scrollBox:hover{
+  padding: 20px 12px 84px 20px;
+
 }
+
+.scrollBox:hover::-webkit-scrollbar,.scrollBox:hover::-webkit-scrollbar-thumb{
+  display: block;
+
+}
+.scrollBox::-webkit-scrollbar,.scrollBox::-webkit-scrollbar-thumb{
+  display: none;
+}
+
 .opes {
   padding: 20px 0;
   transition: all .5s cubic-bezier(.3, .45, .2, .95);
@@ -475,7 +483,17 @@ input#searchInput,
   display: flex;
   overflow: hidden;
 }
-
+.tracks>*{
+  animation: spawnTracks .2s;
+}
+@keyframes spawnTracks {
+  from{
+    filter: opacity(0);
+  }
+  to{
+    filter: opacity(1);
+  }
+}
 .tracks .num {
   color: #888;
   text-align: center;
@@ -1024,15 +1042,15 @@ img.ImageBlurBackground {
   position: absolute;
   border-radius: 5%;
   pointer-events: none;
-  --marginValue: calc(var(--height) * .09);
-  max-width: calc(var(--height) - var(--marginValue));
+  --marginValue: calc(var(--height) * .1);
   max-height: calc(var(--height) - var(--marginValue));
   height: var(--height);
   margin: var(--marginValue) 0 0 0;
   left: 50%;
   transform: translate(-50%);
   z-index: -1;
-  filter: blur(4vmax) contrast(3);
+  
+  filter: blur(calc(var(--marginValue) / 2)) contrast(2) brightness(.75) ;
   background-repeat: no-repeat;
   background-size: cover;
   transition: background 1s
@@ -1283,7 +1301,7 @@ ul#lyrics {
   color: #00000026;
   width: fit-content;
   width: -moz-fit-content;
-  will-change: transform, filter, color, font-size, transition;
+  will-change: transform, filter, transition;
   padding: .8em .3em;
   min-height: 3em;
   /* filter: none !important; */
@@ -1293,6 +1311,7 @@ ul#lyrics {
   transform: var(--transform)  scale(.9);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
+  --dur: 600ms !important
 }
 #lyric ul li[displaying=true]{
   transition: all  var(--dur) var(--animation-speed-line)  var(--delay),filter 300ms

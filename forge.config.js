@@ -1,15 +1,12 @@
 module.exports = {
   packageConfig: {
-      name: 'BlurlyricPC',
-      icon: './src/assets/icon',
+      name: 'Blurlyric',
+      icon: '/src/assets/icon',
       authors: "Gozaoo"
   },
   makers: [
       {
-          name: "@electron-forge/maker-squirrel",
-          config: {
-              icon: '/src/assets/icon.png',
-          }
+          name: "@electron-forge/maker-squirrel"
       },{
           name: "@electron-forge/maker-deb",
       },{

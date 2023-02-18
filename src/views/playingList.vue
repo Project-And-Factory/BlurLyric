@@ -41,7 +41,7 @@
                 class="track playlist">
                 <div @click="playTheOnce(app.data.player.trackNum + i + 1)"  class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks.slice(app.data.player.trackNum + 1, app.data.player.trackNum + 21)" :key="item.id">
                     <!--显示样式-->
-                    <div class="infor">
+                    <div  v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)"  class="infor">
                         <div class="trackTitle">
                             <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i"
                                    >
@@ -57,7 +57,7 @@
                     <div>{{ item.al.name }}</div>
                 </div>
                     </div>
-                    <div class="linkbox bigger">
+                    <div  v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)"  class="linkbox bigger">
                         <a @click="clean(app.data.player.trackNum + 1+i)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-x" viewBox="0 0 16 16">
@@ -80,7 +80,7 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="time" v-if="item.dt !=  undefined ">
+                    <div  v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight) && item.dt !=  undefined"  class="time">
                         {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
                     </div>
 
@@ -126,7 +126,7 @@
             <br>
             <div class="tracks" :muid="item.id" v-for="(item,i) in app.data.player.tracks" :key="item.id">
                 <!--显示样式-->
-                <div @click="playTheOnce(i)" class="infor">
+                <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" @click="playTheOnce(i)" class="infor">
                     <div class="num">{{i}}</div>
                     <div class="trackTitle">
                         <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i">
@@ -142,7 +142,7 @@
                     <div>{{ item.al.name }}</div>
                 </div>
                 </div>
-                <div class="linkbox bigger">
+                <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="linkbox bigger">
                     <a @click="clean(i)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-x" viewBox="0 0 16 16">
@@ -165,7 +165,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="time">
+                <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="time">
                     {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
                 </div>
 

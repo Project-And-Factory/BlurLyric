@@ -64,8 +64,8 @@
 
     <h2>歌曲列表<a v-if="page.track[0]" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.res.playlist.trackIds.length}}首</a></h2>
     <div class="track playlist">
-        <div @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :key="item.id">
-            <div class="infor">
+        <div   @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :key="item.id">
+            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)"  class="infor">
                 <div class="num">{{i + 1}}</div>
                 <div class="trackTitle">
                     <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i">
@@ -78,16 +78,16 @@
           })"> {{name.name}}</a></h2>
 
                 </div>
-                <div class="trackAl" @click="this.$router.push({
+                <div class="trackAl" >
+                    <div @click="this.$router.push({
             name: 'album',
             query: {
               id: item.al.id
             }
-          })">
-                    <div>{{ item.al.name }}</div>
+          })">{{ item.al.name}}</div>
                 </div>
             </div>
-            <div class="linkbox bigger">
+            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="linkbox bigger">
                 <a @click="app.pushTrack(item)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-plus" viewBox="0 0 16 16">
@@ -96,7 +96,7 @@
                     </svg>
                 </a>
             </div>
-            <div class="time">
+            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="time">
                 {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
             </div>
         </div>

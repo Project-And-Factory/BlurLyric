@@ -1,7 +1,6 @@
 <template>
   <div class="setting">
      <h1>Setting | 设置 </h1>
-     <a>嗯？去哪了？被光吸引来的娥弄坏啦！正在努力思考新方案中</a>
      
     <div v-for="(item, i) in this.settingButton" :key="'setting'+i">
       <div class="" v-if="item.type == 'line'">
@@ -98,15 +97,6 @@
           text1: {
             text: '显示',
             type: 'h2',
-          },
-          animeFontSize: {
-            text: '在 歌词 中使用全局动态字体大小',
-            type: 'line',
-            bolean: config.lyricSet.animeFontSize,
-            func: (item) => {
-              config.lyricSet.animeFontSize = item.bolean
-              this.upload()
-            }
           },
           useBlur: {
             text: '在 歌词 中使用模糊字体',

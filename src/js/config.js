@@ -6,9 +6,9 @@ import reTools from '../network/getData'
 var setting = {
     id: '0',
     config: {
-        configVersion: '1.3',
+        configVersion: '1.3#2',
         lyricSet: {
-            dur: 600,
+            dur: 200,
             text: '最高',
             funcBlur: true,
             funcDelay: true,
@@ -27,14 +27,16 @@ var methods = {
             this.refuseConfig()
         }
     },
+    getconfig(){
+        return (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
+    },
     async refuseConfig() {
         reTools.getData('/blurlyric/getUser', {
             id: cookies.get('blurlyricid')
         }).then(r => {
 
             if (r.data.code != 400 && r.data.config.configVersion != setting.config.configVersion) {
-                setting.id = r.data.id
-                this.pushingconfig()
+                this.createUser()
                 return
             }
             if (r.data.code == 400 || setting.config == undefined) {
@@ -56,13 +58,14 @@ var methods = {
     pushingconfig() {
         reTools.getData('/blurlyric/writeUser', {
             id: cookies.get('blurlyricid'),
-            res: (JSON.parse(localStorage.getItem("blurlyricConfig")).config||(setting.config))
+            res: this.getconfig().config
         })
     },
     editconfig(func) {
-        let nowsetting = (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
+        let nowsetting = this.getconfig()
         setting.config = func(nowsetting)
-        localStorage.setItem("blurlyricConfig",JSON.stringify(nowsetting))
+        localStorage.setItem("blurlyricConfig",JSON.stringify(setting))
+
         this.pushingconfig()
     }
 }
@@ -90,7 +93,7 @@ var settingTemperture = {
         funcDelay: {
             true: (offset) => {
                 if (offset < -2 || offset > 7) return 0
-                return setting.config.lyricSet.dur * 0.095 * (offset + 2);
+                return 54 * (offset + 2);
             },
             false: (offset) => {
                 return 13 * offset
@@ -101,7 +104,7 @@ var settingTemperture = {
 
 export default {
     
-    setting:()=>{return (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))},
+    setting:methods.getconfig,
     methods,
     settingTemperture,
 }

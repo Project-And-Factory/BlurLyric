@@ -11,7 +11,7 @@
     </div>
     <p style="color: red">{{message}}</p>
 
-    <div  v-bind:class="(code == '-462')?'true':'' + 'qrcodeOutbox'"></div>
+    <div class="qrcodeOutbox"></div>
 </template>
 <style>
 
@@ -105,7 +105,7 @@
             this.code = res.response.data.code
                   
                   this.扫码()
-                  this.message = '请使用网易云手机版扫码验证后再使用'
+                  this.message = '需要使用手机版网易云音乐扫码认证'
                 } else {
                   message.create('Error ERR_BAD_REQUEST ，请联系管理员 ' + res.request.response.message)
                 }
@@ -124,7 +124,6 @@
         }
       },
       async 扫码(){
-        document.querySelector('.qrcodeOutbox').innerHTML = ''
         let unikey = null
         await reTools.getData('/login/qr/key',{
           timetamp: (Number(new Date()))} ).then((r)=>{
@@ -135,6 +134,8 @@
           key: unikey,
           timetamp: (Number(new Date()))
         }).then((r)=>{
+        document.querySelector('.qrcodeOutbox').innerHTML = ''
+
           QRCode.toCanvas(r.data.qrurl,{ errorCorrectionLevel: 'L' },(err,canvas)=>{
             document.querySelector('.qrcodeOutbox').appendChild(canvas)
           })
