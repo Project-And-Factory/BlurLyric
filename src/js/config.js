@@ -6,7 +6,7 @@ import reTools from '../network/getData'
 var setting = {
     id: '0',
     config: {
-        configVersion: '1.3#2',
+        configVersion: '1.4',
         lyricSet: {
             dur: 200,
             text: '最高',
@@ -14,7 +14,7 @@ var setting = {
             funcDelay: true,
             animeFontSize: false
         },
-        useBlurBackground: true
+        useAnimeBackground: false
     }
 }
 
@@ -41,6 +41,7 @@ var methods = {
             }
             if (r.data.code == 400 || setting.config == undefined) {
                 this.createUser()
+                return
             }
 
             localStorage.setItem("blurlyricConfig", JSON.stringify(r.data));

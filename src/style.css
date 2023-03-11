@@ -898,40 +898,65 @@ div.player-Mini-Title>h2>a,
     display: none;
   }
 }
-.player-background {
+.player-background{
+  z-index: -2;
+  position: absolute;  width: 120vw;
+  height: 120vh;
+    will-change: filter;
+    margin: -10vh 0 0 -10vw;
+  overflow: hidden;
+  filter: blur(7vmax)  saturate(150%) contrast(60%) brightness(170%) ;
+}
+.player-background>div {
   position: absolute;
   width: 120vw;
   height: 120vh;
-  margin: -10vh 0 0 -10vw;
-  z-index: -2;
   /* background-color: var(--color1); */
+  z-index: -2;
+  
   background-repeat: no-repeat;
-  background-size: cover;
+  /* background-size: cover; */
   /* will-change: filter,background; */
-  filter:  saturate(150%) contrast(50%) brightness(160%) blur(10vmax) ;
-  /* blur(10vmax)  */
-  transition: background .4s;
-  /* animation: background 5s infinite; */
+    will-change: background;
+    transition: background .4s;
   /* --bg-others: linear-gradient(to bottom, rgb(100%,100%,100%,40%),rgb(100%,100%,100%,40%)) */
 }
-/* @keyframes background {
+.player-background.dyn{
+  --animationName: background1
+
+}
+.player-background>div:last-child{
+  background-size: 100%;
+    /* transform: rotate(0deg); */
+  animation: var(--animationName) 15s ease-in-out infinite;
+  --rotateOffset: 180deg;
+}
+.player-background>div:first-child{
+    transform: rotate(270deg);
+    background-size: 100%;
+    filter: none !important;
+
+  animation: var(--animationName) 13s ease-in-out infinite;
+}
+@keyframes background1 {
   0%{
-    background-position: 50% 50%;
-    
+    background-position: 50% 10%;
+    filter:  opacity(0.7);
   }
   33%{
-    background-position: 60% 80%;
-
+    filter:  opacity(0.5);
+    background-position: 60% 90%;;
   }
   66%{
-    background-position: 80% 60%;
-
+    background-position: 80% 90%;;
+    filter:  opacity(0.3);
   }
   100%{
-    background-position: 50% 50%;
-
+    filter:  opacity(0.7);
+    background-position: 50% 10%;
   }
-} */
+}
+
 #player>div.player-background.buttom {
   display: none
 }
@@ -1050,7 +1075,7 @@ img.ImageBlurBackground {
   transform: translate(-50%);
   z-index: -1;
   
-  filter: blur(calc(var(--marginValue) / 2)) contrast(2) brightness(.75) ;
+  filter: blur(calc(var(--marginValue) / 2.25)) contrast(2) brightness(.75) ;
   background-repeat: no-repeat;
   background-size: cover;
   transition: background 1s
@@ -1158,6 +1183,8 @@ img.ImageBlurBackground {
 
 .musicContorlCurrTime {
   font-size: 1.8vh;
+  color: #00000050;
+  font-weight: bolder;
 
 
   flex-direction: column;
@@ -1301,20 +1328,21 @@ ul#lyrics {
   color: #00000026;
   width: fit-content;
   width: -moz-fit-content;
-  will-change: transform, filter, transition;
+  will-change: transform, filter, transition,color;
   padding: .8em .3em;
+
   min-height: 3em;
   /* filter: none !important; */
   min-width: 7em;
   border-left: solid .2em #00000000;
-  transform-origin: .3em 50%;
+  transform-origin: .3em 60%;
   transform: var(--transform)  scale(.9);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
   --dur: 600ms !important
 }
 #lyric ul li[displaying=true]{
-  transition: all  var(--dur) var(--animation-speed-line)  var(--delay),filter 300ms
+    transition: all  var(--dur) var(--animation-speed-line)  var(--delay),filter 300ms
 }
 #lyric ul li[displaying=false]{
   transition: none !important;
@@ -1373,9 +1401,37 @@ li div.Padding {
 #lyric ul li[lyricFocus=true]{
   transform: var(--transform) scale(1);
   filter: none !important;
-  
 }
+#lyric ul li h1{
+  word-wrap: break-word;
+  flex-wrap: wrap;
+}
+#lyric ul li[lyricFocus=true] h1 a{
+  color: rgb(0, 0, 0, .2);
+  transition: var(--dur) var(--animation-speed-line);
+}
+#lyric ul li h1 a.foucusText{
+  color: rgb(0, 0, 0, 0.7);
+  text-shadow: 0em 0em .3em rgb(0, 0, 0, .1)
+}
+#lyric ul li h1 a.foucusText.long{
+  animation: shine calc(var(--dur) * .9) ease-in-out;
+}
+@keyframes shine {
+  0%{
+  text-shadow: 0em 0em .0em rgb(0, 0, 0, .1)
 
+  }
+  250%{
+    text-shadow: 0em 0em .6em rgb(0, 0, 0, .6)
+  }
+  80%{
+    text-shadow: 0em 0em .6em rgb(0, 0, 0, .6)
+  }
+  100%{
+    text-shadow: 0em 0em .3em rgb(0, 0, 0, .1)
+  }
+}
 @media (min-width:110vh) {
   div.lowWidthDisplay {
       display: none

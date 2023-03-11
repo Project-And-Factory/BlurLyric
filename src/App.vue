@@ -235,11 +235,12 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting().config.useBlurBackground" :style="{
+    <!-- <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting().config.useBlurBackground" :style="{
         backgroundImage: 'url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')',
         // backgroundColor: this.data.player['musicCache'][id]['backgroundColor'],
         // fontColor: this.data.player['musicCache'][id]['fontColor']
-      }" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div>
+      }" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div> -->
+    <background :dynamic="true" :imgSrc="data.player.tracks[data.player.trackNum].al.picUrl" :mainDisplay="data.player.uiDisplay.mainDisplay" />
     <!--
         主UI界面      v-bind:style="'background-image:"
       -->
@@ -574,12 +575,43 @@
 
         <div id="lyric">
           <ul id="lyrics" :style="'--dur:'+config.setting().config.lyricSet.dur +  'ms'" ref="lyricBox"
-            v-if="data.player.musicCache[id]">
-            <li @click="audio.currentTime = item.t" v-for="(item) in this.data.player.musicCache[id].lyric.ms"
+            v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc == false">
+            <li @click="audio.currentTime = item.t" v-for="(item,i) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
               <h1>{{item.c}}</h1>
               <h2 v-if="(state.lyricUse !=false&&item[state.lyricUse+'C'] != undefined)">{{item[state.lyricUse+'C']}}</h2>
               <!-- <div>{{formTime(parseInt(item.t))}}</div> -->
+            </li>
+          </ul>
+
+          <ul id="lyrics" ref="lyricBox"
+            :style="{
+              '--dur': config.setting().config.lyricSet.dur +  'ms'
+            }"
+            v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
+            <li @click="audio.currentTime = item.t" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
+              v-bind:key="item.t">
+              <h1 v-if="this.data.player.uiDisplay.LineNum == i">
+                <!--聚焦时-->
+                <a :class="[
+                  (this.data.player.uiDisplay.realCurrTime + 0.25 > yrc.t)?'foucusText':'',
+                  (2 < yrc.dur)?'long':''
+                ]"
+                  :style="{ '--dur': yrc.dur +'s'}
+                  "
+                v-for="(yrc,i) in item.c">
+                {{ yrc.str }}
+              </a>
+            </h1>
+            <h1 v-if="this.data.player.uiDisplay.LineNum != i">
+                <!--聚焦时-->
+                <a 
+                v-for="(yrc,i) in item.c">
+                {{ yrc.str }}
+              </a>
+            
+            </h1>
+
             </li>
           </ul>
         </div>
@@ -666,11 +698,14 @@
   import playerElmContorl from './js/playerElm.js'
   import main from './main.js'
   import tapElm from './js/tapElm.js'
+  import  viewBoxScroll from './js/viewBoxScroll.js'
 
   import './style.css'
   import './fixelButtom.css'
   import './naturalUI.css'
   import './message.css'
+  import background from './components/background.vue'
+import { transform } from '@vue/compiler-core'
 
 
   var bodyHeight, bodyWidth,
@@ -713,6 +748,9 @@
     }
   }
   var vueApp = {
+    components:{
+      background
+    },
     data() {
       return {
         config,
@@ -809,7 +847,7 @@
           },
         },
         tapElm,
-        audioNetease
+        audioNetease,bodyHeight, bodyWidth
       }
     },
 
@@ -913,7 +951,7 @@
       },
       $route: {
         handler: async function (newVal) {
-          // viewBoxScroll.onNewPage()
+          viewBoxScroll.onNewPage()
         },
         deep: true
       }
@@ -1065,8 +1103,13 @@
             lis = lyrics.getElementsByTagName('li'),
             currTime = this.data.player.uiDisplay.realCurrTime,
             //找到歌词的行数
-            lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+            lyricNum = undefined
 
+              if(this.data.player.musicCache[this.id].lyric.yrc&& this.data.player.musicCache[this.id].lyric.yrc != undefined) {
+                lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+              } else {
+                lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+              }
           //对于
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
           /**
@@ -1159,7 +1202,8 @@
                   element.style.
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.4 * (0.6 ** Math.abs(i -
                     lyricNum))) + ')')
-
+                  
+                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ (  1 + ((i - lyricNum + 1)* 0.05))+ ')')
                     
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
@@ -1213,7 +1257,7 @@
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        setTimeout(() => this.getCurr(), 120)
+        setTimeout(() => this.getCurr(), 50)
       },
       async transitionNextMusic(times) {
         transitionning = true
@@ -1243,6 +1287,7 @@
         }
         //设置音频
         NextMusicCache = this.data.player.musicCache[id]
+        if(!NextMusicCache){return}
         newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
         newAudio.volume = 0
         newAudio.currentTime = 0

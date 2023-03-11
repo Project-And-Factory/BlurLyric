@@ -47,25 +47,111 @@
         let oLRC = {
           offset: -200, //时间补偿值，单位毫秒，用于调整歌词整体位置
           ms: [], //歌词数组{t:时间,c:歌词}
-          tran: false
+          tran: false,
+          yrc: false,
+          ytlrc: false
+
         },norLRC = Lrcsplit(lrc),tranLRC;
         
         for(let i in other){
           let element = other[i]
+
+          if (element == null) {continue}
+          if(i == 'yrc' && other[i]!=null){
+            
+            oLRC[i] = yrcSplit(other[i])
+            // console.log();
+            continue
+          }
           tranLRC = Lrcsplit(element)
           for(let num in tranLRC){//让有翻译的歌词自己循环一遍自己在哪
             let objNum = norLRC.findIndex(o => o.t == tranLRC[num].t)
             if (objNum!=-1) norLRC[objNum][i+"C"]=tranLRC[num].c
           }
-              oLRC.tran = true
+            oLRC.tran = true
         }
 
-		oLRC.ms =norLRC
+      oLRC.ms =norLRC
+      console.log(oLRC);
 
         oLRC.ms.sort(function (a, b) { //按时间顺序排序 
           return a.t - b.t;
         });
         return oLRC;
+
+      }
+
+      function yrcSplit(content) {
+        if(content == undefined) {
+          return
+        }
+        let lrcs = content.split('\n')
+        let yrcs = [
+    
+        ]
+
+        //解析一句
+        for (let i = 0; i < lrcs.length; i++) {
+          const item = lrcs[i];
+          
+          let yrc = {
+            t: undefined,
+            edt: undefined,
+            c: undefined
+          }
+          //分离出时间
+          let timeInfor = (item.substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"))).split(',');
+          yrc.t = Number(timeInfor[0])/ 1000
+          yrc.edt = Number(timeInfor[1])/ 1000
+
+          if (yrc.t == NaN || yrc.edt == NaN){
+            continue //若时间不合格将跳过
+          } 
+          
+          //开始寻找主词内容
+          
+          let arr = item.match(/\[([1-9]\d*,[1-9]\d*)]/g);
+          if(!arr) continue
+          
+          //去除本句[...]内容
+          let c = item.substring(arr[0].length); //获取歌词内容
+          let c_contentArrays = []
+          
+          
+          //分离成单字
+          let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g)
+          for (let a = 0; a < splitcs.length; a++) {
+
+            const splitc = splitcs[a];
+
+            if (splitc == '') {
+             continue 
+            }
+          //解析单字时间
+
+            let time =  splitc.match(/([1-9]\d*,[1-9]\d*,\d*)/)
+            if(!time){
+              continue
+            }
+            let timeArray = (time[0]).split(',')
+          
+            let contentArray = {
+              t: 0,
+              dur: 0,
+              str: ''
+            }
+
+            contentArray.t = Number(timeArray[0])/1000;
+            contentArray.dur = Number(timeArray[1])/1000
+            contentArray.str = splitc.match(/\([1-9]\d*,[1-9]\d*,\d*\)(.*)/)[1]
+            c_contentArrays.push(contentArray)
+          }
+          yrc.c = c_contentArrays
+          
+          yrcs.push(yrc)
+        }
+        // console.log(yrcs);
+        return yrcs
       }
   export default {
 	  Lrcsplit,

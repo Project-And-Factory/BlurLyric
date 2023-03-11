@@ -64,8 +64,11 @@ async function lunch() {
 var lastnewpagetimeout = new Date()
 async function onNewPage() {
 
-    if (config.firstLoad == false) await lunch()
-
+    // if (config.firstLoad == false) await lunch()
+    let elbox = document.querySelector('.scrollBox')
+    let el = document.querySelector('.viewBox')
+    config.elbox = elbox
+    config.el = el
     config.el.setAttribute('anime',true)
 
     config.scrollY = 0

@@ -73,17 +73,24 @@ async function requireId(id) {
         lyric: {},
     }
     //同步音乐歌词
-    await reTools.getData('/lyric', {
+    await reTools.getData('/lyric/new', {
         id: id
         }).then(r => {
-        if (r.lrc.lyric && r.tlyric) {
-            Data.lyric = lyric.makeLrcObj(r.lrc.lyric, {
-              tran: r.tlyric.lyric,
-              roma: r.romalrc.lyric
-            })
-        } else {
-            Data.lyric = lyric.makeLrcObj(r.lrc.lyric)
-        }
+          if(r.lrc.lyric == undefined){
+            Data.lyric=lyric.makeLrcObj('[0]无歌词，请欣赏')
+          }
+          Data.lyric = lyric.makeLrcObj(r.lrc.lyric, {
+            tran: (r.tlyric)?r.tlyric.lyric:null,
+            roma: (r.romalrc)?r.romalrc.lyric:null,
+            yrc: (r.yrc)?r.yrc.lyric:null,
+            // ytlrc: (r.ytlrc)?r.ytlrc.lyric:null
+          })
+        // if (r.lrc.lyric && r.tlyric) {
+
+        // } else {
+        //     Data.lyric = lyric.makeLrcObj(r.lrc.lyric)
+        // }
+        console.log(r);
     })
     
     await reTools.getData('/song/url', {

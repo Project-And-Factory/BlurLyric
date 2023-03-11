@@ -115,6 +115,15 @@
               config.lyricSet.funcDelay = item.bolean
               this.upload()
             }
+          },
+          useAnimeBackground:{
+            text: '使用动态背景 (高占用)',
+            type:'line',
+            bolean: config.useAnimeBackground,
+            func:(item)=>{
+              config.useAnimeBackground = item.bolean
+              this.upload()
+            }
           }
         },
         config
