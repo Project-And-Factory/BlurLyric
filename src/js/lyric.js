@@ -57,6 +57,17 @@
           let element = other[i]
 
           if (element == null) {continue}
+
+          if(i=='ytlrc'&& element!=null){
+            tranLRC = Lrcsplit(element)
+            console.log(1);
+            
+            for(let num in tranLRC){//让有翻译的歌词自己循环一遍自己在哪
+              let objNum = oLRC['yrc'].findIndex(o => o.t == tranLRC[num].t)
+              if (objNum!=-1) oLRC['yrc'][objNum][i+"C"]=tranLRC[num].c
+            }
+          }
+
           if(i == 'yrc' && other[i]!=null){
             
             oLRC[i] = yrcSplit(other[i])
@@ -69,6 +80,7 @@
             if (objNum!=-1) norLRC[objNum][i+"C"]=tranLRC[num].c
           }
             oLRC.tran = true
+
         }
 
       oLRC.ms =norLRC

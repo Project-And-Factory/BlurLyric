@@ -138,7 +138,7 @@
 
   <div id="player" >
     <!--迷你控制器-->
-    <div class="player-Mini">
+    <div class="player-Mini"  >
       <div>
         <div @click="mainDisplayChange()" class="player-Mini-img">
 
@@ -158,7 +158,7 @@
           </h2>
         </div>
       </div>
-      <div class="player-Mini-Contorl">
+      <div  v-if="data.player.uiDisplay.mainDisplay != 'top'" class="player-Mini-Contorl">
         <!--播放按键-->
         <!--喜欢按钮-->
         <a @click="loveMusic()"
@@ -589,29 +589,34 @@
               '--dur': config.setting().config.lyricSet.dur +  'ms'
             }"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
-            <li @click="audio.currentTime = item.t" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
+            <li v-bind:lyricFocus="
+              (this.data.player.uiDisplay.realCurrTime >= item.t)?true:false
+            " @click="audio.currentTime = item.t - 0.3" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
               v-bind:key="item.t">
-              <h1 v-if="this.data.player.uiDisplay.LineNum == i">
+              <h1  v-if="this.data.player.uiDisplay.LineNum <= i && this.data.player.uiDisplay.LineNum + 2 >= i">
                 <!--聚焦时-->
                 <a :class="[
-                  (this.data.player.uiDisplay.realCurrTime + 0.25 > yrc.t)?'foucusText':'',
+                  (this.data.player.uiDisplay.realCurrTime + 0.3 > yrc.t)?'foucusText':'',
                   (2 < yrc.dur)?'long':''
                 ]"
                   :style="{ '--dur': yrc.dur +'s'}
                   "
                 v-for="(yrc,i) in item.c">
-                {{ yrc.str }}
+                
+                {{ yrc.str }}<div>{{ yrc.str }}</div>
               </a>
             </h1>
-            <h1 v-if="this.data.player.uiDisplay.LineNum != i">
-                <!--聚焦时-->
+             <h1 v-if="this.data.player.uiDisplay.LineNum > i || this.data.player.uiDisplay.LineNum + 2 < i">
+                <!--聚焦时 -->
                 <a 
                 v-for="(yrc,i) in item.c">
                 {{ yrc.str }}
               </a>
             
             </h1>
-
+            <h2>
+              {{item.ytlrcC}}
+            </h2>
             </li>
           </ul>
         </div>
@@ -1105,11 +1110,16 @@ import { transform } from '@vue/compiler-core'
             //找到歌词的行数
             lyricNum = undefined
 
-              if(this.data.player.musicCache[this.id].lyric.yrc&& this.data.player.musicCache[this.id].lyric.yrc != undefined) {
-                lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
+              if(this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
+                lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj ,i) => {
+                  let lastWord = obj.c[obj.c.length - 1];
+                  return((
+                  (lastWord.t + lastWord.dur) >= currTime) //要求已过了上一句歌词末尾
+                  && ((this.data.player.musicCache[this.id].lyric.yrc[i+1].t >= (currTime)) && this.data.player.musicCache[this.id].lyric.yrc[i+1] != undefined))
+                })
               } else {
-                lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
-              }
+                lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6) ) - 1
+}
           //对于
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
           /**
@@ -1257,7 +1267,7 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        setTimeout(() => this.getCurr(), 50)
+        setTimeout(() => this.getCurr(), 60)
       },
       async transitionNextMusic(times) {
         transitionning = true

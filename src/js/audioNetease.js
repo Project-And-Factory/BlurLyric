@@ -83,7 +83,7 @@ async function requireId(id) {
             tran: (r.tlyric)?r.tlyric.lyric:null,
             roma: (r.romalrc)?r.romalrc.lyric:null,
             yrc: (r.yrc)?r.yrc.lyric:null,
-            // ytlrc: (r.ytlrc)?r.ytlrc.lyric:null
+            ytlrc: (r.ytlrc)?r.ytlrc.lyric:null
           })
         // if (r.lrc.lyric && r.tlyric) {
 

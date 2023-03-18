@@ -1404,18 +1404,79 @@ li div.Padding {
 }
 #lyric ul li h1{
   word-wrap: break-word;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 #lyric ul li[lyricFocus=true] h1 a{
-  color: rgb(0, 0, 0, .2);
-  transition: var(--dur) var(--animation-speed-line);
+  /* display: block; */
+  /* color: #0000; */
+  background-origin: content-box;
+  background-clip: text;
+  background: linear-gradient(to right,rgb(0,0,0,.0),rgb(0,0,0,.0),rgb(0,0,0,.0), rgb(0,0,0,.2), rgb(0,0,0,.2),rgb(0,0,0,.2));
+  background-size: 300% 100%;
+  background-position: 100% 0%;
+  -webkit-background-clip: text;
+  /* background-color: #00000005; */
+  /* border: 1px solid #000; */color: transparent !important;
+  color: rgb(0, 0, 0, 0.8);
+  will-change: background;
+
+  
+}
+#lyric ul li h1 a{
+  position: relative;
+  width: max-content;
+  /* color: rgb(0, 0, 0, 0.2); */
+
+
 }
 #lyric ul li h1 a.foucusText{
-  color: rgb(0, 0, 0, 0.7);
-  text-shadow: 0em 0em .3em rgb(0, 0, 0, .1)
+  background-position: 0% 0%;
+  animation: toright var(--dur) linear;
+  
+}
+#lyric ul li h1 a>div{
+  position: absolute;
+  left: 0;
+  word-wrap: break-word;
+  /* overflow: hidden; */
+  /* display: none; */
+  top: 0;
+  visibility: hidden;
+  will-change: background;
+  width: 100%;
+  /* transform: translate(0,0.06em); */
+}
+#lyric ul li h1 a.foucusText>div{
+  /* text-shadow: 0em 0em .3em rgb(0, 0, 0, .1); */
+  color: rgb(0,0,0,0);
+  visibility: visible;
+  width: fit-content;
+  transform:translate(0,0.0em);
+  /* border-right: 3px solid rgba(0, 0, 0, .2); */
+  animation: toright var(--dur) linear;
+  background-origin: content-box;
+  background-clip: text;
+  background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6), rgb(0,0,0,.0), rgb(0,0,0,.0),rgb(0,0,0,.0));
+  background-size: 300% 100%;
+transform:translate(0,-0.03em);
+-webkit-background-clip: text;
+  color: transparent !important;
+
+}
+@keyframes toright{
+  0%{
+  background-position: 100% 0%;
+}
+
+100%{
+
+
+  background-position: 0% 0%;
+}
+
 }
 #lyric ul li h1 a.foucusText.long{
-  animation: shine calc(var(--dur) * .9) ease-in-out;
+  animation: shine calc(var(--dur) * .9) ease-in-out,toright var(--dur) linear;
 }
 @keyframes shine {
   0%{
@@ -1423,13 +1484,13 @@ li div.Padding {
 
   }
   250%{
-    text-shadow: 0em 0em .6em rgb(0, 0, 0, .6)
+    text-shadow: 0em 0em .5em rgb(0, 0, 0, .4)
   }
   80%{
-    text-shadow: 0em 0em .6em rgb(0, 0, 0, .6)
+    text-shadow: 0em 0em .5em rgb(0, 0, 0, .4)
   }
   100%{
-    text-shadow: 0em 0em .3em rgb(0, 0, 0, .1)
+    text-shadow: 0em 0em .0em rgb(0, 0, 0, .1)
   }
 }
 @media (min-width:110vh) {

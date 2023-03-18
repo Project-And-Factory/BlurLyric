@@ -46,7 +46,13 @@
       <div v-if="item.type == 'text'">{{item.text}}</div>
 
     </div>
-
+    <h1>登录管理 </h1>
+    <div class="linkbox">
+      <a @click="loginOut()">退出登录</a>
+      <a @click="getCookie();cookieDisplay=true">获取当前账号令牌</a>
+      <a @click="setCookie()">替换登录令牌</a>
+    </div><br>
+    <textarea v-if="cookieDisplay == true" v-model="cookie" type="text"></textarea>
     <h1>About | 关于</h1>
     <a style="font-size:1.2em">LICENSE</a>  <br>
     GUN gpl v3 (https://www.gnu.org/licenses/gpl-3.0.zh.html)
@@ -87,6 +93,8 @@
 
 <script>
   import configjs from '../js/config.js'
+  import reTools from '../network/getData'
+  import cookies from 'js-cookie'
   let config = configjs.setting().config
   var setting = {
     name: 'setting',
@@ -126,7 +134,9 @@
             }
           }
         },
-        config
+        config,
+        cookie: '',
+        cookieDisplay: false
       }
 
     },
@@ -140,6 +150,27 @@
         // QRCode.toDataURL('https://qr.alipay.com/fkx19645qen17ojqk3sm1dd',{ errorCorrectionLevel: 'L' },(err,url)=>{
         //     this.settingButton.text1.text = url
         //   })
+      },
+      
+      loginOut() {
+        reTools.getData('/logout', {})
+        document.cookie = ''
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+
+        if (keys) {
+          for (var i = keys.length; i--;)
+            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        }
+        location.reload()
+      },
+      getCookie(){
+        this.cookie = JSON.stringify(cookies.get())
+      },
+      setCookie(){
+        let cookie = JSON.parse(this.cookie)
+        for (const key in cookie) {
+          cookies.set(key,cookie[key],{expires: 365})
+        }
       }
     }
   };
@@ -147,7 +178,8 @@
   export default setting
 </script>
 
-<style>
+<style >
+
   .setline {
     font-size: 18px;
     display: flex;
@@ -213,7 +245,17 @@
     transform: translateX(-100%);
   }
 </style>
+<style scoped>
+textarea{
+  padding: 10px;
+  width: 16em;
+  border-radius: 12px;
+  border: none;
+  background-color: rgb(0, 0,0,.05);
+  outline: none;
+}
 
+</style>
 <!--!DOCTYPE html>
 <html>
     <head>
