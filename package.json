@@ -23,7 +23,7 @@
     "express-fileupload": "^1.4.0",
     "js-cookie": "^3.0.1",
     "md5": "^2.3.0",
-    "music-metadata": "^7.5.3",
+    "music-metadata": "^7.13.0",
     "pac-proxy-agent": "^5.0.0",
     "plyr": "^3.7.2",
     "qrcode": "^1.5.1",
