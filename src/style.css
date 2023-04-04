@@ -904,15 +904,17 @@ div.player-Mini-Title>h2>a,
   height: 120vh;
     will-change: filter;
     margin: -10vh 0 0 -10vw;
-  overflow: hidden;
-  filter: blur(7vmax)  saturate(150%) contrast(60%) brightness(170%) ;
+    transition: background .4s;
+    overflow: hidden;
+  filter: blur(8vw) saturate(200%) contrast(40%) brightness(150%) ;
 }
 .player-background>div {
   position: absolute;
-  width: 120vw;
-  height: 120vh;
+  width: 60vw;
+  height: 60vh;
   /* background-color: var(--color1); */
   z-index: -2;
+  background-size: 200%;
   
   background-repeat: no-repeat;
   /* background-size: cover; */
@@ -921,39 +923,51 @@ div.player-Mini-Title>h2>a,
     transition: background .4s;
   /* --bg-others: linear-gradient(to bottom, rgb(100%,100%,100%,40%),rgb(100%,100%,100%,40%)) */
 }
-.player-background.dyn{
-  --animationName: background1
+.player-background.dyn>div{
+  --animationName: background1;
+  animation: var(--animationName) 30s ease-in-out -2s infinite !important ;
 
 }
-.player-background>div:last-child{
-  background-size: 100%;
-    /* transform: rotate(0deg); */
-  animation: var(--animationName) 15s ease-in-out infinite;
-  --rotateOffset: 180deg;
+.player-background>div:nth-child(1){
+  left: 60vw;
+  animation: var(--animationName) 30s ease-in-out -4s infinite !important;
+
 }
-.player-background>div:first-child{
+.player-background>div:nth-child(2){
+  animation: var(--animationName) 30s ease-in-out -5s infinite !important;
+  top: 40vw;
+}.player-background>div:nth-child(3){
+  top: 42vw;
+  animation: var(--animationName) 30 ease-in-out -6s infinite !important;
+  left: 60vw;
+}
+/* .player-background>div:first-child{
     transform: rotate(270deg);
     background-size: 100%;
     filter: none !important;
 
   animation: var(--animationName) 13s ease-in-out infinite;
-}
+} */
 @keyframes background1 {
   0%{
-    background-position: 50% 10%;
-    filter:  opacity(0.7);
+    background-position: 0% 10%;
+    /* filter:  opacity(0.7); */
   }
   33%{
-    filter:  opacity(0.5);
-    background-position: 60% 90%;;
+    /* filter:  opacity(0.5); */
+    background-position: 80% 90%;;
   }
   66%{
-    background-position: 80% 90%;;
-    filter:  opacity(0.3);
+    background-position: 50% 70%;
+    /* filter:  opacity(0.3); */
+  }
+  80%{
+    /* filter:  opacity(0.7); */
+    background-position: 80% 50%;
   }
   100%{
-    filter:  opacity(0.7);
-    background-position: 50% 10%;
+    background-position: 00% 10%;
+    /* filter:  opacity(0.7); */
   }
 }
 

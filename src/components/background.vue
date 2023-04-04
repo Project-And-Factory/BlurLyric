@@ -7,7 +7,8 @@
         data(){
             return{
                 anime: undefined,
-                config
+                config,
+                // app
             }
         },
         created(){
@@ -18,6 +19,7 @@
         props: {
             imgSrc: Object,
             mainDisplay: Object,
+            colorData: Object,
             dynamic: Boolean
         },
         watch: {
@@ -54,12 +56,23 @@
 </script>
 
 <template>
-    <div v-if="(mainDisplay != 'buttom')"  v-bind:class="['player-background',(mainDisplay,config.setting().config.useAnimeBackground == true)?'dyn':'']">
+    <div  v-if="(mainDisplay != 'buttom')" :style="{background: (colorData)?colorData[0].color:null}"  v-bind:class="['player-background',(mainDisplay,config.setting().config.useAnimeBackground == true)?'dyn':'']">
+      <!-- {{ colorData }} -->
       <div :style="{
         backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
       }">
         
       </div>
+      <div :style="{
+        backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
+      }">
+        
+    </div>
+      <div :style="{
+        backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
+      }">
+        
+    </div>
       <div :style="{
         backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
       }">

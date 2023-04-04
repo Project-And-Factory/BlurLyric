@@ -2,7 +2,7 @@
   "name": "blurlyric",
   "private": true,
   "main": "main.js",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -29,6 +29,7 @@
     "qrcode": "^1.5.1",
     "rgbaster": "^2.1.1",
     "safe-decode-uri-component": "^1.2.1",
+    "stackblur-canvas": "^2.5.0",
     "tunnel": "^0.0.6",
     "vite": "^2.9.9",
     "vue": "^3.2.45",

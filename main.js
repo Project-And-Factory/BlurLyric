@@ -28,7 +28,7 @@ ipc.on('close',function(){
 // 加载vite
 const { createServer } = require('vite')
 var loadURL = 'http://localhost:18775/'
-require('vite').build()
+// require('vite').build()
 var loadVite= async()=>{
 
   const server = await createServer({

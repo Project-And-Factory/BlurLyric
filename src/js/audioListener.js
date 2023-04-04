@@ -23,7 +23,7 @@ function listen(elm) {
 
 function playing(){
     app.state.playing = true;
-    app.lyricSet(true,'tran')
+    app.lyricSet(false,'tran')
     progress.bind()
 }
 

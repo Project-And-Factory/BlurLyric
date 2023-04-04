@@ -60,7 +60,6 @@
 
           if(i=='ytlrc'&& element!=null){
             tranLRC = Lrcsplit(element)
-            console.log(1);
             
             for(let num in tranLRC){//让有翻译的歌词自己循环一遍自己在哪
               let objNum = oLRC['yrc'].findIndex(o => o.t == tranLRC[num].t)
@@ -71,7 +70,6 @@
           if(i == 'yrc' && other[i]!=null){
             
             oLRC[i] = yrcSplit(other[i])
-            // console.log();
             continue
           }
           tranLRC = Lrcsplit(element)
@@ -84,7 +82,6 @@
         }
 
       oLRC.ms =norLRC
-      console.log(oLRC);
 
         oLRC.ms.sort(function (a, b) { //按时间顺序排序 
           return a.t - b.t;
@@ -93,78 +90,90 @@
 
       }
 
-      function yrcSplit(content) {
-        if(content == undefined) {
-          return
-        }
-        let lrcs = content.split('\n')
-        let yrcs = [
-    
-        ]
+/**
+ * 解析YRC格式的歌词文件为JavaScript对象
+ * @param {string} content 要解析的YRC格式的字符串
+ * @returns {Array} 包含所有句的JavaScript对象数组
+ */
+ function yrcSplit(content) {
+  //若内容未定义，则返回空数组
+  if (content == undefined) {
+    return [];
+  }
+  let lrcs = content.split('\n');
+  let yrcs = [];
 
-        //解析一句
-        for (let i = 0; i < lrcs.length; i++) {
-          const item = lrcs[i];
-          
-          let yrc = {
-            t: undefined,
-            edt: undefined,
-            c: undefined
-          }
-          //分离出时间
-          let timeInfor = (item.substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"))).split(',');
-          yrc.t = Number(timeInfor[0])/ 1000
-          yrc.edt = Number(timeInfor[1])/ 1000
+  //解析每一句
+  for (let i = 0; i < lrcs.length; i++) {
+    const item = lrcs[i];
 
-          if (yrc.t == NaN || yrc.edt == NaN){
-            continue //若时间不合格将跳过
-          } 
-          
-          //开始寻找主词内容
-          
-          let arr = item.match(/\[([1-9]\d*,[1-9]\d*)]/g);
-          if(!arr) continue
-          
-          //去除本句[...]内容
-          let c = item.substring(arr[0].length); //获取歌词内容
-          let c_contentArrays = []
-          
-          
-          //分离成单字
-          let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g)
-          for (let a = 0; a < splitcs.length; a++) {
+    //创建一个空对象，用于存放当前句的信息
+    let yrc = {
+      t: undefined, //开始时间
+      edt: undefined, //结束时间
+      c: undefined //歌词内容
+    }
 
-            const splitc = splitcs[a];
+    //分离出时间信息，并转换为秒
+    let timeInfor = item.substring(item.indexOf("[") + 1, item.indexOf("]")).split(',');
+    yrc.t = Number(timeInfor[0]) / 1000;
+    yrc.edt = Number(timeInfor[1]) / 1000;
 
-            if (splitc == '') {
-             continue 
-            }
-          //解析单字时间
+    //若时间信息不合法，将跳过该句
+    if (isNaN(yrc.t) || isNaN(yrc.edt)) {
+      continue;
+    }
 
-            let time =  splitc.match(/([1-9]\d*,[1-9]\d*,\d*)/)
-            if(!time){
-              continue
-            }
-            let timeArray = (time[0]).split(',')
-          
-            let contentArray = {
-              t: 0,
-              dur: 0,
-              str: ''
-            }
+    //寻找歌词内容
+    let arr = item.match(/\[[1-9]\d*,[1-9]\d*]/g);
+    if (!arr) {
+      continue;
+    }
 
-            contentArray.t = Number(timeArray[0])/1000;
-            contentArray.dur = Number(timeArray[1])/1000
-            contentArray.str = splitc.match(/\([1-9]\d*,[1-9]\d*,\d*\)(.*)/)[1]
-            c_contentArrays.push(contentArray)
-          }
-          yrc.c = c_contentArrays
-          
-          yrcs.push(yrc)
-        }
-        // console.log(yrcs);
-        return yrcs
+    //去除时间信息，获取歌词内容
+    let c = item.substring(arr[0].length).trim();
+    let c_contentArrays = [];
+
+    //分离成单个字或词，并解析时间信息
+    let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g);
+    for (let a = 0; a < splitcs.length; a++) {
+
+      const splitc = splitcs[a];
+
+      if (splitc == '') {
+        continue;
       }
+
+      //创建一个对象，用于存放当前字或词的信息，并添加到当前句的歌词内容中
+      let contentObj = {
+        t: undefined, //开始时间
+        dur: undefined, //持续时间
+        str: '' //字或词的文本内容
+      }
+
+      //提取时间和文本信息，并转换为秒
+      let time = splitc.match(/\([1-9]\d*,[1-9]\d*,\d*\)/);
+      if (!time) {
+        continue;
+      }
+      let timeArray = time[0].slice(1, -1).split(',');
+      contentObj.t = Number(timeArray[0]) / 1000;
+      contentObj.dur = Number(timeArray[1]) / 1000;
+      contentObj.str = splitc.slice(time[0].length);
+
+      c_contentArrays.push(contentObj);
+    }
+
+    yrc.c = c_contentArrays;
+
+    yrcs.push(yrc);
+  }
+
+  return yrcs;
+}
+
+
+
   export default {
 	  Lrcsplit,
 	  makeLrcObj

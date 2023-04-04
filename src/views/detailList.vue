@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <h2>歌曲列表<a v-if="page.res.playlist" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.res.playlist.trackIds.length}}首</a></h2>
+    <h2>歌曲列表<a v-if="page.res.playlist" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.res.playlist.trackIds.length - 1}}首</a></h2>
     <div class="track playlist">
         <div   @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :key="item.id">
             <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)"  class="infor">
@@ -216,24 +216,31 @@
                             this.page.mintrack = r.playlist.tracks
 
                             this.page.lastUpdae = new Date(this.page.res.playlist.updateTime).toLocaleString()
-                            for (const num in this.page.trackIds) {
-                                trackIDList += this.page.trackIds[num].id
-                                this.page.aRtrackIds.push(this.page.trackIds[num].id)
-                                if (num < this.page.trackIds.length - 1) {
-                                    trackIDList += ','
-                                }
-                            }
-                            
-                            this.page['trackIdsContent'] = trackIDList
-                            reTools.getData('/song/detail', {
-                                ids: trackIDList,
-                                timetamp: (Number(new Date()))
-                            }).then(res => {
-                                this.page.track = res.songs
-                                app.cacheData('playlist' + this.page.id, this.page)
-                                this.loading = false
 
-                            })
+                            for (let track = 0; track < (this.page.trackIds.slice(track*1000,(track + 1)*1000).length/1000); track++) {
+                                
+                                for (const num in this.page.trackIds.slice(track*1000,(track + 1)*1000)) {
+                                trackIDList += this.page.trackIds.slice(track*1000,(track + 1)*1000)[num].id
+                                this.page.aRtrackIds.push(this.page.trackIds.slice(track*1000,(track + 1)*1000)[num].id)
+                                    if (num < this.page.trackIds.slice(track*1000,(track + 1)*1000).length - 1) {
+                                        trackIDList += ','
+                                    }
+                                }
+                            
+                                this.page['trackIdsContent'] = trackIDList
+                                reTools.getData('/song/detail', {
+                                    ids: trackIDList,
+                                    timetamp: (Number(new Date()))
+                                }).then(res => {
+                                    
+                                    this.page.track = [...this.page.track, ...res.songs]
+                                    app.cacheData('playlist' + this.page.id, this.page)
+                                    this.loading = false
+
+                                })
+                                
+                            }
+
 
                         }
                     )

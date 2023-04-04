@@ -6,9 +6,9 @@ import reTools from '../network/getData'
 var setting = {
     id: '0',
     config: {
-        configVersion: '1.4',
+        configVersion: '1.5',
         lyricSet: {
-            dur: 200,
+            dur: 450,
             text: '最高',
             funcBlur: true,
             funcDelay: true,
@@ -94,7 +94,7 @@ var settingTemperture = {
         funcDelay: {
             true: (offset) => {
                 if (offset < -2 || offset > 7) return 0
-                return 54 * (offset + 2);
+                return 64 * (offset + 2);
             },
             false: (offset) => {
                 return 13 * offset

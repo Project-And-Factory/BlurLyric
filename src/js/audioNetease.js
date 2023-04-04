@@ -90,7 +90,6 @@ async function requireId(id) {
         // } else {
         //     Data.lyric = lyric.makeLrcObj(r.lrc.lyric)
         // }
-        console.log(r);
     })
     
     await reTools.getData('/song/url', {
