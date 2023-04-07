@@ -611,9 +611,11 @@
             </h1>
              <h1 v-if="this.data.player.uiDisplay.LineNum > i || this.data.player.uiDisplay.LineNum + 2 < i">
                 <!--聚焦时 -->
+                <!--聚焦时-->
                 <a 
                 v-for="(yrc,i) in item.c">
-                {{ yrc.str }}
+                
+                {{ yrc.str }}<div>{{ yrc.str }}</div>
               </a>
             
             </h1>
@@ -751,7 +753,7 @@ import { transform } from '@vue/compiler-core'
         document.querySelector('.playerDisplayOutBox').setAttribute('style', '--playertopbarHeight:' + playertopbar
           .getBoundingClientRect().height + 'px');
       }
-      main.lyricSet(true)
+      // main.lyricSet(true)
 
       if (document.querySelector('div.left-sideImage > img')) document.querySelector("div.left-side").style =
         '--height:' + document.querySelector('div.left-sideImage > img').getBoundingClientRect().height + 'px'
@@ -871,7 +873,7 @@ import { transform } from '@vue/compiler-core'
         this.data.musicListInfor.personalFM.tracks = r
       })
       this.loginInfor();
-      this.lyricSet()
+      // this.lyricSet()
       bodyHeight = document.documentElement.clientHeight
       bodyWidth = document.documentElement.clientWidth
 
@@ -1200,9 +1202,10 @@ import { transform } from '@vue/compiler-core'
               }
 
               // 要平移的Y值
-              var translateY = -lis[lyricNum].offsetTop + (bodyHeight * 0.15),
-                translateYContent = "translateY(" + translateY + "px)"
+              var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
+                translateYContent = "translateY(" + translateY + "vh)"
 
+                console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
                 dur = 0;
@@ -1419,7 +1422,7 @@ import { transform } from '@vue/compiler-core'
             this.audio.play()
           audioListener.listen(this.audio)
         }
-        
+
         this.audio.addEventListener('canplay', () => {
           ok()
         })

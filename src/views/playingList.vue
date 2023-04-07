@@ -2,36 +2,36 @@
     <!--默认显示 将要播放-->
     <div v-if="displayType == 0">
         <div v-if="app.data.player.tracks[0].id != 0">
-            <h1 style="font-size:1.5rem">当前正播放</h1>
-            <div class="tracks" :muid="app.data.player.tracks[app.data.player.trackNum].id">
-                <!--显示样式-->
-                <div  class="infor">
-                    <div class="trackTitle">
-                        <h1>{{app.data.player.tracks[app.data.player.trackNum].name}} <a v-for="(alia,i) in app.data.player.tracks[app.data.player.trackNum].alia" :key="i">
-                                {{alia}} </a></h1>
-                                <h2 class="artistNames"><a v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id"> {{name.name}}</a></h2>
+            
 
-                    </div>
-                    <div class="trackAl">
-                    <div>
-                        
-                        {{ app.data.player.tracks[app.data.player.trackNum].al.name }}
-                    </div>
-                </div>
+            <div  class="personalFMCard" style="color: #fff;;padding:30px 20px;margin: -20px -20px 0 -20px;height: 160px;background-color: #666">
+      <div class="thisImg">
+        <img
+          v-bind:src="app.data.player.tracks[app.data.player.trackNum].al.picUrl  +'?param=1000y1000'"
+          alt="" srcset="">
+        <img
+          v-bind:src="app.data.player.tracks[app.data.player.trackNum].al.picUrl  +'?param=1000y1000'"
+          alt="" srcset="">
+      </div>
+      <div class="personalbackground"
+        v-bind:style="'background-image:url(' + app.data.player.tracks[app.data.player.trackNum].al.picUrl  +'?param=128y128)'"
+        alt="" srcset="">
+      </div>
+      <div class="Text">
+        <h1 style="font-size:1.3rem;color: #fffa;margin-top: 0;margin-bottom:.3em">当前正播放</h1>
+        <p style="font-size:1.5rem;margin-top: 0;margin-bottom:.3em">
+          {{ app.data.player.tracks[app.data.player.trackNum].name}}
+        </p>
+        <h2 style="font-size:1rem;color: #fffa;;margin-top: 0;margin-bottom:.3em" class="artistNames"><a class="artistText" v-for="(name) in app.data.player.tracks[app.data.player.trackNum].ar" :key="name.id" @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: name.id
+            }
+        })"> {{name.name}}</a></h2>
+      </div>
 
-                </div>
-                <div class="linkbox bigger">
-                    <a @click="clean(app.data.player.trackNum)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-x" viewBox="0 0 16 16">
-                            <path
-                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg>
-                    </a>
-                </div>
+    </div>
 
-
-            </div>
             <br>
             <div class="linkbox">
                 <a @click="displayType++">查看整个列表</a>

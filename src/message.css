@@ -23,20 +23,25 @@
 
 @keyframes spawn {
     0% {
+        margin:2rem;
         opacity: 0;
         transform: translate(0%,30%) scale(1.05);
     }
     5%{
+        margin:1.90rem;
+
         opacity: 1;
         transform: translate(0%,0) scale(1);  
 
     }
     95%{
+        margin:0.05rem;
         opacity: 1;
         transform: translate(0%,0) scale(1);
 
     }
     100%{
+        margin:0rem;
         opacity: 0;
         transform: translate(0%,-30%) scale(0.95);
 

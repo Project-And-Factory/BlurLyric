@@ -3,6 +3,9 @@ const router = express.Router()
 const axios = require('axios')
 const user = require('./blurlyric/user');
 const match = require('@unblockneteasemusic/server');
+const fs = require("fs")
+const path = require("path")
+const fetch = require( 'node-fetch');
 
 router.get('/createUser',(req,res)=>{
 
@@ -81,4 +84,59 @@ function strSize(str, charset) {
     return total;
 }
 
+async function getFileByUrl(url,fileName){
+    console.log('['+(downloadTrack.now+1) + '/'+downloadTrack.list.length+']请求下载 ' + fileName)
+    await fetch(url,   {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/octet-stream' },
+}).then(res=>res.buffer()).then(_=>{
+    fs.writeFile(path.join(__dirname,'./blurlyric/download/'+fileName +'.mp3'),_,'binary',function (err) {
+        downloadTrack.freeThread++
+        downloadTrack.try()
+
+        if (err) console.log('['+(downloadTrack.now+1) + '/'+downloadTrack.list.length+']下载失败 ' + fileName);
+        else console.log('['+(downloadTrack.now+1) + '/'+downloadTrack.list.length+']完成下载 ' + fileName)
+})}).catch((error)=>{
+    downloadTrack.freeThread++
+    downloadTrack.try()
+
+})
+
+
+}
+
+var downloadTrack={
+    list: [],
+    now: 0,
+    maxThread: 8,
+    freeThread: 8,
+    async try(){
+        if(this.list.length>this.now){
+            getFileByUrl(this.list[this.now].url,this.list[this.now].fileName)
+            this.freeThread--
+            this.now++
+        }
+        if(this.freeThread != 0&&this.list.length - this.now>1){
+            this.try()
+        }
+    }
+}
+
+
+router.get('/downloadUrl',(req,res)=>{
+    console.log(req.query)
+    if (!req.query.url||!req.query.fileName) {
+        jsonTool('405',null,req,res)
+        return
+    }
+    console.log({
+        url: req.query.url,
+        fileName: req.query.fileName
+    });
+    downloadTrack.list.push({
+        url: req.query.url,
+        fileName: req.query.fileName
+    })
+    downloadTrack.try()
+})
 module.exports = router

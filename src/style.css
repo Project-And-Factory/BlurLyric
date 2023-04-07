@@ -574,8 +574,9 @@ input#searchInput,
   top: 0;
   right: 0;
   height: 0;
-  height: var(--minplayerHeight);
-  width: var(--minplayerHeight);
+  height: 100%;
+  width: calc(var(--minplayerHeight) - 6px);
+  border-radius: calc( var(--minplayerHeight) * 0.166);
   z-index: 1
 }
 
@@ -906,8 +907,9 @@ div.player-Mini-Title>h2>a,
     margin: -10vh 0 0 -10vw;
     transition: background .4s;
     overflow: hidden;
-  filter: blur(8vw) saturate(200%) contrast(40%) brightness(150%) ;
+  filter: blur(8vmax) saturate(200%) contrast(40%) brightness(150%) ;
 }
+
 .player-background>div {
   position: absolute;
   width: 60vw;
@@ -923,22 +925,31 @@ div.player-Mini-Title>h2>a,
     transition: background .4s;
   /* --bg-others: linear-gradient(to bottom, rgb(100%,100%,100%,40%),rgb(100%,100%,100%,40%)) */
 }
+.player-background>div:nth-child(1){
+  width: 100%;
+  height: 100%;
+}
+.player-background.dyn>div:nth-child(1){
+  width: 60vw;
+  height: 60vh;
+}
 .player-background.dyn>div{
   --animationName: background1;
-  animation: var(--animationName) 30s ease-in-out -2s infinite !important ;
+  animation: var(--animationName) 26s ease-in-out -2s infinite !important ;
 
 }
+
 .player-background>div:nth-child(1){
   left: 60vw;
-  animation: var(--animationName) 30s ease-in-out -4s infinite !important;
+  animation: var(--animationName) 27s ease-in-out -4s infinite !important;
 
 }
 .player-background>div:nth-child(2){
-  animation: var(--animationName) 30s ease-in-out -5s infinite !important;
+  animation: var(--animationName) 28s ease-in-out -5s infinite !important;
   top: 40vw;
 }.player-background>div:nth-child(3){
   top: 42vw;
-  animation: var(--animationName) 30 ease-in-out -6s infinite !important;
+  animation: var(--animationName) 29s ease-in-out -6s infinite !important;
   left: 60vw;
 }
 /* .player-background>div:first-child{
@@ -1350,7 +1361,7 @@ ul#lyrics {
   min-width: 7em;
   border-left: solid .2em #00000000;
   transform-origin: .3em 60%;
-  transform: var(--transform)  scale(.9);
+  transform: var(--transform) scale(.9);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
   --dur: 600ms !important
@@ -1445,7 +1456,7 @@ li div.Padding {
 }
 #lyric ul li h1 a.foucusText{
   background-position: 0% 0%;
-  animation: toright var(--dur) linear;
+  animation: toright var(--dur) linear ;
   
 }
 #lyric ul li h1 a>div{
@@ -1467,7 +1478,7 @@ li div.Padding {
   width: fit-content;
   transform:translate(0,0.0em);
   /* border-right: 3px solid rgba(0, 0, 0, .2); */
-  animation: toright var(--dur) linear;
+  animation: toright var(--dur) linear ;
   background-origin: content-box;
   background-clip: text;
   background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6), rgb(0,0,0,.0), rgb(0,0,0,.0),rgb(0,0,0,.0));
@@ -1494,17 +1505,20 @@ transform:translate(0,-0.03em);
 }
 @keyframes shine {
   0%{
-  text-shadow: 0em 0em .0em rgb(0, 0, 0, .1)
+  text-shadow: -.1em 0em .1em rgb(0, 0, 0, .0)
 
   }
-  250%{
-    text-shadow: 0em 0em .5em rgb(0, 0, 0, .4)
+  25%{
+    text-shadow: -.05em 0em .5em rgb(0, 0, 0, .4)
   }
-  80%{
-    text-shadow: 0em 0em .5em rgb(0, 0, 0, .4)
+  75%{
+    text-shadow: .05em 0em .5em rgb(0, 0, 0, .4)
+  }
+  90%{
+    text-shadow: .1em 0em .1em rgb(0, 0, 0, .0)
   }
   100%{
-    text-shadow: 0em 0em .0em rgb(0, 0, 0, .1)
+    text-shadow: .1em 0em .0em rgb(0, 0, 0, .0)
   }
 }
 @media (min-width:110vh) {
@@ -1945,4 +1959,66 @@ div.linkbox a:hover {
     opacity: 1;
     transform: translate(0%,0);
   }
+}
+
+div.personalFMCard {
+  z-index: 0;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;
+
+}
+.muLib-MainBox>div.personalFMCard {
+  padding: 20px !important;
+
+}
+
+div.personalFMCard.true {
+  grid-column: auto;
+
+}
+
+.personalFMCard>.thisImg>img {
+  height: 100%;
+  border-radius: 17px;
+}
+
+.personalFMCard>.thisImg {
+  height: inherit;
+  position: relative;
+}
+
+.personalFMCard>.thisImg>img:nth-child(1) {
+  position: absolute;
+  z-index: -1;
+  left: 1.0vmax;
+  top: 2vmax;
+  aspect-ratio: 1/1;
+  height: calc(100% - 2vmax);
+  filter: blur(.5vmax);
+}
+
+div.personalFMCard>div.personalbackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  filter: contrast(2) blur(3rem);
+  scale: 3;
+  opacity: 0.5;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+
+}
+
+.personalFMCard>.Text {
+  font-size: calc(1.5vh + 1.2vw) ;
 }

@@ -167,15 +167,13 @@
                 time = tempTime
             },
             async downloadThisPage() {
-                for (let i = 0; i < this.page.track.length; i++) {
-                    let id = this.page.track[i].id
-                    audioNetease.requireURL(id).then(async (data) => {
-                        let response = await fetch(data.song[data.song.use].url)
-                        let blob = await response.blob();
-                        let objectUrl = window.URL.createObjectURL(blob);
+                let i = 0
 
+                let step=async ()=>{
+                    try {
+                        let id = this.page.track[i].id
+                        audioNetease.requireURL(id).then(async (data) => {
                         let a = document.createElement("a");
-                        a.href = objectUrl;
                         let name = ''
                         for (let num in this.page.track[i].ar) {
                             name += this.page.track[i].ar[num].name;
@@ -183,13 +181,32 @@
                                 name += '&'
                             }
                         }
-                        a.download = this.page.track[i].name + ' - ' + name + '.mp3';
-                        a.click();
-                        a.remove()
+                        let alia = ''
+                        for (let num in this.page.track[i].alia) {
+                            alia += '（'+this.page.track[i].alia[num]+'）';
+                        }
+                        reTools.getData('/blurlyric/downloadUrl',{
+                            url: data.song[data.song.use].url,
+                            fileName: '[ '+(i+1)+' ]' + this.page.track[i].name+alia + ' - ' + name 
+                        })
+                        message.create('[ '+(i+1)+' ]已发送请求至下载服务器< =' + this.page.track[i].name+alia + ' - ' + name )
+                        i++
+                        if(i<this.page.track.length){
+                            step()
+                        }
                     })
+                    } catch (error) {
+                        message.create('[ '+(i+1)+' ]无法下载')
 
+                        i++
+                        if(i<this.page.track.length){
+                            step()
+                        }
+                    }
 
                 }
+                step()
+
             },
             loadDeailList(force) {
                 this.loading = true

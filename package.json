@@ -16,6 +16,7 @@
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "animejs": "^3.2.1",
+    "aria2": "^4.1.2",
     "axios": "^0.27.2",
     "color": "^4.2.3",
     "electron-squirrel-startup": "^1.0.0",
@@ -24,6 +25,7 @@
     "js-cookie": "^3.0.1",
     "md5": "^2.3.0",
     "music-metadata": "^7.13.0",
+    "node-fetch": "^2.6.9",
     "pac-proxy-agent": "^5.0.0",
     "plyr": "^3.7.2",
     "qrcode": "^1.5.1",
