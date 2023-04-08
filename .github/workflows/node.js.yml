@@ -34,22 +34,9 @@ jobs:
       - name: '打包可执行文件'
         run: npm run make
 
-      - name: '上传macOS artifact'
-        if: ${{ matrix.os == 'macos-latest' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: blurlyric-macos
-          path: out/*-universal.dmg
-
       - name: '上传Windows artifact'
         if: ${{ matrix.os == 'windows-latest' }}
         uses: actions/upload-artifact@v3
         with:
-          name: blurlyric-windows
-          path: out\make\squirrel.windows\x64\blurlyric-2.2.0-x64.zip
-      - name: '上传Ubuntu artifact'
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: blurlyric-ubuntu
-          path: out/*.AppImage
+          name: blurlyric-win32-x64.zip
+          path:  out\make\blurlyric-win32-x64
