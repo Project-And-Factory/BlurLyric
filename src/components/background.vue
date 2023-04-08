@@ -1,20 +1,54 @@
 <script>
-            // import app from '../main.js'
             import config from '../js/config.js'
 
-            // import anime from 'animejs/lib/anime.es.js';
     export default{
         data(){
             return{
                 anime: undefined,
                 config,
-                // app
+                position:[
+                  {},
+                  {},
+                  {},
+                  {}
+                ],
+                dynFunctionRunning:false
             }
         },
         created(){
+          this.position = []
+            for (let i = 0; i < 4; i++) {
+              this.position.push({
+                '--random-x': (Math.random() * 100) + '%',
+                '--random-y':(Math.random() * 100) + '%'
+              })
+            }
+            setTimeout(() => {
+
+            if(this.dynFunctionRunning ==false&&this.mainDisplay!='buttom'&&config.setting().config.useAnimeBackground){
+                  this.random()
+            }
+          },3000)
+
         },
         methods:{
-
+          random(){
+            this.dynFunctionRunning = true
+            this.position = []
+            for (let i = 0; i < this.$refs.block.length; i++) {
+              this.position.push({
+                '--random-x': (Math.random() * 100) + '%',
+                '--random-y':(Math.random() * 100) + '%'
+              })
+            }
+            setTimeout(() => {
+              if(this.mainDisplay!='buttom'&&config.setting().config.useAnimeBackground){
+                this.random()
+              } else {
+                this.dynFunctionRunning =false
+              }
+            }, 10*1000);
+          }
         },
         props: {
             imgSrc: Object,
@@ -23,30 +57,15 @@
             dynamic: Boolean
         },
         watch: {
-            mainDisplay(newVal){
-                // if(newVal != 'buttom'){
-                //     if(this.anime = undefined){
-                //         this.anime = anime({
-                //             targets: '.player-background',
-                //             rotate:[
-                //                 {
-                //                     value: '180deg',
-                //                     duration: 60 * 1000
-                //                 },
-                //                 {
-                //                     value: '360deg',
-                //                     duration: 60 * 1000
-                //                 }
-                //             ],
-                //             easing: 'linear',
-                //             loop: true
-                //         })
-                //     }
-                //     this.anime.play()
-                // } else {
-                //     this.anime.pause()
-                // }
-                // console.log(anime);
+            mainDisplay:{
+              handler: function (newVal,oldVal) {
+                    if(this.dynFunctionRunning == false&&newVal!='buttom'&&config.setting().config.useAnimeBackground){
+                      this.$nextTick(()=>{
+                        this.random()
+                      })
+                    }
+                },
+                deep: true
             }
         }
         
@@ -58,23 +77,9 @@
 <template>
     <div  v-if="(mainDisplay != 'buttom')" :style="{background: (colorData)?colorData[0].color:null}"  v-bind:class="['player-background',(mainDisplay,config.setting().config.useAnimeBackground == true)?'dyn':'']">
       <!-- {{ colorData }} -->
-      <div :style="{
+      <div v-for="n in 4" ref="block" :style="{
         backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
-      }">
-        
-      </div>
-      <div :style="{
-        backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
-      }">
-        
-    </div>
-      <div :style="{
-        backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
-      }">
-        
-    </div>
-      <div :style="{
-        backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
+        ...position[n]
       }">
         
     </div>
