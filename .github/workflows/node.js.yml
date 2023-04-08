@@ -38,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: blurlyric-${{ matrix.os }}
-          path: blurlyric-${{ matrix.os }}-x64
+          path: /Users/runner/work/BlurLyric/BlurLyric/out/make/blurlyric-${{ matrix.os }}-x64
