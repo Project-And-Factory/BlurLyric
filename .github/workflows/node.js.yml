@@ -33,13 +33,10 @@ jobs:
 
       - name: '打包可执行文件'
         run: npm run make
-        
-      - name:'输出文件列表'
-        run: ls
 
       - name: '上传Windows artifact'
         if: ${{ matrix.os == 'windows-latest' }}
         uses: actions/upload-artifact@v3
         with:
           name: blurlyric-win32-x64.zip
-          path:  out\make\blurlyric-win32-x64
+          path:  out/blurlyric-win32-x64
