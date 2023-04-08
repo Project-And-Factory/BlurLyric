@@ -64,42 +64,8 @@
 
     <h2>歌曲列表<a v-if="page.res.playlist" style="font-size:0.7em;color: rgba(0,0,0,.5)">{{'  '+page.res.playlist.trackIds.length - 1}}首</a></h2>
     <div class="track playlist">
-        <div   @click="playTheOnce(i)" class="tracks" :muid="item.id" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :key="item.id">
-            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)"  class="infor">
-                <div class="num">{{i + 1}}</div>
-                <div class="trackTitle">
-                    <h1>{{item.name}} <a v-for="(alia,i) in item.alia" :key="i">
-                            {{alia}} </a></h1>
-                    <h2 class="artistNames"><a v-for="(name) in item.ar" :key="name.id" @click="this.$router.push({
-            name: 'artist',
-            query: {
-              id: name.id
-            }
-          })"> {{name.name}}</a></h2>
+        <atrack :state="app.state" @click="playTheOnce(i)" v-for="(item,i) in (displayMore == false)?page.mintrack:page.track" :muid="item.id" :key="item.id" :i="i" :item="item"></atrack>
 
-                </div>
-                <div class="trackAl" >
-                    <div @click="this.$router.push({
-            name: 'album',
-            query: {
-              id: item.al.id
-            }
-          })">{{ item.al.name}}</div>
-                </div>
-            </div>
-            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="linkbox bigger">
-                <a @click="app.pushTrack(item)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-plus" viewBox="0 0 16 16">
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-                </a>
-            </div>
-            <div v-if="( 66 * i < app.state.scrollDisplayOffsetTop) && ( 66 * (i+1) > app.state.scrollTop - app.state.scrollHeight)" class="time">
-                {{ app.formTime(Number((item.dt * 0.001).toFixed(0))) }}
-            </div>
-        </div>
     </div>
     <br>
     <div v-if="displayMore == false&&page.mintrack.length<21" class="linkbox">
@@ -113,8 +79,13 @@
     import audioNetease from '../js/audioNetease.js'
     import message from '../js/message.js'
     var time = new Date().getTime()
+    import atrack from '../components/track.vue'
+
     export default {
         name: 'detailList',
+        components:{
+            atrack
+        },
         data() {
             return {
                 app,

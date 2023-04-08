@@ -1000,7 +1000,7 @@ import { transform } from '@vue/compiler-core'
         // console.log(this.state.scrollDisplayOffsetTop);
         this.state.scrollHeight=e.srcElement.offsetHeight||bodyHeight
           }
-        }, 80);
+        }, 90);
       },
       audioSrcRef() {
         this.audio.src = this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url
@@ -1205,7 +1205,7 @@ import { transform } from '@vue/compiler-core'
               var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
                 translateYContent = "translateY(" + translateY + "vh)"
 
-                console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
+                // console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
                 dur = 0;
