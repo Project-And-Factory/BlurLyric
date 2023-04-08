@@ -1241,7 +1241,8 @@ import { transform } from '@vue/compiler-core'
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
                     lyricNum))) + ')')
              
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ (  1 + ((i - lyricNum + 1)* 0.05))+ ')')
+                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ ((config.setting().config.lyricSet
+                      .funcDelay==true)?(1+((i - lyricNum + 1)* 0.05)):1)+ ')')
                     
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
