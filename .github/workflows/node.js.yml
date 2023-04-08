@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: autoBuild
+name: AutoBuild
 
 on:
   push:
@@ -9,45 +9,36 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: '使用 Node.js ${{ matrix.node-version }}'
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: '安装依赖'
-      run: npm install
-    - run: npx electron-forge import
+      - name: 'Checkout 代码'
+        uses: actions/checkout@v2
 
-    - name: '构建静态文件'
-      run: npm run build
+      - name: '使用 Node.js ${{ matrix.node-version }}'
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    # - name: '清理没必要打包的文件(1/2)'
-    #   run: Remove-Item -force .\src\*
-    # - name: '清理没必要打包的文件(2/2)'
-    #   run: Remove-Item -force .\blurlyric\*
+      - name: '安装依赖'
+        run: npm install
 
-    - name: '打包可执行文件'
-      run: npm run make
-    
+      - name: '构建静态文件'
+        run: npm run build
 
-    
-    
+      - name: '打包可执行文件'
+        run: npm run make
 
-    - uses: actions/upload-artifact@v3
-      with:
-         name: blurlyric-win32-x64.zip
-         path:  out\blurlyric-win32-x64
+      - name: '上传 artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: blurlyric-${{ matrix.os }}
+          path: out/blurlyric-${{ matrix.os }}-x64
 
-
-          
-    - uses: actions/upload-artifact@v3
-      with:
-         name: blurlyric-2.2.0 Setup.exe
-         path: out\make\squirrel.windows\x64\blurlyric-2.2.0 Setup.exe
+      - name: '清理构建文件'
+        run: npm run clean
