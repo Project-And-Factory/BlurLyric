@@ -35,10 +35,7 @@ jobs:
         run: npm run make
 
       - name: '上传 artifact'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: blurlyric-${{ matrix.os }}
           path: out/blurlyric-${{ matrix.os }}-x64
-
-      - name: '清理构建文件'
-        run: npm run clean
