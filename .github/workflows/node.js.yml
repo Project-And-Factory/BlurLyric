@@ -33,6 +33,8 @@ jobs:
 
       - name: '打包可执行文件'
         run: npm run make
+        
+      - name:'输出文件列表'
         run: ls
 
       - name: '上传Windows artifact'
