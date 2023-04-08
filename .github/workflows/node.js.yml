@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: blurlyric-macos
-          path: dist_electron/*-universal.dmg
+          path: out/*-universal.dmg
 
       - name: '上传Windows artifact'
         if: ${{ matrix.os == 'windows-latest' }}
@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: blurlyric-ubuntu
-          path: dist_electron/*.AppImage
+          path: out/*.AppImage
