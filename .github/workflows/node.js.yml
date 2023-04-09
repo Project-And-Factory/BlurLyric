@@ -12,31 +12,42 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
 
     steps:
-      - name: 'Checkout 代码'
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: '使用 Node.js ${{ matrix.node-version }}'
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: '安装依赖'
+      run: npm install
+    - run: npx electron-forge import
 
-      - name: '使用 Node.js ${{ matrix.node-version }}'
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+    - name: '构建静态文件'
+      run: npm run build
 
-      - name: '安装依赖'
-        run: npm install
+    - name: '清理没必要打包的文件(1/2)'
+      run: Remove-Item -force .\src\*
+    - name: '清理没必要打包的文件(2/2)'
+      run: Remove-Item -force .\blurlyric\*
 
-      - name: '构建静态文件'
-        run: npm run build
+    - name: '打包可执行文件'
+      run: npm run make
 
-      - name: '打包可执行文件'
-        run: npm run make
+    - name: '上传Ubuntu artifact'
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric_2.3.0_amd64.deb
+         path:  out/make/deb/x64
+    
 
-      - name: '上传Windows artifact'
-        if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: blurlyric-win32-x64.zip
-          path:  out/blurlyric-win32-x64
+    - name: '上传Windows artifact'
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric-linux-x64.zip
+         path:  out\blurlyric-win32-x64
