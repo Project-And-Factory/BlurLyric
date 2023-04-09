@@ -41,7 +41,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v3
       with:
-         name: blurlyric_2.3.0_amd64.deb
+         name: blurlyric_amd64.deb
          path:  out/make/deb/x64
     
 
@@ -49,5 +49,5 @@ jobs:
       if: ${{ matrix.os == 'windows-latest' }}
       uses: actions/upload-artifact@v3
       with:
-         name: blurlyric-linux-x64.zip
+         name: blurlyric-win32-x64.zip
          path:  out\blurlyric-win32-x64
