@@ -41,13 +41,19 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v3
       with:
-         name: blurlyric_amd64.deb
+         name: blurlyric_ubuntu-${{ env.GITHUB_SHA }}.deb
          path:  out/make/deb/x64
+     
+    - name: '上传Ubuntu artifact'
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric_macos-${{ env.GITHUB_SHA }}.deb
+         path:  out/make/dmg/x64
     
-
     - name: '上传Windows artifact'
       if: ${{ matrix.os == 'windows-latest' }}
       uses: actions/upload-artifact@v3
       with:
-         name: blurlyric-win32-x64.zip
+         name: blurlyric-win32-x64-${{ env.GITHUB_SHA }}.zip
          path:  out\blurlyric-win32-x64
