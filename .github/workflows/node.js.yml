@@ -44,7 +44,7 @@ jobs:
          name: blurlyric_ubuntu-${{ env.GITHUB_SHA }}.deb
          path:  out/make/deb/x64
      
-    - name: '上传Ubuntu artifact'
+    - name: '上传MacOS artifact'
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v3
       with:
