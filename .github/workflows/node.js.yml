@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [18.x]
 
     steps:
@@ -45,7 +45,7 @@ jobs:
          path:  out/make/deb/x64
      
     - name: '上传MacOS artifact'
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'macos-latest' }}
       uses: actions/upload-artifact@v3
       with:
          name: blurlyric_macos-${{ env.GITHUB_SHA }}.deb
