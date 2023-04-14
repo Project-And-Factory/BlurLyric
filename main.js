@@ -3,7 +3,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-app.commandLine.appendSwitch('force_high_performance_gpu')
+// app.commandLine.appendSwitch('force_high_performance_gpu')
 const ipc = ipcMain
 
 var mainWindow
