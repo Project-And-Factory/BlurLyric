@@ -1419,8 +1419,8 @@ li div.Padding {
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  background: linear-gradient(to right,rgb(0,0,0,.0),rgb(0,0,0,.0),rgb(0,0,0,.0), rgb(0,0,0,.2), rgb(0,0,0,.2),rgb(0,0,0,.2));
-  background-size: 300% 100%;
+  background: linear-gradient(90deg,rgba(0,0,0,.0) 0%,rgba(0,0,0,.0) calc(50% - 0.4em), rgba(0,0,0,.2)  calc(50% + 0.4em),rgba(0,0,0,.2) 100%);
+  background-size: calc(200% + .8em) 100%;
   background-position: 100% 0%;
   -webkit-background-clip: text;
   /* background-color: #00000005; */
@@ -1464,8 +1464,8 @@ li div.Padding {
   animation: toright var(--dur) linear ;
   background-origin: content-box;
   background-clip: text;
-  background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6), rgb(0,0,0,.0), rgb(0,0,0,.0),rgb(0,0,0,.0));
-  background-size: 300% 100%;
+  background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6)  calc(50% - 0.4em), rgb(0,0,0,.0)  calc(50% + 0.4em), rgb(0,0,0,.0),rgb(0,0,0,.0));
+  background-size: calc(200% + .8em) 100%;
 transform:translate(0,-0.03em);
 -webkit-background-clip: text;
   color: transparent !important;

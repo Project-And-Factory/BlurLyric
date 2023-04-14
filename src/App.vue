@@ -1250,17 +1250,7 @@ import { transform } from '@vue/compiler-core'
                     element.setAttribute('lyricFocus', false)
                   }
 
-                  // realdisplay++
-                  
-                  // + ((i == lyricNum) ? "" : ((config.setting()
-                  // .config
-                  // .lyricSet
-                  // .animeFontSize == true) ? (
-                  // 'scale(' + fontSizeFunc(element, i, needFocus) + ')') : 'scale(0.85)'))
 
-                  // setTimeout(() => {
-                  //   lyricTransitionClean(element)
-                  // }, dur*1.2);
                 } else {
                   element.setAttribute('displaying',false)
 
