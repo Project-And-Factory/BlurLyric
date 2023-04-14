@@ -48,8 +48,8 @@ jobs:
       if: ${{ matrix.os == 'macos-latest' }}
       uses: actions/upload-artifact@v3
       with:
-         name: blurlyric_macos-${{ env.GITHUB_SHA }}.deb
-         path:  out/make/dmg/x64
+         name: blurlyric_macos-${{ env.GITHUB_SHA }}.zip
+         path:  out/blurlyric-darwin-x64/blurlyric
     
     - name: '上传Windows artifact'
       if: ${{ matrix.os == 'windows-latest' }}
