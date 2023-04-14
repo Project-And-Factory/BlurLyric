@@ -83,23 +83,24 @@
 <template>
     <h1 v-if="page.detail.data" style="margin:.3em 0;">{{(this.page.type == 'mv')?page.detail.data.name:page.detail.data.title}}</h1>
     <div v-if="(this.page.type == 'video')" style="color:#777;margin:0 0 .7em 0">by {{page.detail.data.creator.nickname}}</div>
+    <div class="container" v-if="(this.page.type == 'mv')&&page.detail.data">
+        <div style="color:#777;float: left;">by</div>
+            <a @click="this.$router.push({
+                name: 'artist',
+                query: {
+                id: item.id
+                }
+            })" v-for="(item) in page.detail.data.artists" style="color:#777;margin:0 0 .7em 0" class="artistText" :key="item.id">
+                    {{item.name}}
+            </a>
+        </div>
 
-    <div v-if="(this.page.type == 'mv')&&page.detail.data">
-        创作者：<a @click="this.$router.push({
-            name: 'artist',
-            query: {
-              id: item.id
-            }
-          })" v-for="(item) in page.detail.data.artists" style="color:#777;margin:0 0 .7em 0" class="artistText" :key="item.id">
-                {{item.name}}
-        </a>
-    </div>
-
-        
-    
-    
-    <div style="overflow: hidden;margin-top: 1em;border-radius: calc(1vw + .8vh);">
+    <div style="clear:both;overflow: hidden;margin-top: 1em;border-radius: calc(1vw + .8vh);">
     <video   :src="this.page.url" id="video"></video>
 </div>
 </template>
-<style></style>
+<style scoped>
+.container {
+    float: left;
+}
+</style>
