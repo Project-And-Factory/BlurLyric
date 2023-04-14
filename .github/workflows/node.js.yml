@@ -49,7 +49,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
          name: blurlyric_macos-${{ env.GITHUB_SHA }}.zip
-         path:  out/blurlyric-darwin-x64/blurlyric
+         path:  out/blurlyric-darwin-x64
     
     - name: '上传Windows artifact'
       if: ${{ matrix.os == 'windows-latest' }}
