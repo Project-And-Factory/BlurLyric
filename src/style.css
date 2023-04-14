@@ -1464,10 +1464,10 @@ li div.Padding {
   animation: toright var(--dur) linear ;
   background-origin: content-box;
   background-clip: text;
-  background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6)  calc(50% - 0.4em), rgb(0,0,0,.0)  calc(50% + 0.4em), rgb(0,0,0,.0),rgb(0,0,0,.0));
+  background: linear-gradient(to right,rgb(0,0,0,.6),rgb(0,0,0,.6),rgb(0,0,0,.6)  calc(50% - .0em), rgb(0,0,0,.0)  calc(50% + 0.8em), rgb(0,0,0,.0),rgb(0,0,0,.0));
   background-size: calc(200% + .8em) 100%;
-transform:translate(0,-0.03em);
--webkit-background-clip: text;
+  transform:translate(0,-0.03em);
+  -webkit-background-clip: text;
   color: transparent !important;
 
 }
