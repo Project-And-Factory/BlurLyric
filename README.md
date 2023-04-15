@@ -34,12 +34,19 @@ Blurlyric 自主编写了歌词滚动算法，实现了几乎 0 时延的超快�
 
 可直接在 [Releases](https://github.com/gozaoo/BlurLyric2.0/releases) 页面下载已发行的稳定构建版本，但不建议从此处下载，因为这里不经常更新。
 
+## 初始化
+
+在进行任何操作之前，请先进行该步骤
+
+```
+npm install
+```
+
 ## 在线部署
 
 在命令行中输入以下命令，即可在线部署：
 
 ```
-Copy code
 node .\blurlyric\onlyonweb
 ```
 
@@ -50,7 +57,10 @@ node .\blurlyric\onlyonweb
 在命令行中输入以下命令，即可手动构建可执行文件，输出在 `out` 中：
 
 ```
-arduinoCopy codenpm run build
+npm run build
+```
+
+```
 npm run make
 ```
 
