@@ -55,7 +55,7 @@ const createWindow = async () => {
     width: 1000,
     height: 700,
     title: "BlurLyric",
-    icon:"./src/assets/icon.png",
+    icon:"./src/assets/icon.ico",
     titleBarStyle: 'hidden',
     titleBarOverlay: {
       color: '#00000000',symbolColor: 'black'
