@@ -1,6 +1,6 @@
-# <img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:5%;" />BlurLyric
+# <img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric
 
-<center><i>简单、高颜值、好用的 网易云第三方播放器</i></center>
+<center>*简单、高颜值、好用的 网易云第三方播放器*</center>
 
 ## License Scan
 
