@@ -1,4 +1,6 @@
 # Blurlyric
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric?ref=badge_shield)
+
 
 快速体验：<br>
 <a herf="https://web.blurlyric.app/">(推荐)官方 - https://web.blurlyric.app/</a><br>
@@ -80,3 +82,7 @@ Spotify
 微信:*央
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric?ref=badge_large)
