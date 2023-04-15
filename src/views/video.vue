@@ -84,7 +84,7 @@
     <h1 v-if="page.detail.data" style="margin:.3em 0;">{{(this.page.type == 'mv')?page.detail.data.name:page.detail.data.title}}</h1>
     <div v-if="(this.page.type == 'video')" style="color:#777;margin:0 0 .7em 0">by {{page.detail.data.creator.nickname}}</div>
     <div class="container" v-if="(this.page.type == 'mv')&&page.detail.data">
-        <div style="color:#777;float: left;">by</div>
+        <div style="float: left;">创作者:</div>
             <a @click="this.$router.push({
                 name: 'artist',
                 query: {
