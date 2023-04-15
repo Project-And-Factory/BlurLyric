@@ -82,7 +82,7 @@ location / {
 
 ### 您有很好的想法吗？
 
-如果您有任何好的建议、参考设计或者开源代码，欢迎通过Pull requests与我们分享。如果您是UI设计大师但不会写代码，也可以将您的想法或设计发送至我的邮箱[2261129603@qq.com](mailto:2261129603@qq.com)，我们非常欢迎您的参与。
+如果您有任何好的建议、参考设计或者开源代码，欢迎通过Pull requests与我们分享。如果您是UI设计大师但不会写代码，您可以提出issue，也可以将您的想法或设计发送至邮箱[2261129603@qq.com](mailto:2261129603@qq.com)或[master@pafworld.top](mailto:master@pafworld.top)或加入[Telegram](https://t.me/pafnetwork)群，我们非常欢迎您的参与。
 
 ### 感谢以下开源项目为我们提供的灵感、参考设计和核心代码：
 
@@ -91,9 +91,3 @@ location / {
 - [LyricEase](https://apps.microsoft.com/store/detail/lyricease/9N1MKDF0F4GT?hl=zh-cn&gl=CN)
 - [Apple Music](https://www.apple.com/apple-music/)
 - [Spotify](https://www.spotify.com/)
-
-### 以下是捐赠名单，排名不分先后：
-
-| 捐助方式 | 捐助名称 |
-| -------- | -------- |
-| 微信     | *央      |
