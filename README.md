@@ -1,6 +1,6 @@
-# <img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric
+<h1 align="center"><img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric</h1>
 
-<center>*简单、高颜值、好用的 网易云第三方播放器*</center>
+<p align="center"><i>简单、高颜值、好用的 网易云第三方播放器</i></p>
 
 ## License Scan
 
@@ -97,4 +97,3 @@ location / {
 | 捐助方式 | 捐助名称 |
 | -------- | -------- |
 | 微信     | *央      |
-
