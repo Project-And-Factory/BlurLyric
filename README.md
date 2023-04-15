@@ -1,8 +1,6 @@
-# BlurLyric
+# <img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:5%;" />BlurLyric
 
-<img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:33%;" />
-
-*简单、高颜值、好用的 网易云第三方播放器*
+<center><i>简单、高颜值、好用的 网易云第三方播放器</i></center>
 
 ## License Scan
 
@@ -94,4 +92,9 @@ location / {
 - [Apple Music](https://www.apple.com/apple-music/)
 - [Spotify](https://www.spotify.com/)
 
-以下是捐赠名单，排名不分先后：
+### 以下是捐赠名单，排名不分先后：
+
+| 捐助方式 | 捐助名称 |
+| -------- | -------- |
+| 微信     | *央      |
+
