@@ -2,7 +2,7 @@
 
 <p align="center"><i>简单、高颜值、好用的 网易云第三方播放器</i></p>
 
-<p align="center"><a herf="readme.md">English</a> | <a herf="readme.md">简体中文</a></p>
+<p align="center"><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></p>
 
 
 ## License Scan
