@@ -2,7 +2,7 @@
 
 <p align="center"><i>A simple, beautiful, and user-friendly third-party player for NetEase Cloud Music</i></p>
 
-<p align="center"><a href="readme.md">English</a> | <a href="readme_cn.md">简体中文</a></p>
+<p align="center"><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></p>
 
 ## License Scan
 
