@@ -59,6 +59,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: out/make/deb/x64/blurlyric-${{ steps.get_filename.outputs.ASSET_NAME }}.zip*
+          name: blurlyric-win32-x64-${{ github.sha }}.zip
+          path:  out\blurlyric-win32-x64
           tag: ${{ github.ref }}
           file_glob: true
