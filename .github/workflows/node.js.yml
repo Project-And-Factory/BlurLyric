@@ -5,9 +5,12 @@ name: AutoBuild
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - dev
     paths-ignore:
       - "README.md"
+      - "README_CN.md"
       - ".github/workflows/**"
   workflow_dispatch:
 jobs:
@@ -58,8 +61,5 @@ jobs:
       if: ${{ matrix.os == 'windows-latest' }}
       uses: actions/upload-artifact@v3
       with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           name: blurlyric-win32-x64-${{ github.sha }}.zip
           path:  out\blurlyric-win32-x64
-          tag: ${{ github.ref }}
-          file_glob: true

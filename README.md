@@ -1,60 +1,61 @@
 <h1 align="center"><img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric</h1>
 
-<p align="center"><i>简单、高颜值、好用的 网易云第三方播放器</i></p>
+<p align="center"><i>A simple, beautiful, and user-friendly third-party player for NetEase Cloud Music</i></p>
+
+<p align="center"><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></p>
 
 ## License Scan
 
-[![FOSSA 状态](https://app.fossa.com/api/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FProject-And-Factory%2FBlurLyric?ref=badge_large)
 
-## 快速体验
+## Quick Start
 
-推荐使用官方网站进行快速体验：https://web.blurlyric.app/，请注意警惕陌生链接，以免账户或隐私被盗取。
+We recommend using the official website for a quick experience: https://web.blurlyric.app/ Please be wary of unfamiliar links to prevent theft of your account or privacy.
 
-## 浏览器支持
+## Browser Support
 
-| 浏览器            | 支持情况 |
-| ----------------- | -------- |
-| Apple Safari      | ✅        |
-| Microsoft Edge    | ✅        |
-| Google Chrome     | ✅        |
-| Mozilla Firefox   | ✅        |
-| Internet Explorer | ❌        |
+| Browser           | Support  |
+| -----------------| -------- |
+| Apple Safari      | ✅       |
+| Microsoft Edge    | ✅       |
+| Google Chrome     | ✅       |
+| Mozilla Firefox   | ✅       |
+| Internet Explorer | ❌       |
 
-## 特色
+## Features
 
-Blurlyric 自主编写了歌词滚动算法，实现了几乎 0 时延的超快反馈。通过响应式布局，赋予 Blurlyric 在各种分辨率屏幕下的强适配能力。持续优化和不断更迭的性能优化，力求在各种设备环境下流畅稳定运行。模仿 Spotify 的交叉串流播放，歌曲与歌曲之间切换更加自然。
+BlurLyric independently developed a lyric scrolling algorithm, achieving almost zero delay and ultra-fast feedback. Responsive layout gives BlurLyric strong adaptation capabilities on screens with various resolutions. Continuous optimization and constant iteration of performance improvements ensure smooth and stable operation on various device environments. The cross-stream playback of songs, imitating Spotify, makes switching between songs more natural.
 
-# 使用说明
+# User Guide
 
-## 最新版本下载
+## Download the Latest Version
 
-请先登录 GitHub，然后在最新的工作流中下载新版本：https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml
+Please log in to GitHub first, and then download the new version in the latest workflow: https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml
 
-## 稳定版下载
+## Download the Stable Version
 
-可直接在 [Releases](https://github.com/gozaoo/BlurLyric2.0/releases) 页面下载已发行的稳定构建版本，但不建议从此处下载，因为这里不经常更新。
+The stable build version that has been released can be downloaded directly on the [Releases](https://github.com/gozaoo/BlurLyric2.0/releases) page, but downloading from this location is not recommended because it is not updated frequently.
 
-## 初始化
+## Initialization
 
-在进行任何操作之前，请先进行该步骤
-
+Please perform this step before any operation.
 ```
 npm install
 ```
 
-## 在线部署
+## Online Deployment
 
-在命令行中输入以下命令，即可在线部署：
+Enter the following command in the CLI to deploy online:
 
 ```
 node .\blurlyric\onlyonweb
 ```
 
-在 `vite.config.js` 中可修改端口。
+The port can be modified in `vite.config.js`.
 
-## 手动构建可执行文件
+## Manual Building of Executable Files
 
-在命令行中输入以下命令，即可手动构建可执行文件，输出在 `out` 中：
+Enter the following command in the command line to manually build executable files, which will be output in `out`:
 
 ```
 npm run build
@@ -64,9 +65,9 @@ npm run build
 npm run make
 ```
 
-## 服务器反向代理配置（以 Nginx 为例）
+## Server Reverse Proxy Configuration (using Nginx as an Example)
 
-以下为服务器反向代理的配置（以 Nginx 为例）：
+The following is the configuration for server reverse proxy (using Nginx as an example):
 
 ```
 location / {
@@ -86,15 +87,15 @@ location / {
 }
 ```
 
-## 帮助我们
+## Help Us
 
-您的捐赠将有助于我们支付 <a herf="https://web.blurlyric.app/">https://web.blurlyric.app/</a> 在线服务的运营费用，同时也支持我们的开发。感谢您的使用。如果您认为我们的产品好用，请在右上角点一下星星（Star）以表示支持。如果您愿意，您还可以捐赠一块钱，我们会非常感激。 <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/zfbSK.jpg"> <img style="width: 200px" src="https://github.com/gozaoo/gozaoo.github.io/blob/main/image/wxSK.png">
+Your donation will help us pay for the operating costs of the online service at <a herf="https://web.blurlyric.app/">https://web.blurlyric.app/</a> and support our development. Thank you for using our product. If you think our product is useful, please click the "Star"
 
-### 您有很好的想法吗？
+### Do you have any good ideas?
 
-如果您有任何好的建议、参考设计或者开源代码，欢迎通过Pull requests与我们分享。如果您是UI设计大师但不会写代码，您可以提出issue，也可以将您的想法或设计发送至邮箱[2261129603@qq.com](mailto:2261129603@qq.com)或[master@pafworld.top](mailto:master@pafworld.top)或加入[Telegram](https://t.me/pafnetwork)群，我们非常欢迎您的参与。
+If you have any good suggestions, reference designs, or open-source code, please feel free to share with us through Pull requests. If you are a UI design expert but do not know how to code, you can submit an issue, or you can send your ideas or designs to [2261129603@qq.com](mailto:2261129603@qq.com) or [master@pafworld.top](mailto:master@pafworld.top), or join the [Telegram](https://t.me/pafnetwork) group. We welcome your participation.
 
-### 感谢以下开源项目为我们提供的灵感、参考设计和核心代码：
+### Thanks to the following projects for providing us with inspiration, reference designs and core code:
 
 - [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 - [qier222/YesPlayMusic](https://github.com/qier222/YesPlayMusic)
