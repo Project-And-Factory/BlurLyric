@@ -10,6 +10,7 @@ on:
       - dev
     paths-ignore:
       - "README.md"
+      - "README_CN.md"
       - ".github/workflows/**"
   workflow_dispatch:
 jobs:
