@@ -103,6 +103,7 @@
   let lrcs = content.split('\n');
   let yrcs = [];
 
+  let 合并单字次数 = 0
   //解析每一句
   for (let i = 0; i < lrcs.length; i++) {
     const item = lrcs[i];
@@ -134,6 +135,7 @@
     let c = item.substring(arr[0].length).trim();
     let c_contentArrays = [];
 
+
     //分离成单个字或词，并解析时间信息
     let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g);
     for (let a = 0; a < splitcs.length; a++) {
@@ -148,6 +150,7 @@
       let contentObj = {
         t: undefined, //开始时间
         dur: undefined, //持续时间
+        originDur: undefined,
         str: '',//字或词的文本内容
         shine: ''
       }
@@ -160,18 +163,27 @@
       let timeArray = time[0].slice(1, -1).split(',');
       contentObj.t = Number(timeArray[0]) / 1000;
       contentObj.dur = Number(timeArray[1]) / 1000;
+      contentObj.originDur = contentObj.dur
       contentObj.str = splitc.slice(time[0].length);
 
       if(contentObj.dur >= 2){
       contentObj.shine = 'long'
+      c_contentArrays.push(contentObj);
+
       continue
     }
 
+    if(contentObj.dur >= 1.4){
+      c_contentArrays.push(contentObj);
+      continue
+    }
       let last_c= c_contentArrays[c_contentArrays.length-1]
       if(last_c){
-        if(last_c.dur + last_c.t == contentObj.t){
+        if(last_c.dur + last_c.t == contentObj.t ){
+          //&& last_c.originDur == contentObj.dur
           last_c.dur += contentObj.dur
           last_c.str += contentObj.str;
+          合并单字次数++
           continue
         }
       }
@@ -182,6 +194,7 @@
 
     yrcs.push(yrc);
   }
+  console.log('合并' + 合并单字次数+ '次')
 
   return yrcs;
 }

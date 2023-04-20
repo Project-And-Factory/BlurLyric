@@ -1354,7 +1354,7 @@ ul#lyrics {
 }
 #lyric ul li[displaying=false]{
   transition: none !important;
-  visibility: hidden;
+  /* visibility: hidden; */
   filter: none !important;
 
   color: #0000 !important;
@@ -1419,8 +1419,9 @@ li div.Padding {
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - 0.4em), rgba(0,0,0,.2)  calc(50% + 0.4em),rgba(0,0,0,.2) 100%);
-  background-size: calc(200% + .8em) 100%;
+  --background-transition-linear-gradient-progress-width: .75em;
+  background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
+  background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
   background-position: 100% 0%;
   -webkit-background-clip: text;
   /* background-color: #00000005; */
@@ -1444,14 +1445,14 @@ li div.Padding {
 }
 #lyric ul li h1 a>div{
   position: absolute;
-  left: 0;
-  word-wrap: break-word;
+  /* left: 0; */
+  /* word-wrap: break-word; */
   /* overflow: hidden; */
   /* display: none; */
-  top: 0;
+  /* top: 0; */
   visibility: hidden;
-  will-change: background;
-  width: 100%;
+  /* will-change: background; */
+  /* width: 100%; */
   /* transform: translate(0,0.06em); */
 }
 #lyric ul li h1 a.foucusText>div{

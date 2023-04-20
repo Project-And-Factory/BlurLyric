@@ -599,7 +599,7 @@
               <h1  v-if="this.data.player.uiDisplay.LineNum <= i && this.data.player.uiDisplay.LineNum + 2 >= i">
                 <!--聚焦时-->
                 <a :class="[
-                  (this.data.player.uiDisplay.realCurrTime + 0.2 > yrc.t)?'foucusText':'',
+                  (this.data.player.uiDisplay.realCurrTime + 0.35 > yrc.t)?'foucusText':'',
                   yrc.shine
                 ]"
                   :style="{ '--dur': yrc.dur +'s'}
@@ -1140,7 +1140,7 @@ import { transform } from '@vue/compiler-core'
                 lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj ,i) => {
                   let lastWord = obj.c[obj.c.length - 1];
                   return((
-                  (lastWord.t + lastWord.dur) >= currTime + 0.3) //要求已过了上一句歌词末尾
+                  (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
                   &&( (this.data.player.musicCache[this.id].lyric.yrc[i+1] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i+1].t >= (currTime+0.3))))
                 })
                 if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
