@@ -140,15 +140,16 @@
 
       const splitc = splitcs[a];
 
-      if (splitc == '') {
-        continue;
-      }
+      // if (splitc == '') {
+      //   continue;
+      // }
 
       //创建一个对象，用于存放当前字或词的信息，并添加到当前句的歌词内容中
       let contentObj = {
         t: undefined, //开始时间
         dur: undefined, //持续时间
-        str: '' //字或词的文本内容
+        str: '',//字或词的文本内容
+        shine: ''
       }
 
       //提取时间和文本信息，并转换为秒
@@ -161,6 +162,19 @@
       contentObj.dur = Number(timeArray[1]) / 1000;
       contentObj.str = splitc.slice(time[0].length);
 
+      if(contentObj.dur >= 2){
+      contentObj.shine = 'long'
+      continue
+    }
+
+      let last_c= c_contentArrays[c_contentArrays.length-1]
+      if(last_c){
+        if(last_c.dur + last_c.t == contentObj.t){
+          last_c.dur += contentObj.dur
+          last_c.str += contentObj.str;
+          continue
+        }
+      }
       c_contentArrays.push(contentObj);
     }
 

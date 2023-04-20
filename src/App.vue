@@ -600,7 +600,7 @@
                 <!--聚焦时-->
                 <a :class="[
                   (this.data.player.uiDisplay.realCurrTime + 0.2 > yrc.t)?'foucusText':'',
-                  (2 < yrc.dur)?'long':''
+                  yrc.shine
                 ]"
                   :style="{ '--dur': yrc.dur +'s'}
                   "
