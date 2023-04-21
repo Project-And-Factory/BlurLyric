@@ -7,6 +7,7 @@
     
     作用：使背景图片提前加载实现渐变
     -->
+  <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
   <div style="visibility: hidden;height: 0px;width: 0px;overflow: hidden;">
     <img v-if="data.player.tracks[data.player.trackNum + 1]"
       v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl + '?param=128y128'" alt="" srcset="">
@@ -709,6 +710,7 @@
   import main from './main.js'
   import tapElm from './js/tapElm.js'
   import  viewBoxScroll from './js/viewBoxScroll.js'
+  import login_components from './components/login.vue'
 
   async function picColor(url) {
       return await analyze(url + '?param=24y24', {
@@ -765,7 +767,8 @@ import { transform } from '@vue/compiler-core'
   }
   var vueApp = {
     components:{
-      background
+      background,
+      login_components
     },
     data() {
       return {
@@ -814,7 +817,7 @@ import { transform } from '@vue/compiler-core'
               lineLazyLoaddelay: 0,
               color: [],
               beautifuller: false,
-              playerSelec: 'song'
+              playerSelec: 'song',
             },
             trackNum: 0,
             tracks: [{
@@ -844,6 +847,7 @@ import { transform } from '@vue/compiler-core'
             fixedButtom: [],
             lyricAnime: null,
             lyricRunning: false,
+            loginElement: 'hidden'
           },
           recommendSongs: [],
           myMusicList: [],

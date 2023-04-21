@@ -6,7 +6,7 @@
     <p>登录体验更佳。当然，您也可以先体验一下</p>
     <div class="linkbox bigger">
 
-      <router-link :to="{path:'/loginUser'}">点击我去登录</router-link>
+      <a @click="app.data.ui.loginElement = 'display'">点击我去登录</a>
     </div>
   </div>
 
