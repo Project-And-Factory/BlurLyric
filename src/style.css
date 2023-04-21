@@ -1354,7 +1354,7 @@ ul#lyrics {
 }
 #lyric ul li[displaying=false]{
   transition: none !important;
-  /* visibility: hidden; */
+  visibility: hidden;
   filter: none !important;
 
   color: #0000 !important;

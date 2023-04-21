@@ -103,7 +103,8 @@
   let lrcs = content.split('\n');
   let yrcs = [];
 
-  let 合并单字次数 = 0
+  let 合并单字次数 = 0 //提供打印台提示
+  
   //解析每一句
   for (let i = 0; i < lrcs.length; i++) {
     const item = lrcs[i];
@@ -166,24 +167,26 @@
       contentObj.originDur = contentObj.dur
       contentObj.str = splitc.slice(time[0].length);
 
-      if(contentObj.dur >= 2){
+      if(contentObj.dur >= 2){ //单独将唱的久的歌词拆出来，加特效
       contentObj.shine = 'long'
       c_contentArrays.push(contentObj);
 
       continue
     }
 
-    if(contentObj.dur >= 1.4){
+    if(contentObj.dur >= 1){ //单字过长歌词，导致歌词显示进度不正常
       c_contentArrays.push(contentObj);
       continue
     }
       let last_c= c_contentArrays[c_contentArrays.length-1]
       if(last_c){
+
+        //如果与上一个字衔接
         if(last_c.dur + last_c.t == contentObj.t ){
           //&& last_c.originDur == contentObj.dur
           last_c.dur += contentObj.dur
           last_c.str += contentObj.str;
-          合并单字次数++
+          合并单字次数++ 
           continue
         }
       }
