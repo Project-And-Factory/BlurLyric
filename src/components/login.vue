@@ -141,7 +141,7 @@ this.close()
     }
         },
         props: {
-            display: Object,
+            display: String,
             close: Function
         },
         watch:{
