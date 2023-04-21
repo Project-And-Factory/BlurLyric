@@ -83,7 +83,6 @@
 <template>
     <h1 v-if="page.detail.data" style="margin:.3em 0;">{{(this.page.type == 'mv')?page.detail.data.name:page.detail.data.title}}</h1>
     <div v-if="(this.page.type == 'video')" style="color:#777;margin:0 0 .7em 0">by {{page.detail.data.creator.nickname}}</div>
-<<<<<<< Updated upstream
     <div class="container" v-if="(this.page.type == 'mv')&&page.detail.data">
         <div style="float: left;">创作者:</div>
             <a @click="this.$router.push({
@@ -95,8 +94,7 @@
                     {{item.name}}
             </a>
         </div>
-
-=======
+<!-- 
     
     <div class="creater" v-if="(this.page.type == 'mv')&&page.detail.data">
         创作者：
@@ -110,25 +108,17 @@
                 {{item.name}}
         </div>
         </div>
-    </div>
+    </div> -->
 
         
     
     
->>>>>>> Stashed changes
     <div style="clear:both;overflow: hidden;margin-top: 1em;border-radius: calc(1vw + .8vh);">
     <video   :src="this.page.url" id="video"></video>
 </div>
 </template>
 <style scoped>
-<<<<<<< Updated upstream
 .container {
     float: left;
 }
 </style>
-=======
-    .creater>*{
-        float: left;
-    }
-    </style>
->>>>>>> Stashed changes
