@@ -1,4 +1,4 @@
-<h1 align="center"><img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric</h1>
+<h1 align="center"><img src="https://github.com/Project-And-Factory/BlurLyric/blob/main/src/assets/icon.png?raw=true" alt="img" style="zoom:3%;" />BlurLyric</h1>
 
 <p align="center"><i>简单、高颜值、好用的 网易云第三方播放器</i></p>
 
