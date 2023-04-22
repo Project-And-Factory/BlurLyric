@@ -1460,7 +1460,7 @@ import { transform } from '@vue/compiler-core'
         let playerMini = document.querySelector('.player-Mini')
 
         if (this.data.player.uiDisplay.mainDisplay == 'buttom' || type == 'top') {
-          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.transition = "all .2s cubic-bezier(.3, .45, .2, .95)"
 
           document.getElementById('player').style.top = '0px';
           this.data.player.uiDisplay.mainDisplay = 'watting'
@@ -1475,7 +1475,7 @@ import { transform } from '@vue/compiler-core'
         } else {
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.transition = "all .1s cubic-bezier(.3, .45, .2, .95) .3s"
           playerMini.style.opacity = 1
           playerMini.style.zIndex = 99;
 

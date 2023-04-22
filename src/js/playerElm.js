@@ -111,7 +111,7 @@ function changeProgress(event) {
     let top = (event.clientY - config.offset);
     let cacheMaxTop = config.size.bodyHeight - config.otherElm.playerMini.offsetHeight
 
-    let persent = top / cacheMaxTop
+    let persent = (top - (cacheMaxTop * 0.8)) / (cacheMaxTop * .2)
     config.otherElm.playerMini.style.opacity = persent.toFixed(2)
     if (top < 0) top = 0
     if (top > cacheMaxTop) top = cacheMaxTop
