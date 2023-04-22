@@ -113,7 +113,9 @@
     let yrc = {
       t: undefined, //开始时间
       edt: undefined, //结束时间
-      c: undefined //歌词内容
+      c: undefined,//歌词内容
+      playing: false,
+      index: 0,
     }
 
     //分离出时间信息，并转换为秒
@@ -153,7 +155,8 @@
         dur: undefined, //持续时间
         originDur: undefined,
         str: '',//字或词的文本内容
-        shine: ''
+        shine: '',
+        progress: 0
       }
 
       //提取时间和文本信息，并转换为秒

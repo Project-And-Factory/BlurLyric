@@ -594,23 +594,23 @@
             }"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
             <li v-bind:lyricFocus="
-              (this.data.player.uiDisplay.realCurrTime >= item.t - 0.3)?true:false
+              item.playing
             " @click="audio.currentTime = item.t - 0.3" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
               v-bind:key="item.t">
-              <h1  v-if="this.data.player.uiDisplay.LineNum <= i && this.data.player.uiDisplay.LineNum + 2 >= i">
+              <h1  v-if="item.playing == true">
                 <!--聚焦时-->
                 <a :class="[
-                  (this.data.player.uiDisplay.realCurrTime + 0.35 > yrc.t)?'foucusText':'',
+                  (item.index >= num)?'foucusText':'',
                   yrc.shine
                 ]"
                   :style="{ '--dur': yrc.dur +'s'}
                   "
-                v-for="(yrc,i) in item.c">
+                v-for="(yrc,num) in item.c">
                 
                 {{ yrc.str }}<div>{{ yrc.str }}</div>
               </a>
             </h1>
-             <h1 v-if="this.data.player.uiDisplay.LineNum > i || this.data.player.uiDisplay.LineNum + 2 < i">
+             <h1 v-if="item.playing == false">
                 <!--聚焦时 -->
                 <!--聚焦时-->
                 <a 
@@ -1130,6 +1130,45 @@ import { transform } from '@vue/compiler-core'
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       },
+        lyricFoundLine(info,time){
+          // console.log(info,time);
+          let now = 0
+          for (let i = info.lyricNum; i <= info.yrc.length; i++) {
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.35){
+               break
+             }
+            if(info.yrc[i]&&info.yrc[i].t <= time + 0.35){
+              this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
+              
+              this.lyricFoundStr(info.yrc[i].c,time,i)
+            }
+            // now = info.lyricNum - i
+          }
+          // console.log(now);
+
+        },
+
+        lyricFoundStr(info,time,i){
+          let strNowIndex = info.findIndex((v,index,obj)=>{
+            if(v.t > time+0.35){
+              return true
+            } else {
+              return false
+            }
+          }) - 1
+          if(strNowIndex == -2) {
+            strNowIndex = info.length - 1
+          }
+          this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
+          
+          // console.log(strNowIndex);
+          // if(this.data.player.musicCache[this.id].lyric.yrc[i]){
+            // let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex ]
+            // this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = (time - nowStr.t) / nowStr.dur
+
+          // }
+        }
+      ,
       async lyricSet(force, type) {
 
         if (this.$refs.lyricBox && this.state.playing ==
@@ -1142,12 +1181,19 @@ import { transform } from '@vue/compiler-core'
 
               if(this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
                 lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj ,i) => {
+                  this.data.player.musicCache[this.id].lyric.yrc[i].isplaying = false
                   let lastWord = obj.c[obj.c.length - 1];
                   return((
                   (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
                   &&( (this.data.player.musicCache[this.id].lyric.yrc[i+1] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i+1].t >= (currTime+0.3))))
                 })
+                
                 if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
+                this.lyricFoundLine({
+                  yrc: this.data.player.musicCache[this.id].lyric.yrc,
+                  lyricNum: lyricNum
+                },currTime)
+
               } else {
                 lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6) ) - 1
 }
