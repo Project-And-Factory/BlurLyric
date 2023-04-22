@@ -601,9 +601,9 @@
                 <!--聚焦时-->
                 <a :class="[
                   (item.index >= num)?'foucusText':'',
-                  yrc.shine
+                  yrc.shine,
                 ]"
-                  :style="{ '--dur': yrc.dur +'s'}
+                  :style="{ '--dur': yrc.dur +'s','--progress':(item.index == num)?yrc.progress:''}
                   "
                 v-for="(yrc,num) in item.c">
                 
@@ -1162,11 +1162,11 @@ import { transform } from '@vue/compiler-core'
           this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
           
           // console.log(strNowIndex);
-          // if(this.data.player.musicCache[this.id].lyric.yrc[i]){
-            // let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex ]
-            // this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = (time - nowStr.t) / nowStr.dur
+          if(this.data.player.musicCache[this.id].lyric.yrc[i]){
+            let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100).toFixed(1) + '%'
 
-          // }
+          }
         }
       ,
       async lyricSet(force, type) {

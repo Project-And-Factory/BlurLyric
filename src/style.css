@@ -1424,10 +1424,10 @@ li div.Padding {
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
   background-position: 100% 0%;
   -webkit-background-clip: text;
+  background-repeat: no-repeat;
   /* background-color: #00000005; */
   /* border: 1px solid #000; */color: transparent !important;
   color: rgb(0, 0, 0, 0.8);
-  will-change: background;
 
   
 }
@@ -1435,13 +1435,14 @@ li div.Padding {
   position: relative;
   width: max-content;
   /* color: rgb(0, 0, 0, 0.2); */
+  will-change: background;
 
 
 }
 #lyric ul li h1 a.foucusText{
-  background-position: 0% 0%;
-  animation: toright var(--dur) linear ;
-  
+  /* background-position: 0% 0%; */
+  /* animation: toright var(--dur) linear ; */
+  background-position: calc(100% - var(--progress) ) 0%;
 }
 #lyric ul li h1 a>div{
   position: absolute;
