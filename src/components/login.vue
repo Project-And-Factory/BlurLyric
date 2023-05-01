@@ -90,8 +90,8 @@
         }
       },
       checkLogin() {
-        if (this.$parent.$parent.data.user.profile == null) {
-          this.$parent.$parent.loginInfor();
+        if (app.data.user.profile == null) {
+          app.loginInfor();
 this.close()
           setTimeout(() => this.checkLogin(), 1000);
         }

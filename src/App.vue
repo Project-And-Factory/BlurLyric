@@ -1149,17 +1149,23 @@ import { transform } from '@vue/compiler-core'
         },
 
         lyricFoundStr(info,time,i){
-          let strNowIndex = info.findIndex((v,index,obj)=>{
-            if(v.t > time+0.35){
-              return true
-            } else {
-              return false
+          let strNowIndex
+          // if(info[this.data.player.musicCache[this.id].lyric.yrc[i].index].t > time+0.35){
+          //   strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
+          // } else {
+              strNowIndex = info.findIndex((v,index,obj)=>{
+              if(v.t > time+0.35){
+                return true
+              } else {
+                return false
+              }
+            }) - 1
+            if(strNowIndex == -2) {
+              strNowIndex = info.length - 1
             }
-          }) - 1
-          if(strNowIndex == -2) {
-            strNowIndex = info.length - 1
-          }
-          this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
+            this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
+          // }
+
           
           // console.log(strNowIndex);
           if(this.data.player.musicCache[this.id].lyric.yrc[i]){
@@ -1336,8 +1342,8 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        // setTimeout(() => this.getCurr(), 60)
-        window.requestAnimationFrame(()=>this.getCurr())
+        setTimeout(() => this.getCurr(), 41)
+        // window.requestAnimationFrame(()=>this.getCurr())
       },
       async transitionNextMusic(times) {
         
