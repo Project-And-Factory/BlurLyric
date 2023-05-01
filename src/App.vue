@@ -1269,9 +1269,10 @@ import { transform } from '@vue/compiler-core'
               }
 
               // 要平移的Y值
-              var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
-                translateYContent = "translateY(" + translateY + "vh)"
-
+              // var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
+              //   translateYContent = "translateY(" + translateY + "vh)"
+                var translateY = - lis[lyricNum].offsetTop+ (0.15 *  bodyHeight),
+                translateYContent = "translateY(" + translateY + "px)"
                 // console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
@@ -1353,8 +1354,8 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        setTimeout(() => this.getCurr(), 41)
-        // window.requestAnimationFrame(()=>this.getCurr())
+        // setTimeout(() => this.getCurr(), 41)
+        window.requestAnimationFrame(()=>this.getCurr())
       },
       async transitionNextMusic(times) {
         
