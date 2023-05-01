@@ -1170,7 +1170,14 @@ import { transform } from '@vue/compiler-core'
           // console.log(strNowIndex);
           if(this.data.player.musicCache[this.id].lyric.yrc[i]){
             let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
-            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100).toFixed(1) + '%'
+            let progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100)
+            if(progress>100){
+              progress = 100
+            }
+            if(progress<0){
+              progress=0
+            }
+            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(1) + '%'
 
           }
         }
@@ -1185,31 +1192,35 @@ import { transform } from '@vue/compiler-core'
             //找到歌词的行数
             lyricNum = undefined
 
-              if(this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
-                lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj ,i) => {
-                  this.data.player.musicCache[this.id].lyric.yrc[i].isplaying = false
-                  let lastWord = obj.c[obj.c.length - 1];
-                  return((
-                  (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
-                  &&( (this.data.player.musicCache[this.id].lyric.yrc[i+1] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i+1].t >= (currTime+0.3))))
-                })
-                
-                if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
-                this.lyricFoundLine({
-                  yrc: this.data.player.musicCache[this.id].lyric.yrc,
-                  lyricNum: lyricNum
-                },currTime)
+            if (this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
+          lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj, i) => {
+            let lastWord = obj.c[obj.c.length - 1];
+            let result = ((
+                (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
+              &&
+              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
+            this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
 
-              } else {
-                lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6) ) - 1
-}
-          //对于
+            return result
+          }) - 1
+
+          if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
+          this.lyricFoundLine({
+            yrc: this.data.player.musicCache[this.id].lyric.yrc,
+            lyricNum: lyricNum
+          }, currTime)
+          if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.yrc.length - 1
+
+        } else {
+          lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
+        }
+          //对于
+          
           /**
            * 条件：（当歌词行数变化 或 被强制执行）同时要满足 歌词存在时再执行
            */
           if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
-
             //记录此时的歌词行数，防止重复计算
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
