@@ -204,7 +204,7 @@
                             this.page.mintrack = r.playlist.tracks
 
                             this.page.lastUpdae = new Date(this.page.res.playlist.updateTime).toLocaleString()
-
+                            this.page.track = []
                             for (let track = 0; track < (this.page.trackIds.slice(track*1000,(track + 1)*1000).length/1000); track++) {
                                 
                                 for (const num in this.page.trackIds.slice(track*1000,(track + 1)*1000)) {

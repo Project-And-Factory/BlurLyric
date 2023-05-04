@@ -103,6 +103,8 @@
   let lrcs = content.split('\n');
   let yrcs = [];
 
+  let 合并单字次数 = 0 //提供打印台提示
+  
   //解析每一句
   for (let i = 0; i < lrcs.length; i++) {
     const item = lrcs[i];
@@ -111,7 +113,9 @@
     let yrc = {
       t: undefined, //开始时间
       edt: undefined, //结束时间
-      c: undefined //歌词内容
+      c: undefined,//歌词内容
+      playing: false,
+      index: 0,
     }
 
     //分离出时间信息，并转换为秒
@@ -134,21 +138,25 @@
     let c = item.substring(arr[0].length).trim();
     let c_contentArrays = [];
 
+
     //分离成单个字或词，并解析时间信息
     let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g);
     for (let a = 0; a < splitcs.length; a++) {
 
       const splitc = splitcs[a];
 
-      if (splitc == '') {
-        continue;
-      }
+      // if (splitc == '') {
+      //   continue;
+      // }
 
       //创建一个对象，用于存放当前字或词的信息，并添加到当前句的歌词内容中
       let contentObj = {
         t: undefined, //开始时间
         dur: undefined, //持续时间
-        str: '' //字或词的文本内容
+        originDur: undefined,
+        str: '',//字或词的文本内容
+        shine: '',
+        progress: 0
       }
 
       //提取时间和文本信息，并转换为秒
@@ -159,8 +167,32 @@
       let timeArray = time[0].slice(1, -1).split(',');
       contentObj.t = Number(timeArray[0]) / 1000;
       contentObj.dur = Number(timeArray[1]) / 1000;
+      contentObj.originDur = contentObj.dur
       contentObj.str = splitc.slice(time[0].length);
 
+      if(contentObj.dur >= 2){ //单独将唱的久的歌词拆出来，加特效
+      contentObj.shine = 'long'
+      c_contentArrays.push(contentObj);
+
+      continue
+    }
+
+    if(contentObj.dur >= 1){ //单字过长歌词，导致歌词显示进度不正常
+      c_contentArrays.push(contentObj);
+      continue
+    }
+      let last_c= c_contentArrays[c_contentArrays.length-1]
+      if(last_c){
+
+        //如果与上一个字衔接
+        if(last_c.dur + last_c.t == contentObj.t ){
+          //&& last_c.originDur == contentObj.dur
+          last_c.dur += contentObj.dur
+          last_c.str += contentObj.str;
+          合并单字次数++ 
+          continue
+        }
+      }
       c_contentArrays.push(contentObj);
     }
 
@@ -168,6 +200,7 @@
 
     yrcs.push(yrc);
   }
+  console.log('合并' + 合并单字次数+ '次')
 
   return yrcs;
 }

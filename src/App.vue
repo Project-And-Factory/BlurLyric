@@ -7,6 +7,7 @@
     
     作用：使背景图片提前加载实现渐变
     -->
+  <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
   <div style="visibility: hidden;height: 0px;width: 0px;overflow: hidden;">
     <img v-if="data.player.tracks[data.player.trackNum + 1]"
       v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl + '?param=128y128'" alt="" srcset="">
@@ -593,23 +594,23 @@
             }"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
             <li v-bind:lyricFocus="
-              (this.data.player.uiDisplay.realCurrTime >= item.t - 0.3)?true:false
+              item.playing
             " @click="audio.currentTime = item.t - 0.3" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
               v-bind:key="item.t">
-              <h1  v-if="this.data.player.uiDisplay.LineNum <= i && this.data.player.uiDisplay.LineNum + 2 >= i">
+              <h1  v-if="item.playing == true">
                 <!--聚焦时-->
                 <a :class="[
-                  (this.data.player.uiDisplay.realCurrTime + 0.2 > yrc.t)?'foucusText':'',
-                  (2 < yrc.dur)?'long':''
+                  (item.index >= num)?'foucusText':'',
+                  yrc.shine,
                 ]"
-                  :style="{ '--dur': yrc.dur +'s'}
+                  :style="{ '--dur': yrc.dur +'s','--progress':(item.index == num)?yrc.progress:''}
                   "
-                v-for="(yrc,i) in item.c">
+                v-for="(yrc,num) in item.c">
                 
                 {{ yrc.str }}<div>{{ yrc.str }}</div>
               </a>
             </h1>
-             <h1 v-if="this.data.player.uiDisplay.LineNum > i || this.data.player.uiDisplay.LineNum + 2 < i">
+             <h1 v-if="item.playing == false">
                 <!--聚焦时 -->
                 <!--聚焦时-->
                 <a 
@@ -709,6 +710,7 @@
   import main from './main.js'
   import tapElm from './js/tapElm.js'
   import  viewBoxScroll from './js/viewBoxScroll.js'
+  import login_components from './components/login.vue'
 
   async function picColor(url) {
       return await analyze(url + '?param=24y24', {
@@ -765,7 +767,8 @@ import { transform } from '@vue/compiler-core'
   }
   var vueApp = {
     components:{
-      background
+      background,
+      login_components
     },
     data() {
       return {
@@ -814,7 +817,7 @@ import { transform } from '@vue/compiler-core'
               lineLazyLoaddelay: 0,
               color: [],
               beautifuller: false,
-              playerSelec: 'song'
+              playerSelec: 'song',
             },
             trackNum: 0,
             tracks: [{
@@ -844,6 +847,7 @@ import { transform } from '@vue/compiler-core'
             fixedButtom: [],
             lyricAnime: null,
             lyricRunning: false,
+            loginElement: 'hidden'
           },
           recommendSongs: [],
           myMusicList: [],
@@ -1126,6 +1130,58 @@ import { transform } from '@vue/compiler-core'
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       },
+        lyricFoundLine(info,time){
+          // console.log(info,time);
+          let now = 0
+          for (let i = info.lyricNum; i <= info.yrc.length; i++) {
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.35){
+               break
+             }
+            if(info.yrc[i]&&info.yrc[i].t <= time + 0.35){
+              this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
+              
+              this.lyricFoundStr(info.yrc[i].c,time,i)
+            }
+            // now = info.lyricNum - i
+          }
+          // console.log(now);
+
+        },
+
+        lyricFoundStr(info,time,i){
+          let strNowIndex
+          // if(info[this.data.player.musicCache[this.id].lyric.yrc[i].index].t > time+0.35){
+          //   strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
+          // } else {
+              strNowIndex = info.findIndex((v,index,obj)=>{
+              if(v.t > time+0.35){
+                return true
+              } else {
+                return false
+              }
+            }) - 1
+            if(strNowIndex == -2) {
+              strNowIndex = info.length - 1
+            }
+            this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
+          // }
+
+          
+          // console.log(strNowIndex);
+          if(this.data.player.musicCache[this.id].lyric.yrc[i]){
+            let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+            let progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100)
+            if(progress>100){
+              progress = 100
+            }
+            if(progress<0){
+              progress=0
+            }
+            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(1) + '%'
+
+          }
+        }
+      ,
       async lyricSet(force, type) {
 
         if (this.$refs.lyricBox && this.state.playing ==
@@ -1136,24 +1192,35 @@ import { transform } from '@vue/compiler-core'
             //找到歌词的行数
             lyricNum = undefined
 
-              if(this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
-                lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj ,i) => {
-                  let lastWord = obj.c[obj.c.length - 1];
-                  return((
-                  (lastWord.t + lastWord.dur) >= currTime + 0.3) //要求已过了上一句歌词末尾
-                  &&( (this.data.player.musicCache[this.id].lyric.yrc[i+1] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i+1].t >= (currTime+0.3))))
-                })
-                if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
-              } else {
-                lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6) ) - 1
-}
-          //对于
+            if (this.data.player.musicCache[this.id].lyric.yrc != false && this.data.player.musicCache[this.id].lyric.yrc != undefined) {
+          lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj, i) => {
+            let lastWord = obj.c[obj.c.length - 1];
+            let result = ((
+                (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
+              &&
+              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
+            this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
+
+            return result
+          }) - 1
+
+          if (lyricNum == -1) lyricNum == this.data.player.musicCache[this.id].lyric.length - 1
+          this.lyricFoundLine({
+            yrc: this.data.player.musicCache[this.id].lyric.yrc,
+            lyricNum: lyricNum
+          }, currTime)
+          if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.yrc.length - 1
+
+        } else {
+          lyricNum = this.data.player.musicCache[this.id].lyric.ms.findIndex(obj => obj.t >= (currTime + 0.6)) - 1
           if (lis.length > 0 && lyricNum == -2) lyricNum = this.data.player.musicCache[this.id].lyric.ms.length - 1
+        }
+          //对于
+          
           /**
            * 条件：（当歌词行数变化 或 被强制执行）同时要满足 歌词存在时再执行
            */
           if (((this.data.player.uiDisplay.LineNum != lyricNum) || (force == true)) && lis[lyricNum]) {
-
             //记录此时的歌词行数，防止重复计算
             this.data.player.uiDisplay.LineNum = lyricNum
             if (this.data.player.uiDisplay.playerSelec == 'lyric' || usingLowWidhtMedi == false) { //歌词高亮设置
@@ -1202,9 +1269,10 @@ import { transform } from '@vue/compiler-core'
               }
 
               // 要平移的Y值
-              var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
-                translateYContent = "translateY(" + translateY + "vh)"
-
+              // var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
+              //   translateYContent = "translateY(" + translateY + "vh)"
+                var translateY = - lis[lyricNum].offsetTop+ (0.15 *  bodyHeight),
+                translateYContent = "translateY(" + translateY + "px)"
                 // console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
@@ -1286,7 +1354,7 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        // setTimeout(() => this.getCurr(), 60)
+        // setTimeout(() => this.getCurr(), 41)
         window.requestAnimationFrame(()=>this.getCurr())
       },
       async transitionNextMusic(times) {
@@ -1456,7 +1524,7 @@ import { transform } from '@vue/compiler-core'
         let playerMini = document.querySelector('.player-Mini')
 
         if (this.data.player.uiDisplay.mainDisplay == 'buttom' || type == 'top') {
-          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.transition = "all .2s cubic-bezier(.3, .45, .2, .95)"
 
           document.getElementById('player').style.top = '0px';
           this.data.player.uiDisplay.mainDisplay = 'watting'
@@ -1471,7 +1539,7 @@ import { transform } from '@vue/compiler-core'
         } else {
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
           this.data.player.uiDisplay.mainDisplay = 'watting'
-          playerMini.style.transition = "all .5s cubic-bezier(.3, .45, .2, .95)"
+          playerMini.style.transition = "all .1s cubic-bezier(.3, .45, .2, .95) .3s"
           playerMini.style.opacity = 1
           playerMini.style.zIndex = 99;
 

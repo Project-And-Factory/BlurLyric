@@ -73,7 +73,6 @@ export default  {
     },
     musicPanel:{
         display(event){
-            console.log(event);
             let box = document.querySelector('#musicPanel')
             box.style.display = (box.style.display == 'none')?'block': 'none'
                 box.style.left = event.x + 'px'

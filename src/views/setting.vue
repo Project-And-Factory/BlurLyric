@@ -116,7 +116,7 @@
             }
           },
           useDelay: {
-            text: '在 歌词 中使用延迟特效',
+            text: '在 歌词 中使用更真实的物理滚动',
             type: 'line',
             bolean: config.lyricSet.funcDelay,
             func: (item) => {

@@ -94,7 +94,25 @@
                     {{item.name}}
             </a>
         </div>
+<!-- 
+    
+    <div class="creater" v-if="(this.page.type == 'mv')&&page.detail.data">
+        创作者：
+        <div>
+            <div @click="this.$router.push({
+            name: 'artist',
+            query: {
+              id: item.id
+            }
+          })" v-for="(item) in page.detail.data.artists" style="color:#777;margin:0 0 .7em 0" class="artistText" :key="item.id">
+                {{item.name}}
+        </div>
+        </div>
+    </div> -->
 
+        
+    
+    
     <div style="clear:both;overflow: hidden;margin-top: 1em;border-radius: calc(1vw + .8vh);">
     <video   :src="this.page.url" id="video"></video>
 </div>
