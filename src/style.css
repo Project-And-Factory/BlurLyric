@@ -536,7 +536,9 @@ input#searchInput,
   width: calc(var(--minplayerHeight) - 6px);
   padding: 3px 3px 0
 }
-
+.player-Mini-img{
+  cursor: pointer;
+}
 .trackIMG {
   padding: 0 5px 0 0
 }
@@ -670,7 +672,11 @@ div.tracks>.linkbox {
 }
 
 .player-Mini-Title {
-  width: 0
+  /* width: 0; */
+  cursor: grab;
+}
+.player-Mini-Title:active{
+  cursor: grabbing;
 }
 
 .player-Mini-Title,
@@ -1037,9 +1043,13 @@ div.player-Mini-Title>h2>a,
   overflow: hidden;
   user-select: none;
   background-size: cover;
+  cursor: grab;
   background-position: 50% 50%
 }
 
+.left-sideImage:active{
+  cursor: grabbing;
+}
 .left-sideImage {
   border-radius: 3vh;
   background-size: cover;
@@ -1113,9 +1123,12 @@ img.ImageBlurBackground {
   text-align: center;
   margin: auto 0;
   padding: 2vmin 0;
-
-
+  cursor: grab;
 }
+.player-Title:active{
+  cursor: grabbing;
+}
+
 @media (any-hover: hover) {
   #player .heightWidthDisplay{
     opacity: 0;
@@ -1419,7 +1432,7 @@ li div.Padding {
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  --background-transition-linear-gradient-progress-width: 1em;
+  --background-transition-linear-gradient-progress-width: .7em;
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
   background-position: 100% 0%;
@@ -1568,7 +1581,8 @@ li div.Padding {
       word-wrap: break-word;
       max-width: 100%;
       height: max-content;
-      min-height: 15vh
+      min-height: 15vh;
+      cursor: grab;
   }
 
   .player-Title>* {

@@ -1177,7 +1177,7 @@ import { transform } from '@vue/compiler-core'
             if(progress<0){
               progress=0
             }
-            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(1) + '%'
+            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(0) + '%'
 
           }
         }
