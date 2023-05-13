@@ -1432,7 +1432,9 @@ li div.Padding {
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  --background-transition-linear-gradient-progress-width: .7em;
+  --background-transition-linear-gradient-progress-width: 2px;
+
+  /* --background-transition-linear-gradient-progress-width: .7em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
   background-position: 100% 0%;

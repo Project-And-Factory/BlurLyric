@@ -1149,11 +1149,33 @@ import { transform } from '@vue/compiler-core'
         },
 
         lyricFoundStr(info,time,i){
-          let strNowIndex
+          
+          let strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
           // if(info[this.data.player.musicCache[this.id].lyric.yrc[i].index].t > time+0.35){
           //   strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
           // } else {
-              strNowIndex = info.findIndex((v,index,obj)=>{
+
+          // }
+            let _state = false //如果当前Index不得到正常取值，则执行寻找当前行
+          let makeProgress = ()=>{
+            if(this.data.player.musicCache[this.id].lyric.yrc[i]){
+              let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+              let progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100)
+              if(progress>=100){
+                _state = (progress>100)?true:false
+                progress = 100
+              }
+              if(progress<0){
+                progress=0
+                _state = true
+              }
+              this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(0) + '%'
+              return progress
+            }
+          }
+
+          let findStrNowIndex = ()=>{
+            strNowIndex = info.findIndex((v,index,obj)=>{
               if(v.t > time+0.35){
                 return true
               } else {
@@ -1164,22 +1186,15 @@ import { transform } from '@vue/compiler-core'
               strNowIndex = info.length - 1
             }
             this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
-          // }
+          }
+          let _tempProgress = makeProgress()
+          if(_state==true){
+            findStrNowIndex()
+            makeProgress()
+          }
+          // console.log(strNowIndex);
 
           
-          // console.log(strNowIndex);
-          if(this.data.player.musicCache[this.id].lyric.yrc[i]){
-            let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
-            let progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100)
-            if(progress>100){
-              progress = 100
-            }
-            if(progress<0){
-              progress=0
-            }
-            this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(0) + '%'
-
-          }
         }
       ,
       async lyricSet(force, type) {
@@ -1420,7 +1435,8 @@ import { transform } from '@vue/compiler-core'
         if (newAudio.readyState >= 2) loadeddataFunction
 
         this.id = id,
-          this.data.player.uiDisplay.LineNum
+          this.data.player.uiDisplay.LineNum = 0
+          this.$refs.lyricBox.style.setProperty('--transform', '0px' )
         this.data.player.trackNum = numb
         this['audio'] = newAudio
         let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
@@ -1506,6 +1522,8 @@ import { transform } from '@vue/compiler-core'
           this.play()
 
         }
+        this.$refs.lyricBox.style.setProperty('--transform', '0px' )
+
         if (this.data.musicListInfor.personalFM.use == true) this.data.musicListInfor.personalFM.trackNum = this.data
           .player.trackNum
       },
