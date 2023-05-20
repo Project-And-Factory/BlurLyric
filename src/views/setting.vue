@@ -134,7 +134,7 @@
             }
           },
           limitFPS:{
-            text: '限制歌词帧数为24fps',
+            text: '限制逐字歌词帧数为24fps',
             type:'line',
             bolean: config.lyricSet.maxfps,
             func:(item)=>{
