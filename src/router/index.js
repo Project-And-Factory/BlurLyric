@@ -15,13 +15,15 @@ const routes = [
     name: 'muFound',
 
     component: () => import('../views/muFound.vue')
-  },
-  {
-    path: '/loginUser',
-    name: 'loginUser',
+  } ,
+  //
+  // {
+  //   path: '/loginUser',
+  //   name: 'loginUser',
 
-    component: () => import('../views/loginUser.vue')
-  },
+  //   component: () => import('../views/loginUser.vue')
+  // },
+  ////本代码段已转到components中的login.vue
   {
     path: '/playlist/detail',
     name: 'detail',
