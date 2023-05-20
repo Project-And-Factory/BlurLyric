@@ -1134,10 +1134,9 @@ import { transform } from '@vue/compiler-core'
           // console.log(info,time);
           let now = 0
           for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
-             if(info.yrc[i]&&info.yrc[i].t > time + 0.1){
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.5){
                break
-             }
-            if(info.yrc[i]&&info.yrc[i].t <= time + 0.1){
+             } else if(info.yrc[i]&&info.yrc[i].t <= time + 0.5){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
               
               this.lyricFoundStr(info.yrc[i].c,time,i)
