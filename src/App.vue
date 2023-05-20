@@ -1134,9 +1134,10 @@ import { transform } from '@vue/compiler-core'
           // console.log(info,time);
           let now = 0
           for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
-             if(info.yrc[i]&&info.yrc[i].t > time + 0.5){
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.1){
                break
-             } else if(info.yrc[i]&&info.yrc[i].t <= time + 0.5){
+             }
+            if(info.yrc[i]&&info.yrc[i].t <= time + 0.1){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
               
               this.lyricFoundStr(info.yrc[i].c,time,i)
@@ -1368,8 +1369,11 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        // setTimeout(() => this.getCurr(), 41)
-        window.requestAnimationFrame(()=>this.getCurr())
+        if(config.setting().config.lyricSet.maxfps == false){
+          window.requestAnimationFrame(()=>this.getCurr())
+        } else {
+          setTimeout(() => this.getCurr(), 41)
+        }
       },
       async transitionNextMusic(times) {
         
