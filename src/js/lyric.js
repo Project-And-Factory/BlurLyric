@@ -182,17 +182,17 @@
       continue
     }
       let last_c= c_contentArrays[c_contentArrays.length-1]
-      // if(last_c){
+      if(last_c){
 
-      //   //如果与上一个字衔接
-      //   if(last_c.dur + last_c.t == contentObj.t ){
-      //     //&& last_c.originDur == contentObj.dur
-      //     last_c.dur += contentObj.dur
-      //     last_c.str += contentObj.str;
-      //     合并单字次数++ 
-      //     continue
-      //   }
-      // }
+        //如果与上一个字衔接
+        if(last_c.dur + last_c.t == contentObj.t ){
+          //&& last_c.originDur == contentObj.dur
+          last_c.dur += contentObj.dur
+          last_c.str += contentObj.str;
+          合并单字次数++ 
+          continue
+        }
+      }
       c_contentArrays.push(contentObj);
     }
 

@@ -1357,7 +1357,7 @@ ul#lyrics {
   min-width: 7em;
   border-left: solid .2em #00000000;
   transform-origin: .3em 60%;
-  transform: var(--transform) scale(.9);
+  transform: var(--transform) scale(.88);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
   --dur: 600ms !important
@@ -1432,9 +1432,9 @@ li div.Padding {
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  --background-transition-linear-gradient-progress-width: 2px;
-
-  /* --background-transition-linear-gradient-progress-width: .7em; */
+  /* --background-transition-linear-gradient-progress-width: 1px; */
+  --background-transition-linear-gradient-progress-width: 0.7em;
+  /* --background-transition-linear-gradient-progress-width: 1000em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
   background-position: 100% 0%;
