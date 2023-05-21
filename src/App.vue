@@ -1078,11 +1078,7 @@ import { transform } from '@vue/compiler-core'
           timetamp: (Number(new Date()))
         }).then(r => {
 
-<<<<<<< HEAD
-          if (r.data && r.data.account && r.data.account.tokenVersion >= 0) {
-=======
           if (r.data && r.data.account && r.data.account.tokenVersion >= 2) {
->>>>>>> 47bf8521e15939e3cea33755b2779373f593c2b9
             this.data.user = r.data
 
             this.myPlayList()
