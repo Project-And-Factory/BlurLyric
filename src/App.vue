@@ -1078,7 +1078,7 @@ import { transform } from '@vue/compiler-core'
           timetamp: (Number(new Date()))
         }).then(r => {
 
-          if (r.data && r.data.account && r.data.account.tokenVersion >= 2) {
+          if (r.data && r.data.account && r.data.account.tokenVersion >= 0) {
             this.data.user = r.data
 
             this.myPlayList()
@@ -1133,11 +1133,11 @@ import { transform } from '@vue/compiler-core'
         lyricFoundLine(info,time){
           // console.log(info,time);
           let now = 0
-          for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
-             if(info.yrc[i]&&info.yrc[i].t > time + 0.1){
+          for (let i = info.lyricNum; i <= info.yrc.length; i++) {
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.35){
                break
              }
-            if(info.yrc[i]&&info.yrc[i].t <= time + 0.1){
+            if(info.yrc[i]&&info.yrc[i].t <= time + 0.35){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
               
               this.lyricFoundStr(info.yrc[i].c,time,i)
@@ -1160,7 +1160,7 @@ import { transform } from '@vue/compiler-core'
           let makeProgress = ()=>{
             if(this.data.player.musicCache[this.id].lyric.yrc[i]){
               let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
-              let progress = (((time - nowStr.t + 0.1) / nowStr.dur) * 100)
+              let progress = (((time - nowStr.t + 0.35) / nowStr.dur) * 100)
               if(progress>=100){
                 _state = (progress>100)?true:false
                 progress = 100
@@ -1176,7 +1176,7 @@ import { transform } from '@vue/compiler-core'
 
           let findStrNowIndex = ()=>{
             strNowIndex = info.findIndex((v,index,obj)=>{
-              if(v.t > time + 0.1){
+              if(v.t > time+0.35){
                 return true
               } else {
                 return false
@@ -1211,7 +1211,7 @@ import { transform } from '@vue/compiler-core'
           lyricNum = this.data.player.musicCache[this.id].lyric.yrc.findIndex((obj, i) => {
             let lastWord = obj.c[obj.c.length - 1];
             let result = ((
-                (lastWord.t + lastWord.dur) >= currTime + 0.1) //要求已过了上一句歌词末尾
+                (lastWord.t + lastWord.dur) >= currTime + 0.35) //要求已过了上一句歌词末尾
               &&
               ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
             this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
@@ -1369,11 +1369,8 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        if(config.setting().config.lyricSet.maxfps == false){
-          window.requestAnimationFrame(()=>this.getCurr())
-        } else {
-          setTimeout(() => this.getCurr(), 41)
-        }
+        // setTimeout(() => this.getCurr(), 41)
+        window.requestAnimationFrame(()=>this.getCurr())
       },
       async transitionNextMusic(times) {
         
