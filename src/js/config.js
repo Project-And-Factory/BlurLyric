@@ -12,8 +12,7 @@ var setting = {
             text: '最高',
             funcBlur: true,
             funcDelay: true,
-            animeFontSize: false,
-            maxfps: false
+            animeFontSize: false
         },
         useAnimeBackground: false
     }

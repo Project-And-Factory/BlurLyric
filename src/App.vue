@@ -1078,7 +1078,11 @@ import { transform } from '@vue/compiler-core'
           timetamp: (Number(new Date()))
         }).then(r => {
 
+<<<<<<< HEAD
+          if (r.data && r.data.account && r.data.account.tokenVersion >= 0) {
+=======
           if (r.data && r.data.account && r.data.account.tokenVersion >= 2) {
+>>>>>>> 47bf8521e15939e3cea33755b2779373f593c2b9
             this.data.user = r.data
 
             this.myPlayList()
@@ -1134,10 +1138,9 @@ import { transform } from '@vue/compiler-core'
           // console.log(info,time);
           let now = 0
           for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
-             if(info.yrc[i]&&info.yrc[i].t > time + 0.1){
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.5){
                break
-             }
-            if(info.yrc[i]&&info.yrc[i].t <= time + 0.1){
+             } else if(info.yrc[i]&&info.yrc[i].t <= time + 0.5){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
               
               this.lyricFoundStr(info.yrc[i].c,time,i)
@@ -1369,11 +1372,8 @@ import { transform } from '@vue/compiler-core'
           .audio.loop != true)
           this.transitionNextMusic()
         this.lyricSet()
-        if(config.setting().config.lyricSet.maxfps == false){
-          window.requestAnimationFrame(()=>this.getCurr())
-        } else {
-          setTimeout(() => this.getCurr(), 41)
-        }
+        // setTimeout(() => this.getCurr(), 41)
+        window.requestAnimationFrame(()=>this.getCurr())
       },
       async transitionNextMusic(times) {
         
