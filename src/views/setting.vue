@@ -55,7 +55,7 @@
     <textarea v-if="cookieDisplay == true" v-model="cookie" type="text"></textarea>
     <h1>About | 关于</h1>
     <a style="font-size:1.2em">LICENSE</a>  <br>
-    GUN gpl v3 (https://www.gnu.org/licenses/gpl-3.0.zh.html)
+    GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.zh.html)
     <!-- <h2>隐私政策</h2>
     <p>正在写</p> -->
     <h2>Staff | 参与人员</h2>
@@ -64,8 +64,8 @@
       后端服务:咸鸽(master@pafworld.top)
     </p>
     <h2>此软件</h2>
-    <p>官网：blurlyric.app | https://gozaoo.github.io/blurlyric/<br>
-      仓库地址: https://github.com/gozaoo/BlurLyric2.0 <br>
+    <p>官网：blurlyric.app<br>
+      仓库地址: https://github.com/Project-And-Factory/BlurLyric/BlurLyric <br>
       灵感来源/学习项目：Binaryify/NeteaseCloudMusicApi；qier222/YesPlayMusic；LyricEase；Apple Music
     </p>
     <h2>
