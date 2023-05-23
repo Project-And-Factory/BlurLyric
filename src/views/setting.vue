@@ -132,15 +132,6 @@
               config.useAnimeBackground = item.bolean
               this.upload()
             }
-          },
-          limitFPS:{
-            text: '限制歌词帧数为24fps',
-            type:'line',
-            bolean: config.lyricSet.maxfps,
-            func:(item)=>{
-              config.lyricSet.maxfps = item.bolean
-              this.upload()
-            }
           }
         },
         config,
