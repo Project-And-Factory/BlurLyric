@@ -102,3 +102,5 @@ If you have any good suggestions, reference designs, or open-source code, please
 - [LyricEase](https://apps.microsoft.com/store/detail/lyricease/9N1MKDF0F4GT?hl=zh-cn&gl=CN)
 - [Apple Music](https://www.apple.com/apple-music/)
 - [Spotify](https://www.spotify.com/)
+- [JetBrains](https://www.jetbrains.com/)
+- [Cloudflare](https://www.cloudflare.com/)
