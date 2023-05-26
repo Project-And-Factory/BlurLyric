@@ -70,7 +70,7 @@ async function requireId(id) {
             netea: {},
             unblock: {},
             use: 'netea',
-            functions:null
+            functions:()=>{}
         },
         lyric: {},
     }

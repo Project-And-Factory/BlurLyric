@@ -6,7 +6,7 @@ import reTools from '../network/getData'
 var setting = {
     id: '0',
     config: {
-        configVersion: '1.5',
+        configVersion: '1.6',
         lyricSet: {
             dur: 450,
             text: '最高',
@@ -14,8 +14,11 @@ var setting = {
             funcDelay: true,
             animeFontSize: false,
             maxfps: false
+            
+
         },
-        useAnimeBackground: false
+        useAnimeBackground: false,
+        useTransitionNextMusic: false
     }
 }
 

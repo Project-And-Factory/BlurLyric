@@ -1366,12 +1366,15 @@ import { transform } from '@vue/compiler-core'
 
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
 
+        let configSettingData = config.setting()
         //音频过度事件触发
-        if (this.data.player.uiDisplay.duration - cur <= 1 && this.audio.duration > 0 && this.audio.readyState >=2 && this
-          .audio.loop != true)
-          this.transitionNextMusic()
+        let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1
+        if (((this.data.player.uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
+          .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
+
+          
         this.lyricSet()
-        if(config.setting().config.lyricSet.maxfps == false){
+        if(configSettingData.config.lyricSet.maxfps == false){
           window.requestAnimationFrame(()=>this.getCurr())
         } else {
           setTimeout(() => this.getCurr(), 41)
@@ -1408,7 +1411,7 @@ import { transform } from '@vue/compiler-core'
         if(!NextMusicCache||transitionning==true){return}
         transitionning = true
         newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
-        newAudio.volume = this.state.volume
+        newAudio.volume = 0 //this.state.volume
         newAudio.currentTime = 0
         progress.load(newAudio)
         //播放新的音频
@@ -1431,6 +1434,9 @@ import { transform } from '@vue/compiler-core'
             },
 
           })
+          
+
+
           setTimeout(() => {
             transitionning = false
           }, time / 10000 / this.data.player.uiDisplay.duration);
@@ -1444,21 +1450,19 @@ import { transform } from '@vue/compiler-core'
           this.$refs.lyricBox.style.setProperty('--transform', '0px' )
         this.data.player.trackNum = numb
         this['audio'] = newAudio
-        let time = times || 1000 * (oldAudio.duration - oldAudio.currentTime);
-
-        // anime({
-        //   targets: newAudio,
-        //   duration: time,
-        //   volume: 1 * this.state.volume,
-        //   easing: 'linear'
-        // })
-        // anime({
-        //   targets: oldAudio,
-        //   duration: time,
-        //   volume: 0,
-        //   easing: 'linear'
-        // })
-
+        let time = times * 1000 || 1000 * (oldAudio.duration - oldAudio.currentTime);
+        anime({
+          targets: newAudio,
+          duration: time,
+          volume: 1 * this.state.volume,
+          easing: 'linear'
+        })
+        anime({
+          targets: oldAudio,
+          duration: time,
+          volume: 0,
+          easing: 'linear'
+        })
         setTimeout(
           () => {
 
@@ -1512,7 +1516,7 @@ import { transform } from '@vue/compiler-core'
 
       },
       nextMusic() {
-
+// debugger
         //上传听歌记录
 
         this.data.player.uiDisplay.LineNum = 0

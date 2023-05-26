@@ -142,6 +142,16 @@
               this.upload()
             }
           }
+          ,
+          useTransitionNextMusic:{
+            text: '使用 5秒 的音乐串流切歌功能',
+            type:'line',
+            bolean: config.useTransitionNextMusic,
+            func:(item)=>{
+              config.useTransitionNextMusic = item.bolean
+              this.upload()
+            }
+          }
         },
         config,
         cookie: '',
