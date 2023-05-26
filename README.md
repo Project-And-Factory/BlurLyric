@@ -30,7 +30,7 @@ BlurLyric has independently developed a lyric scrolling algorithm, achieving alm
 
 ## Download the Latest Version
 
-Please log in to GitHub first and then download the new version in the latest workflow: [https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml](https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml)
+Please log in to GitHub first and then download the new version in the latest [workflow](https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml).
 
 ## Download the Stable Version
 
