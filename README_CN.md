@@ -107,4 +107,3 @@ location / {
 - [Spotify](https://www.spotify.com/)
 - [JetBrains](https://www.jetbrains.com/)
 - [Cloudflare](https://www.cloudflare.com/)
-- 
