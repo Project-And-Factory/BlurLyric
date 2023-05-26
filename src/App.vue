@@ -1137,6 +1137,8 @@ import { transform } from '@vue/compiler-core'
           let now = 0
           for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
              if(info.yrc[i]&&info.yrc[i].t > time + 0.2){
+              this.data.player.musicCache[this.id].lyric.yrc[i].index = 0
+              this.data.player.musicCache[this.id].lyric.yrc[i].playing=false
                break
              }
             if(info.yrc[i]&&info.yrc[i].t <= time + 0.2){
@@ -1217,6 +1219,11 @@ import { transform } from '@vue/compiler-core'
               &&
               ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
             this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
+
+            
+            if(this.data.player.musicCache[this.id].lyric.yrc[i+1]){
+              this.data.player.musicCache[this.id].lyric.yrc[i+1].playing == false
+            }
 
             return result
           }) - 1
