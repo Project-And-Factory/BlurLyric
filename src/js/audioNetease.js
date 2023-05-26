@@ -11,6 +11,7 @@ export default {
 import reTools from '../network/getData'
 import lyric from './lyric.js'
 import app from '../main.js'
+import message from './message.js'
 
 async function requirePersonalFM() {
   let res
@@ -50,7 +51,7 @@ await reTools.getData('/blurlyric/unblockmusic', {
   }).then(res => {
     Data.song.unblock = res
     // (Data.song.netea.br < Data.song.unblock.br) ||
-    if ( (Data.song.netea.freeTrialInfo !=null)) {
+    if ( (Data.song.netea.freeTrialInfo !=null) && Data.song['unblock'].url !=null) {
       Data.song.use = 'unblock'
     }
 
@@ -69,6 +70,7 @@ async function requireId(id) {
             netea: {},
             unblock: {},
             use: 'netea',
+            functions:null
         },
         lyric: {},
     }
@@ -103,10 +105,30 @@ async function requireId(id) {
       }).then(res => {
         Data.song.unblock = res
     
-        if (Data.song.netea.br == 0 || Data.song.netea.freeTrialInfo !=null) {
-          Data.song.use = 'unblock'
+
+        if(Data.song.netea.br == 0){
+          if(Data.song['unblock'].url != null){
+            Data.song.functions = ()=>{
+            message.create('BlurLyric 正在调用 网易云解灰Api 更换音源')}
+            Data.song.use = 'unblock'
+          }
+          if(Data.song['unblock'].url == (null || undefined)){
+            
+            // Data.song.use = 'next'
+            Data.song.functions = ()=>{
+              message.create('网易云音乐音源与网易云解灰Api均无音源，正在下一首')
+              app.nextMusic()
+            }
+            
+          }
+        } else {
+          if(Data.song.netea.freeTrialInfo !=null && Data.song['unblock'].url != (null || undefined)){
+            Data.song.functions = ()=>{message.create('BlurLyric 正在调用 网易云解灰Api 更换VIP音源')}
+            Data.song.use = 'unblock'
+          } else if (Data.song.netea.freeTrialInfo !=null){
+            Data.song.functions = ()=>{message.create('BlurLyric 无法调用 网易云解灰Api， 正在试听网易云试听音频')}
+          }
         }
-    
       })
       Data.song['src']=  Data.song[Data.song.use].url
       return Data

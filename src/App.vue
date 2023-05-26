@@ -907,7 +907,7 @@ import { transform } from '@vue/compiler-core'
             this.cache.playingStyle.type = "text/css"
             document.body.appendChild(this.cache['playingStyle'])
           }
-
+          this.data.player.uiDisplay.realCurrTime = 0
           this.cache.playingStyle.innerHTML = null
           this.cache.playingStyle.appendChild(document.createTextNode(".tracks[muid=\"" + newid +
             "\"]{border-radius: calc(var(--minplayerHeight) * 0.2);background-color: #0080ff15;}"))
@@ -924,6 +924,8 @@ import { transform } from '@vue/compiler-core'
             this.audio.pause()
             this.audio.src = Data.song.src
             this.play()
+
+            Data.song.functions()
           }
 
 
