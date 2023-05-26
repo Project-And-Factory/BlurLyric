@@ -1134,10 +1134,10 @@ import { transform } from '@vue/compiler-core'
           // console.log(info,time);
           let now = 0
           for (let i = info.lyricNum ; i <= info.yrc.length; i++) {
-             if(info.yrc[i]&&info.yrc[i].t > time + 0.1){
+             if(info.yrc[i]&&info.yrc[i].t > time + 0.2){
                break
              }
-            if(info.yrc[i]&&info.yrc[i].t <= time + 0.1){
+            if(info.yrc[i]&&info.yrc[i].t <= time + 0.2){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
               
               this.lyricFoundStr(info.yrc[i].c,time,i)
@@ -1160,7 +1160,7 @@ import { transform } from '@vue/compiler-core'
           let makeProgress = ()=>{
             if(this.data.player.musicCache[this.id].lyric.yrc[i]){
               let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
-              let progress = (((time - nowStr.t + 0.1) / nowStr.dur) * 100)
+              let progress = (((time - nowStr.t + 0.2) / nowStr.dur) * 100)
               if(progress>=100){
                 _state = (progress>100)?true:false
                 progress = 100
@@ -1176,7 +1176,7 @@ import { transform } from '@vue/compiler-core'
 
           let findStrNowIndex = ()=>{
             strNowIndex = info.findIndex((v,index,obj)=>{
-              if(v.t > time + 0.1){
+              if(v.t > time + 0.2){
                 return true
               } else {
                 return false
