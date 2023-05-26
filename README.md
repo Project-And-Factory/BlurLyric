@@ -1,6 +1,6 @@
 <h1 align="center"><img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric</h1>
 
-<p align="center"><i>A simple, beautiful, and user-friendly third-party player for NetEase Cloud Music</i></p>
+<p align="center"><i>A simple, beautiful, and user-friendly third-party player for NetEase Cloud Music.</i></p>
 
 <p align="center"><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></p>
 
@@ -10,7 +10,7 @@
 
 ## Quick Start
 
-We recommend using the official website for a quick experience: https://web.blurlyric.app/ Please be wary of unfamiliar links to prevent theft of your account or privacy.
+We recommend using the official website for a quick experience: [https://web.blurlyric.app/](https://web.blurlyric.app/). Please be wary of unfamiliar links to prevent theft of your account or privacy.
 
 ## Browser Support
 
@@ -24,17 +24,17 @@ We recommend using the official website for a quick experience: https://web.blur
 
 ## Features
 
-BlurLyric independently developed a lyric scrolling algorithm, achieving almost zero delay and ultra-fast feedback. Responsive layout gives BlurLyric strong adaptation capabilities on screens with various resolutions. Continuous optimization and constant iteration of performance improvements ensure smooth and stable operation on various device environments. The cross-stream playback of songs, imitating Spotify, makes switching between songs more natural.
+BlurLyric has independently developed a lyric scrolling algorithm, achieving almost zero delay and ultra-fast feedback. The responsive layout gives BlurLyric strong adaptation capabilities on screens with various resolutions. Continuous optimization and constant iteration of performance improvements ensure smooth and stable operation on various device environments. The cross-stream playback of songs, imitating Spotify, makes switching between songs more natural.
 
 # User Guide
 
 ## Download the Latest Version
 
-Please log in to GitHub first, and then download the new version in the latest workflow: https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml
+Please log in to GitHub first and then download the new version in the latest workflow: [https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml](https://github.com/gozaoo/BlurLyric/actions/workflows/node.js.yml)
 
 ## Download the Stable Version
 
-The stable build version that has been released can be downloaded directly on the [Releases](https://github.com/gozaoo/BlurLyric2.0/releases) page, but downloading from this location is not recommended because it is not updated frequently.
+The stable build version that has been released can be downloaded directly on the [Releases](https://github.com/gozaoo/BlurLyric2.0/releases) page, but downloading from this location is not recommended because it is not frequently updated.
 
 ## Initialization
 
@@ -81,21 +81,23 @@ location / {
     proxy_connect_timeout 30s;
     proxy_read_timeout 86400s;
     proxy_send_timeout 30s;
-    proxy_http_version 1.1;`
+    proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
+
+
 }
 ```
 
 ## Help Us
 
-Your donation will help us pay for the operating costs of the online service at <a herf="https://web.blurlyric.app/">https://web.blurlyric.app/</a> and support our development. Thank you for using our product. If you think our product is useful, please click the "Star"
+Your donation will help us pay for the operating costs of the online service at [https://web.blurlyric.app/](https://web.blurlyric.app/) and support our development. Thank you for using our product. If you think our product is useful, please click the "Star" button.
 
 ### Do you have any good ideas?
 
-If you have any good suggestions, reference designs, or open-source code, please feel free to share with us through Pull requests. If you are a UI design expert but do not know how to code, you can submit an issue, or you can send your ideas or designs to [2261129603@qq.com](mailto:2261129603@qq.com) or [master@pafworld.top](mailto:master@pafworld.top), or join the [Telegram](https://t.me/pafnetwork) group. We welcome your participation.
+If you have any good suggestions, reference designs, or open-source code, please feel free to share them with us through Pull requests. If you are a UI design expert but do not know how to code, you can submit an issue or send your ideas or designs to [2261129603@qq.com](mailto:2261129603@qq.com) or [master@pafworld.top](mailto:master@pafworld.top), or join the [Telegram](https://t.me/pafnetwork) group. We welcome your participation.
 
-### Thanks to the following projects for providing us with inspiration, reference designs and core code:
+### Thanks to the following projects for providing us with inspiration, reference designs, and core code:
 
 - [Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 - [qier222/YesPlayMusic](https://github.com/qier222/YesPlayMusic)
