@@ -35,7 +35,7 @@
           random(){
             this.dynFunctionRunning = true
             this.position = []
-            for (let i = 0; i < this.$refs.block.length; i++) {
+            for (let i = 0; i < this.$refs.block.length + 1; i++) {
               this.position.push({
                 '--random-x': (Math.random() * 100) + '%',
                 '--random-y':(Math.random() * 100) + '%'
@@ -47,7 +47,7 @@
               } else {
                 this.dynFunctionRunning =false
               }
-            }, 10*1000);
+            }, 6*1000);
           }
         },
         props: {
