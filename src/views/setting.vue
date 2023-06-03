@@ -240,12 +240,12 @@
   .slider:after {
     content: '';
     width: calc(var(--height) - calc(2 * var(--space)));
-    height: calc(var(--height) - calc(2 * var(--space)));
+    height: calc(var(--height) - calc(2.5 * var(--space)));
     display: block;
-    border-radius: 50%;
+    border-radius: calc(var(--height) - calc(2 * var(--space)));
     background-color: rgb(100%, 100%, 100%);
     position: absolute;
-    top: var(--space);
+    top: calc(var(--space) * 1.35);
     left: var(--space);
     transition: all .3s;
   }
@@ -256,12 +256,13 @@
 
   .setting input:checked+.slider:after {
     background-color: rgb(0, 128, 255);
+    width: calc(var(--height) * .6 - calc(2 * var(--space)));
 
   }
 
   .setting input:checked+.slider:after {
     left: calc(var(--width) - var(--space));
-    transform: translateX(-100%);
+    transform: translateX(calc(-100%  - calc(var(--height) * .4 - calc(2 * var(--space)))));
   }
 </style>
 <style scoped>
