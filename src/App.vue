@@ -1418,7 +1418,7 @@ import { transform } from '@vue/compiler-core'
         if(!NextMusicCache||transitionning==true){return}
         transitionning = true
         newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
-        newAudio.volume = 0 //this.state.volume
+        newAudio.volume = .5 * this.state.volume
         newAudio.currentTime = 0
         progress.load(newAudio)
         //播放新的音频
