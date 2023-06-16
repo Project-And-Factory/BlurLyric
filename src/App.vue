@@ -19,7 +19,7 @@
   </div>
 
   <!--左侧导航栏-->
-  <div v-if="data.player.uiDisplay.mainDisplay != 'top'" v-bind:class="'leftlab ' + data.ui.leftSideWidth">
+  <div v-bind:class="['leftlab',data.ui.leftSideWidth,data.player.uiDisplay.mainDisplay]">
     <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
       <!--返回按钮-->
       <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

@@ -87,17 +87,19 @@
   cursor: pointer;
 }
 #musicPanel{
-  animation: spawn2 0.1s cubic-bezier(.3, .45, .2, .95);
+  animation: spawn2 .3s cubic-bezier(.3, .45, .2, .95);
   transform: translate(-50%,-120%);
 }
 @keyframes spawn2 {
   0% {
       opacity: 0;
       transform: translate(-50%,-110%) scale(1.05);
+      filter: blur(.6vmax);
   }
   100%{
       opacity: 1;
       transform:translate(-50%,-120%) scale(1);  
+      filter: blur(0vmax);
 
   }
 }

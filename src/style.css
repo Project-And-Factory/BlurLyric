@@ -136,8 +136,12 @@ body {
   background: hsla(0, 0%, 50.2%, .0)
 }
 
-.leftlab.top {
-  display: none
+.leftlab.watting + .rightrow,.leftlab.watting ,.leftlab.top + .rightrow,.leftlab.top {
+    filter: blur(1vmax);
+    /* transform: scale(1.2); */
+    /* transform-origin: 50vw 50vh ; */
+  transition: all .4s !important
+
 }
 
 .leftlab.icon {
@@ -378,7 +382,7 @@ input#searchInput,
   height: 100vh
 }
 .rightrow.icon {
-  transition: all .2s cubic-bezier(.3, .45, .2, .95) .2s
+  transition: all .2s cubic-bezier(.3, .45, .2, .95)
 }
 
 .rightrow.iconWithText {
@@ -392,15 +396,15 @@ input#searchInput,
 
 }
 .viewBox[anime=true]{
-  animation: spawn3 .4s cubic-bezier(0,1,.5,1);
+  animation: spawn3 .45s cubic-bezier(0,1,.5,1);
 }
 @keyframes spawn3 {
   from{
-    filter: opacity(0);
+    filter: opacity(0) blur(1vmax);
     transform: translateY(100px);
   }
   to {
-    filter: opacity(1);
+    filter: opacity(1) blur(0vmax);
     transform: translateY(0px);
 
   }
@@ -1431,6 +1435,12 @@ li div.Padding {
 #lyric ul li[lyricFocus=true]{
   transform: var(--transform) scale(1);
   filter: none !important;
+  /* background-color: #0001; */
+  /* border-radius: .6em; */
+  /* transition: background 0s; */
+  /* padding-left: -.2em; */
+  /* margin-left: -.2em; */
+  /* border-left: solid 0.5em #0002; */
 }
 #lyric ul li h1{
   word-wrap: break-word;

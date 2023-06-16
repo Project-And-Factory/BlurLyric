@@ -26,18 +26,21 @@
         margin:2rem;
         opacity: 0;
         transform: translate(0%,30%) scale(1.05);
+        filter: blur(1vmax);
     }
     5%{
         margin:1.90rem;
 
         opacity: 1;
         transform: translate(0%,0) scale(1);  
+        filter: blur(.95vmax);
 
     }
     95%{
         margin:0.05rem;
         opacity: 1;
         transform: translate(0%,0) scale(1);
+        filter: blur(.05vmax);
 
     }
     100%{
@@ -45,6 +48,7 @@
         opacity: 0;
         transform: translate(0%,-30%) scale(0.95);
 
+        filter: blur(0vmax);
 
     }
 }
