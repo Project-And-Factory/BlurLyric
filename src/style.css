@@ -1492,7 +1492,7 @@ li div.Padding {
   /* width: 100%; */
   /* transform: translate(0,0.06em); */
 }
-#lyric ul li h1 a.foucusText>div{
+/* #lyric ul li h1 a.foucusText>div{ */
   /* text-shadow: 0em 0em .3em rgb(0, 0, 0, .1); */
   /* color: rgb(0,0,0,0); */
   /* visibility: visible; */
@@ -1508,7 +1508,7 @@ li div.Padding {
   -webkit-background-clip: text;
   color: transparent !important; */
 
-}
+/* } */
 @keyframes toright{
   0%{
   background-position: 100% 0%;
@@ -1947,15 +1947,26 @@ div.linkbox a:hover {
   z-index: -1;
 }
 .bi-arrow-clockwise{
-  animation: rat 1s cubic-bezier(.3, .45, .2, .95)  infinite;
+  animation: rat2 1s cubic-bezier(.3, .45, .2, .95)  infinite, rat 1s cubic-bezier(.3, .45, .2, .95)  infinite;
   /* transform: scale(0.8); */
 }
 @keyframes rat {
-  from{
+  0%{
     transform:  rotate(0);
   }
-  to{
+  100%{
     transform: rotate(360deg);
+  }
+}
+@keyframes rat2 {
+  0%{
+    scale:1;
+  }
+  20%{
+    scale:0.8;
+  }
+  100%{
+    scale:1;
   }
 }
 .bi-chevron-up{

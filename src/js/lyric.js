@@ -185,7 +185,7 @@
       if(last_c){
 
         //如果与上一个字衔接
-        if(last_c.dur + last_c.t == contentObj.t ){
+        if(last_c.dur + last_c.t == contentObj.t && last_c.originDur < 1 && contentObj.shine != 'long'){
           //&& last_c.originDur == contentObj.dur
           last_c.dur += contentObj.dur
           last_c.str += contentObj.str;
