@@ -1372,11 +1372,11 @@ ul#lyrics {
   transform-origin: .3em 60%;
   transform: var(--transform) scale(.88);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
-  --animation-speed-line:cubic-bezier(.3, .5, .2, 1);
-  --dur: 600ms !important
+  /* --animation-speed-line:cubic-bezier(.3, .5, .2, 1); */
+  --dur: 850ms !important
 }
 #lyric ul li[displaying=true]{
-    transition: all  var(--dur) var(--animation-speed-line)  var(--delay),filter 300ms
+    transition: all  calc(var(--dur)  - var(--delay)) var(--animation-speed-line) calc(1.5 * var(--delay)),filter 300ms
 }
 #lyric ul li[displaying=false]{
   transition: none !important;
@@ -1446,13 +1446,34 @@ li div.Padding {
   word-wrap: break-word;
   /* flex-wrap: wrap; */
 }
-#lyric ul li[lyricFocus=true] h1 a{
+#lyric ul li[lyricFocus=true] h1.yrc{
+  display: inline;
+                          /* display: block; */
+  /* color: #0000; */
+
+  background-origin: content-box;
+  background-clip: text;
+  /* --background-transition-linear-gradient-progress-width: 1px; */
+  --background-transition-linear-gradient-progress-width: 0.3em;
+  /* --background-transition-linear-gradient-progress-width: 1000em; */
+  background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
+  background-size: calc(200% + var(--background-transition-linear-gradient-progress-width) * 2) 100%;
+  /* background-position: 60% 0%; */
+  -webkit-background-clip: text;
+  background-position: calc(100% + var(--progress) + var(--background-transition-linear-gradient-progress-width)) 0%;
+
+  background-repeat: no-repeat;
+  /* background-color: #00000005; */
+  /* border: 1px solid #000; */color: transparent !important;
+  color: rgb(0, 0, 0, 0.8);
+  }
+a#lyric ul li[lyricFocus=true] h1 a{
   /* display: block; */
   /* color: #0000; */
   background-origin: content-box;
   background-clip: text;
-  /* --background-transition-linear-gradient-progress-width: 1px; */
-  --background-transition-linear-gradient-progress-width: 0.7em;
+  --background-transition-linear-gradient-progress-width: 1px;
+  /* --background-transition-linear-gradient-progress-width: 0.7em; */
   /* --background-transition-linear-gradient-progress-width: 1000em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
@@ -1465,6 +1486,9 @@ li div.Padding {
 
   
 }
+
+a:nth-child()
+
 #lyric ul li h1 a{
   position: relative;
   width: max-content;
@@ -1476,9 +1500,7 @@ li div.Padding {
 #lyric ul li h1 a.foucusText{
   /* background-position: 0% 0%; */
   /* animation: toright var(--dur) linear ; */
-  background-position: calc(100% - var(--progress) ) 0%;
   /* background-position: 0% 0%; */
-
 }
 #lyric ul li h1 a>div{
   position: absolute;
@@ -1535,7 +1557,7 @@ li div.Padding {
   75%{
     text-shadow: .05em 0em .5em rgb(0, 0, 0, .4)
   }
-  90%{
+  95%{
     text-shadow: .1em 0em .1em rgb(0, 0, 0, .0)
   }
   100%{

@@ -116,6 +116,9 @@
       c: undefined,//歌词内容
       playing: false,
       index: 0,
+      width: undefined,
+      fontSize: undefined,
+      progressleft: 0
     }
 
     //分离出时间信息，并转换为秒
@@ -156,7 +159,9 @@
         originDur: undefined,
         str: '',//字或词的文本内容
         shine: '',
-        progress: 0
+        progress: 0,
+        width: undefined,
+        left: undefined
       }
 
       //提取时间和文本信息，并转换为秒
@@ -172,27 +177,27 @@
 
       if(contentObj.dur >= 2){ //单独将唱的久的歌词拆出来，加特效
       contentObj.shine = 'long'
-      c_contentArrays.push(contentObj);
+      // c_contentArrays.push(contentObj);
 
-      continue
+      // continue
     }
 
-    if(contentObj.dur >= 1){ //单字过长歌词，导致歌词显示进度不正常
-      c_contentArrays.push(contentObj);
-      continue
-    }
-      let last_c= c_contentArrays[c_contentArrays.length-1]
-      if(last_c){
+    // if(contentObj.dur >= 1){ //单字过长歌词，导致歌词显示进度不正常
+    //   c_contentArrays.push(contentObj);
+    //   continue
+    // }
+    //   let last_c= c_contentArrays[c_contentArrays.length-1]
+    //   if(last_c){
 
-        //如果与上一个字衔接
-        if(last_c.dur + last_c.t == contentObj.t && last_c.originDur < 1 && contentObj.shine != 'long'){
-          //&& last_c.originDur == contentObj.dur
-          last_c.dur += contentObj.dur
-          last_c.str += contentObj.str;
-          合并单字次数++ 
-          continue
-        }
-      }
+    //     //如果与上一个字衔接
+    //     if(last_c.dur + last_c.t == contentObj.t && last_c.originDur < 1 && contentObj.shine != 'long'){
+    //       //&& last_c.originDur == contentObj.dur
+    //       last_c.dur += contentObj.dur
+    //       last_c.str += contentObj.str;
+    //       合并单字次数++ 
+    //       continue
+    //     }
+    //   }
       c_contentArrays.push(contentObj);
     }
 

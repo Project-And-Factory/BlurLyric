@@ -596,18 +596,23 @@
             <li v-bind:lyricFocus="
               item.playing
             " @click="audio.currentTime = item.t - 0.3" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
-              v-bind:key="item.t">
-              <h1  v-if="item.playing == true">
+              v-bind:key="item.t" v-bind:lyricNum="i">
+              <h1 class="yrc"
+                :style="
+                  {
+                    '--progress': item.progressleft
+                  }
+                "
+              v-if="item.playing == true">
                 <!--聚焦时-->
                 <a :class="[
-                  (item.index >= num)?'foucusText':'',
-                  yrc.shine,
+                  // (item.index >= num)?'foucusText':'',
+                  yrc.shine,0
                 ]"
-                  :style="{ '--dur': yrc.dur +'s','--progress':(item.index == num)?yrc.progress:''}
-                  "
+                  :style="{ '--dur': yrc.dur +'s'}"
                 v-for="(yrc,num) in item.c">
                 
-                {{ yrc.str }}<div>{{ yrc.str }}</div>
+                {{ yrc.str }}
               </a>
             </h1>
              <h1 v-if="item.playing == false">
@@ -616,7 +621,7 @@
                 <a 
                 v-for="(yrc,i) in item.c">
                 
-                {{ yrc.str }}<div>{{ yrc.str }}</div>
+                {{ yrc.str }}
               </a>
             
             </h1>
@@ -1143,7 +1148,10 @@ import { transform } from '@vue/compiler-core'
              }
             if(info.yrc[i]&&info.yrc[i].t <= time + 0.2){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
-              
+              if(this.data.player.musicCache[this.id].lyric.yrc[i].width == undefined){
+                // let thisLineElement = this.$refs.lyricBox.querySelector('li[lyricNum='+i+'] h1')
+                // thisLine
+              }
               this.lyricFoundStr(info.yrc[i].c,time,i)
             }
             // now = info.lyricNum - i
@@ -1173,7 +1181,28 @@ import { transform } from '@vue/compiler-core'
                 progress=0
                 _state = true
               }
-              this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(0) + '%'
+              if(nowStr.width == undefined && strNowIndex != -1){
+                let tempStrIndex = this.data.player.musicCache[this.id].lyric.yrc[i].c.findIndex((v)=>{
+                  return v.width !=undefined
+                })
+                if(tempStrIndex == -1) tempStrIndex = 0
+
+                for(;tempStrIndex <= strNowIndex;tempStrIndex++){
+                  // document.querySelector("#lyrics > li:nth-child(19)")
+                  let thisStrElement = document.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
+                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth
+                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].left = (tempStrIndex == 0)?0:
+                  (this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].left + this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].width)
+                  // if(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize == undefined){
+                  //   this.data.player.musicCache[this.id].lyric.yrc[i].fontSize= window.getComputedStyle(thisStrElement).fontSize
+                  // }
+                }
+
+              }
+              nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+              // console.log(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize);
+              this.data.player.musicCache[this.id].lyric.yrc[i].progressleft = ((progress * nowStr.width * 0.01) + nowStr.left) + 'px'
+
               return progress
             }
           }
@@ -1333,8 +1362,8 @@ import { transform } from '@vue/compiler-core'
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
                     lyricNum))) + ')')
              
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ ((config.setting().config.lyricSet
-                      .funcDelay==true)?(1+((i - lyricNum + 1)* 0.05)):1)+ ')')
+                    element.style.setProperty('--animation-speed-line','cubic-bezier(.25,.1,.25, '+ ((config.setting().config.lyricSet
+                      .funcDelay==true)?(1+((i - lyricNum + 4)* 0.08)):1)+ ')')
                     
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
