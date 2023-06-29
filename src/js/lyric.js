@@ -119,7 +119,7 @@
       width: undefined,
       fontSize: undefined,
       progressleft: 0,
-      lastResizeTime: new Date()
+      lastResizeTime: undefined
     }
 
     //分离出时间信息，并转换为秒

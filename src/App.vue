@@ -1186,7 +1186,11 @@ import { transform } from '@vue/compiler-core'
                 let tempStrIndex = this.data.player.musicCache[this.id].lyric.yrc[i].c.findIndex((v)=>{
                   return v.width ==undefined
                 })
-                if(tempStrIndex == -1&&nowStr.lastResizeTime < lastResizeTime) tempStrIndex = 0
+                if(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime == undefined) {this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()}
+                if(tempStrIndex == -1&&(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime < lastResizeTime)) {
+                  tempStrIndex = 0
+                  this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()
+                }
 
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
                   console.log('求一次宽度')
