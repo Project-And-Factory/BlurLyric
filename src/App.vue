@@ -735,7 +735,7 @@ import { transform } from '@vue/compiler-core'
     transitionning = false,
     usingLowWidhtMedi, lastTime = 0
   window.addEventListener('resize', getWindowInfo)
-
+  let lastResizeTime = undefined
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
@@ -745,6 +745,7 @@ import { transform } from '@vue/compiler-core'
     lastTime = tempTime
     setTimeout(() => {
       if (lastTime != tempTime) return
+      lastResizeTime = new Date()
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
@@ -1183,11 +1184,12 @@ import { transform } from '@vue/compiler-core'
               }
               if(nowStr.width == undefined && strNowIndex != -1){
                 let tempStrIndex = this.data.player.musicCache[this.id].lyric.yrc[i].c.findIndex((v)=>{
-                  return v.width !=undefined
+                  return v.width ==undefined
                 })
-                if(tempStrIndex == -1) tempStrIndex = 0
+                if(tempStrIndex == -1&&nowStr.lastResizeTime < lastResizeTime) tempStrIndex = 0
 
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
+                  console.log('求一次宽度')
                   // document.querySelector("#lyrics > li:nth-child(19)")
                   let thisStrElement = document.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
                   this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth

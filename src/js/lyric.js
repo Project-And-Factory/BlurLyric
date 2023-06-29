@@ -118,7 +118,8 @@
       index: 0,
       width: undefined,
       fontSize: undefined,
-      progressleft: 0
+      progressleft: 0,
+      lastResizeTime: new Date()
     }
 
     //分离出时间信息，并转换为秒
