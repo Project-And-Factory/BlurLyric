@@ -882,6 +882,10 @@ import { transform } from '@vue/compiler-core'
     },
 
     created() {
+      if('mediaSession' in navigator && "setActionHandler" in navigator.mediaSession){
+        navigator.mediaSession.setActionHandler('nexttrack',this.nextMusic)
+        navigator.mediaSession.setActionHandler('previoustrack',this.upMusic)
+      }
       audioNetease.requirePersonalFM().then(r => {
         this.data.musicListInfor.personalFM.tracks = r
       })
@@ -921,6 +925,28 @@ import { transform } from '@vue/compiler-core'
           this.cache.playingStyle.appendChild(document.createTextNode(".tracks[muid=\"" + newid +
             "\"]{border-radius: calc(var(--minplayerHeight) * 0.2);background-color: #0080ff15;}"))
 
+          // 将音乐绑定在系统控键上 （信息）
+          if ("mediaSession" in navigator) {
+            let song = this.data.player.tracks[this.data.player.trackNum]
+            let name = ''
+            for (let num in song.ar) {
+                name += song.ar[num].name;
+                if (song.ar.length - num > 1) {
+                    name += ' & '
+                }
+            }
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: song.name,
+              artist: name,
+              album: song.al.name,
+              artwork: [{ src: song.al.picUrl }],
+            });
+
+
+          }
+
+
+
           //如果无法找到缓存最终的信息
           if (this.data.player.musicCache[newid] == undefined) {
             Data = await audioNetease.requireId(newid);
@@ -936,6 +962,7 @@ import { transform } from '@vue/compiler-core'
 
             Data.song.functions()
           }
+
 
 
           reTools.getData('/scrobble', {
@@ -1410,7 +1437,13 @@ import { transform } from '@vue/compiler-core'
         let progress = parseCurrTime / this.data.player.uiDisplay.duration
 
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
-
+        // if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
+        //       navigator.mediaSession.setPositionState({
+        //         duration:this.data.player.uiDisplay.duration,
+        //         playbackRate: 1,
+        //         position:cur
+        //       })
+        //     }
         let configSettingData = config.setting()
         //音频过度事件触发
         let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1
