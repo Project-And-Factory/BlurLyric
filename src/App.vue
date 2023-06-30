@@ -606,8 +606,8 @@
               v-if="item.playing == true">
                 <!--聚焦时-->
                 <a :class="[
-                  // (item.index >= num)?'foucusText':'',
-                  yrc.shine,0
+                  (item.index == num)?'foucusText':'',
+                  yrc.shine
                 ]"
                   :style="{ '--dur': yrc.dur +'s'}"
                 v-for="(yrc,num) in item.c">

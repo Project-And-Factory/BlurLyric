@@ -1454,7 +1454,7 @@ li div.Padding {
   background-origin: content-box;
   background-clip: text;
   /* --background-transition-linear-gradient-progress-width: 1px; */
-  --background-transition-linear-gradient-progress-width: 0.3em;
+  --background-transition-linear-gradient-progress-width: .4em;
   /* --background-transition-linear-gradient-progress-width: 1000em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width) * 2) 100%;
@@ -1473,7 +1473,7 @@ a#lyric ul li[lyricFocus=true] h1 a{
   background-origin: content-box;
   background-clip: text;
   /* --background-transition-linear-gradient-progress-width: 1px; */
-  --background-transition-linear-gradient-progress-width: 0.7em;
+  /* --background-transition-linear-gradient-progress-width: .7em; */
   /* --background-transition-linear-gradient-progress-width: 1000em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width)) 100%;
@@ -1544,7 +1544,7 @@ a:nth-child()
 
 }
 #lyric ul li h1 a.foucusText.long{
-  animation: shine calc(var(--dur) * .9) ease-in-out,toright var(--dur) linear;
+  animation: shine calc(var(--dur) * .9) ease-in-out;
 }
 @keyframes shine {
   0%{
