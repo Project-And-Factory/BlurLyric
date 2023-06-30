@@ -135,6 +135,7 @@ async function checkVersion() {
 async function consturctServer(moduleDefs) {
   
   const app = express()
+  app.set('maxHeaderSize',30 * 1024 * 1024)
   app.use('/blurlyric',router_blurlyric)
   app.use(express.static(path.join(__dirname, 'dist')))
 

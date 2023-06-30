@@ -45,13 +45,32 @@ router.get('/writeUser',(req,res)=>{
         return
     }
     let dataSize = strSize(req.query.res.toString())
-    if(strSize(dataSize,'utf8')>8000000){
-        jsonTool('405',{msg: '文件过大 (>8mb)'},req,res)
+    if(strSize(dataSize,'utf8')>20000000){
+        jsonTool('405',{msg: '文件过大 (>20mb)'},req,res)
         return
     }
     user.upsetConfig(req.query,(data)=>{
         jsonTool('200',data,req,res)
     })
+})
+
+router.post('/writeUserPlaylist',(req,res)=>{
+    // console.log(req.query)
+    // if (!req.query.id||!req.query.res) {
+        // jsonTool('405',null,req,res)
+        // return
+    // }
+    // let dataSize = strSize(req.query.res.toString())
+    // if(strSize(dataSize,'utf8')>20000000){
+    //     jsonTool('405',{msg: '文件过大 (>20mb)'},req,res)
+    //     return
+    // }
+    console.log(req);
+    jsonTool('200',req,'',res)
+
+    // user.upsetPlaylist(req.query,(data)=>{
+    //     jsonTool('200',data,req,res)
+    // })
 })
 
 function jsonTool(code,data,req,res) {

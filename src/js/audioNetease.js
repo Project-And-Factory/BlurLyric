@@ -163,15 +163,13 @@ async function downloadID(id){
       a.remove()
   })
 }
-async function downloadURL(url){
-  // window.location.href = url
-  let song =  app.data.player.tracks[app.data.player.trackNum]
-  
+async function downloadURL(url,song,cache){
+  console.log(10);
   let name = ''
   for (let num in song.ar) {
       name += song.ar[num].name;
       if (song.ar.length - num > 1) {
-          name += '&'
+          name += ' & '
       }
   }
   let response = await fetch(url)
@@ -180,7 +178,7 @@ async function downloadURL(url){
   let a = document.createElement("a");
   a.href = objectUrl;
 
-  a.download = song.name + ' - ' + name + (app.data.player.musicCache[app.id].song[app.data.player.musicCache[app.id].song.use].br < 900000)?'.mp3':'.flac';
+  a.download = ((song.name) + ' - ' + (name) + ((cache.song[cache.song.use].br < 900000)?'.mp3':'.flac'));
   a.click();
   a.remove()
 }

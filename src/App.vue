@@ -662,7 +662,10 @@
           </div>
         </div>
         <div class="gridbuttom">
-          <div @click="audioNetease.downloadURL( this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url)">
+          <div @click="audioNetease.downloadURL( 
+          this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url,
+          data.player.tracks[data.player.trackNum],
+          data.player.musicCache[id])">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
               viewBox="0 0 16 16">
               <path
@@ -1624,7 +1627,7 @@ import { transform } from '@vue/compiler-core'
         }
 
       },
-      changeTrack(data) { //接受router的数据
+      changeTrack(data) {
         progress.load(this.audio)
         audioListener.listen(this.audio)
 
@@ -1639,6 +1642,9 @@ import { transform } from '@vue/compiler-core'
           this.data.player.tracks = data.tracks
           this.data.player.trackNum = data.num
           this.plays()
+          config.methods.editPlaylist((r) => {
+            return data
+          })
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
 
         }

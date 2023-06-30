@@ -1,12 +1,12 @@
 // import { set } from 'animejs'
 import cookies from 'js-cookie'
 import reTools from '../network/getData'
-
+import app from '../main'
 
 var setting = {
     id: '0',
     config: {
-        configVersion: '1.6',
+        configVersion: '1.7',
         lyricSet: {
             dur: 450,
             text: '最高',
@@ -19,6 +19,11 @@ var setting = {
         },
         useAnimeBackground: false,
         useTransitionNextMusic: false
+    },
+    playList:{
+        num: 0,
+        tracks: []
+
     }
 }
 
@@ -38,8 +43,8 @@ var methods = {
         reTools.getData('/blurlyric/getUser', {
             id: cookies.get('blurlyricid')
         }).then(r => {
-
-            if (r.data.code != 400 && r.data.config.configVersion != setting.config.configVersion) {
+            console.log(r);
+            if (r.data.code != 400 && r.data.config.config.configVersion != setting.config.configVersion) {
                 this.createUser()
                 return
             }
@@ -48,7 +53,14 @@ var methods = {
                 return
             }
 
-            localStorage.setItem("blurlyricConfig", JSON.stringify(r.data));
+            localStorage.setItem("blurlyricConfig", JSON.stringify(r.data.config));
+            if(r.data.config.playList.tracks.length>1){
+                app.changeTrack({
+                    num:r.data.config.playList.num,
+                    tracks:r.data.config.playList.tracks
+                })
+            }
+            
         })
     },
     async createUser() {
@@ -57,18 +69,33 @@ var methods = {
                 expires: new Date(2040, 0, 1)
             })
             setting.id = res.data.id
-            this.pushingconfig()
+            this.pushingconfig('force')
         })
     },
-    pushingconfig() {
+    pushingconfig(value) {
         reTools.getData('/blurlyric/writeUser', {
             id: cookies.get('blurlyricid'),
-            res: this.getconfig().config
+            res: (value == 'force')?(setting):this.getconfig().config,
+            // playList: setting.playList
+        })
+        reTools.postData('/blurlyric/writeUserPlaylist', {
+            id: cookies.get('blurlyricid'),
+            playList: setting.playList
+        },{
+            "Content-Type":"application/json"
         })
     },
     editconfig(func) {
         let nowsetting = this.getconfig()
         setting.config = func(nowsetting)
+        localStorage.setItem("blurlyricConfig",JSON.stringify(setting))
+
+        this.pushingconfig()
+    },
+    
+    editPlaylist(func) {
+        let nowsetting = this.getconfig()
+        setting.playList = func(nowsetting.playList)
         localStorage.setItem("blurlyricConfig",JSON.stringify(setting))
 
         this.pushingconfig()

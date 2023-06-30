@@ -5,7 +5,8 @@ var lastTime = +new Date(),createNum = 0;
 module.exports = {
     getUser,
     createUser,
-    upsetConfig
+    upsetConfig,
+    upsetPlayList
 };
 
 async function getUser(id, fun) {
@@ -18,7 +19,7 @@ async function getUser(id, fun) {
             return
         }
         fun(dataStr)
-        return
+        return dataStr
     })
 }
 
@@ -48,14 +49,31 @@ async function createUser(callback) {
 async function upsetConfig(query, callback) {
     let file = {
         id: query.id,
-        config: dataJson(query.res)
+        config: dataJson(query.res),
     }
-
+    
     superTool.writeJson('../data/user/' + file.id + '.json', file, (err, dataStr)=>{
         if (err) {
             callback(err);
         } else {
-
+            callback(dataStr);
+        }
+        console.log(err,dataStr);
+    })
+}
+async function upsetPlayList(query, callback) {
+    let file = {
+        playList: dataJson(query.res)
+    }
+    let origin_file 
+    getUser(query.id, (dataStr)=>{
+        origin_file = dataStr
+        origin_file['playList'] = file.playList
+    })
+    superTool.writeJson('../data/user/' + file.id + '.json', file, (err, dataStr)=>{
+        if (err) {
+            callback(err);
+        } else {
             callback(dataStr);
         }
         console.log(err,dataStr);
