@@ -144,7 +144,7 @@
 
 
     //分离成单个字或词，并解析时间信息
-    let splitcs = c.split(/(\([1-9]\d*,[1-9]\d*,\d*\)[^\(]*)/g);
+    let splitcs = c.split(/(\(\d*,\d*,\d*\)[^\(]*)/g);
     for (let a = 0; a < splitcs.length; a++) {
 
       const splitc = splitcs[a];
@@ -166,7 +166,7 @@
       }
 
       //提取时间和文本信息，并转换为秒
-      let time = splitc.match(/\([1-9]\d*,[1-9]\d*,\d*\)/);
+      let time = splitc.match(/\(\d*,\d*,\d*\)/);
       if (!time) {
         continue;
       }
