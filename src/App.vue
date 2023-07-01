@@ -2,12 +2,27 @@
   <!--audio v-bind:src="data.player.now.musicUrl[data.player.musicCache[id].song].url"
     @pause='state.playing=false' @play='state.playing=true' @ended="finishPlay" ref="audio" id="audio"
     @timeupdate="getCurr" @canplay="showLong"></audio-->
+    <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
 
+    <div class="windowControlBar">
+      <div class="min" @click="blurLyricElectronWindowControl('min')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+</svg></div>
+      <div class="max" @click="blurLyricElectronWindowControl('max')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
+</svg></div>
+      <div class="close" @click="blurLyricElectronWindowControl('close')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg></div>
+    </div>
   <!--图片预缓存
     
     作用：使背景图片提前加载实现渐变
     -->
-  <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
+
+  
   <div style="visibility: hidden;height: 0px;width: 0px;overflow: hidden;">
     <img v-if="data.player.tracks[data.player.trackNum + 1]"
       v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl + '?param=128y128'" alt="" srcset="">
@@ -707,8 +722,7 @@
   import reTools from './network/getData'
   import config from './js/config.js'
   import analyze from 'rgbaster'
-  import Color from 'color'
-
+  import Color from 'color';
   import audioNetease from './js/audioNetease.js'
   import audioListener from './js/audioListener.js'
   import progress from './js/progress.js'
@@ -719,7 +733,7 @@
   import tapElm from './js/tapElm.js'
   import  viewBoxScroll from './js/viewBoxScroll.js'
   import login_components from './components/login.vue'
-
+  import './windowControlBar.css'
   async function picColor(url) {
       return await analyze(url + '?param=24y24', {
           ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
@@ -885,6 +899,12 @@ import { transform } from '@vue/compiler-core'
       if('mediaSession' in navigator && "setActionHandler" in navigator.mediaSession){
         navigator.mediaSession.setActionHandler('nexttrack',this.nextMusic)
         navigator.mediaSession.setActionHandler('previoustrack',this.upMusic)
+        
+        navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+        const skipTime = details.seekOffset || 10;
+
+        this.audio.currentTime = Math.max(this.audio.currentTime - skipTime, 0);
+      });
       }
       audioNetease.requirePersonalFM().then(r => {
         this.data.musicListInfor.personalFM.tracks = r
@@ -1058,6 +1078,12 @@ import { transform } from '@vue/compiler-core'
         }
         return this.cache[link]
       },
+      blurLyricElectronWindowControl(message){
+        if('electronAPI' in window && window.electronAPI[message]){
+          window.electronAPI[message]()
+        }
+      }
+      ,
       usePersonalFM() {
         this.getCurr()
         progress.load(this.audio)
@@ -1437,13 +1463,21 @@ import { transform } from '@vue/compiler-core'
         let progress = parseCurrTime / this.data.player.uiDisplay.duration
 
         if (transitionning != true) this.data.player.uiDisplay.progress = progress
-        // if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
-        //       navigator.mediaSession.setPositionState({
-        //         duration:this.data.player.uiDisplay.duration,
-        //         playbackRate: 1,
-        //         position:cur
-        //       })
-        //     }
+        if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
+          let duration = this.audio.duration
+          if(isNaN(duration)){
+            duration = 0 //duration 无效,设置为默认值
+          }  
+          try{
+            navigator.mediaSession.setPositionState({
+              duration:duration,
+              playbackRate: this.audio.playbackRate,
+              position:cur
+            })
+          } catch(error){
+            console.error(error)
+          }
+          }
         let configSettingData = config.setting()
         //音频过度事件触发
         let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1

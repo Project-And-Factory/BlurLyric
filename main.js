@@ -1,6 +1,6 @@
 // main.js
 
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain ,contextBridge, ipcRenderer} = require('electron')
 const path = require('path')
 
 // app.commandLine.appendSwitch('force_high_performance_gpu')
@@ -8,7 +8,7 @@ const ipc = ipcMain
 
 var mainWindow
 
-//登录窗口最小化
+// 登录窗口最小化
 ipc.on('min',function(){
   mainWindow.minimize();
 })
@@ -23,6 +23,7 @@ ipc.on('max',function(){
 ipc.on('close',function(){
   mainWindow.close();
 })
+
 
 
 // 加载vite
@@ -57,9 +58,9 @@ const createWindow = async () => {
     title: "BlurLyric",
     icon:"./src/assets/icon.ico",
     titleBarStyle: 'hidden',
-    titleBarOverlay: {
-      color: '#00000000',symbolColor: 'black'
-    },
+    // titleBarOverlay: {
+      // color: '#00000000',symbolColor: 'black'
+    // },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -87,4 +88,8 @@ const createWindow = async () => {
     })
   })
 
-
+  app.on('ready',()=>{
+    app.setAboutPanelOptions({
+      applicationName:'BlurLyric'
+    })
+  })

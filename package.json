@@ -9,7 +9,6 @@
     "preview": "vite preview",
     "start": "electron-forge start",
     "test": "electron .",
-    "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -48,6 +47,12 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "electron": "^24.0.0",
     "vite": "^2.9.9"
+  },
+  "build":{
+    "win":{
+      "icon":"src/assets/icon.ico",
+      "productName": "BlurLyric"
+    }
   },
   "description": "高颜值，高性能，多平台支持的网易云音乐第三方音乐播放器",
   "repository": {

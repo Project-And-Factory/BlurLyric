@@ -314,6 +314,8 @@ input#searchInput,
 
 .ROWTOPtitle>div.dragBar {
   width: 100%;
+  /* background-color: #999; */
+  max-width: calc( 100% - 474px);
   height: 100%
 }
 
@@ -1012,7 +1014,10 @@ div.player-Mini-Title>h2>a,
   min-height: 72px;
   position: relative
 }
-
+#player > div.playertopbar > div.electron-control{
+  width: calc(100% - 138px);
+  left: 0
+}
 .playerDisplayOutBox {
   position: relative;
   width: 100vw;
