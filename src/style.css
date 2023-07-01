@@ -1398,7 +1398,7 @@ ul#lyrics {
   font-size: 2em;
   font-weight: bolder;
   margin: 0;
-  transition: transform var(--dur);
+  /* transition: transform var(--dur); */
   transform-origin: 0% 100%;
   will-change: background-image;
 }
@@ -1458,10 +1458,8 @@ li div.Padding {
   background-repeat: no-repeat;
   color: transparent !important;
   color: rgb(0, 0, 0, 0.8);
+  /* transition: background-position 42ms linear; */
   }
-#lyric ul li h1{
-}
-
 @keyframes toright{
   0%{
   background-position: 100% 0%;

@@ -158,7 +158,7 @@
                         }
                         reTools.getData('/blurlyric/downloadUrl',{
                             url: data.song[data.song.use].url,
-                            fileName: '[ '+(i+1)+' ]' + this.page.track[i].name+alia + ' - ' + name 
+                            fileName: '[ '+(i+1)+' ]' + this.page.track[i].name+alia + ' - ' + name + ((data.song[data.song.use].br < 900000)?'.mp3':'.flac')
                         })
                         message.create('[ '+(i+1)+' ]已发送请求至下载服务器< =' + this.page.track[i].name+alia + ' - ' + name )
                         i++

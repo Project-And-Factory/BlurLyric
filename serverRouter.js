@@ -109,7 +109,7 @@ async function getFileByUrl(url,fileName){
         method: 'GET',
         headers: { 'Content-Type': 'application/octet-stream' },
 }).then(res=>res.buffer()).then(_=>{
-    fs.writeFile(path.join(__dirname,'./blurlyric/download/'+fileName +'.mp3'),_,'binary',function (err) {
+    fs.writeFile(path.join(__dirname,'./blurlyric/download/'+fileName ),_,'binary',function (err) {
         downloadTrack.freeThread++
         downloadTrack.try()
 

@@ -1251,7 +1251,7 @@ import { transform } from '@vue/compiler-core'
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
                   console.log('求一次宽度')
                   // document.querySelector("#lyrics > li:nth-child(19)")
-                  let thisStrElement = document.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
+                  let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
                   this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth
                   this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].left = (tempStrIndex == 0)?0:
                   (this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].left + this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].width)
@@ -1489,7 +1489,7 @@ import { transform } from '@vue/compiler-core'
         if(configSettingData.config.lyricSet.maxfps == false){
           window.requestAnimationFrame(()=>this.getCurr())
         } else {
-          setTimeout(() => this.getCurr(), 41)
+          setTimeout(() => this.getCurr(), 42)
         }
       },
       async transitionNextMusic(times) {
