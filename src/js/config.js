@@ -23,9 +23,10 @@ var setting = {
     playList:{
         num: 0,
         tracks: []
-
     }
 }
+
+let cache = []
 
 var methods = {
     lunch() {
@@ -36,14 +37,17 @@ var methods = {
             this.refuseConfig()
         }
     },
-    getconfig(){
-        return (JSON.parse(localStorage.getItem("blurlyricConfig"))||(setting))
+    getconfig(cmd,func){
+        if(cmd = 'keepListenning'){
+            cache.push(func)
+        }
+        return (  JSON.parse(localStorage.getItem("blurlyricConfig")) || (setting))
     },
     async refuseConfig() {
         reTools.getData('/blurlyric/getUser', {
             id: cookies.get('blurlyricid')
         }).then(r => {
-            console.log(r);
+            // console.log(r);
             if (r.data.code != 400 && r.data.config.config.configVersion != setting.config.configVersion) {
                 this.createUser()
                 return
@@ -54,12 +58,13 @@ var methods = {
             }
 
             localStorage.setItem("blurlyricConfig", JSON.stringify(r.data.config));
-            if(r.data.config.playList.tracks.length>1){
-                app.changeTrack({
-                    num:r.data.config.playList.num,
-                    tracks:r.data.config.playList.tracks
-                })
-            }
+            setting.config = r.data.config.config
+            // if(r.data.config.playList.tracks.length>1){
+            //     app.changeTrack({
+            //         num:r.data.config.playList.num,
+            //         tracks:r.data.config.playList.tracks
+            //     })
+            // }
             
         })
     },
@@ -78,19 +83,22 @@ var methods = {
             res: (value == 'force')?(setting):this.getconfig().config,
             // playList: setting.playList
         })
-        reTools.postData('/blurlyric/writeUserPlaylist', {
-            id: cookies.get('blurlyricid'),
-            playList: setting.playList
-        },{
-            "Content-Type":"application/json"
-        })
+        // reTools.postData('/blurlyric/writeUserPlaylist', {
+        //     id: cookies.get('blurlyricid'),
+        //     playList: setting.playList
+        // },{
+        //     "Content-Type":"application/json"
+        // })
     },
     editconfig(func) {
         let nowsetting = this.getconfig()
         setting.config = func(nowsetting)
         localStorage.setItem("blurlyricConfig",JSON.stringify(setting))
-
-        this.pushingconfig()
+        for (let index = 0; index < cache.length; index++) {
+            const func = cache[index];
+            if( isFunction(func)) func(setting)
+        }
+        this.pushingconfig(setting.config)
     },
     
     editPlaylist(func) {
@@ -101,7 +109,9 @@ var methods = {
         this.pushingconfig()
     }
 }
-
+function isFunction(value) {
+    return Object.prototype.toString.call(value) === '[object Function]'
+}
 var settingTemperture = {
     lyricSet: {
         funcBlur: {

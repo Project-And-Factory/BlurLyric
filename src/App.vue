@@ -251,12 +251,8 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <!-- <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting().config.useBlurBackground" :style="{
-        backgroundImage: 'url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')',
-        // backgroundColor: this.data.player['musicCache'][id]['backgroundColor'],
-        // fontColor: this.data.player['musicCache'][id]['fontColor']
-      }" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div> -->
-    <background :colorData="(this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[id].color.background:null" :dynamic="true" :imgSrc="data.player.tracks[data.player.trackNum].al.picUrl" :mainDisplay="data.player.uiDisplay.mainDisplay" />
+
+    <background  :dynamic="true" :imgSrc="data.player.tracks[data.player.trackNum].al.picUrl" :mainDisplay="data.player.uiDisplay.mainDisplay" />
     <!--
         主UI界面      v-bind:style="'background-image:"
       -->
@@ -311,8 +307,7 @@
     <!--display-->
     <div v-bind:class="data.player.uiDisplay.playerSelec + ' playerDisplayOutBox'"
       :style="{
-        'display': data.player.uiDisplay.displayPlayBox,
-    '--music-theme-color': (this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[id].color.background[0].color:'#000'
+        'display': data.player.uiDisplay.displayPlayBox
   }">
       <div v-bind:state-playing="state.playing" class="left-side playerIndexSide">
 
@@ -593,7 +588,7 @@
       <div  class="right-side playerIndexSide">
 <!-- {{ (this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[this.id].color.background[0].color:'#0008' }} -->
         <div id="lyric">
-          <ul id="lyrics" :style="'--dur:'+config.setting().config.lyricSet.dur +  'ms'" ref="lyricBox"
+          <ul id="lyrics" :style="'--dur:'+configContent.config.lyricSet.dur +  'ms'" ref="lyricBox"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc == false">
             <li @click="audio.currentTime = item.t" v-for="(item,i) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
@@ -605,7 +600,7 @@
 
           <ul id="lyrics" ref="lyricBox"
             :style="{
-              '--dur': config.setting().config.lyricSet.dur +  'ms'
+              '--dur': configContent.config.lyricSet.dur +  'ms'
             }"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
             <li v-bind:lyricFocus="
@@ -721,6 +716,13 @@
 <script>
   import reTools from './network/getData'
   import config from './js/config.js'
+
+  let configRefresh =  (config)=>{
+      configContent = config
+    }
+  var configContent = config.setting('keepListenning',configRefresh);
+    
+
   import analyze from 'rgbaster'
   import Color from 'color';
   import audioNetease from './js/audioNetease.js'
@@ -795,7 +797,8 @@ import { transform } from '@vue/compiler-core'
     },
     data() {
       return {
-        config,
+        // config,
+        configContent,
         audio: document.createElement('audio'),
         state: {
           playing: false,
@@ -1011,30 +1014,21 @@ import { transform } from '@vue/compiler-core'
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
 
-              // analyze(thisMusic.al.picUrl + '?param=24y24', {
-              //   ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
-              // }).then(result => {
-              //   this.data.player['musicCache'][thisMusic.id]['backgroundColor'] = result[0].color
-              //   this.data.player['musicCache'][thisMusic.id]['colorData'] = Color(result[0].color).object()
-              //   // let colordata = 
-              //   // this.data.player['musicCache'][thisMusic.id]['fontColor'] = (colordata.r * 0.299 + colordata.g *
-              //   //     0.587 + colordata.b * 0.114) > 186 ? '#000000' :
-              //   //   '#FFFFFF'
-              // })
-              let color = {
-                font:'#000',
-                background:'#fff'
-              }
-              await picColor(thisMusic.al.picUrl + '?param=24y24').then(result => {
-                  color.background = result
-                    })
-                    let data = Color(color.background[0].color).object()
-                    color.font = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' :
-                        '#FFFFFF'
+
+              // let color = {
+              //   font:'#000',
+              //   background:'#fff'
+              // }
+              // await picColor(thisMusic.al.picUrl + '?param=24y24').then(result => {
+              //     color.background = result
+              //       })
+              //       let data = Color(color.background[0].color).object()
+              //       color.font = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' :
+              //           '#FFFFFF'
 
               this.data.player.musicCache[thisMusic.id] = {
                 ...await audioNetease.requireId(thisMusic.id),
-                color
+                // color
               }
 
             }
@@ -1372,7 +1366,7 @@ import { transform } from '@vue/compiler-core'
 
 
               var fontSizeFunc = (el, i, needFocus) => {
-                if (config.setting().config.lyricSet.animeFontSize == false) {
+                if (configContent.config.lyricSet.animeFontSize == false) {
 
                   return '1' //(i==lyricNum)?'1.05em':'1em'
                 };
@@ -1393,7 +1387,7 @@ import { transform } from '@vue/compiler-core'
               if (force == true && type != 'tran') {
                 dur = 0;
               } else {
-                dur = config.setting().config.lyricSet.dur
+                dur = configContent.config.lyricSet.dur
               }
               // let realdisplay = 0
               let nowTime = Date.now()
@@ -1409,13 +1403,13 @@ import { transform } from '@vue/compiler-core'
 
                 if (needFocus == true) {
                   let delay = (force == true)?'':config
-                    .settingTemperture.lyricSet.funcDelay[config.setting().config.lyricSet
+                    .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
                       .funcDelay](i - lyricNum)
 
                   element.setAttribute('displaying',true)
                   element.style.setProperty('--delay',  delay + 'ms') 
 
-                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting().config
+                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[configContent.config
                     .lyricSet
                     .funcBlur](i, lyricNum)
                   // let colorData = this.data.player['musicCache'][this.id]['colorData']
@@ -1424,7 +1418,7 @@ import { transform } from '@vue/compiler-core'
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
                     lyricNum))) + ')')
              
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.25,.1,.25, '+ ((config.setting().config.lyricSet
+                    element.style.setProperty('--animation-speed-line','cubic-bezier(.25,.1,.25, '+ ((configContent.config.lyricSet
                       .funcDelay==true)?(1+((i - lyricNum + 4)* 0.08)):1)+ ')')
                     
                   if (i == lyricNum) {
@@ -1478,7 +1472,7 @@ import { transform } from '@vue/compiler-core'
             console.error(error)
           }
           }
-        let configSettingData = config.setting()
+        let configSettingData = configContent
         //音频过度事件触发
         let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1
         if (((this.data.player.uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
@@ -1709,9 +1703,9 @@ import { transform } from '@vue/compiler-core'
           this.data.player.tracks = data.tracks
           this.data.player.trackNum = data.num
           this.plays()
-          config.methods.editPlaylist((r) => {
-            return data
-          })
+          // config.methods.editPlaylist((r) => {
+          //   return data
+          // })
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
 
         }

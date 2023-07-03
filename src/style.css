@@ -136,13 +136,13 @@ body {
   background: hsla(0, 0%, 50.2%, .0)
 }
 
-.leftlab.watting + .rightrow,.leftlab.watting ,.leftlab.top + .rightrow,.leftlab.top {
-    filter: blur(1vmax);
+/* .leftlab.watting + .rightrow,.leftlab.watting ,.leftlab.top + .rightrow,.leftlab.top { */
+    /* filter: blur(1vmax); */
     /* transform: scale(1.2); */
     /* transform-origin: 50vw 50vh ; */
-  transition: all .4s !important
-
-}
+  /* transition: all .4s !important */
+/*  */
+/* } */
 
 .leftlab.icon {
   transition: width .2s cubic-bezier(.3, .45, .2, .95) .2s
@@ -1337,7 +1337,8 @@ div.left-side>div.linkbox>a {
   overflow: hidden;
   font-size: calc(1.3vh + .8vw);
   --dur: .6s;
-  height: inherit
+  height: inherit;
+  transition: font-size 0s
 }
 
 @media (max-width:460px) {
@@ -1359,7 +1360,9 @@ ul#lyrics {
   padding-left: 0;
   height: fit-content;
   min-height: 100%;
-  margin-top: var(--marginTop)
+  margin-top: var(--marginTop);
+  transition: font-size 0s
+
 }
 
 #lyric ul li {
@@ -1378,10 +1381,13 @@ ul#lyrics {
   transform: var(--transform) scale(.88);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   /* --animation-speed-line:cubic-bezier(.3, .5, .2, 1); */
-  --dur: 850ms !important
+  --dur: 850ms !important;
+  transition: font-size 0s
+
+  
 }
 #lyric ul li[displaying=true]{
-    transition: all  calc(var(--dur)  - var(--delay)) var(--animation-speed-line) calc(1.5 * var(--delay)),filter 300ms
+    transition: all  calc(var(--dur)  - var(--delay)) var(--animation-speed-line) calc(1.5 * var(--delay)),filter 300ms,font-size 0s
 }
 #lyric ul li[displaying=false]{
   transition: none !important;

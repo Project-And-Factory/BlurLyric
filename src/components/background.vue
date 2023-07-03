@@ -53,7 +53,7 @@
         props: {
             imgSrc: Object,
             mainDisplay: Object,
-            colorData: Object,
+            // colorData: Object,
             dynamic: Boolean
         },
         watch: {
@@ -75,7 +75,10 @@
 </script>
 
 <template>
-    <div  v-if="(mainDisplay != 'buttom')" :style="{background: (colorData)?colorData[0].color:null}"  v-bind:class="['player-background',(mainDisplay,config.setting().config.useAnimeBackground == true)?'dyn':'']">
+  <!-- :style="{background: (colorData)?colorData[0].color:null}"  -->
+    <div  v-if="(mainDisplay != 'buttom')" 
+    
+     v-bind:class="['player-background',(mainDisplay,config.setting().config.useAnimeBackground == true)?'dyn':'']">
       <!-- {{ colorData }} -->
       <div v-for="n in 4" ref="block" :style="{
         backgroundImage: 'url(' + imgSrc + '?param=128y128'+')',
