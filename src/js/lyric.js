@@ -114,11 +114,12 @@
       t: undefined, //开始时间
       edt: undefined, //结束时间
       c: undefined,//歌词内容
+      strC: '',
       playing: false,
       index: 0,
       width: undefined,
       fontSize: undefined,
-      progressleft: 0,
+      progressleft: 0 + '%',
       lastResizeTime: undefined
     }
 
@@ -175,6 +176,7 @@
       contentObj.dur = Number(timeArray[1]) / 1000;
       contentObj.originDur = contentObj.dur
       contentObj.str = splitc.slice(time[0].length);
+      yrc.strC +=  contentObj.str
 
       if(contentObj.dur >= 2){ //单独将唱的久的歌词拆出来，加特效
       contentObj.shine = 'long'

@@ -1450,6 +1450,7 @@ li div.Padding {
   /* flex-wrap: wrap; */
 }
 #lyric ul li[lyricFocus=true] h1.yrc{
+  --progress: 100%;
   display: inline;
   background-origin: content-box;
   background-clip: text;

@@ -628,11 +628,9 @@
              <h1 v-if="item.playing == false">
                 <!--聚焦时 -->
                 <!--聚焦时-->
-                <a 
-                v-for="(yrc,i) in item.c">
+
                 
-                {{ yrc.str }}
-              </a>
+                {{ item.strC }}
             
             </h1>
             <h2>
