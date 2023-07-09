@@ -1244,6 +1244,7 @@ import { transform } from '@vue/compiler-core'
                   console.log('求一次宽度')
                   // document.querySelector("#lyrics > li:nth-child(19)")
                   let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
+                  if(!thisStrElement) return
                   this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth
                   this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].left = (tempStrIndex == 0)?0:
                   (this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].left + this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].width)
@@ -1416,8 +1417,8 @@ import { transform } from '@vue/compiler-core'
                   color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
                     lyricNum))) + ')')
              
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.25,.1,.25, '+ ((configContent.config.lyricSet
-                      .funcDelay==true)?(1+((i - lyricNum + 4)* 0.08)):1)+ ')')
+                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ ((configContent.config.lyricSet
+                      .funcDelay==true)?(1.3):1)+ ')')
                     
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
@@ -1448,41 +1449,53 @@ import { transform } from '@vue/compiler-core'
       },
       async getCurr() {
         //音频进度转换
-        let cur = this.audio.currentTime,
-          parseCurrTime = parseInt(cur)
-        this.data.player.uiDisplay.realCurrTime = cur
-        this.data.player.uiDisplay.currTime = parseCurrTime
-        let progress = parseCurrTime / this.data.player.uiDisplay.duration
-
-        if (transitionning != true) this.data.player.uiDisplay.progress = progress
-        if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
-          let duration = this.audio.duration
-          if(isNaN(duration)){
-            duration = 0 //duration 无效,设置为默认值
-          }  
-          try{
-            navigator.mediaSession.setPositionState({
-              duration:duration,
-              playbackRate: this.audio.playbackRate,
-              position:cur
-            })
-          } catch(error){
-            console.error(error)
-          }
-          }
-        let configSettingData = configContent
-        //音频过度事件触发
-        let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1
-        if (((this.data.player.uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
-          .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
-
-          
-        this.lyricSet()
-        if(configSettingData.config.lyricSet.maxfps == false){
-          window.requestAnimationFrame(()=>this.getCurr())
+        if(this.cache.loadFuncGetCurr == false){
+          this.cache.loadFuncGetCurr=true        
         } else {
-          setTimeout(() => this.getCurr(), 42)
+          return
         }
+
+
+        let calculateTime = ()=>{
+          const uiDisplay = this.data.player.uiDisplay
+        const cur = this.audio.currentTime
+
+          let parseCurrTime = parseInt(cur);
+         uiDisplay.realCurrTime = cur
+         uiDisplay.currTime = parseCurrTime;
+         let progress = parseCurrTime /  uiDisplay.duration
+
+
+          if (!transitionning) {  uiDisplay.progress = progress}
+        // if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
+          if(navigator['mediaSession'] && navigator.mediaSession['setPositionState'] && progress <= 1 ){
+            let duration = uiDisplay.duration
+            if(isNaN(duration)){
+              duration = 0 //duration 无效,设置为默认值
+            }  
+              navigator.mediaSession.setPositionState({
+                duration:duration,
+                playbackRate: this.audio.playbackRate,
+                position:cur
+              })
+            }
+          //音频过度事件触发
+          let transitionTime = (configContent.config.useTransitionNextMusic == true )?6:1
+          if ((( uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
+            .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
+            
+          this.lyricSet()
+          intoLoop()
+        }
+
+        let intoLoop=()=>{
+          if(configContent.config.lyricSet.maxfps == false){
+          window.requestAnimationFrame(()=>calculateTime())
+        } else {
+          setTimeout(() => calculateTime(), 42)
+        }
+        }
+        calculateTime()
       },
       async transitionNextMusic(times) {
         
@@ -1690,7 +1703,7 @@ import { transform } from '@vue/compiler-core'
         progress.load(this.audio)
         audioListener.listen(this.audio)
 
-        this.getCurr()
+        this.getCurr() 
         this.data.musicListInfor.personalFM.use = false
 
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
