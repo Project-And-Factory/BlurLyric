@@ -1399,11 +1399,19 @@ import { transform } from '@vue/compiler-core'
                 targets: needRendereds,
                 translateY: translateY  + 'px',
                 duration: dur,
-                scale: (el,i)=> {
-                  return (i == (nowRendingLyric))?1:'0.9'
+                scale: {
+                  value:(el,i)=> {
+                    return (i == (nowRendingLyric))?1:'0.9'
+                  },
+                  easing:'linear',
+                  duration: 400
                 },
-                color: (el,i)=> {
-                  return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
+                color: {
+                  value:(el,i)=> {
+                    return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
+                  },
+                  easing:'linear',
+                  duration: 400
                 },
                 delay: (el,i)=> (force == true||configContent.config.lyricSet
                       .funcDelay==false)?'0':config
@@ -1413,7 +1421,7 @@ import { transform } from '@vue/compiler-core'
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 100, 12, 0.001)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 100, 13, 0)'
               })
 
             }

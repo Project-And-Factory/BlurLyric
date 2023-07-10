@@ -129,7 +129,7 @@ var settingTemperture = {
                 
             },
             false: () => {
-                return ''
+                return 'blur(' + 0 + 'px)'
             }
         },
         funcDelay: {
