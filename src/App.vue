@@ -1403,15 +1403,15 @@ import { transform } from '@vue/compiler-core'
                   value:(el,i)=> {
                     return (i == (nowRendingLyric))?1:'0.9'
                   },
-                  easing:'linear',
-                  duration: 400
+                  easing:'cubicBezier(.3, .5, .2, 1)',
+                  duration: 600
                 },
                 color: {
                   value:(el,i)=> {
                     return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
                   },
-                  easing:'linear',
-                  duration: 400
+                  easing:'cubicBezier(.3, .5, .2, 1)',
+                  duration: 600
                 },
                 delay: (el,i)=> (force == true||configContent.config.lyricSet
                       .funcDelay==false)?'0':config
@@ -1421,7 +1421,7 @@ import { transform } from '@vue/compiler-core'
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 100, 13, 0)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 90, 13, 0)'
               })
 
             }
@@ -1555,13 +1555,13 @@ import { transform } from '@vue/compiler-core'
           targets: newAudio,
           duration: time,
           volume: 1 * this.state.volume,
-          easing: 'linear'
+          easing: 'cubicBezier(.3, .5, .2, 1)'
         })
         anime({
           targets: oldAudio,
           duration: time,
           volume: 0,
-          easing: 'linear'
+          easing: 'cubicBezier(.3, .5, .2, 1)'
         })
         setTimeout(
           () => {
