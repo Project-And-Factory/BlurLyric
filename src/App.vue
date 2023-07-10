@@ -1243,9 +1243,10 @@ import { transform } from '@vue/compiler-core'
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
                       
                 // anime({
-                //   targets: '.left-sideImage>div',
-                //   scale: 1.2,
-                //   translateX:'-50%',
+                //   targets: 'img.ImageBlurBackground',
+                //   // scale: 1,
+                //   // translateX:-0.5,
+                //   height: '*=1.1',
                 //   duration: 48,
                 //   direction: 'alternate',
                 //   // easing: 'spring(1, 80, 10, 0)'
@@ -1354,7 +1355,7 @@ import { transform } from '@vue/compiler-core'
                 if (offset < -3) {
                   // el.style.visibility = 'hidden';
                   return false
-                } else if (offset > 7) {
+                } else if (offset > 6) {
                   // el.style.display = 'none';
                   return false
                 } else {
@@ -1370,9 +1371,7 @@ import { transform } from '@vue/compiler-core'
               } else {
                 dur = configContent.config.lyricSet.dur
               }
-              // let nowTime = Date.now()
 
-              lyrics.style.setProperty('--transform', translateYContent ) 
 
 
               let needRendereds =[]
@@ -1392,7 +1391,7 @@ import { transform } from '@vue/compiler-core'
                   }
                 } else {
                   element.setAttribute('displaying',false)
-                  element.removeAttribute('style')
+                  element.style.setProperty('transform', translateYContent)
                 }
               }
               let nowRendingLyric = (lyricNum <= 3)?lyricNum:3;
@@ -1406,14 +1405,15 @@ import { transform } from '@vue/compiler-core'
                 color: (el,i)=> {
                   return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
                 },
-                delay: (el,i)=> (force == true)?'':config
+                delay: (el,i)=> (force == true||configContent.config.lyricSet
+                      .funcDelay==false)?'0':config
                       .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
                         .funcDelay](i - nowRendingLyric),
                 filter:(el,i)=>config.settingTemperture.lyricSet.funcBlur[configContent.config
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 80, 12, 0)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 80, 10, 0)'
               })
 
             }

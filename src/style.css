@@ -1378,7 +1378,6 @@ ul#lyrics {
   min-width: 7em;
   border-left: solid .2em #00000000;
   transform-origin: .3em 60%;
-  transform: var(--transform);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   /* --animation-speed-line:cubic-bezier(.3, .5, .2, 1); */
   --dur: 850ms !important;
@@ -1387,7 +1386,6 @@ ul#lyrics {
   
 }
 #lyric ul li[displaying=true]{
-  transform: var(--transform)
     /* transition: all  calc(var(--dur) ) var(--animation-speed-line) ,filter 300ms,font-size 0s */
 }
 #lyric ul li[displaying=false]{
@@ -1395,7 +1393,6 @@ ul#lyrics {
   visibility: hidden !important;
   filter: none !important;
   color: #0000 !important;
-  transform: var(--transform) !important;
 }
 
 #lyric ul li:hover {
@@ -1438,7 +1435,6 @@ li div.Padding {
   visibility: visible
 }
 #lyric ul li[lyricFocus=true]{
-  transform: var(--transform) scale(1);
   color: rgb(0, 0, 0, 0.6);
   filter: none !important;
 }
