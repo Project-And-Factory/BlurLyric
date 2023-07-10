@@ -1378,15 +1378,16 @@ ul#lyrics {
   min-width: 7em;
   border-left: solid .2em #00000000;
   transform-origin: .3em 60%;
-  transform: var(--transform) scale(.88);
+  transform: var(--transform);
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   /* --animation-speed-line:cubic-bezier(.3, .5, .2, 1); */
   --dur: 850ms !important;
-  transition: color 0.6s
+  /* transition: color 0.6s */
 
   
 }
 #lyric ul li[displaying=true]{
+  transform: var(--transform)
     /* transition: all  calc(var(--dur) ) var(--animation-speed-line) ,filter 300ms,font-size 0s */
 }
 #lyric ul li[displaying=false]{
@@ -1405,9 +1406,9 @@ ul#lyrics {
   font-size: 2em;
   font-weight: bolder;
   margin: 0;
-  /* transition: transform var(--dur); */
   transform-origin: 0% 100%;
   will-change: background-image;
+  word-wrap: break-word;
 }
 
 #lyric ul li h2 {
@@ -1440,16 +1441,6 @@ li div.Padding {
   transform: var(--transform) scale(1);
   color: rgb(0, 0, 0, 0.6);
   filter: none !important;
-  /* background-color: #0001; */
-  /* border-radius: .6em; */
-  /* transition: background 0s; */
-  /* padding-left: -.2em; */
-  /* margin-left: -.2em; */
-  /* border-left: solid 0.5em #0002; */
-}
-#lyric ul li h1{
-  word-wrap: break-word;
-  /* flex-wrap: wrap; */
 }
 #lyric ul li[lyricFocus=true] h1.yrc{
   --progress: 100%;
@@ -1467,7 +1458,7 @@ li div.Padding {
   background-repeat: no-repeat;
   color: transparent !important;
   color: rgb(0, 0, 0, 0.6);
-  /* transition: background-position 42ms linear; */
+  transition: background-position 42ms linear;
   }
 @keyframes toright{
   0%{

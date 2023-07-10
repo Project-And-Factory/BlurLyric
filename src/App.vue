@@ -1355,53 +1355,23 @@ import { transform } from '@vue/compiler-core'
                   // el.style.visibility = 'hidden';
                   return false
                 } else if (offset > 7) {
-                  el.style.display = 'none';
+                  // el.style.display = 'none';
                   return false
                 } else {
-                  el.style.display = 'block'
-
-                  // if(el.getBoundingClientRect().top >= bodyHeight*1.2){
-                    // el.style.visibility = 'hidden';
-                  // return false
-                  // } else {
-                    // el.style.visibility = 'visible';
+                  // el.style.display = 'block'
                   return true
-
-                  // }
-
                 }
-
               }
-
-
-              var fontSizeFunc = (el, i, needFocus) => {
-                if (configContent.config.lyricSet.animeFontSize == false) {
-
-                  return '1' //(i==lyricNum)?'1.05em':'1em'
-                };
-                let offset = Math.abs(i - lyricNum)
-                if (!needFocus) {
-                  return '1'
-                }
-                return 0.94 - (0.09 * offset)
-              }
-
-              // 要平移的Y值
-              // var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
-              //   translateYContent = "translateY(" + translateY + "vh)"
                 var translateY = - lis[lyricNum].offsetTop+ (0.15 *  bodyHeight),
                 translateYContent = "translateY(" + translateY + "px)"
-                // console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
                 dur = 0;
               } else {
                 dur = configContent.config.lyricSet.dur
               }
-              // let realdisplay = 0
-              let nowTime = Date.now()
+              // let nowTime = Date.now()
 
-              // lyrics.style.setProperty('--dur',dur + 'ms') 
               lyrics.style.setProperty('--transform', translateYContent ) 
 
 
@@ -1420,22 +1390,28 @@ import { transform } from '@vue/compiler-core'
                   } else {
                     element.setAttribute('lyricFocus', false)
                   }
-
                 } else {
                   element.setAttribute('displaying',false)
+                  element.style = ''
                 }
               }
-              
+              let nowRendingLyric = (lyricNum <= 3)?lyricNum:3;
               anime({
                 targets: needRendereds,
                 translateY: translateY  + 'px',
                 duration: dur,
+                scale: (el,i)=> {
+                  return (i == (nowRendingLyric))?1:'0.9'
+                },
+                color: (el,i)=> {
+                  return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
+                },
                 delay: (el,i)=> (force == true)?'':config
                       .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
-                        .funcDelay](i - 2),
+                        .funcDelay](i - nowRendingLyric),
                 filter:(el,i)=>config.settingTemperture.lyricSet.funcBlur[configContent.config
                       .lyricSet
-                      .funcBlur](i - ((lyricNum <= 3)?lyricNum: 3)),
+                      .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
                       .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 80, 12, 0)'
               })
