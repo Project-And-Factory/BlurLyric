@@ -15,7 +15,7 @@ var loadURL = 'http://localhost:18776/'
   const server = await createServer({
     // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
     configFile: path.join(__dirname, '../vite.config.js'),
-    root: __dirname,
+    root:path.join(__dirname, '../') ,
   })
   
   server.listen().then(()=>{
