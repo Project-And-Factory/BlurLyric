@@ -1367,7 +1367,7 @@ ul#lyrics {
 
 #lyric ul li {
   position: relative;
-  color: #00000026;
+  color: rgba(0,0,0,.12);
   width: fit-content;
   width: -moz-fit-content;
   will-change: transform, filter, transition,color;
@@ -1382,18 +1382,19 @@ ul#lyrics {
   /* --animation-speed-line: cubic-bezier(.25,.1,.25,1); */
   /* --animation-speed-line:cubic-bezier(.3, .5, .2, 1); */
   --dur: 850ms !important;
-  transition: font-size 0s
+  transition: color 0.6s
 
   
 }
 #lyric ul li[displaying=true]{
-    transition: all  calc(var(--dur)  - var(--delay)) var(--animation-speed-line) calc(1.5 * var(--delay)),filter 300ms,font-size 0s
+    /* transition: all  calc(var(--dur) ) var(--animation-speed-line) ,filter 300ms,font-size 0s */
 }
 #lyric ul li[displaying=false]{
   transition: none !important;
-  visibility: hidden;
+  visibility: hidden !important;
   filter: none !important;
   color: #0000 !important;
+  transform: var(--transform) !important;
 }
 
 #lyric ul li:hover {
@@ -1437,6 +1438,7 @@ li div.Padding {
 }
 #lyric ul li[lyricFocus=true]{
   transform: var(--transform) scale(1);
+  color: rgb(0, 0, 0, 0.6);
   filter: none !important;
   /* background-color: #0001; */
   /* border-radius: .6em; */
@@ -1455,16 +1457,16 @@ li div.Padding {
   background-origin: content-box;
   background-clip: text;
   /* --background-transition-linear-gradient-progress-width: 1px; */
-  --background-transition-linear-gradient-progress-width: .4em;
+  --background-transition-linear-gradient-progress-width: .5em;
   /* --background-transition-linear-gradient-progress-width: 1000em; */
-  background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.2)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.2) 100%);
+  background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.12)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.12) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width) * 2) 100%;
   -webkit-background-clip: text;
   background-position: calc(100% + var(--progress) + var(--background-transition-linear-gradient-progress-width)) 0%;
 
   background-repeat: no-repeat;
   color: transparent !important;
-  color: rgb(0, 0, 0, 0.8);
+  color: rgb(0, 0, 0, 0.6);
   /* transition: background-position 42ms linear; */
   }
 @keyframes toright{

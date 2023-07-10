@@ -8,7 +8,7 @@ var setting = {
     config: {
         configVersion: '1.7',
         lyricSet: {
-            dur: 450,
+            dur: 600,
             text: '最高',
             funcBlur: true,
             funcDelay: true,
@@ -115,9 +115,9 @@ function isFunction(value) {
 var settingTemperture = {
     lyricSet: {
         funcBlur: {
-            true: function (i, lyricNum) {
+            true: function (offset) {
                 //return ''
-                let offset = i - lyricNum
+                // let offset = i - lyricNum
                 if (offset == 0) return 'blur(0vh)';
                 let value = (0.7 - (0.5 ** Math.abs(offset)))
                 if(value<0.5){

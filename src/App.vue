@@ -1241,7 +1241,16 @@ import { transform } from '@vue/compiler-core'
                 }
 
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
-                  console.log('求一次宽度')
+                      
+                // anime({
+                //   targets: '.left-sideImage>div',
+                //   scale: 1.2,
+                //   translateX:'-50%',
+                //   duration: 48,
+                //   direction: 'alternate',
+                //   // easing: 'spring(1, 80, 10, 0)'
+                // })
+
                   // document.querySelector("#lyrics > li:nth-child(19)")
                   let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
                   if(!thisStrElement) return
@@ -1273,6 +1282,7 @@ import { transform } from '@vue/compiler-core'
             if(strNowIndex == -2) {
               strNowIndex = info.length - 1
             }
+
             this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
           }
           let _tempProgress = makeProgress()
@@ -1301,7 +1311,7 @@ import { transform } from '@vue/compiler-core'
             let result = ((
                 (lastWord.t + lastWord.dur) >= currTime + 0.1) //要求已过了上一句歌词末尾
               &&
-              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
+              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.2)))) 
             this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
 
             
@@ -1391,55 +1401,44 @@ import { transform } from '@vue/compiler-core'
               // let realdisplay = 0
               let nowTime = Date.now()
 
-              lyrics.style.setProperty('--dur',dur + 'ms') 
+              // lyrics.style.setProperty('--dur',dur + 'ms') 
               lyrics.style.setProperty('--transform', translateYContent ) 
 
+
+              let needRendereds =[]
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
                 let element = lis[i]
-                let needFocus = isDisplay(element, i),
-                  color
+                let needFocus = isDisplay(element, i)
 
                 if (needFocus == true) {
-                  let delay = (force == true)?'':config
-                    .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
-                      .funcDelay](i - lyricNum)
+                  needRendereds.push(element)
 
                   element.setAttribute('displaying',true)
-                  element.style.setProperty('--delay',  delay + 'ms') 
-
-                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[configContent.config
-                    .lyricSet
-                    .funcBlur](i, lyricNum)
-                  // let colorData = this.data.player['musicCache'][this.id]['colorData']
-                  // if(colorData == undefined) {colorData = {r:'0',g:'0',b:'0'} }
-                  element.style.
-                  color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
-                    lyricNum))) + ')')
-             
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ ((configContent.config.lyricSet
-                      .funcDelay==true)?(1.3):1)+ ')')
-                    
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
                   } else {
                     element.setAttribute('lyricFocus', false)
                   }
 
-
                 } else {
                   element.setAttribute('displaying',false)
-
                 }
-
               }
-              // console.log((nowTime - this.state.lyricTransitionTime));
-              this.state.lyricTransitionTime = nowTime
-              // console.log('仅对'+realdisplay+'个元素使用动画');
-              // let lyricTransitionClean = (elm) => {
-              //   // if ((nowTime - this.state.lyricTransitionTime) > dur*1.2)
-              //   //   elm.style.transition = ''
-              // }
+              
+              anime({
+                targets: needRendereds,
+                translateY: translateY  + 'px',
+                duration: dur,
+                delay: (el,i)=> (force == true)?'':config
+                      .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
+                        .funcDelay](i - 2),
+                filter:(el,i)=>config.settingTemperture.lyricSet.funcBlur[configContent.config
+                      .lyricSet
+                      .funcBlur](i - ((lyricNum <= 3)?lyricNum: 3)),
+                easing: (configContent.config.lyricSet
+                      .funcDelay==false)?'cubic-bezier(.3, .5, .2, 1)':'spring(1, 80, 12, 0)'
+              })
 
             }
 
