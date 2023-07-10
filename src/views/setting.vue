@@ -133,16 +133,16 @@
               this.upload()
             }
           },
-          limitFPS:{
-            text: '限制逐字歌词帧数为24fps',
-            type:'line',
-            bolean: config.lyricSet.maxfps,
-            func:(item)=>{
-              config.lyricSet.maxfps = item.bolean
-              this.upload()
-            }
-          }
-          ,
+          // limitFPS:{
+          //   text: '限制逐字歌词帧数为24fps',
+          //   type:'line',
+          //   bolean: config.lyricSet.maxfps,
+          //   func:(item)=>{
+          //     config.lyricSet.maxfps = item.bolean
+          //     this.upload()
+          //   }
+          // }
+          // ,
           useTransitionNextMusic:{
             text: '使用 5秒 的音乐串流切歌功能',
             type:'line',

@@ -13,7 +13,7 @@ var setting = {
             funcBlur: true,
             funcDelay: true,
             animeFontSize: false,
-            maxfps: false
+            maxfps: true
             
 
         },

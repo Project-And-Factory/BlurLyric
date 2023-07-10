@@ -1392,7 +1392,7 @@ import { transform } from '@vue/compiler-core'
                   }
                 } else {
                   element.setAttribute('displaying',false)
-                  element.style = ''
+                  element.removeAttribute('style')
                 }
               }
               let nowRendingLyric = (lyricNum <= 3)?lyricNum:3;
@@ -1464,11 +1464,11 @@ import { transform } from '@vue/compiler-core'
         }
 
         let intoLoop=()=>{
-          if(configContent.config.lyricSet.maxfps == false){
-          window.requestAnimationFrame(()=>calculateTime())
-        } else {
+        //   if(configContent.config.lyricSet.maxfps == false){
+        //   window.requestAnimationFrame(()=>calculateTime())
+        // } else {
           setTimeout(() => calculateTime(), 42)
-        }
+        // }
         }
         calculateTime()
       },
