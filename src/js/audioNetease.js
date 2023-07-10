@@ -46,7 +46,7 @@ async function requirePersonalFM() {
     Data.song.netea = r.data[0]
 
   })
-await reTools.getData('/blurlyric/unblockmusic', {
+  if(import.meta.env.DEV == true){await reTools.getData('/blurlyric/unblockmusic', {
     id: id
   }).then(res => {
     Data.song.unblock = res
@@ -55,7 +55,8 @@ await reTools.getData('/blurlyric/unblockmusic', {
       Data.song.use = 'unblock'
     }
 
-  })
+  })}
+
   Data.song['src']=  Data.song[Data.song.use].url
   return Data
  }
@@ -100,36 +101,39 @@ async function requireId(id) {
         Data.song.netea = r.data[0]
 
       })
-      await reTools.getData('/blurlyric/unblockmusic', {
-        id: id
-      }).then(res => {
-        Data.song.unblock = res
-    
-
-        if(Data.song.netea.br == 0){
-          if(Data.song['unblock'].url != null){
-            Data.song.functions = ()=>{
-            message.create('BlurLyric 正在调用 网易云解灰Api 更换音源')}
-            Data.song.use = 'unblock'
-          }
-          if(Data.song['unblock'].url == (null || undefined)){
-            
-            // Data.song.use = 'next'
-            Data.song.functions = ()=>{
-              message.create('网易云音乐音源与网易云解灰Api均无音源，正在下一首')
-              app.nextMusic()
+      if(import.meta.env.DEV == true){
+        await reTools.getData('/blurlyric/unblockmusic', {
+          id: id
+        }).then(res => {
+          Data.song.unblock = res
+      
+  
+          if(Data.song.netea.br == 0){
+            if(Data.song['unblock'].url != null){
+              Data.song.functions = ()=>{
+              message.create('BlurLyric 正在调用 网易云解灰Api 更换音源')}
+              Data.song.use = 'unblock'
             }
-            
+            if(Data.song['unblock'].url == (null || undefined)){
+              
+              // Data.song.use = 'next'
+              Data.song.functions = ()=>{
+                message.create('网易云音乐音源与网易云解灰Api均无音源，正在下一首')
+                app.nextMusic()
+              }
+              
+            }
+          } else {
+            if(Data.song.netea.freeTrialInfo !=null && Data.song['unblock'].url != (null || undefined)){
+              Data.song.functions = ()=>{message.create('BlurLyric 正在调用 网易云解灰Api 更换VIP音源')}
+              Data.song.use = 'unblock'
+            } else if (Data.song.netea.freeTrialInfo !=null){
+              Data.song.functions = ()=>{message.create('BlurLyric 无法调用 网易云解灰Api， 正在试听网易云试听音频')}
+            }
           }
-        } else {
-          if(Data.song.netea.freeTrialInfo !=null && Data.song['unblock'].url != (null || undefined)){
-            Data.song.functions = ()=>{message.create('BlurLyric 正在调用 网易云解灰Api 更换VIP音源')}
-            Data.song.use = 'unblock'
-          } else if (Data.song.netea.freeTrialInfo !=null){
-            Data.song.functions = ()=>{message.create('BlurLyric 无法调用 网易云解灰Api， 正在试听网易云试听音频')}
-          }
-        }
-      })
+        })
+    }
+      
       Data.song['src']=  Data.song[Data.song.use].url
       return Data
 }
