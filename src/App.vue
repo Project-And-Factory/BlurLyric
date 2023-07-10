@@ -1413,7 +1413,7 @@ import { transform } from '@vue/compiler-core'
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 80, 10, 0)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 100, 12, 0.001)'
               })
 
             }
