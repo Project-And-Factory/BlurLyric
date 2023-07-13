@@ -1410,7 +1410,6 @@ ul#lyrics {
 
 #lyric ul li h2 {
   margin: .2em 0 0;
-  transition: font-size var(--dur);
   font-size: 1.3em
 }
 
@@ -1444,7 +1443,7 @@ li div.Padding {
   background-origin: content-box;
   background-clip: text;
   /* --background-transition-linear-gradient-progress-width: 1px; */
-  --background-transition-linear-gradient-progress-width: .5em;
+  --background-transition-linear-gradient-progress-width: .25em;
   /* --background-transition-linear-gradient-progress-width: 1000em; */
   background: linear-gradient(90deg,rgb(0,0,0,.6) 0%,rgb(0,0,0,.6) calc(50% - calc(var(--background-transition-linear-gradient-progress-width)/2)), rgba(0,0,0,.12)  calc(50% + calc(var(--background-transition-linear-gradient-progress-width)/2)),rgba(0,0,0,.12) 100%);
   background-size: calc(200% + var(--background-transition-linear-gradient-progress-width) * 2) 100%;
@@ -1454,7 +1453,7 @@ li div.Padding {
   background-repeat: no-repeat;
   color: transparent !important;
   color: rgb(0, 0, 0, 0.6);
-  transition: background-position 42ms linear;
+  transition: background-position var(--pastTick) linear;
   }
 @keyframes toright{
   0%{
@@ -1479,10 +1478,10 @@ li div.Padding {
   25%{
     text-shadow: -.05em 0em .5em rgb(0, 0, 0, .4)
   }
-  75%{
+  85%{
     text-shadow: .05em 0em .5em rgb(0, 0, 0, .4)
   }
-  95%{
+  99%{
     text-shadow: .1em 0em .1em rgb(0, 0, 0, .0)
   }
   100%{

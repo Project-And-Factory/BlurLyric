@@ -746,6 +746,7 @@
   import './message.css'
   import background from './components/background.vue'
 import { transform } from '@vue/compiler-core'
+import { nextTick } from 'vue';
 
 
   var bodyHeight, bodyWidth,
@@ -1028,6 +1029,9 @@ import { transform } from '@vue/compiler-core'
                 ...await audioNetease.requireId(thisMusic.id),
                 // color
               }
+              setTimeout(() => {
+                this.data.player.musicCache[thisMusic.id]==undefined
+              }, 10 * 60 *60 *1000);
 
             }
           }
@@ -1438,10 +1442,14 @@ import { transform } from '@vue/compiler-core'
           return
         }
 
+        let tickTime = undefined,
+            lyricSide = document.querySelector('.right-side')
 
-        let calculateTime = ()=>{
+        let halfTick = 0
+        let reqMediaSession = (navigator['mediaSession'] != undefined && navigator.mediaSession['setPositionState'] != undefined)
+        let calculateTime = async ()=>{
           const uiDisplay = this.data.player.uiDisplay
-        const cur = this.audio.currentTime
+          const cur = this.audio.currentTime
 
           let parseCurrTime = parseInt(cur);
          uiDisplay.realCurrTime = cur
@@ -1451,7 +1459,7 @@ import { transform } from '@vue/compiler-core'
 
           if (!transitionning) {  uiDisplay.progress = progress}
         // if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
-          if(navigator['mediaSession'] && navigator.mediaSession['setPositionState'] && progress <= 1 ){
+          if( reqMediaSession && progress <= 1 ){
             let duration = uiDisplay.duration
             if(isNaN(duration)){
               duration = 0 //duration 无效,设置为默认值
@@ -1466,19 +1474,46 @@ import { transform } from '@vue/compiler-core'
           let transitionTime = (configContent.config.useTransitionNextMusic == true )?6:1
           if ((( uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
             .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
-            
+            // let tempTickTime = Date.now()
+
+            // if(tickTime == undefined){
+            //   tickTime = tempTickTime
+            // } else {
+            //   let pastTime = tempTickTime - tickTime
+            //   tickTime = tempTickTime
+            //   lyricSide.style.setProperty('--pastTick',pastTime + 'ms')
+            // }
           this.lyricSet()
-          intoLoop()
+
+          // intoLoop()
         }
 
         let intoLoop=()=>{
-        //   if(configContent.config.lyricSet.maxfps == false){
-        //   window.requestAnimationFrame(()=>calculateTime())
-        // } else {
-          setTimeout(() => calculateTime(), 42)
-        // }
+
+          if(halfTick == 2){
+            halfTick = 0
+            let tempTickTime = Date.now()
+
+            if(tickTime == undefined){
+              tickTime = tempTickTime
+            } else {
+              let pastTime = tempTickTime - tickTime
+              tickTime = tempTickTime
+              lyricSide.style.setProperty('--pastTick',Math.floor(pastTime) + 'ms')
+            }
+
+            calculateTime()
+
+          }
+
+          halfTick++
+
+          window.requestAnimationFrame((timeTemp)=>{
+
+            intoLoop()
+          })
         }
-        calculateTime()
+        intoLoop()
       },
       async transitionNextMusic(times) {
         
