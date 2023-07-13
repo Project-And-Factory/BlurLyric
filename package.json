@@ -2,14 +2,13 @@
   "name": "blurlyric",
   "private": true,
   "main": "main.js",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "start": "electron-forge start",
     "test": "electron .",
-    "packager": "electron-packager ./ BlurLyric --win --out ./outputs --electron-version 15.5.1 --overwrite",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -34,6 +33,7 @@
     "stackblur-canvas": "^2.5.0",
     "tunnel": "^0.0.6",
     "vite": "^2.9.16",
+    "@vitejs/plugin-vue": "^2.3.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.1",
     "vue-virtual-scroller": "^2.0.0-beta.5",
@@ -43,11 +43,19 @@
   "devDependencies": {
     "@electron-forge/cli": "^6.0.1",
     "@electron-forge/maker-deb": "^6.0.1",
+    "@vitejs/plugin-vue": "^2.3.3",
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
-    "@vitejs/plugin-vue": "^2.3.3",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
     "electron": "^24.0.0",
+    "@vitejs/plugin-vue": "^2.3.3",
     "vite": "^2.9.16"
+  },
+  "build": {
+    "win": {
+      "icon": "src/assets/icon.ico",
+      "productName": "BlurLyric"
+    }
   },
   "description": "高颜值，高性能，多平台支持的网易云音乐第三方音乐播放器",
   "repository": {

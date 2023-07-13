@@ -2,12 +2,27 @@
   <!--audio v-bind:src="data.player.now.musicUrl[data.player.musicCache[id].song].url"
     @pause='state.playing=false' @play='state.playing=true' @ended="finishPlay" ref="audio" id="audio"
     @timeupdate="getCurr" @canplay="showLong"></audio-->
+    <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
 
+    <div class="windowControlBar">
+      <div class="min" @click="blurLyricElectronWindowControl('min')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+</svg></div>
+      <div class="max" @click="blurLyricElectronWindowControl('max')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/>
+</svg></div>
+      <div class="close" @click="blurLyricElectronWindowControl('close')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+</svg></div>
+    </div>
   <!--图片预缓存
     
     作用：使背景图片提前加载实现渐变
     -->
-  <login_components :display="data.ui.loginElement" :close="()=>{data.ui.loginElement = 'hidden'}"></login_components>
+
+  
   <div style="visibility: hidden;height: 0px;width: 0px;overflow: hidden;">
     <img v-if="data.player.tracks[data.player.trackNum + 1]"
       v-bind:src="data.player.tracks[data.player.trackNum + 1].al.picUrl + '?param=128y128'" alt="" srcset="">
@@ -19,7 +34,7 @@
   </div>
 
   <!--左侧导航栏-->
-  <div v-if="data.player.uiDisplay.mainDisplay != 'top'" v-bind:class="'leftlab ' + data.ui.leftSideWidth">
+  <div v-bind:class="['leftlab',data.ui.leftSideWidth,data.player.uiDisplay.mainDisplay]">
     <div class="linkbox" style="flex-direction: row;flex-wrap: wrap;display: flex;">
       <!--返回按钮-->
       <a @click="this.$router.go(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -236,12 +251,8 @@
 	'--color1:' + 	data.player.uiDisplay.color[0]+ ';' + 
 	-->
     </div>
-    <!-- <div v-if="(data.player.uiDisplay.mainDisplay != 'buttom') && config.setting().config.useBlurBackground" :style="{
-        backgroundImage: 'url(' + data.player.tracks[data.player.trackNum].al.picUrl + '?param=128y128'+')',
-        // backgroundColor: this.data.player['musicCache'][id]['backgroundColor'],
-        // fontColor: this.data.player['musicCache'][id]['fontColor']
-      }" v-bind:class="'player-background ' + data.player.uiDisplay.mainDisplay"></div> -->
-    <background :colorData="(this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[id].color.background:null" :dynamic="true" :imgSrc="data.player.tracks[data.player.trackNum].al.picUrl" :mainDisplay="data.player.uiDisplay.mainDisplay" />
+
+    <background  :dynamic="true" :imgSrc="data.player.tracks[data.player.trackNum].al.picUrl" :mainDisplay="data.player.uiDisplay.mainDisplay" />
     <!--
         主UI界面      v-bind:style="'background-image:"
       -->
@@ -296,8 +307,7 @@
     <!--display-->
     <div v-bind:class="data.player.uiDisplay.playerSelec + ' playerDisplayOutBox'"
       :style="{
-        'display': data.player.uiDisplay.displayPlayBox,
-    '--music-theme-color': (this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[id].color.background[0].color:'#000'
+        'display': data.player.uiDisplay.displayPlayBox
   }">
       <div v-bind:state-playing="state.playing" class="left-side playerIndexSide">
 
@@ -578,7 +588,7 @@
       <div  class="right-side playerIndexSide">
 <!-- {{ (this.data.player.musicCache[this.id] != undefined&&this.data.player.musicCache[this.id].color)?this.data.player.musicCache[this.id].color.background[0].color:'#0008' }} -->
         <div id="lyric">
-          <ul id="lyrics" :style="'--dur:'+config.setting().config.lyricSet.dur +  'ms'" ref="lyricBox"
+          <ul id="lyrics" :style="'--dur:'+configContent.config.lyricSet.dur +  'ms'" ref="lyricBox"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc == false">
             <li @click="audio.currentTime = item.t" v-for="(item,i) in this.data.player.musicCache[id].lyric.ms"
               v-bind:key="item.t">
@@ -590,34 +600,37 @@
 
           <ul id="lyrics" ref="lyricBox"
             :style="{
-              '--dur': config.setting().config.lyricSet.dur +  'ms'
+              '--dur': configContent.config.lyricSet.dur +  'ms'
             }"
             v-if="data.player.musicCache[id] && this.data.player.musicCache[id].lyric.yrc != false">
             <li v-bind:lyricFocus="
               item.playing
             " @click="audio.currentTime = item.t - 0.3" v-for="(item,i) in this.data.player.musicCache[id].lyric.yrc"
-              v-bind:key="item.t">
-              <h1  v-if="item.playing == true">
+              v-bind:key="item.t" v-bind:lyricNum="i">
+              <h1 class="yrc"
+                :style="
+                  {
+                    '--progress': item.progressleft
+                  }
+                "
+              v-if="item.playing == true">
                 <!--聚焦时-->
                 <a :class="[
-                  (item.index >= num)?'foucusText':'',
-                  yrc.shine,
+                  (item.index == num)?'foucusText':'',
+                  yrc.shine
                 ]"
-                  :style="{ '--dur': yrc.dur +'s','--progress':(item.index == num)?yrc.progress:''}
-                  "
+                  :style="{ '--dur': yrc.dur +'s'}"
                 v-for="(yrc,num) in item.c">
                 
-                {{ yrc.str }}<div>{{ yrc.str }}</div>
+                {{ yrc.str }}
               </a>
             </h1>
              <h1 v-if="item.playing == false">
                 <!--聚焦时 -->
                 <!--聚焦时-->
-                <a 
-                v-for="(yrc,i) in item.c">
+
                 
-                {{ yrc.str }}<div>{{ yrc.str }}</div>
-              </a>
+                {{ item.strC }}
             
             </h1>
             <h2>
@@ -657,7 +670,10 @@
           </div>
         </div>
         <div class="gridbuttom">
-          <div @click="audioNetease.downloadURL( this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url)">
+          <div @click="audioNetease.downloadURL( 
+          this.data.player.musicCache[this.id].song[this.data.player.musicCache[this.id].song.use].url,
+          data.player.tracks[data.player.trackNum],
+          data.player.musicCache[id])">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
               viewBox="0 0 16 16">
               <path
@@ -698,9 +714,15 @@
 <script>
   import reTools from './network/getData'
   import config from './js/config.js'
-  import analyze from 'rgbaster'
-  import Color from 'color'
 
+  let configRefresh =  (config)=>{
+      configContent = config
+    }
+  var configContent = config.setting('keepListenning',configRefresh);
+    
+
+  import analyze from 'rgbaster'
+  import Color from 'color';
   import audioNetease from './js/audioNetease.js'
   import audioListener from './js/audioListener.js'
   import progress from './js/progress.js'
@@ -711,7 +733,7 @@
   import tapElm from './js/tapElm.js'
   import  viewBoxScroll from './js/viewBoxScroll.js'
   import login_components from './components/login.vue'
-
+  import './windowControlBar.css'
   async function picColor(url) {
       return await analyze(url + '?param=24y24', {
           ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
@@ -724,13 +746,14 @@
   import './message.css'
   import background from './components/background.vue'
 import { transform } from '@vue/compiler-core'
+import { nextTick } from 'vue';
 
 
   var bodyHeight, bodyWidth,
     transitionning = false,
     usingLowWidhtMedi, lastTime = 0
   window.addEventListener('resize', getWindowInfo)
-
+  let lastResizeTime = undefined
   function getWindowInfo() {
     let CachebodyHeight = document.documentElement.clientHeight
     let CachebodyWidth = document.documentElement.clientWidth
@@ -740,6 +763,7 @@ import { transform } from '@vue/compiler-core'
     lastTime = tempTime
     setTimeout(() => {
       if (lastTime != tempTime) return
+      lastResizeTime = new Date()
       let CbodyHeight = document.documentElement.clientHeight
       let CbodyWidth = document.documentElement.clientWidth
       if (CachebodyHeight == CbodyHeight && CachebodyWidth == CbodyWidth) {
@@ -772,7 +796,8 @@ import { transform } from '@vue/compiler-core'
     },
     data() {
       return {
-        config,
+        // config,
+        configContent,
         audio: document.createElement('audio'),
         state: {
           playing: false,
@@ -873,6 +898,16 @@ import { transform } from '@vue/compiler-core'
     },
 
     created() {
+      if('mediaSession' in navigator && "setActionHandler" in navigator.mediaSession){
+        navigator.mediaSession.setActionHandler('nexttrack',this.nextMusic)
+        navigator.mediaSession.setActionHandler('previoustrack',this.upMusic)
+        
+        navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+        const skipTime = details.seekOffset || 10;
+
+        this.audio.currentTime = Math.max(this.audio.currentTime - skipTime, 0);
+      });
+      }
       audioNetease.requirePersonalFM().then(r => {
         this.data.musicListInfor.personalFM.tracks = r
       })
@@ -912,6 +947,28 @@ import { transform } from '@vue/compiler-core'
           this.cache.playingStyle.appendChild(document.createTextNode(".tracks[muid=\"" + newid +
             "\"]{border-radius: calc(var(--minplayerHeight) * 0.2);background-color: #0080ff15;}"))
 
+          // 将音乐绑定在系统控键上 （信息）
+          if ("mediaSession" in navigator) {
+            let song = this.data.player.tracks[this.data.player.trackNum]
+            let name = ''
+            for (let num in song.ar) {
+                name += song.ar[num].name;
+                if (song.ar.length - num > 1) {
+                    name += ' & '
+                }
+            }
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: song.name,
+              artist: name,
+              album: song.al.name,
+              artwork: [{ src: song.al.picUrl }],
+            });
+
+
+          }
+
+
+
           //如果无法找到缓存最终的信息
           if (this.data.player.musicCache[newid] == undefined) {
             Data = await audioNetease.requireId(newid);
@@ -927,6 +984,7 @@ import { transform } from '@vue/compiler-core'
 
             Data.song.functions()
           }
+
 
 
           reTools.getData('/scrobble', {
@@ -955,31 +1013,25 @@ import { transform } from '@vue/compiler-core'
             let thisMusic = this.data.player.tracks[(this.data.player.trackNum + witchIs[index])]
             if (thisMusic != undefined && this.data.player.musicCache[thisMusic.id] == undefined) {
 
-              // analyze(thisMusic.al.picUrl + '?param=24y24', {
-              //   ignore: ['rgb(255,255,255)', 'rgb(0,0,0)']
-              // }).then(result => {
-              //   this.data.player['musicCache'][thisMusic.id]['backgroundColor'] = result[0].color
-              //   this.data.player['musicCache'][thisMusic.id]['colorData'] = Color(result[0].color).object()
-              //   // let colordata = 
-              //   // this.data.player['musicCache'][thisMusic.id]['fontColor'] = (colordata.r * 0.299 + colordata.g *
-              //   //     0.587 + colordata.b * 0.114) > 186 ? '#000000' :
-              //   //   '#FFFFFF'
-              // })
-              let color = {
-                font:'#000',
-                background:'#fff'
-              }
-              await picColor(thisMusic.al.picUrl + '?param=24y24').then(result => {
-                  color.background = result
-                    })
-                    let data = Color(color.background[0].color).object()
-                    color.font = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' :
-                        '#FFFFFF'
+
+              // let color = {
+              //   font:'#000',
+              //   background:'#fff'
+              // }
+              // await picColor(thisMusic.al.picUrl + '?param=24y24').then(result => {
+              //     color.background = result
+              //       })
+              //       let data = Color(color.background[0].color).object()
+              //       color.font = (data.r * 0.299 + data.g * 0.587 + data.b * 0.114) > 186 ? '#000000' :
+              //           '#FFFFFF'
 
               this.data.player.musicCache[thisMusic.id] = {
                 ...await audioNetease.requireId(thisMusic.id),
-                color
+                // color
               }
+              setTimeout(() => {
+                this.data.player.musicCache[thisMusic.id]==undefined
+              }, 10 * 60 *60 *1000);
 
             }
           }
@@ -1022,6 +1074,12 @@ import { transform } from '@vue/compiler-core'
         }
         return this.cache[link]
       },
+      blurLyricElectronWindowControl(message){
+        if('electronAPI' in window && window.electronAPI[message]){
+          window.electronAPI[message]()
+        }
+      }
+      ,
       usePersonalFM() {
         this.getCurr()
         progress.load(this.audio)
@@ -1080,7 +1138,7 @@ import { transform } from '@vue/compiler-core'
           timetamp: (Number(new Date()))
         }).then(r => {
 
-          if (r.data && r.data.account && r.data.account.tokenVersion >= 2) {
+          if (r.data && r.data.account && r.data.account.tokenVersion >= 0) {
             this.data.user = r.data
 
             this.myPlayList()
@@ -1143,7 +1201,10 @@ import { transform } from '@vue/compiler-core'
              }
             if(info.yrc[i]&&info.yrc[i].t <= time + 0.2){
               this.data.player.musicCache[this.id].lyric.yrc[i].playing=true
-              
+              if(this.data.player.musicCache[this.id].lyric.yrc[i].width == undefined){
+                // let thisLineElement = this.$refs.lyricBox.querySelector('li[lyricNum='+i+'] h1')
+                // thisLine
+              }
               this.lyricFoundStr(info.yrc[i].c,time,i)
             }
             // now = info.lyricNum - i
@@ -1173,7 +1234,44 @@ import { transform } from '@vue/compiler-core'
                 progress=0
                 _state = true
               }
-              this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex].progress = progress.toFixed(0) + '%'
+              if(nowStr.width == undefined && strNowIndex != -1){
+                let tempStrIndex = this.data.player.musicCache[this.id].lyric.yrc[i].c.findIndex((v)=>{
+                  return v.width ==undefined
+                })
+                if(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime == undefined) {this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()}
+                if(tempStrIndex == -1&&(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime < lastResizeTime)) {
+                  tempStrIndex = 0
+                  this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()
+                }
+
+                for(;tempStrIndex <= strNowIndex;tempStrIndex++){
+                      
+                // anime({
+                //   targets: 'img.ImageBlurBackground',
+                //   // scale: 1,
+                //   // translateX:-0.5,
+                //   height: '*=1.1',
+                //   duration: 48,
+                //   direction: 'alternate',
+                //   // easing: 'spring(1, 80, 10, 0)'
+                // })
+
+                  // document.querySelector("#lyrics > li:nth-child(19)")
+                  let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
+                  if(!thisStrElement) return
+                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth
+                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].left = (tempStrIndex == 0)?0:
+                  (this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].left + this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].width)
+                  // if(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize == undefined){
+                  //   this.data.player.musicCache[this.id].lyric.yrc[i].fontSize= window.getComputedStyle(thisStrElement).fontSize
+                  // }
+                }
+
+              }
+              nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+              // console.log(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize);
+              this.data.player.musicCache[this.id].lyric.yrc[i].progressleft = ((progress * nowStr.width * 0.01) + nowStr.left) + 'px'
+
               return progress
             }
           }
@@ -1189,6 +1287,7 @@ import { transform } from '@vue/compiler-core'
             if(strNowIndex == -2) {
               strNowIndex = info.length - 1
             }
+
             this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
           }
           let _tempProgress = makeProgress()
@@ -1217,7 +1316,7 @@ import { transform } from '@vue/compiler-core'
             let result = ((
                 (lastWord.t + lastWord.dur) >= currTime + 0.1) //要求已过了上一句歌词末尾
               &&
-              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.3)))) 
+              ((this.data.player.musicCache[this.id].lyric.yrc[i] != undefined) && (this.data.player.musicCache[this.id].lyric.yrc[i].t >= (currTime + 0.2)))) 
             this.data.player.musicCache[this.id].lyric.yrc[i].playing == false
 
             
@@ -1260,102 +1359,74 @@ import { transform } from '@vue/compiler-core'
                 if (offset < -3) {
                   // el.style.visibility = 'hidden';
                   return false
-                } else if (offset > 7) {
-                  el.style.display = 'none';
+                } else if (offset > 6) {
+                  // el.style.display = 'none';
                   return false
                 } else {
-                  el.style.display = 'block'
-
-                  // if(el.getBoundingClientRect().top >= bodyHeight*1.2){
-                    // el.style.visibility = 'hidden';
-                  // return false
-                  // } else {
-                    // el.style.visibility = 'visible';
+                  // el.style.display = 'block'
                   return true
-
-                  // }
-
                 }
-
               }
-
-
-              var fontSizeFunc = (el, i, needFocus) => {
-                if (config.setting().config.lyricSet.animeFontSize == false) {
-
-                  return '1' //(i==lyricNum)?'1.05em':'1em'
-                };
-                let offset = Math.abs(i - lyricNum)
-                if (!needFocus) {
-                  return '1'
-                }
-                return 0.94 - (0.09 * offset)
-              }
-
-              // 要平移的Y值
-              // var translateY = - Number((lis[lyricNum].offsetTop / bodyHeight * 100).toFixed(2)) + 15,
-              //   translateYContent = "translateY(" + translateY + "vh)"
                 var translateY = - lis[lyricNum].offsetTop+ (0.15 *  bodyHeight),
                 translateYContent = "translateY(" + translateY + "px)"
-                // console.log(translateY,lis[lyricNum].offsetTop,bodyHeight);
               let dur
               if (force == true && type != 'tran') {
                 dur = 0;
               } else {
-                dur = config.setting().config.lyricSet.dur
+                dur = configContent.config.lyricSet.dur
               }
-              // let realdisplay = 0
-              let nowTime = Date.now()
 
-              lyrics.style.setProperty('--dur',dur + 'ms') 
-              lyrics.style.setProperty('--transform', translateYContent ) 
 
+
+              let needRendereds =[]
               //对元素赋值
               for (let i = 0; i < lis.length; i++) {
                 let element = lis[i]
-                let needFocus = isDisplay(element, i),
-                  color
+                let needFocus = isDisplay(element, i)
 
                 if (needFocus == true) {
-                  let delay = (force == true)?'':config
-                    .settingTemperture.lyricSet.funcDelay[config.setting().config.lyricSet
-                      .funcDelay](i - lyricNum)
+                  needRendereds.push(element)
 
                   element.setAttribute('displaying',true)
-                  element.style.setProperty('--delay',  delay + 'ms') 
-
-                  element.style.filter = config.settingTemperture.lyricSet.funcBlur[config.setting().config
-                    .lyricSet
-                    .funcBlur](i, lyricNum)
-                  // let colorData = this.data.player['musicCache'][this.id]['colorData']
-                  // if(colorData == undefined) {colorData = {r:'0',g:'0',b:'0'} }
-                  element.style.
-                  color = (i == lyricNum) ? 'rgb(0,0,0,0.7)' : ('rgb(0,0,0,' + (0.25 * (0.65 ** Math.abs(i -
-                    lyricNum))) + ')')
-             
-                    element.style.setProperty('--animation-speed-line','cubic-bezier(.3, .5, .2, '+ ((config.setting().config.lyricSet
-                      .funcDelay==true)?(1+((i - lyricNum + 1)* 0.05)):1)+ ')')
-                    
                   if (i == lyricNum) {
                     element.setAttribute('lyricFocus', true)
                   } else {
                     element.setAttribute('lyricFocus', false)
                   }
-
-
                 } else {
                   element.setAttribute('displaying',false)
-
+                  element.style.setProperty('transform', translateYContent)
                 }
-
               }
-              // console.log((nowTime - this.state.lyricTransitionTime));
-              this.state.lyricTransitionTime = nowTime
-              // console.log('仅对'+realdisplay+'个元素使用动画');
-              // let lyricTransitionClean = (elm) => {
-              //   // if ((nowTime - this.state.lyricTransitionTime) > dur*1.2)
-              //   //   elm.style.transition = ''
-              // }
+              let nowRendingLyric = (lyricNum <= 3)?lyricNum:3;
+              anime({
+                targets: needRendereds,
+                translateY: translateY  + 'px',
+                duration: dur,
+                scale: {
+                  value:(el,i)=> {
+                    return (i == (nowRendingLyric))?1:'0.9'
+                  },
+                  easing:'cubicBezier(.3, .5, .2, 1)',
+                  duration: 600
+                },
+                color: {
+                  value:(el,i)=> {
+                    return (i == (nowRendingLyric))?'rgb(0,0,0,0.6)':'rgb(0,0,0,0.12)'
+                  },
+                  easing:'cubicBezier(.3, .5, .2, 1)',
+                  duration: 600
+                },
+                delay: (el,i)=> (force == true||configContent.config.lyricSet
+                      .funcDelay==false)?'0':config
+                      .settingTemperture.lyricSet.funcDelay[configContent.config.lyricSet
+                        .funcDelay](i - nowRendingLyric),
+                filter:(el,i)=>config.settingTemperture.lyricSet.funcBlur[configContent.config
+                      .lyricSet
+                      .funcBlur](i - nowRendingLyric),
+                easing: (configContent.config.lyricSet
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 90, 13, 0)'
+              })
 
             }
 
@@ -1365,27 +1436,84 @@ import { transform } from '@vue/compiler-core'
       },
       async getCurr() {
         //音频进度转换
-        let cur = this.audio.currentTime,
-          parseCurrTime = parseInt(cur)
-        this.data.player.uiDisplay.realCurrTime = cur
-        this.data.player.uiDisplay.currTime = parseCurrTime
-        let progress = parseCurrTime / this.data.player.uiDisplay.duration
-
-        if (transitionning != true) this.data.player.uiDisplay.progress = progress
-
-        let configSettingData = config.setting()
-        //音频过度事件触发
-        let transitionTime = (configSettingData.config.useTransitionNextMusic == true )?6:1
-        if (((this.data.player.uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
-          .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
-
-          
-        this.lyricSet()
-        if(configSettingData.config.lyricSet.maxfps == false){
-          window.requestAnimationFrame(()=>this.getCurr())
+        if(this.cache.loadFuncGetCurr == false){
+          this.cache.loadFuncGetCurr=true        
         } else {
-          setTimeout(() => this.getCurr(), 41)
+          return
         }
+
+        let tickTime = undefined,
+            lyricSide = document.querySelector('.right-side')
+
+        let halfTick = 0
+        let reqMediaSession = (navigator['mediaSession'] != undefined && navigator.mediaSession['setPositionState'] != undefined)
+        let calculateTime = async ()=>{
+          const uiDisplay = this.data.player.uiDisplay
+          const cur = this.audio.currentTime
+
+          let parseCurrTime = parseInt(cur);
+         uiDisplay.realCurrTime = cur
+         uiDisplay.currTime = parseCurrTime;
+         let progress = parseCurrTime /  uiDisplay.duration
+
+
+          if (!transitionning) {  uiDisplay.progress = progress}
+        // if('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession){
+          if( reqMediaSession && progress <= 1 ){
+            let duration = uiDisplay.duration
+            if(isNaN(duration)){
+              duration = 0 //duration 无效,设置为默认值
+            }  
+              navigator.mediaSession.setPositionState({
+                duration:duration,
+                playbackRate: this.audio.playbackRate,
+                position:cur
+              })
+            }
+          //音频过度事件触发
+          let transitionTime = (configContent.config.useTransitionNextMusic == true )?6:1
+          if ((( uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
+            .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
+            // let tempTickTime = Date.now()
+
+            // if(tickTime == undefined){
+            //   tickTime = tempTickTime
+            // } else {
+            //   let pastTime = tempTickTime - tickTime
+            //   tickTime = tempTickTime
+            //   lyricSide.style.setProperty('--pastTick',pastTime + 'ms')
+            // }
+          this.lyricSet()
+
+          // intoLoop()
+        }
+
+        let intoLoop=()=>{
+
+          if(halfTick == 2){
+            halfTick = 0
+            let tempTickTime = Date.now()
+
+            if(tickTime == undefined){
+              tickTime = tempTickTime
+            } else {
+              let pastTime = tempTickTime - tickTime
+              tickTime = tempTickTime
+              lyricSide.style.setProperty('--pastTick',Math.floor(pastTime) + 'ms')
+            }
+
+            calculateTime()
+
+          }
+
+          halfTick++
+
+          window.requestAnimationFrame((timeTemp)=>{
+
+            intoLoop()
+          })
+        }
+        intoLoop()
       },
       async transitionNextMusic(times) {
         
@@ -1418,7 +1546,7 @@ import { transform } from '@vue/compiler-core'
         if(!NextMusicCache||transitionning==true){return}
         transitionning = true
         newAudio.src = NextMusicCache.song[NextMusicCache.song.use].url;
-        newAudio.volume = 0 //this.state.volume
+        newAudio.volume = .5 * this.state.volume
         newAudio.currentTime = 0
         progress.load(newAudio)
         //播放新的音频
@@ -1462,13 +1590,13 @@ import { transform } from '@vue/compiler-core'
           targets: newAudio,
           duration: time,
           volume: 1 * this.state.volume,
-          easing: 'linear'
+          easing: 'cubicBezier(.3, .5, .2, 1)'
         })
         anime({
           targets: oldAudio,
           duration: time,
           volume: 0,
-          easing: 'linear'
+          easing: 'cubicBezier(.3, .5, .2, 1)'
         })
         setTimeout(
           () => {
@@ -1589,11 +1717,11 @@ import { transform } from '@vue/compiler-core'
         }
 
       },
-      changeTrack(data) { //接受router的数据
+      changeTrack(data) {
         progress.load(this.audio)
         audioListener.listen(this.audio)
 
-        this.getCurr()
+        this.getCurr() 
         this.data.musicListInfor.personalFM.use = false
 
         if (this.data.player.tracks == data.tracks && this.data.player.trackNum == data.num) {
@@ -1604,6 +1732,9 @@ import { transform } from '@vue/compiler-core'
           this.data.player.tracks = data.tracks
           this.data.player.trackNum = data.num
           this.plays()
+          // config.methods.editPlaylist((r) => {
+          //   return data
+          // })
           document.getElementById('player').style.top = 'calc(100% - var(--minplayerHeight) - 18px)'
 
         }

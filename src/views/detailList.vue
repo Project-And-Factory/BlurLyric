@@ -3,6 +3,7 @@
     <div class="dlTopLab" style="user-select:none">
         <img :src="page.pic" alt="" srcset="">
         <img :src="page.pic" alt="" srcset="">
+        <img :src="page.pic" alt="" srcset="">
 
         <div class="dlTopLab-TitleLab">
             <h2>{{this.page.title}}</h2>
@@ -158,7 +159,7 @@
                         }
                         reTools.getData('/blurlyric/downloadUrl',{
                             url: data.song[data.song.use].url,
-                            fileName: '[ '+(i+1)+' ]' + this.page.track[i].name+alia + ' - ' + name 
+                            fileName: '[ '+(i+1)+' ]' + this.page.track[i].name+alia + ' - ' + name + ((data.song[data.song.use].br < 900000)?'.mp3':'.flac')
                         })
                         message.create('[ '+(i+1)+' ]已发送请求至下载服务器< =' + this.page.track[i].name+alia + ' - ' + name )
                         i++
@@ -263,7 +264,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .dlTopLab {
         height: fit-content;
         padding-bottom: 20px;
@@ -291,6 +292,18 @@
         border-radius: 7%;
     }
 
+    .dlTopLab>img:nth-child(3) {
+        /* height: var(--img-size); */
+        /* border-radius: 7%; */
+        position: absolute;
+        height: 100%;
+        width: calc(100% + 3rem);
+        top: -1.5rem;
+        left: -1.5rem;
+        filter:  brightness(3) contrast(3) blur(2.5rem);
+        z-index: -2;
+    }
+
     .dlTopLab-TitleLab>h2 {
         font-size: 2.2em;
         color: black;
@@ -300,7 +313,7 @@
 
     .dlTopLab-TitleLab {
         font-size: 13px;
-        color: #888;
+        color: #0008;
 
 
 

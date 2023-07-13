@@ -6,11 +6,12 @@ async function getData(url,params) {
         params: params,
     })
 }
-async function postData(url,params) {
+async function postData(url,params,headers) {
     return request.request({
         url: url,
         method: 'post',
-        data: params
+        data: params,
+        headers: headers
     })
 }
 

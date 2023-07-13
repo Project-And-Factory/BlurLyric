@@ -3,7 +3,7 @@
     <div class="dlTopLab" style="user-select:none">
         <img :src="page.pic" alt="" srcset="">
         <img :src="page.pic" alt="" srcset="">
-
+        <img :src="page.pic" alt="" srcset="">
         <div class="dlTopLab-TitleLab">
             <h2>{{this.page.title}}</h2>
             <p>List by <a v-if="page.res.album" v-for="(name) in page.res.album.artists" :key="name.id" @click="this.$router.push({
@@ -266,7 +266,17 @@
         height: var(--img-size);
         border-radius: 7%;
     }
-
+    .dlTopLab>img:nth-child(3) {
+        /* height: var(--img-size); */
+        /* border-radius: 7%; */
+        position: absolute;
+        height: 100%;
+        width: calc(100% + 3rem);
+        top: -1.5rem;
+        left: -1.5rem;
+        filter:  brightness(3) contrast(3) blur(2.5rem);
+        z-index: -2;
+    }
     .dlTopLab-TitleLab>h2 {
         font-size: 2.2em;
         color: black;
@@ -276,7 +286,7 @@
 
     .dlTopLab-TitleLab {
         font-size: 13px;
-        color: #888;
+        color: #0008;
 
 
 

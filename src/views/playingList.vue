@@ -4,7 +4,7 @@
         <div v-if="app.data.player.tracks[0].id != 0">
             
 
-            <div  class="personalFMCard" style="color: #fff;;padding:30px 20px;margin: -20px -20px 0 -20px;height: 160px;background-color: #666">
+            <div  class="personalFMCard" style="color: #fff;;padding:30px 20px;margin: -20px -20px 0 -20px;height: 160px">
       <div class="thisImg">
         <img
           v-bind:src="app.data.player.tracks[app.data.player.trackNum].al.picUrl  +'?param=1000y1000'"
@@ -305,7 +305,20 @@
     }
 </script>
 
-<style>
+<style scoped>
+div.personalFMCard{
+    overflow:visible !important;
+    background-color: none
+}
+
+div.personalFMCard>div.personalbackground{
+    height: 100px;
+    /* width: inherit; */
+    opacity: 1;
+    filter: contrast(3) brightness(0.85) blur(1.5rem);
+    /* z-index: -99999999 !; */
+}
+
     .dlTopLab {
         height: fit-content;
         padding-bottom: 20px;
