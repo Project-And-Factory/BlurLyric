@@ -1581,7 +1581,7 @@ import { nextTick } from 'vue';
         if (newAudio.readyState >= 2) loadeddataFunction
 
         this.id = id,
-          this.data.player.uiDisplay.LineNum = 0
+          this.data.player.uiDisplay.LineNum = -1
           this.$refs.lyricBox.style.setProperty('--transform', '0px' )
         this.data.player.trackNum = numb
         this['audio'] = newAudio
@@ -1654,7 +1654,7 @@ import { nextTick } from 'vue';
 // debugger
         //上传听歌记录
 
-        this.data.player.uiDisplay.LineNum = 0
+        this.data.player.uiDisplay.LineNum = -1
         this.audio.currentTime = 0
         if (this.state.random == true) {
           this.data.player.trackNum = Math.floor(Math.random() * this.data.player.tracks.length)
@@ -1675,7 +1675,7 @@ import { nextTick } from 'vue';
       upMusic() {
         if (this.data.player.trackNum != 0) {
           this.data.player.trackNum--
-          this.data.player.uiDisplay.LineNum = 0
+          this.data.player.uiDisplay.LineNum = -1
           this.id = this.data.player.tracks[this.data.player.trackNum].id
           this.play()
         }
