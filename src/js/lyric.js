@@ -134,7 +134,7 @@
     }
 
     //寻找歌词内容
-    let arr = item.match(/\[[1-9]\d*,[1-9]\d*]/g);
+    let arr = item.match(/\[\d*,\d*]/g);
     if (!arr) {
       continue;
     }

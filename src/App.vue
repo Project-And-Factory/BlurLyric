@@ -1246,15 +1246,7 @@ import { nextTick } from 'vue';
 
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
                       
-                // anime({
-                //   targets: 'img.ImageBlurBackground',
-                //   // scale: 1,
-                //   // translateX:-0.5,
-                //   height: '*=1.1',
-                //   duration: 48,
-                //   direction: 'alternate',
-                //   // easing: 'spring(1, 80, 10, 0)'
-                // })
+
 
                   // document.querySelector("#lyrics > li:nth-child(19)")
                   let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
@@ -1425,7 +1417,7 @@ import { nextTick } from 'vue';
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 90, 13, 0)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.2, 100, 15, 0)'
               })
 
             }
