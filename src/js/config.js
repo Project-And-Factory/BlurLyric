@@ -134,12 +134,10 @@ var settingTemperture = {
         },
         funcDelay: {
             true: (offset) => {
-                if (offset < -2 || offset > 7) return 0
-                return 51 * (offset + 2);
-                // return Math.floor(64 * ((offset - 1) * (0.9 ** Math.abs(offset -3))));
+                return 50 * (offset + 2);
             },
             false: (offset) => {
-                return 22 * offset
+                return  0
             }
         }
     }

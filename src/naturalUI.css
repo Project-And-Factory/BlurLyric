@@ -38,3 +38,21 @@ div.linkbox a:hover{
     border: none !important;
     transition: none;
 }
+.to-bottom-buttom{
+    height: 30px;
+    position: absolute;
+    left: 20px;
+    top: 14px;
+    padding: 7px;
+    border-radius: 13px;
+    color: rgb(0,0,0,0.1);
+    
+    transition: all 0.1s;
+}
+#player:hover .to-bottom-buttom{
+    color: rgb(0,0,0,0.3);
+}
+.to-bottom-buttom:hover{
+    background-color: var(--botton-color-background);
+    color: rgb(0,0,0,.8);
+}

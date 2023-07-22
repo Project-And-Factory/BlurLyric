@@ -8,9 +8,10 @@ const { ipcRenderer ,contextBridge} = require('electron')
 window.addEventListener('DOMContentLoaded', () => {
       electronBar = document.createElement('style')
       electronBar.type = "text/css"
+      
+      electronBar.appendChild(document.createTextNode(".electron-control{display:block !important} .windowControlBar{z-index:100 !important}"))
       document.body.appendChild(electronBar)
-      electronBar.appendChild(document.createTextNode(".electron-control{display:block !important};.windowControlBar{display:flex !important}"))
-  })
+    })
 
   contextBridge.exposeInMainWorld('electronAPI',{
     min:()=>{

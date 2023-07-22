@@ -264,7 +264,7 @@
         </div>
       </div>
       <svg @click="mainDisplayChange()" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        class="na-bottonBiggerHover bi bi-chevron-down contorlPlayerButtom" viewBox="0 0 16 16">
+        class="bi bi-chevron-down to-bottom-buttom" viewBox="0 0 16 16">
         <path fill-rule="evenodd"
           d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
       </svg>
@@ -1417,7 +1417,7 @@ import { nextTick } from 'vue';
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.2, 100, 15, 0)'
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 120, 13, 0)'
               })
 
             }
@@ -1434,10 +1434,8 @@ import { nextTick } from 'vue';
           return
         }
 
-        let tickTime = undefined,
-            lyricSide = document.querySelector('.right-side')
+          let  lyricSide = document.querySelector('.right-side')
 
-        let halfTick = 0
         let reqMediaSession = (navigator['mediaSession'] != undefined && navigator.mediaSession['setPositionState'] != undefined)
         let calculateTime = async ()=>{
           const uiDisplay = this.data.player.uiDisplay
@@ -1480,31 +1478,20 @@ import { nextTick } from 'vue';
           // intoLoop()
         }
 
-        let intoLoop=()=>{
+        let intoLoop=async ()=>{
+          setTimeout(intoLoop, 100);
 
-          if(halfTick == 2){
-            halfTick = 0
-            let tempTickTime = Date.now()
+          lyricSide.style.setProperty('--pastTick','100ms')
 
-            if(tickTime == undefined){
-              tickTime = tempTickTime
-            } else {
-              let pastTime = tempTickTime - tickTime
-              tickTime = tempTickTime
-              lyricSide.style.setProperty('--pastTick',Math.floor(pastTime) + 'ms')
-            }
+          calculateTime()
 
-            calculateTime()
-
-          }
-
-          halfTick++
-
-          window.requestAnimationFrame((timeTemp)=>{
-
-            intoLoop()
-          })
         }
+
+
+          // window.requestAnimationFrame((timeTemp)=>{
+
+          //   intoLoop()
+          // })
         intoLoop()
       },
       async transitionNextMusic(times) {
