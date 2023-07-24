@@ -1,0 +1,66 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: 3.0's_AutoBuild
+
+ERM_COLOR: always
+
+on:
+  push:
+    branches:
+      - 3.0
+    paths-ignore:
+      - "README.md"
+      - "README_CN.md"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: '使用 Node.js ${{ matrix.node-version }}'
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: '安装依赖'
+      run: npm install
+
+    - name: '构建静态文件和可执行文件'
+      run: npm run tauri build
+
+    #- name: '清理没必要打包的文件(1/2)'
+      #run: Remove-Item -force .\src\*
+    #- name: '清理没必要打包的文件(2/2)'
+      #run: Remove-Item -force .\blurlyric\*
+
+
+    - name: '上传Ubuntu artifact'
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric_ubuntu-${{ github.sha }}.deb
+         path:  /
+     
+    - name: '上传MacOS artifact'
+      if: ${{ matrix.os == 'macos-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: blurlyric_macos-${{ github.sha }}.zip
+         path:  /
+    
+    - name: '上传Windows artifact'
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+          name: blurlyric-win32-x64-${{ github.sha }}.zip
+          path:  /
