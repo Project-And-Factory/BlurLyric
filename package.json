@@ -2,71 +2,23 @@
   "name": "blurlyric",
   "private": true,
   "main": "main.js",
-  "version": "2.4.0",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "electron-forge start",
-    "test": "electron .",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "tauri": "tauri"
   },
   "dependencies": {
-    "@unblockneteasemusic/server": "^0.27.1",
-    "animejs": "^3.2.1",
-    "aria2": "^4.1.2",
-    "axios": "^0.27.2",
-    "color": "^4.2.3",
-    "electron-squirrel-startup": "^1.0.0",
-    "express": "^4.18.1",
-    "express-fileupload": "^1.4.0",
-    "js-cookie": "^3.0.1",
-    "md5": "^2.3.0",
-    "music-metadata": "^7.13.0",
-    "node-fetch": "^2.6.9",
-    "pac-proxy-agent": "^5.0.0",
-    "plyr": "^3.7.2",
-    "qrcode": "^1.5.1",
-    "rgbaster": "^2.1.1",
-    "safe-decode-uri-component": "^1.2.1",
-    "stackblur-canvas": "^2.5.0",
-    "tunnel": "^0.0.6",
-    "vite": "^2.9.16",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "vue": "^3.2.45",
-    "vue-router": "^4.1.1",
-    "vue-virtual-scroller": "^2.0.0-beta.5",
-    "vue3-lazyload": "^0.3.5",
-    "yargs": "^17.5.1"
+    "bootstrap-icons": "^1.10.5",
+    "express": "^4.18.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.1",
-    "@electron-forge/maker-deb": "^6.0.1",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "@electron-forge/maker-squirrel": "^6.0.1",
-    "@electron-forge/maker-zip": "^6.0.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
-    "electron": "^24.0.0",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "vite": "^2.9.16"
-  },
-  "build": {
-    "win": {
-      "icon": "src/assets/icon.ico",
-      "productName": "BlurLyric"
-    }
-  },
-  "description": "高颜值，高性能，多平台支持的网易云音乐第三方音乐播放器",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Project-And-Factory/BlurLyric2.0.git"
-  },
-  "author": "Project And Factory Group, Doge",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/Project-And-Factory/BlurLyric2.0/issues"
-  },
-  "homepage": "https://github.com/Project-And-Factory/BlurLyric2.0#readme",
-  "config": {}
+    "@tauri-apps/cli": "^1.4.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.5"
+  }
 }

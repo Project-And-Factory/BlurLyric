@@ -1,30 +1,20 @@
-import { fileURLToPath, URL } from 'url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-
-
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-  base: './',
-  server:{
-    port: '18776',
-    host: '0.0.0.0',
-    http: true,
-    proxy: {
-      '/api/': {
-        target: 'http://localhost:18775/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite
-      }
-    },
-	cors: true
+  clearScreen: false,
+  server: {
+    strictPort: true,
+    port: 18776
   },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+  // to make use of `TAURI_PLATFORM`, `TAURI_ARCH`, `TAURI_FAMILY`,
+  // `TAURI_PLATFORM_VERSION`, `TAURI_PLATFORM_TYPE` and `TAURI_DEBUG`
+  // env variables
+  envPrefix: ['VITE_', 'TAURI_'],
+  build: {
+    target: process.env.TAURI_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
+    minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
+    sourcemap: !!process.env.TAURI_DEBUG,
+  },
+  plugins: [vue()]
 })

@@ -1,92 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh_cn">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="./src/icon/iconx256.ico" />
-    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
-    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  -->
-    <title>BlurLyric</title>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="preconnect" href="https://s1.hdslb.com/" />
-<link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" media="all" onload="this.media='all'" />
-<!-- <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/medium.css" media="all" onload="this.media='all'" /> -->
-
-    <!--meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"-->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Vue</title>
   </head>
   <body>
-    <div id="Loading">
-      <img src="./src/assets/klee.gif">
-      <a class="logo">BlurLyric</a>
-      <a id="LoadingText"> </a>
-    </div>
-
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
-  <style>
-    @font-face {
-  font-family: "Localhar";
-  font-display: swap;
-  src: url('./src/font/HarmonyOS_Sans_SC_Regular.ttf');
-}
-body {
-  font-family: Localhar !important;
-  overflow: hidden;
-}
-#app{
-  z-index: 2;
-}
-#LoadingText{
-  min-height: 1.5rem;
-}
-#Loading{
-  position: fixed;
-  z-index: 99;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  flex-direction: column;
-  text-align: center;
-                 /*设置为伸缩容器*/
-
-                 display: -webkit-box;
-justify-content: center;
-display: -moz-box;
-/* background-color: white; */
-display: -ms-flexbox; 
-
-display: -webkit-flex;
-
-display: flex;
-
-/*垂直居中*/
-
--webkit-box-align: center;/*旧版本*/
-
--moz-box-align: center;/*旧版本*/
-
--ms-flex-align: center;/*混合版本*/
-
--webkit-align-items: center;/*新版本*/
-
-align-items: center;/*新版本*/
-}
-.logo{
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-@font-face {
-  font-family: harmonyLite;
-  font-display: swap;
-  src: url(./src/font/HarmonyOS_Sans_Light.ttf);
-}
-
-
-
-body .tl-title, #Loading {
-  font-family: harmonyLite;
-
-}
-  </style>
 </html>
