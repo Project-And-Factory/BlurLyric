@@ -2,7 +2,7 @@
     import topBar from './components/topBar.vue'
     import rightBlock from './components/rightBlock.vue'
     import leftBar from './components/leftBar.vue'
-
+    import player from './components/player.vue'
 
 
 
@@ -11,11 +11,19 @@
         components: {
             topBar,
             leftBar,
-            rightBlock
+            rightBlock,
+            player
         },
         data() {
             return {
-                leftBarState: 'short'
+                leftBarState: 'short',
+                player: {
+                    audio: document.createElement('audio'),
+                    img: 'c',
+                    title: 'BlurLyric',
+                    artist: ['选择您的音乐']
+                    
+                },
             }
         },
     }
@@ -26,6 +34,7 @@
 <div class="bottom">
     <leftBar @leftBarChange="(newState)=>{leftBarState = newState}"></leftBar>
     <rightBlock></rightBlock> 
+    <player :data="player"></player>
 </div>
 
 
