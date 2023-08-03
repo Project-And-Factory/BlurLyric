@@ -15,15 +15,25 @@
     })
 
 
-    let playerDom, miniPlayerControlDom
+    let playerDom, miniPlayerControlDom,leftSideDom,coverDom,playerControlDom,
+    playerControlVolumeDom
     const logFinished = {
         func: () => {}
     }
     nextTick(() => {
         playerDom = document.querySelector('.player')
         miniPlayerControlDom = document.querySelector('.miniPlayerControl')
+        coverDom = document.querySelector('.cover')
+        leftSideDom = document.querySelector('.leftSide')
+        playerControlDom =  document.querySelector('.playerControl'),
+        playerControlVolumeDom = document.querySelector('.playerControl>.volume')
     })
-
+    function setCss(dom,info){
+        for (const key in info) {
+            dom.style.setProperty(key,info[key])
+            console.log('dom.style.setProperty('+key+','+info[key]+')');
+        }
+    }
     watch(playerShowingState, async (newState, oldState) => {
         let playerShowingStateChangeAnimation = anime.timeline({
             easing: 'spring(1, 80, 13, 0.2) ',
@@ -42,12 +52,29 @@
                     targets: miniPlayerControlDom,
                     translateX: ['0vw','100vw'],
                     duration: 300,
-                    opacity: 0,
+                    opacity: 0, 
                     easing: 'cubicBezier(.5, .05, .1, .3)'
 
                 }, 0)
+                playerShowingStateChangeAnimation.add({
+                        targets: playerControlDom,
+                        'padding-top': ['0px',playerControlVolumeDom.offsetHeight]
+                    },0)
                 playerShowingState.value = 'top'
+                setTimeout(() => {
+                    setCss(leftSideDom,{
+                        'flex-direction': 'column'
+                    })
+                    setCss(coverDom,{
+                        'flex':1
+                    })
 
+                    setCss(miniPlayerControlDom,{
+                        'display': 'none'
+                    })
+
+                    
+                }, 0);
                 playerShowingStateChangeAnimation.play();
                 break;
 
@@ -65,7 +92,17 @@
                     easing: 'cubicBezier(.5, .05, .1, .3)'
                     
                 }, 0)
-
+                setTimeout(() => {
+                    setCss(leftSideDom,{
+                        'flex-direction': 'row'
+                    })
+                    setCss(coverDom,{
+                        'flex': null
+                    })
+                    setCss(miniPlayerControlDom,{
+                        'display': 'block'
+                    })
+                }, 0);
                 playerShowingState.value = 'bottom'
                 playerShowingStateChangeAnimation.play();
 
@@ -102,8 +139,22 @@
                     <div class="artist"><a v-for="(item, index) in data.artist " :key="index" >{{ (index !=0)?'&':'' +  item }}</a></div>
                 </div>    
                 <div class="control">
-                    <div><i class="bi bi-play-fill"></i></div>
-                    <div><i class="bi bi-caret-right-fill"></i></div>
+                    <div><i class="bi bi-skip-start-fill"></i></div>
+                    <div><i class="bi bi-play-fill bigger"></i></div>
+                    <div><i class="bi bi-skip-end-fill"></i></div>
+                </div>
+            </div>
+            <div class="playerControl">
+                <div class="volume">
+                        <div class="info">
+                        <div class="title">{{ data.title }}</div>
+                        <div class="artist"><a v-for="(item, index) in data.artist " :key="index" >{{ (index !=0)?'&':'' +  item }}</a></div>
+                    </div>    
+                    <div class="control">
+                        <div><i class="bi bi-skip-start-fill"></i></div>
+                        <div><i class="bi bi-play-fill bigger"></i></div>
+                        <div><i class="bi bi-skip-end-fill"></i></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,6 +209,8 @@
     .miniPlayerControl{
         display: flex;
         flex: 1;
+        max-height: 56px;
+        min-width: calc(100vw - 90px);
     }
     .miniPlayerControl .title{
         /* font-weight: 00; */
@@ -169,5 +222,28 @@
     }
     .info{
         flex: 1;
+    }
+    .miniPlayerControl .control{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 28px;
+    }
+    .control>*{
+        cursor: pointer;
+    }
+    .miniPlayerControl .control .bigger{
+        font-size: 42px;
+    }
+    .playerControl{
+        /* display: none; */
+        /* position: absolute; */
+        /* top: 400px; */
+        height: 0px;
+        position: relative;
+    }
+    .volume{
+        top: 0px;
+        position: absolute;
     }
 </style>
