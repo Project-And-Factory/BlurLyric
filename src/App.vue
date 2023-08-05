@@ -23,10 +23,36 @@
                     title: 'BlurLyric',
                     artist: ['选择您的音乐'],
                     dur: 300,
-                    cur: 20
+                    cur: 20,
+                    playmode: 'repeat' // shuffle 随机播放 repeat 列表重复 reapeat-1 重复播放一个
                 },
+                appstate: {
+                    isfullscreen: false
+                }
             }
         },
+        methods:{
+            changePlayMode() {
+                switch (this.player.playmode) {
+                    case 'repeat':
+                        this.player.playmode = 'repeat-1'
+                        
+                        break;
+                    case 'repeat-1':
+                        this.player.playmode = 'shuffle'
+                        
+                        break;
+                    case 'shuffle':
+                        this.player.playmode = 'repeat'
+                        
+                        break;
+                
+                    default:
+                        break;
+                }
+                
+            }
+        }
     }
 </script>
 
@@ -35,7 +61,7 @@
 <div class="bottom">
     <leftBar @leftBarChange="(newState)=>{leftBarState = newState}"></leftBar>
     <rightBlock></rightBlock> 
-    <player :data="player"></player>
+    <player @changePlayMode="changePlayMode" :appstate="appstate" :data="player"></player>
 </div>
 
 
