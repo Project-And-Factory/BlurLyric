@@ -21,8 +21,9 @@
                     audio: document.createElement('audio'),
                     img: 'c',
                     title: 'BlurLyric',
-                    artist: ['选择您的音乐']
-                    
+                    artist: ['选择您的音乐'],
+                    dur: 300,
+                    cur: 20
                 },
             }
         },
