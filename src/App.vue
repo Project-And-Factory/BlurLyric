@@ -5,7 +5,26 @@
     import player from './components/player.vue'
 
 
+    let lastResizeTime = Date.now()
+    // 定义窗口大小改变事件
+    window.addEventListener("resize",(event)=>{
+        lastResizeTime = event.timeStamp
+        setTimeout(() => {
+            if(lastResizeTime == event.timeStamp){
+                for (let index = 0; index < resizeDoList.length; index++) {
+                    try {
+                        resizeDoList[index]();
+                    } catch (error) {
+                        console.log('注册的resizeEvent执行失败',error);
+                    }
+                    
+                }
+            }
+        }, 200);
+    })
+    let resizeDoList = [
 
+    ]
     export default {
         name: 'app',
         components: {
@@ -51,6 +70,9 @@
                         break;
                 }
                 
+            },
+            registerResizeEvent(func){
+                resizeDoList.push(func)
             }
         }
     }
@@ -61,7 +83,7 @@
 <div class="bottom">
     <leftBar @leftBarChange="(newState)=>{leftBarState = newState}"></leftBar>
     <rightBlock></rightBlock> 
-    <player @changePlayMode="changePlayMode" :appstate="appstate" :data="player"></player>
+    <player @registerResizeEvent="registerResizeEvent" @changePlayMode="changePlayMode" :appstate="appstate" :data="player"></player>
 </div>
 
 

@@ -3,10 +3,11 @@
         nextTick,
         ref,
         watch,
-        defineProps
+        defineProps,
     } from 'vue';
     import playerjs from '../js/player.js';
     import anime from 'animejs/lib/anime.es.js'
+    import background from './background.vue';
 
     /**
      * 整个控键在上或在下
@@ -84,7 +85,7 @@
                 playerShowingStateChangeAnimation.add({ // 控制隐藏内容变透明
                     targets: playerControlDom,
                     opacity: 1,
-                }, 200)
+                }, 0)
                 playerShowingStateChangeAnimation.play();
 
                 playerShowingState.value = 'top'
@@ -151,12 +152,25 @@
                 break;
         }
     }
-
+    //时间格式化
     function formTime(sec) { //秒数转化为mm:ss
         let s = sec % 60 < 10 ? ('0' + sec % 60) : sec % 60
         let min = Math.floor(sec / 60) < 10 ? ('0' + Math.floor(sec / 60)) : Math.floor(sec / 60)
         return min + ':' + s
       }
+
+    // 导入组件事件
+    const emit = defineEmits(['registerResizeEvent','changePlayMode'])
+
+    // 绑定部分组件随窗口变化值
+    emit('registerResizeEvent',()=>{
+        setCss(playerControlVolumeDom,{
+            width: coverPlaceHolderDom.offsetHeight+'px' // 绑定控键与图片展示宽度相同
+        })
+        setCss(coverDom,{
+            height: coverPlaceHolderDom.offsetHeight + 'px'
+        })
+    })
 </script>
 
 <template>
@@ -178,6 +192,7 @@
                 </div>
             </div>
             <div class="playerControl">
+                <background />
                 <div class="leftside">
                     <div class="coverPlaceHolder cover">
                         <i class="bi bi-music-note"></i>
@@ -190,7 +205,9 @@
                         </div>
                         <div class="progressRow">
                             <div class="duration">
-                                <div class="progress"></div>
+                                <div :style="{
+                                    'width': (data.cur / data.dur * 100) + '%'
+                                }" class="progress"></div>
                             </div>
                             <div class="time">
                                 <span>{{ formTime(data.cur) }}</span>
@@ -256,7 +273,7 @@
         float: left;
         background-color: #e5e5e5;
         position: relative;
-        border-radius: 7px;
+        border-radius: 8px;
         /* width: fit-content; */
         aspect-ratio: 1 / 1;
         box-shadow: 0px 0px 3px #0005;
@@ -327,7 +344,7 @@
     .leftside{
         display: flex;
         flex-direction: column;
-        color: #000b;
+        color: #fffe;
         gap: 20px;
         width: fit-content;
     }
@@ -356,13 +373,28 @@
     .duration{
         height: 13px;
         border-radius: 9px;
-        box-shadow: 0 1px 5px #0001;
-        background-color: #0002;
+        box-shadow: 0 1px 5px #fff1;
+        background-color: #fff2;
         position: relative;
         margin-bottom: 3px;
+        position: relative;
+        overflow: hidden;
+        margin: 6px 0;
+        transition: 0.5s;
+    }
+    .progressRow:hover .duration{
+        box-shadow: 0 2px 8px #fff2;
+        border-radius: 13px;
+        height: 21px;
+        margin: 2px 0;
+
+    }
+    .progress{
+        height: inherit;
+        background-color: #fff8;
     }
     .time{
-        color: #0005;
+        color: #fff5;
         display: flex;
         font-size: 2px;
         justify-content: space-between;
