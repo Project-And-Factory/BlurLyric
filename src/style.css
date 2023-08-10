@@ -1,5 +1,6 @@
 body{
-  background-color: transparent;
+  background-color: #ddd;
+  /* backdrop-filter: blur(1px); */
   padding: none;
   margin: none;
   font-family: Misans;

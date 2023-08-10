@@ -31,7 +31,7 @@
   content: '';
   display: block;
   position: absolute;
-  width: calc(100vw + 12px);
+  width: calc(100vw + 24px);
   height: calc(120vh + 12px);
   top: -60px;
   left: -24px;
