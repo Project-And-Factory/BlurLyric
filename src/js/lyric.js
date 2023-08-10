@@ -119,7 +119,8 @@
       index: 0,
       width: undefined,
       fontSize: undefined,
-      progressleft: 0 + '%',
+      progressleft: '0px',
+      transfromWidth: '0px',
       lastResizeTime: undefined
     }
 

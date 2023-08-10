@@ -610,7 +610,8 @@
               <h1 class="yrc"
                 :style="
                   {
-                    '--progress': item.progressleft
+                    '--progress': item.progressleft,
+                    '--background-transition-linear-gradient-progress-width': 'calc(' + item.transfromWidth + ' + 0.25em)'
                   }
                 "
               v-if="item.playing == true">
@@ -1214,17 +1215,18 @@ import { nextTick } from 'vue';
         },
 
         lyricFoundStr(info,time,i){
-          
-          let strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
-          // if(info[this.data.player.musicCache[this.id].lyric.yrc[i].index].t > time+0.35){
-          //   strNowIndex = this.data.player.musicCache[this.id].lyric.yrc[i].index
+          const thisYrcLine = this.data.player.musicCache[this.id].lyric.yrc[i]
+          let strNowIndex = thisYrcLine.index
+          // if(info[thisYrcLine.index].t > time+0.35){
+          //   strNowIndex = thisYrcLine.index
           // } else {
 
           // }
             let _state = false //如果当前Index不得到正常取值，则执行寻找当前行
           let makeProgress = ()=>{
-            if(this.data.player.musicCache[this.id].lyric.yrc[i]){
-              let nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
+            if(thisYrcLine){
+              let nowStr = thisYrcLine.c[strNowIndex]
+              
               let progress = (((time - nowStr.t + 0.2) / nowStr.dur) * 100)
               if(progress>=100){
                 _state = (progress>100)?true:false
@@ -1235,34 +1237,37 @@ import { nextTick } from 'vue';
                 _state = true
               }
               if(nowStr.width == undefined && strNowIndex != -1){
-                let tempStrIndex = this.data.player.musicCache[this.id].lyric.yrc[i].c.findIndex((v)=>{
+                let tempStrIndex = thisYrcLine.c.findIndex((v)=>{
                   return v.width ==undefined
                 })
-                if(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime == undefined) {this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()}
-                if(tempStrIndex == -1&&(this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime < lastResizeTime)) {
+                if(thisYrcLine.lastResizeTime == undefined) {thisYrcLine.lastResizeTime= new Date()}
+                if(tempStrIndex == -1&&(thisYrcLine.lastResizeTime < lastResizeTime)) {
                   tempStrIndex = 0
-                  this.data.player.musicCache[this.id].lyric.yrc[i].lastResizeTime= new Date()
+                  thisYrcLine.lastResizeTime= new Date()
                 }
 
                 for(;tempStrIndex <= strNowIndex;tempStrIndex++){
                       
 
-
-                  // document.querySelector("#lyrics > li:nth-child(19)")
                   let thisStrElement = this.$refs.lyricBox.querySelector('#lyric li:nth-child('+(i+1)+') a:nth-child('+(tempStrIndex + 1)+')')
                   if(!thisStrElement) return
-                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].width = thisStrElement.offsetWidth
-                  this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex].left = (tempStrIndex == 0)?0:
-                  (this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].left + this.data.player.musicCache[this.id].lyric.yrc[i].c[tempStrIndex-1].width)
-                  // if(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize == undefined){
-                  //   this.data.player.musicCache[this.id].lyric.yrc[i].fontSize= window.getComputedStyle(thisStrElement).fontSize
-                  // }
+                  thisYrcLine.c[tempStrIndex].width = thisStrElement.offsetWidth
+                  thisYrcLine.c[tempStrIndex].left = (tempStrIndex == 0)?0:
+                  (thisYrcLine.c[tempStrIndex-1].left + thisYrcLine.c[tempStrIndex-1].width)
                 }
 
               }
-              nowStr = this.data.player.musicCache[this.id].lyric.yrc[i].c[strNowIndex]
-              // console.log(this.data.player.musicCache[this.id].lyric.yrc[i].fontSize);
-              this.data.player.musicCache[this.id].lyric.yrc[i].progressleft = ((progress * nowStr.width * 0.01) + nowStr.left) + 'px'
+
+              let currProgressLeft = ((progress * nowStr.width * 0.01) + nowStr.left)
+              anime({
+                targets: thisYrcLine,
+                progressleft: currProgressLeft + 'px',
+                easing: 'linear',
+                duration: 60,
+                transfromWidth:()=>{
+                  return (nowStr.width / nowStr.dur * 0.06) + 'px'
+                }
+              })
 
               return progress
             }
@@ -1280,7 +1285,9 @@ import { nextTick } from 'vue';
               strNowIndex = info.length - 1
             }
 
-            this.data.player.musicCache[this.id].lyric.yrc[i].index = strNowIndex
+            thisYrcLine.index = strNowIndex
+
+
           }
           let _tempProgress = makeProgress()
           if(_state==true){
@@ -1417,7 +1424,9 @@ import { nextTick } from 'vue';
                       .lyricSet
                       .funcBlur](i - nowRendingLyric),
                 easing: (configContent.config.lyricSet
-                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1, 120, 13, 0)'
+
+                      .funcDelay==false)?'cubicBezier(.3, .5, .2, 1)':'spring(1.3, 90, 15, 0)'
+
               })
 
             }
@@ -1464,27 +1473,16 @@ import { nextTick } from 'vue';
           let transitionTime = (configContent.config.useTransitionNextMusic == true )?6:1
           if ((( uiDisplay.duration - cur) <= transitionTime) && (progress != NaN) && (this.audio.readyState >=2) && (this
             .audio.loop != true) && (transitionning == false)){this.transitionNextMusic(transitionTime)}
-            // let tempTickTime = Date.now()
 
-            // if(tickTime == undefined){
-            //   tickTime = tempTickTime
-            // } else {
-            //   let pastTime = tempTickTime - tickTime
-            //   tickTime = tempTickTime
-            //   lyricSide.style.setProperty('--pastTick',pastTime + 'ms')
-            // }
           this.lyricSet()
-
-          // intoLoop()
         }
 
         let intoLoop=async ()=>{
-          setTimeout(intoLoop, 100);
 
-          lyricSide.style.setProperty('--pastTick','100ms')
-
-          calculateTime()
-
+          setTimeout(() => {
+            intoLoop()
+            calculateTime()
+          }, 60);
         }
 
 
