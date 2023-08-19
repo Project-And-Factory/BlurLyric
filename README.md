@@ -1,3 +1,4 @@
+<h1>本项目已放弃，希望大家转投 yesplaymusic和 lyricease。前者有优美的界面，后者兼具而且性能良好。|| This project has been abandoned. I hope everyone will switch to using yesplaymusic and lyricease instead. The former has a beautiful interface, while the latter combines great features with good performance.</h1>
 <h1 align="center"><img src="https://blurlyric.app/favicon.svg" alt="img" style="zoom:3%;" />BlurLyric</h1>
 
 <p align="center"><i>A simple, beautiful, and user-friendly third-party player for NetEase Cloud Music.</i></p>
